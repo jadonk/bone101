@@ -95,22 +95,19 @@ textarea#console-output {
 var b = require('bonescript');
 var inputPin = 'P8_19';
 b.pinMode(inputPin, b.INPUT);
+b.attachInterrupt(inputPin, true, 'both', interruptCallback);
+setTimeout(detach, 12000);
 
 function interruptCallback(x) {
  console.log(JSON.stringify(x));
 }
-attachInterrupt(inputPin, true, 'both', interruptCallback);
 
-stopTimer = function() {
+function detach() {
  detachInterrupt(inputPin);
-};
-setTimeout(stopTimer, 12000);</pre>
+}</pre>
 <textarea readonly id='console-output'></textarea>
 <h2>Build and execute instructions</h2>
 <ul>
- <li>Apply 0V to P9_12 and run the example code.</li>
- <li>Apply 3.3V to P9_12 and run the example code again.</li>
- <li>Alter the code to look at inputs on other pins.</li>
 </ul>
 <h2>See also</h2>
 <h3>Topics</h3>
@@ -127,6 +124,7 @@ setTimeout(stopTimer, 12000);</pre>
 </ul>
 <h3>Examples</h3>
 <ul>
+ <li><a href="cape_bacon.html">Bacon Cape</a></li>
 </ul>
 
      <!--- START FOOTER -->
