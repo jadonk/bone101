@@ -11,6 +11,15 @@ $(document).ready(function(){
     }
 });  
 
+$(document).ready(function(){
+    $('.cloud9-url').each(function() {
+        this.href = 'http://' + window.location.host + ':3000';
+    });
+    $('.gateone-url').each(function() {
+        this.href = 'https://' + window.location.host;
+    });
+});
+
 $(function() {
     if($('#accordian').length) {
         $("#accordion").accordion({
