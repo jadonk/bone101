@@ -79,6 +79,8 @@ textarea#console-output {
   <div id="led1" style="display: table-cell; height:50px;"></div>
   <div style="display: table-cell; height:50px">
    <div id="slider1" style="width:400px; vertical-align:center;"></div>
+   <div id="slider2" style="width:400px; vertical-align:center;"></div>
+   <div id="slider3" style="width:400px; vertical-align:center;"></div>
   </div>
  </div>
 </div>
@@ -139,6 +141,8 @@ var POT = 'P9_36';
 
 try {
     $('#slider1').slider();
+    $('#slider2').slider();
+    $('#slider3').slider();
     $('#led1').css('width', '50px');
     $('#led1').css('height', '50px');
     $('#led1').css('background-color', 'rgb(0,0,0)');
@@ -160,6 +164,9 @@ b.analogWrite(LED_GREEN, 0);
 b.analogWrite(LED_BLUE, 0);
 //b.attachInterrupt(BUTTON, true, b.CHANGE, handleButton);
 blink();
+$("#slider3").bind("slidechange", function(event, ui) {
+    updateRed({value:(1-ui.value/100.0)});
+});
 
 function blink(x) {
     s = (s == b.LOW) ? b.HIGH : b.LOW;
@@ -167,52 +174,50 @@ function blink(x) {
 }
 
 function doAnalogRead() {
-    b.analogRead(POT, updateSlider);
-    b.digitalRead(BUTTON, handleButton);
+    b.digitalRead(BUTTON, updateBlue);
+    b.analogRead(POT, updateGreen);
     setTimeout(blink, 100);
 }
 
-function updateSlider(x) {
-    try {
-        if(x.value) {
-            $("#slider1")
-                .slider("option", "value", x.value*100);
-        }
-    } catch(ex) {
-        console.log('Unable to update #slider1:' + ex);
-    }
-    try {
-        updateLED({green:x.value});
-    } catch(ex) {
-        console.log('Unable to update ' +
-            LED_GREEN + ': ' + ex);
-    }
+function updateBlue(x) {
+    if(typeof x.value == 'undefined') return;
+    updateLED({blue:x.value});
 }
 
-function handleButton(x) {
+function updateGreen(x) {
     if(typeof x.value == 'undefined') return;
-    updateLED({blue:1-x.value});
+    updateLED({green:x.value});
+}
+
+function updateRed(x) {
+    if(typeof x.value == 'undefined') return;
+    updateLED({red:x.value});
 }
 
 function updateLED(led) {
     if(typeof led.red == 'number') {
         b.analogWrite(LED_RED, 1-led.red);
-        this.red = Math.round(led.red*255);
+        this.red = 1-led.red;
     }
     if(typeof led.green == 'number') {
         b.analogWrite(LED_GREEN, 1-led.green);
-        this.green = Math.round(led.green*255);
+        this.green = 1-led.green;
     }
     if(typeof led.blue == 'number') {
         b.analogWrite(LED_BLUE, 1-led.blue);
-        this.blue = Math.round(led.blue*255);
+        this.blue = 1-led.blue;
     }
     try {
         if(typeof this.red == 'undefined') this.red = 0;
         if(typeof this.green == 'undefined') this.green = 0;
         if(typeof this.blue == 'undefined') this.blue = 0;
-        var rgb = 'rgb(' + this.red + ',' + this.green + ',' + this.blue + ')';
+        var rgb = 'rgb(' + Math.round(this.red*255) + ',' + 
+            Math.round(this.green*255) + ',' +
+            Math.round(this.blue*255) + ')';
         $('#led1').css('background-color', rgb);
+        $("#slider1").slider("option", "value", this.blue*100);
+        $("#slider2").slider("option", "value", this.green*100);
+        //$("#slider3").slider("option", "value", this.red*100);
     } catch(ex) {}
 }
 </pre>
