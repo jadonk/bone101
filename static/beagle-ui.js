@@ -102,6 +102,7 @@ $(document).ready(function(){
                 console.log('Bonescript: initialized');
                 $('#connect-status').replaceWith(statusConnected);
                 updateBoardInfo();
+                if(typeof onbonescriptinit == 'function') onbonescriptinit();
                 connectState = 'connected';
             }
             function disconnected() {

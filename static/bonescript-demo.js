@@ -26,13 +26,13 @@ loadCss();
 function mylog() {
     var str = '';
     var area = $('#console-output');
+    for(var i in arguments) {
+        str += arguments[i].toString() + '\n';
+    }
+    oldLog.apply(console, arguments);
     if(area.length) {
-        for(var i in arguments) {
-            str += arguments[i].toString() + '\n';
-        }
         area.append(str);
         area.scrollTop(area[0].scrollHeight - area.height());
-        oldLog.apply(console, arguments);
     }
 }
 
@@ -73,6 +73,7 @@ function loadScript(url, callback) {
 
 function initClient() {
     $('.use-editor').each(demoEdit);
+
     function demoEdit(index) {
         if(typeof editor == 'undefined') editor = {};
         editor[this.id] = {};
