@@ -92,8 +92,8 @@ textarea#console-output {
 </h2>
 <pre id="code" class="use-editor">
 var b = require('bonescript');
-b.pinMode('P9_12', b.INPUT);
-b.digitalRead('P9_12', printStatus);
+b.pinMode('P8_19', b.INPUT);
+b.digitalRead('P8_19', printStatus);
 function printStatus(x) {
     console.log('x.value = ' + x.value);
     console.log('x.err = ' + x.err);
@@ -101,8 +101,8 @@ function printStatus(x) {
 <textarea readonly id='console-output'></textarea>
 <h2>Build and execute instructions</h2>
 <ul>
- <li>Apply 0V to P9_12 and run the example code.</li>
- <li>Apply 3.3V to P9_12 and run the example code again.</li>
+ <li>Apply 0V to P8_19 and run the example code.</li>
+ <li>Apply 3.3V to P8_19 and run the example code again.</li>
  <li>Alter the code to look at inputs on other pins.</li>
 </ul>
 <h2>See also</h2>
@@ -120,6 +120,7 @@ function printStatus(x) {
 </ul>
 <h3>Examples</h3>
 <ul>
+ <li><a href="cape_bacon.html">Bacon Cape</a></li>
 </ul>
 
      <!--- START FOOTER -->
