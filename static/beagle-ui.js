@@ -21,6 +21,8 @@ $(function() {
 
 $(document).ready(function(){
     if($('#side-menu').length) {
-        $('#side-menu').load('/static/side-menu.html');
+        $.get('/static/side-menu.html', function(data){
+            $('#side-menu').replaceWith(data);
+        });
     }
 });
