@@ -53,7 +53,7 @@
 <h2>Board activity</h2>
 <div style="display: table;">
  <div style="display: table-row; width=500px;">
-  <div id="button1" style="display: table-cell; height:50px;"></div>
+  <div id="led1" style="display: table-cell; height:50px;"></div>
   <div style="display: table-cell; height:50px">
    <div id="slider1" style="width:400px; vertical-align:center;"></div>
   </div>
@@ -102,39 +102,64 @@
 console.log('Starting Bacon Cape demo');
 var b = require('bonescript');
 var s = b.LOW;
+var LED_RED = 'P9_42';
+var LED_GREEN = 'P9_16';
+var LED_BLUE = 'P9_14';
+var BUTTON = 'P8_19';
+var POT = 'P9_36';
 
+$('#slider1').slider();
+$('#led1').css('width', '50px');
+$('#led1').css('height', '50px');
+$('#led1').css('background-color', 'rgb(0,0,0)');
+b.pinMode('USR0', b.OUTPUT);
+b.pinMode('USR1', b.OUTPUT);
+b.pinMode('USR2', b.OUTPUT);
+b.pinMode('USR3', b.INPUT);
+b.pinMode(LED_RED, b.OUTPUT);
+b.pinMode(LED_GREEN, b.OUTPUT);
+b.pinMode(LED_BLUE, b.OUTPUT);
+b.pinMode(BUTTON, b.INPUT);
 b.digitalWrite('USR0', b.LOW);
 b.digitalWrite('USR1', b.LOW);
 b.digitalWrite('USR2', b.LOW);
 b.digitalWrite('USR3', b.LOW);
-$('#slider1').slider();
-$('#button1').css('width', '50px');
-$('#button1').css('height', '50px');
-$('#button1').css('background-color', 'rgb(0,0,0)');
-setInterval(blink, 100);
-b.pinMode('P8_19', b.INPUT);
-b.attachInterrupt('P8_19', true, b.CHANGE, handleButton);
+b.digitalWrite(LED_RED, b.LOW);
+b.digitalWrite(LED_GREEN, b.LOW);
+b.digitalWrite(LED_BLUE, b.LOW);
+b.attachInterrupt(BUTTON, true, b.CHANGE, handleButton);
+blink();
 
 function blink(x) {
     s = (s == b.LOW) ? b.HIGH : b.LOW;
-    b.digitalWrite('USR0', s);
-    b.digitalWrite('USR1', s);
-    b.digitalWrite('USR2', s);
-    b.digitalWrite('USR3', s);
-    b.analogRead('P9_36', updateSlider);
+    var i = 0;
+    var n = [
+        function(){b.digitalWrite('USR0', s, next);},
+        function(){b.digitalWrite('USR1', s, next);},
+        function(){b.digitalWrite('USR2', s, next);},
+        function(){b.digitalWrite('USR3', s, next);},
+        function(){b.analogRead(POT, updateSlider);}
+    ];
+    function next() {
+        i++
+        n[i-1]();
+    }
+    function updateSlider(x) {
+        if(x.value) $("#slider1").slider("option", "value", x.value*100);
+        setTimeout(blink, 100);
+    }
 }
 
-function updateSlider(x) {
-    if(x.value) $("#slider1").slider("option", "value", x.value*100);
-}
 
 function handleButton(x) {
-    console.log(JSON.stringify(x));
     if(typeof x.value == 'undefined') return;
-    var red = 0;
-    var green = 0;
-    var blue = parseInt(x.value*255, 10);
-    $('#button1').css('background-color', 'rgb(' + red + ',' + green + ',' + blue + ')');
+    updateLED(0, 0, x.value ? 0 : 1);
+}
+
+function updateLED(red, green, blue) {
+    b.digitalWrite(LED_BLUE, blue ? 0 : 1);
+    blue = parseInt(blue*255, 10);
+    $('#led1').css('background-color', 'rgb(' + red + ',' + green + ',' + blue + ')');
 }
 </pre>
 <script>
