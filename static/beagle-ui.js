@@ -26,3 +26,18 @@ $(document).ready(function(){
         });
     }
 });
+
+$(document).ready(function(){
+    if($('#connect-status').length) {
+        $.get('/static/connect-status.html', function(data){
+            $('#connect-status').replaceWith(data);
+        });
+    }
+});
+
+// <div class="browser-connected">
+// <img alt="Connected" src="/static/images/green_check.png" border="0">
+// <div id="browser-content"><strong>Your board is connected!</strong><br>
+//Detected:  BeagleBoard Version 1.0Download ISO
+// </div>
+//</div>

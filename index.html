@@ -36,20 +36,23 @@
   </div>
   <div id="content">
    <div id="contentbuffer">
-   <!--- START CONTENT -->
 
+    <!-- NEED TITLE HERE -->
     <h2>BeagleBone 101</h2>
+
     <div id='side-menu' class="t3_sidebar">
      <ul class="left-menu">
       <strong>Navigation</strong>
       <li><a href="/static/side-menu.html">Menu contents</a></li>
      </ul>
     </div>
-    <div class="t3_content_1"><div class="browser-connect"><img alt="Not Connected" src="/static/images/usb.png" border="0">
-<div id="browser-content"><strong>Did you know (that this page can connect with your BeagleBoard?</strong><br>Type in your IP address here:<input></input></div></div>
-<div class="browser-connected"><img alt="Connected" src="/static/images/green_check.png" border="0">
-<div id="browser-content"><strong>Your board is connected!</strong><br>Detected:  BeagleBoard Version 1.0Download ISO</div></div>
-    <div id="content_child"><h1>DigitalWrite</h1><p></p>
+    <div class="t3_content_1">
+     <div id='connect-status'></div>
+     <div id="content_child">
+
+     <!--- START CONTENT -->
+
+    <h1>DigitalWrite</h1><p></p>
     <p>/// The function can run on both the Beaglebone and Beaglebone Black. (JASON PLEASE CONFIRM)<br>
     // This function sets the binary logic for the GPIO pins on the Beaglebone. The pin values can be //dynamically set to DGND 
     or 3.3V with the usage of this function.</p></div>
