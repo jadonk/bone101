@@ -29,11 +29,16 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     if($('#connect-status').length) {
-        $.get('/static/connect-status.html', function(data){
-            $('#connect-status').replaceWith(data);
-        });
-
         var connectState = 'init';
+        var statusDisconnected = '' +
+            '<div id="connect-status">' +
+            '    <div class="browser-connect">' +
+            '        <img alt="Not Connected" src="/static/images/usb.png" border="0">' +
+            '        <div id="browser-content"><strong>Did you know?</strong>  This page can interact with your BeagleBone<br />' +
+            'Type in your BeagleBone&#39;s IP address here:<input id="connect-ip"></input>' +
+            '        </div>' +
+            '    </div>' +
+            '</div>';
         var statusConnected = '' +
             '<div id="connect-status">' +
             '    <div class="browser-connected">' +
@@ -50,6 +55,7 @@ $(document).ready(function(){
             'beaglebone.local',
             'beaglebone-2.local'
         ];
+        $('#connect-status').replaceWith(statusDisconnected);
         testForConnection();
 
         function testForConnection() {
@@ -63,7 +69,15 @@ $(document).ready(function(){
             handlers.connect = connected;
             handlers.reconnect = connected;
             handlers.reconnecting = connected;
+            $('#connect-ip').keypress(oninput);
             setTargetAddress(serversToTry[i], handlers);
+
+            function oninput(e) {
+                if(e.which == 10 || e.which == 13) {
+                    setTargetAddress($('#connect-ip').val(), handlers);
+                }
+            }
+
             function callback() {
                 if(typeof _bonescript == 'undefined') {
                     setTimeout(testForConnection, 1000);
@@ -84,9 +98,7 @@ $(document).ready(function(){
             function disconnected() {
                 if(connectState == 'connected') {
                     console.log('Bonescript: disconnected');
-                    $.get('/static/connect-status.html', function(data){
-                        $('#connect-status').replaceWith(data);
-                    });
+                    $('#connect-status').replaceWith(statusDisconnected);
                     connectState = 'disconnected';
                 }
             }
