@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>BeagleBoard.org - attachInterrupt</title>
+  <title>BeagleBoard.org - detachInterrupt</title>
   <meta name="keywords" content="Beagle Board, BeagleBoard, beagleboard.org, BeagleBone, BeagleBoard-xM, bealgeboard, open hardware, open source, Linux, computer" />
   <link href="http://feeds.feedburner.com/BeagleBoard" rel="alternate" title="BeagleBoard.org news feed" type="application/atom+xml" />
   <link rel="icon" href="/static/beagle.ico" type="image/x-icon">
@@ -68,15 +68,13 @@ textarea#console-output {
      <div id="content_child">
      <!--- START CONTENT -->
 
-<p>You might be able to see a newer version of this on <a href="http://beagleboard.org/support/bonescript/attachInterrupt">beagleboard.org/support/bonescript/attachInterrupt</a></p>
-<h1>attachInterrupt(pin, handler, mode, [callback])</h1>
-<p>Detect changes on a digital input line</p>
+<p>You might be able to see a newer version of this on <a href="http://beagleboard.org/support/bonescript/detachInterrupt">beagleboard.org/support/bonescript/detachInterrupt</a></p>
+<h1>detachInterrupt(pin, [callback])</h1>
+<p>Remove an interrupt handler</p>
 <h2>Arguments</h2>
 <ul>
  <li><em>pin</em>: the <a href="bonescript.html#pin">BeagleBone pin</a> identifier</li>
- <li><em>handler</em>: false, true or string with local function to run</li>
- <li><em>mode</em>: RISING, FALLING or CHANGING</li>
- <li><em>callback</em>: called when handler returns true or other events</li>
+ <li><em>callback</em>: called upon completion</li>
 </ul>
 <h2>Return value</h2>
 <ul>
@@ -85,8 +83,6 @@ textarea#console-output {
 </ul>
 <h2>callback(x)</h2>
 <ul>
- <li><em>x.output</em>: result of handler function</li>
- <li><em>x.value</em>: input state of the pin generating the interrupt</li>
  <li><em>x.err</em>: error status message</li>
 </ul>
 <h2>Example
@@ -121,7 +117,7 @@ function detach() {
 <ul>
  <li><a href="bonescript.html#require">require</a></li>
  <li><a href="pinMode.html">pinMode</a></li>
- <li><a href="detachInterrupt.html">detachInterrupt</a></li>
+ <li><a href="attachInterrupt.html">attachInterrupt</a></li>
 </ul>
 <h3>Examples</h3>
 <ul>
