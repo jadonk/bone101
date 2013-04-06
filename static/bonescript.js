@@ -22,6 +22,7 @@ function setTargetAddress(address, handlers) {
             return;
         }
         if(typeof _bonescript != 'undefined') {
+            _bonescript.address = address;
             if(handlers.initialized) _bonescript.on.initialized = handlers.initialized;
             if(handlers.connect) _bonescript.on.connect = handlers.connect;
             if(handlers.connecting) _bonescript.on.connecting = handlers.connecting;

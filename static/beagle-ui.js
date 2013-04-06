@@ -33,12 +33,12 @@ $(document).ready(function(){
             $('#connect-status').replaceWith(data);
         });
 
-        var connected = '' +
+        var statusConnected = '' +
             '<div id="connect-status">' +
             '    <div class="browser-connected">' +
             '        <img alt="Connected" src="/static/images/green_check.png" border="0">' +
             '        <div id="browser-content"><strong>Your board is connected!</strong><br>' +
-            '            Detected:  BeagleBoard Version 1.0Download ISO' +
+            '            <div id="board-info"></div>' +
             '        </div>' +
             '    </div>' +
             '</div>';
@@ -51,13 +51,47 @@ $(document).ready(function(){
         ];
         testForConnection();
         function testForConnection() {
-            setTargetAddress(serversToTry[i], function () {
-                if(typeof _bonescript != 'undefined') {
-                    $('#connect-status').replaceWith(connected);
-                } else {
+            var handlers = {};
+            handlers.callback = callback;
+            handlers.initialized = initialized;
+            handlers.connecting = disconnected;
+            handlers.connect_failed = disconnected;
+            handlers.reconnect_failed = disconnected;
+            handlers.connect = connected;
+            handlers.reconnect = connected;
+            handlers.reconnecting = connected;
+            setTargetAddress(serversToTry[i], handlers);
+            function callback() {
+                if(typeof _bonescript == 'undefined') {
                     setTimeout(testForConnection, 1000);
                 }
-            });
+            }
+            function connected() {
+            }
+            function initialized() {
+                $('#connect-status').replaceWith(statusConnected);
+                updateBoardInfo();
+            }
+            function disconnected() {
+                $.get('/static/connect-status.html', function(data){
+                    $('#connect-status').replaceWith(data);
+                });
+            }
         }
     }
 });
+
+function updateBoardInfo() {
+    var b = require('bonescript');
+    b.getPlatform(function(x) {
+        var info = '<div id="board-info">' + x.name;
+        if(typeof x.revision != 'undefined')
+            info += ' rev ' + x.version;
+        if(typeof x.serialNumber != 'undefined')
+            info += ' S/N ' + x.serialNumber;
+        if(typeof _bonescript.address != 'undefined')
+            info += ' at ' + _bonescript.address;
+        info += '</div>';
+        $('#board-info').replaceWith(info);
+    });
+}
