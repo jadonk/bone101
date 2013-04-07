@@ -82,13 +82,12 @@ function initClient() {
         demoRun = function(myid) {
             if(typeof editor[myid].editor != 'undefined') {
                 var code = editor[myid].editor.getValue();
-                eval(code);
+                myeval(code);
             } else {
                 originalDemoRun(myid);
             }
         }
     }
-    console.log("Bonescript client started");
 }
 
 function doAlert(m) {
@@ -100,10 +99,18 @@ function demoRun(id) {
     myScript = myScript.replace("&lt;", "<");
     myScript = myScript.replace("&gt;", ">");
     myScript = myScript.replace("&amp;", "&");
-    eval(myScript);
+    myeval(myScript);
 }
 
 function demoRestore(id) {
     if(typeof editor[id] == 'undefined') return;
     editor[id].editor.setValue(editor[id].original);
+}
+
+function myeval(script) {
+    try {
+        eval(script);
+    } catch(ex) {
+        console.log('Exception: ' + ex);
+    }
 }

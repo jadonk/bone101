@@ -33,6 +33,7 @@ $(document).ready(function(){
             $('#connect-status').replaceWith(data);
         });
 
+        var connectState = 'init';
         var statusConnected = '' +
             '<div id="connect-status">' +
             '    <div class="browser-connected">' +
@@ -50,6 +51,7 @@ $(document).ready(function(){
             'beaglebone-2.local'
         ];
         testForConnection();
+
         function testForConnection() {
             var handlers = {};
             handlers.callback = callback;
@@ -57,6 +59,7 @@ $(document).ready(function(){
             handlers.connecting = disconnected;
             handlers.connect_failed = disconnected;
             handlers.reconnect_failed = disconnected;
+            handlers.disconnect = disconnected;
             handlers.connect = connected;
             handlers.reconnect = connected;
             handlers.reconnecting = connected;
@@ -67,15 +70,25 @@ $(document).ready(function(){
                 }
             }
             function connected() {
+                if(connectState == 'disconnected') {
+                    console.log('Bonescript: connected');
+                    connectState = 'reconnecting';
+                }
             }
             function initialized() {
+                console.log('Bonescript: initialized');
                 $('#connect-status').replaceWith(statusConnected);
                 updateBoardInfo();
+                connectState = 'connected';
             }
             function disconnected() {
-                $.get('/static/connect-status.html', function(data){
-                    $('#connect-status').replaceWith(data);
-                });
+                if(connectState == 'connected') {
+                    console.log('Bonescript: disconnected');
+                    $.get('/static/connect-status.html', function(data){
+                        $('#connect-status').replaceWith(data);
+                    });
+                    connectState = 'disconnected';
+                }
             }
         }
     }
