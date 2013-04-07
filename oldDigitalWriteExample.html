@@ -49,63 +49,37 @@
     <div class="t3_content_1">
      <div id='connect-status'></div>
      <div id="content_child">
+
      <!--- START CONTENT -->
 
-     <h1>BeagleBone: open-hardware expandable computer</h1>
-     <h2>Latest ARM open source focused on easy hardware experimentation</h2>
-     <ul>
-      <img src="/static/images/beaglebone-in-hand.JPG" align="right" width="25%" />
-      <li>Ships ready to use<ul>
-       <li>Angstrom Distribution with C++, Perl, Python, ...</li>
-       <li>Built-in USB-to-serial adapter with JTAG and device access</li>
-       <li>Linux drivers support countless USB peripherals</li>
-      </ul></li>
-      <li>Open source means options<ul>
-       <li>Texas Instruments releases:
-        <a target="_blank" href="http://beagleboard.org/project/rowboat">Android</a>,
-        <a target="_blank" href="http://beagleboard.org/project/amsdk">Linux</a>,
-        <a target="_blank" href="http://beagleboard.org/project/starterware">StarterWare (no OS)</a>
-       </li>
-       <li>Linux: 
-        <a target="_blank" href="http://beagleboard.org/project/angstrom">Angstrom Distribution</a>,
-        <a target="_blank" href="http://beagleboard.org/project/ubuntu">Ubuntu</a>,
-        <a target="_blank" href="http://beagleboard.org/project/debian">Debian</a>,
-        <a target="_blank" href="http://beagleboard.org/project/AM/">ArchLinux</a>,
-        <a target="_blank" href="http://beagleboard.org/project/sabayon/">Sabayon</a>,
-        <a target="_blank" href="http://beagleboard.org/project/buildroot/">Buildroot</a>,
-        <a target="_blank" href="http://beagleboard.org/project/Nerves/">Erlang</a>,
-        <a target="_blank" href="http://beagleboard.org/project/fedora/">Fedora</a>
-       </li>
-       <li>Other:
-        <a target="_blank" href="http://beagleboard.org/project/QNX+Neutrino+on+OMAP/">QNX</a>,
-        <a target="_blank" href="http://beagleboard.org/project/freebsd/">FreeBSD</a>
-       </li>
-       <li><a target="_blank" href="http://beagleboard.org/project">Projects page</a></li>
-      </ul></li>
-      <img align="right" src="/static/images/imager.png" width="30%" />
-      <li>SD card images like get-out-of-jail-free card
-       <pre>xzcat XXX.img.xz | sudo dd of=/dev/sdX</pre>
-       <ul>
-        <li>Can be used just as easily for backups</li>
-        <li>Board can be booted from SD using device ROM, so you can't "brick" it</li>
-        <li> 
-         <a href="http://http://www.7-zip.org/">7-zip</a> 
-         and
-         <a href="https://wiki.ubuntu.com/Win32DiskImager">
-         Ubuntu Win32DiskImager
-         </a>
-         enable programming cards from Windows
-        </li>
-       </ul>
-      </li>
-     </ul>
- 
-
-
-     <!--- START FOOTER -->
-     </div>
+    <h1>DigitalWrite</h1><p></p>
+    <p>/// The function can run on both the Beaglebone and Beaglebone Black. (JASON PLEASE CONFIRM)<br>
+    // This function sets the binary logic for the GPIO pins on the Beaglebone. The pin values can be //dynamically set to DGND 
+    or 3.3V with the usage of this function.</p></div>
+<div id="content_child">
+    <p></p><h2>Syntax</h2><br>
+    <p><strong>digitalWrite(ledPin_#, HIGH_or_LOW);</strong></p>
+    <p>edPin_#: A user defined GPIO pin on the beaglebone on the P8 or P9 header. Note, that the P9_15 GPIO line is a pin used in debugging and should be avoided for GPIO use when using bonescript 
+</p><p>HIGH_or_LOW: The user should user either the macro ‘HIGH’ or ‘LOW’, which correlates to ‘1’ or ‘0’. Setting a GPIO pin as ‘HIGH’ will set the output voltage to be 3.3V. Setting the pin ‘LOW’ will set the voltage to DGND or ~0V.
+</p></div>
+<div id="content_child">
+    <h2>Code Example</h2>
+    <p>//This example is to toggle both an on board as well as external LED every ~1 second. The onboard LED //is located next to the Ethernet port and the reset button. The hardware setup required is a standard LED //and a ~100 Ohm resistor. The anode of the LED should be connected to pin 23, on the P9 header. The cathode should be connected in series with resistor, which is connected to DGND.
+</p><img alt="Connected" src="/static/images/code_example1.gif" border="0">
+    <h2>Circuit Diagram</h2>
+    <p>/**NEED FRITZING PART UPDATED**
+    <img alt="Connected" src="/static/images/circuit1.gif" border="0">
+</p></div>
+<div id="content_child">
+<h2>Schematic Diagram</h2>
+<p>/**NEED FRITZING PART UPDATED**
+<img alt="Connected" src="/static/images/schematic.gif" border="0">
+</p></div></div>
     </div>
-    <div class="footer">
+   </div>
+
+   <!--- START FOOTER -->
+   <div class="footer">
     <div class="social">
      <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src="/static/images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
      <span style="padding-left:8px"><a href="http://twitter.com/beagleboardorg" name="header_twitter_icon"><img src="/static/images/icon_twitter.png" width="27" height="28" border="0" alt="twitter"/></a></span>
