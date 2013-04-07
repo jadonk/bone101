@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>BeagleBoard.org - pinMode</title>
+  <title>BeagleBoard.org - digitalRead</title>
   <meta name="keywords" content="Beagle Board, BeagleBoard, beagleboard.org, BeagleBone, BeagleBoard-xM, bealgeboard, open hardware, open source, Linux, computer" />
   <link href="http://feeds.feedburner.com/BeagleBoard" rel="alternate" title="BeagleBoard.org news feed" type="application/atom+xml" />
   <link rel="icon" href="/static/beagle.ico" type="image/x-icon">
@@ -15,7 +15,7 @@
 pre#code {
  position: relative;
  width: 500px;
- height: 250px;
+ height: 140px;
  padding-left: 0;
  border-radius: 4px;
  border-bottom-right-radius: 0px;
@@ -29,7 +29,7 @@ textarea#console-output {
  margin-top: 0px;
  margin-left: 30px;
  width: 496px;
- height: 200px;
+ height: 80px;
  border: 1px solid #cccccc;
  resize: vertical;
 }
@@ -68,21 +68,18 @@ textarea#console-output {
      <div id="content_child">
      <!--- START CONTENT -->
 
-<p>You might be able to see a newer version of this on <a href="http://beagleboard.org/support/bonescript/pinMode">beagleboard.org/support/bonescript/pinMode</a></p>
-<h1>pinMode(pin, direction, [mux], [pullup], [slew], [callback])</h1>
+<p>You might be able to see a newer version of this on <a href="http://beagleboard.org/support/bonescript/digitalRead">beagleboard.org/support/bonescript/digitalRead</a></p>
+<h1>digitalRead(pin, [callback])</h1>
+<p>Read the status of a digital I/O pin.</p>
 <h2>Arguments</h2>
 <ul>
  <li><em>pin</em>: the <a href="bonescript.html#pin">BeagleBone pin</a> identifier</li>
- <li><em>direction</em>: <a href="bonescript.html#input">INPUT</a>, <a href="bonescript.html#input_pullup">INPUT_PULLUP</a> or <a href="bonescript.html#output">OUTPUT</a></li>
- <li><em>mux</em>: index to mux mode (under development on 3.8 kernel)</li>
- <li><em>pullup</em>: 'pullup', 'pulldown' or 'disabled' (under development on 3.8 kernel)</li>
- <li><em>slew</em>: 'fast' or 'slow' (under development on 3.8 kernel)</li>
  <li><em>callback</em>: called upon completion</li>
 </ul>
 <h2>Return value</h2>
 <ul>
- <li><a href="bonescript.html#true">true</a> if successful</li>
- <li><a href="bonescript.html#false">false</a> on failure</li>
+ <li><a href="bonescript.html#HIGH">HIGH</a> if pin is HIGH</li>
+ <li><a href="bonescript.html#LOW">LOW</a> if pin is LOW</li>
 </ul>
 <h2>callback(x)</h2>
 <ul>
@@ -94,24 +91,20 @@ textarea#console-output {
  <button class="dynlink" onclick="demoRestore('code')">restore</button>
 </h2>
 <pre id="code" class="use-editor">
-b = require('bonescript');
-b.pinMode("P8_13", b.OUTPUT, 7, 'pullup', 
- 'fast', printStatus);
-b.getPinMode("P8_13", printPinMux);
+var b = require('bonescript');
+b.pinMode('P9_12', b.INPUT);
+b.digitalRead('P9_12', printStatus);
 function printStatus(x) {
-    console.log('value = ' + x.value);
-    console.log('err = ' + x.err);
-}
-function printPinMux(x) {
-    console.log('mux = ' + x.mux);
-    console.log('pullup = ' + x.pullup);
-    console.log('slew = ' + x.slew);
-    console.log('options = ' + x.options.join(','));
-    console.log('err = ' + x.err);
+    console.log('x.value = ' + x.value);
+    console.log('x.err = ' + x.err);
 }</pre>
 <textarea readonly id='console-output'></textarea>
 <h2>Build and execute instructions</h2>
-<p>Check out some of the other examples to see and verify pinMode functionality.</p>
+<ul>
+ <li>Apply 0V to P9_12 and run the example code.</li>
+ <li>Apply 3.3V to P9_12 and run the example code again.</li>
+ <li>Alter the code to look at inputs on other pins.</li>
+</ul>
 <h2>See also</h2>
 <h3>Topics</h3>
 <ul>
@@ -120,12 +113,13 @@ function printPinMux(x) {
 </ul>
 <h3>Related functions</h3>
 <ul>
- <li><a href="require.html">require</a></li>
- <li><a href="getPinMode.html">getPinMode</a></li>
+ <li><a href="bonescript.html#require">require</a></li>
+ <li><a href="pinMode.html">pinMode</a></li>
+ <li><a href="digitalWrite.html">digitalWrite</a></li>
+ <li><a href="attachInterrupt.html">attachInterrupt</a></li>
 </ul>
 <h3>Examples</h3>
 <ul>
- <li><a href="demo_attachedCapes.html">Show attached capes</a></li>
 </ul>
 
      <!--- START FOOTER -->
