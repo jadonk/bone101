@@ -28,7 +28,9 @@ function mylog() {
     for(var i in arguments) {
         str += arguments[i].toString() + '\n';
     }
-    $('#console-output').append(str);
+    var area = $('#console-output');
+    area.append(str);
+    area.scrollTop(area[0].scrollHeight - area.height());
     oldLog.apply(console, arguments);
 }
 
@@ -74,7 +76,7 @@ function initClient() {
         editor[this.id] = {};
         editor[this.id].original = this.innerHTML;
         editor[this.id].editor = ace.edit(this.id);
-        editor[this.id].editor.setTheme("ace/theme/monokai");
+        editor[this.id].editor.setTheme("ace/theme/textmate");
         editor[this.id].editor.getSession().setMode("ace/mode/javascript");
         var originalDemoRun = demoRun;
         demoRun = function(myid) {
