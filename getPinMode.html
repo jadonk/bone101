@@ -80,11 +80,11 @@ textarea#console-output {
 <ul>
  <li><em>mux</em>: index of mux mode</li>
  <li><em>options</em>: array of mode names</li>
- <li><em>slew<em>: 'fast' or 'slow'</li>
- <li><em>rx<em>: 'enabled' or 'disabled'</li>
- <li><em>pullup<em>: 'diabled', 'pullup' or 'pulldown'</li>
- <li><em>pin<em>: key string for pin</li>
- <li><em>name<em>: pin name</li>
+ <li><em>slew</em>: 'fast' or 'slow'</li>
+ <li><em>rx</em>: 'enabled' or 'disabled'</li>
+ <li><em>pullup</em>: 'diabled', 'pullup' or 'pulldown'</li>
+ <li><em>pin</em>: key string for pin</li>
+ <li><em>name</em>: pin name</li>
  <li><em>err</em>: error status message</li>
 </ul>
 <h2>callback(x)</h2>
@@ -96,18 +96,18 @@ textarea#console-output {
  <button class="dynlink" onclick="demoRestore('code')">restore</button>
 </h2>
 <pre id="code" class="use-editor">
-b = require('bonescript');
+var b = require('bonescript');
 b.getPinMode("P8_13", printPinMux);
 function printPinMux(x) {
- console.log('mux = ' + x.mux);
- console.log('pullup = ' + x.pullup);
- console.log('slew = ' + x.slew);
- if(x.options) 
-    console.log('options = ' + 
-        x.options.join(','));
- console.log('pin = ' + x.pin);
- console.log('name = ' + x.name);
- console.log('err = ' + x.err);
+    console.log('mux = ' + x.mux);
+    console.log('pullup = ' + x.pullup);
+    console.log('slew = ' + x.slew);
+    if(x.options) 
+        console.log('options = ' + 
+            x.options.join(','));
+    console.log('pin = ' + x.pin);
+    console.log('name = ' + x.name);
+    console.log('err = ' + x.err);
 }</pre>
 <textarea readonly id='console-output'></textarea>
 <h2>Build and execute instructions</h2>

@@ -94,7 +94,7 @@ textarea#console-output {
  <button class="dynlink" onclick="demoRestore('code')">restore</button>
 </h2>
 <pre id="code" class="use-editor">
-b = require('bonescript');
+var b = require('bonescript');
 b.pinMode("P8_13", b.OUTPUT, 7, 'pullup', 
  'fast', printStatus);
 b.getPinMode("P8_13", printPinMux);
