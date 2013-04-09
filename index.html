@@ -5,8 +5,8 @@
   <title>BeagleBoard.org - bone101</title>
   <meta name="keywords" content="Beagle Board, BeagleBoard, beagleboard.org, BeagleBone, BeagleBoard-xM, bealgeboard, open hardware, open source, Linux, computer" />
   <link href="http://feeds.feedburner.com/BeagleBoard" rel="alternate" title="BeagleBoard.org news feed" type="application/atom+xml" />
-  <link rel="icon" href="/static/beagle.ico" type="image/x-icon">
-  <link rel="shortcut icon" href="/static/beagle.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" type="text/css" media="screen" href="/static/common.css" />
   <link rel="stylesheet" type="text/css" media="screen" href="/static/login.css" />
   <link rel="stylesheet" type="text/css" media="screen" href="/static/beagle.css" />
@@ -54,6 +54,10 @@
      <h1>BeagleBone: open-hardware expandable computer</h1>
      <h2>Artist-tested, engineer approved</h2>
      <img src="/static/images/artist-tested-engineer-approved.jpg" />
+     <p>The left-hand navigation bar will help you explore different topics to learn about
+      your board and how to program it.
+     </p>
+
      <h2>Latest ARM open source focused on easy hardware experimentation</h2>
      <ul>
       <img src="/static/images/beaglebone-in-hand.JPG" align="right" width="25%" />
@@ -102,11 +106,79 @@
       </li>
      </ul>
  
+     <h2 id="updates">Update board with latest software</h2>
+     <p>There are multiple ways to run initial software on your board, but
+      it is likley that the simplest way to get an update is to create an
+      exact replica of a bootable microSD card and boot off of it.  The
+      BeagleBone Black has 2GB of eMMC storage that can be initialized by
+      a program booted off of a microSD card.  If you want to update to the
+      latest software image for your board, this is a way to do that.</p>
+     <p>See <a href="updates.html">updates</a> for the step-by-step guide.</p>
+
+     <h2 id="hardware">Hardware documentation</h2>
+     <p><a target="_blank" href="http://circuitco.com/support/index.php?title=BeagleBoneBlack">
+CircuitCo.com's BeagleBoneBlack page</a> documents all of the known hardware issues, as well as the latest available software, 
+hardware documentation and design materials.
+     </p>
+     <p><em>Always read the System Reference Manual!!!</em></p>
+
+     <h3><a href="http://beagleboard.org/hardware/design">Design materials</a></h3>
+     <p>Design materials for creating your own customized version of the hardware or for better
+      understanding the design are also linked from the traditional home of
+      &quot;<a href="http://beagleboard.org/hardware/design">http://beagleboard.org/hardware/design</a>&quot;
+     </p>
+
+     <h3>BeagleBone Black hardware details</h3>
+     <img src="/static/images/black_hardware_details.png" width="100%" />
+     <p>Revision A5 also provides a POWER button that can be used to enter and exit hibernate modes once
+      that feature is implemented in the software.
+     </p>
+
      <h2 id="bonescript">Bonescript interactive guide</h2>
-     <h2 id="updates">Updates</h2>
      <h2 id="cloud9">Cloud9 IDE</h2>
      <h2 id="gateone">GateOne SSH client</h2>
      <img src="/static/images/gateone.png" width="60%" align="right" />
+
+     <table><tr>
+      <td><ul>
+       <li><em>pwd</em> – show current directory</li>
+       <li><em>cd</em> – change current directory</li>
+       <li><em>ls</em> – list directory contents</li>
+       <li><em>chmod</em> – change file permissions</li>
+       <li><em>chown</em> – change file ownership</li>
+       <li><em>cp</em> – copy files</li>
+       <li><em>mv</em> – move files</li>
+       <li><em>rm</em> – remove files</li>
+       <li><em>mkdir</em> – make directory</li>
+       <li><em>rmdir</em> – remove directory</li>
+       <li><em>cat</em> – dump file contents</li>
+       <li><em>less</em> – progressively dump file</li>
+       <li><em>vi</em> – edit file (complex)</li>
+       <li><em>nano</em> – edit file (simple)</li>
+       <li><em>head</em> – trim dump to top</li>
+       <li><em>tail</em> – trim dump to bottom</li>
+      </ul></td>
+      <td><ul>
+       <li><em>echo</em> – print/dump value</li>
+       <li><em>env</em> – dump environment variables</li>
+       <li><em>export</em> – set environment variable</li>
+       <li><em>history</em> – dump command history</li>
+       <li><em>grep</em> – search dump for strings</li>
+       <li><em>man</em> – get help on command</li>
+       <li><em>apropos</em> – show list of man pages</li>
+       <li><em>find</em> – search for files</li>
+       <li><em>tar</em> – create/extract file archives</li>
+       <li><em>gzip</em> – compress a file</li>
+       <li><em>gunzip</em> – decompress a file</li>
+       <li><em>du</em> – show disk usage</li>
+       <li><em>df</em> – show disk free space</li>
+       <li><em>mount</em> – mount disks</li>
+       <li><em>tee</em> – write dump to file in parallel</li>
+       <li><em>hexdump</em> – readable binary dumps</li>
+      </ul></td>
+     </tr></table>
+      
+
      <h2 id="capes">Capes</h2>
 
      <!--- START FOOTER -->
