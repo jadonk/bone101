@@ -157,10 +157,21 @@ function restore() {
     b.digitalWrite('USR1', b.LOW);
     b.digitalWrite('USR2', b.LOW);
     b.digitalWrite('USR3', b.LOW);
-    b.writeTextFile(p+'0/trigger', 'heartbeat');
-    b.writeTextFile(p+'1/trigger', 'mmc0');
-    b.writeTextFile(p+'2/trigger', 'cpu0');
-    b.writeTextFile(p+'3/trigger', 'mmc1');
+    resetUSR0();
+    function resetUSR0() {
+        b.writeTextFile(p+'0/trigger', 'heartbeat', resetUSR1);
+    }
+    function resetUSR1() {
+        b.writeTextFile(p+'1/trigger', 'mmc0', resetUSR2);
+    }
+    function resetUSR2() {
+        b.writeTextFile(p+'2/trigger', 'cpu0', resetUSR3);
+    }
+    function resetUSR3() {
+        b.writeTextFile(p+'3/trigger', 'mmc1', complete);
+    }
+    function complete() {
+    }
 }
 </script>
      <p>Running the above example will cause all of your LEDs to light up at once for a
