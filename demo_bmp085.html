@@ -78,7 +78,7 @@ kernel, so all you have to do is ask the kernel to load the driver and then star
 var b = require('bonescript');
 var i2c = '/sys/class/i2c-adapter/i2c-1/';
 
-b.writeTextFile(i2c + 'new_device', 'bmp085 0x77');
+b.writeTextFile(i2c + 'new_device', 'bmp085 0x77', printData);
 b.readTextFile(i2c + '1-0077/temp0_input', printData);
 function printData(data) {
  console.log(JSON.stringify(data));
