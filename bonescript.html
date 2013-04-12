@@ -45,7 +45,7 @@
      <div id="content_child">
      <!--- START CONTENT -->
 
-  <h1>First experience of Bonescript</h1>
+  <h1>Bonescript</h1>
   <h2>Familiar Arduino function calls, exported to the browser</h2>
   <p>The buttons below wil run code in your that will impact
    the LEDs on your BeagleBone. The exact code used
@@ -73,19 +73,96 @@ b.digitalWrite('USR0', 0);
 b.digitalWrite('USR1', 0);
 b.digitalWrite('USR2', 0);
 b.digitalWrite('USR3', 0);</pre>
-  <p>All GPIOs accessible via digitalWrite and digtalRead.</p>
- </div>
+  <p>Restore LEDs to default state: <button onclick="demoRun('led3')">run</button></p>
+  <pre id="led3">
+var b = require('bonescript');
+var p = '/sys/class/leds/beaglebone:green:usr';
+b.digitalWrite('USR0', b.LOW);
+b.digitalWrite('USR1', b.LOW);
+b.digitalWrite('USR2', b.LOW);
+b.digitalWrite('USR3', b.LOW);
+resetUSR0();
+function resetUSR0() {
+    b.writeTextFile(p+'0/trigger', 'heartbeat', resetUSR1);
+}
+function resetUSR1() {
+    b.writeTextFile(p+'1/trigger', 'mmc0', resetUSR2);
+}
+function resetUSR2() {
+    b.writeTextFile(p+'2/trigger', 'cpu0', resetUSR3);
+}
+function resetUSR3() {
+    b.writeTextFile(p+'3/trigger', 'mmc1', complete);
+}
+function complete() {
+}</pre>
 
-     <h2 id="functions">Functions</h2>
-     <h2 id="libraries">Libraries</h2>
-     <h3 id="require">require()</h3>
-     <ul>
- <li><a href="bonescript.html#javascript">JavaScript<ul>
-  <li><a href="bonescript.html#console">console()</a></li>
-  <li><a href="bonescript.html#timers">Timers</a></li>
-  <li><a href="bonescript.html#typeof">typeof operator</a></li>
+ <h2 id="functions">Functions</h2>
+ <p>The Bonescript library provides several functions useful for interacting with your hardware.</p>
+ <ul>
+  <li>Digital I/O<ul>
+   <li><a href="getPlatform.html">getPlatform()</a></li>
+   <li><a href="pinMode.html">pinMode()</a></li>
+   <li><a href="getPinMode.html">getPinMode()</a></li>
+   <li><a href="digitalWrite.html">digitalWrite()</a></li>
+   <li><a href="digitalRead.html">digitalRead()</a></li>
+   <!-- <li><a href="shiftOut.html">shiftOut()</a></li> -->
+   <li><a href="attachInterrupt.html">attachInterrupt()</a></li>
+   <li><a href="detachInterrupt.html">detatchInterrupt()</a></li>
+  </ul><li>Analog I/O<ul>
+   <li><a href="analogWrite.html">analogWrite()</a></li>
+   <li><a href="analogRead.html">analogRead()</a></li>
+  </ul><li>File I/O<ul>
+   <li><a href="readTextFile.html">readTextFile()</a></li>
+   <li><a href="writeTextFile.html">writeTextFile()</a></li>
   </ul>
+ </ul>
 
+ <h2 id="javascript">JavaScript</h2>
+ <p>Performing physical computing tasks in JavaScript is a rather different than C on microcontrollers.  JavaScript and the
+  Node.JS interpreter like to do everything asynchronously using callbacks.  An event loop runs waiting on whatever the next
+  system-blocking event is, such as waiting for a keypress or a file load to complete.  The callbacks are then executed
+  to completion before other event handlers are run.
+  </p>
+  <h3 id="timers">Timers</h3>
+  <p>Timing operations in JavaScript are provided by setting timers with callback event handlers.  A nice overview of
+  JavaScript timers can be found on <a href="http://www.w3schools.com/js/js_timing.asp" target="_blank">www.w3schools.com</a>.</p>
+  <ul>
+   <li>var timer = setTimeout(callback, milliseconds)</li>
+   <li>clearTimeout(timer)</li>
+   <li>var timer = setInterval(callback, milliseconds)</li>
+   <li>clearInterval(timer)</li>
+  </ul>
+ <h3 id="libraries">Libraries</h3>
+ <p>The Bonescript library runs in Node.JS.  You can run it
+ directly on the board using the 'node' interpreter or the Cloud9 IDE that invokes the 'node' interpreter.  You can
+ also run it using the <a href="/bonescript.js">bonescript.js</a> script within your browser via remote procedure calls
+ using Socket.io and served up by the web server running on your BeagleBoard.</p>
+ <p id="require">Access to the library functions is provided through the "require('bonescript')" function call.  The
+ call returns an object containing all of the functions and constants exported by the library.  The Node.JS API documentation
+ on <a href="http://www.nodejs.org/docs/v0.8.22/api/modules.html" target="_blank">modules</a> provides more information on the usage
+ of 'require' within the 'node' interpreter.</p>
+  <h3>Other JavaScript topics</h3>
+  <p id="console">The Chrome browser has a rather nice JavaScript debugger you can use to examine your code.  You might
+  also get good benefit out of 'console.log()'.</p>
+  <p id="typeof">Because JavaScript is dynamically typed, you might find the 'typeof operator' rather useful to determine
+  the type of a variable at run-time.  A nice overview of the JavaScript typeof operator can be found at 
+  <a target="_blank" href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Operators/typeof">
+      developer.mozilla.org</a>.</p>
+
+
+<h3>Resources</h3>
+<a id="console"></a>
+<a id="typeof"></a>
+ <p>To learn more about Cloud9 IDE and to synchronize the software on your board with cloud-hosted services, see
+  <a target="_blank" href="http://c9.io">www.c9.io</a>.
+ <p>For more information on Node.JS, the JavaScript interpreter, see <a target="_blank" href="http://nodejs.org">www.nodejs.org</a>.
+  Note that version 0.8.22 is what is currently installed on the default image and you can find the api documentation
+  at <a target="_blank" href="http://nodejs.org/docs/v0.8.22/api">www.nodejs.org/docs/v0.8.22/api</a>.
+ </p>
+ <p>For more information about the Bonescript library, see <a target="_blank" href="http://beagleboard.org/bonescript">
+  www.beagleboard.org/bonescript</a>.
+ </p>
 
      <!--- START FOOTER -->
      </div>

@@ -15,7 +15,7 @@
 pre#code {
  position: relative;
  width: 500px;
- height: 60px;
+ height: 300px;
  padding-left: 0;
  border-radius: 4px;
  border-bottom-right-radius: 0px;
@@ -70,14 +70,13 @@ textarea#console-output {
 
 <p>You might be able to see a newer version of this on <a href="http://beagleboard.org/support/bonescript/attachInterrupt">beagleboard.org/support/bonescript/attachInterrupt</a></p>
 <h1>attachInterrupt(pin, handler, mode, [callback])</h1>
-<p>Write a <a href="bonescript.html#HIGH">HIGH</a> or <a href="bonescript.html#LOW">LOW</a> to a digital I/O pin.</p>
-<p>NOTE: The 4 USRx LEDs are all able to operate as digital output pins, giving you an always-available
- output to test your software.</p>
+<p>Detect changes on a digital input line</p>
 <h2>Arguments</h2>
 <ul>
  <li><em>pin</em>: the <a href="bonescript.html#pin">BeagleBone pin</a> identifier</li>
- <li><em>value</em>: the logic level to set the pin</li>
- <li><em>callback</em>: called upon completion</li>
+ <li><em>handler</em>: false, true or string with local function to run</li>
+ <li><em>mode</em>: RISING, FALLING or CHANGING</li>
+ <li><em>callback</em>: called when handler returns true or other events</li>
 </ul>
 <h2>Return value</h2>
 <ul>
@@ -86,6 +85,8 @@ textarea#console-output {
 </ul>
 <h2>callback(x)</h2>
 <ul>
+ <li><em>x.output</em>: result of handler function</li>
+ <li><em>x.value</em>: input state of the pin generating the interrupt</li>
  <li><em>x.err</em>: error status message</li>
 </ul>
 <h2>Example
@@ -94,24 +95,21 @@ textarea#console-output {
 </h2>
 <pre id="code" class="use-editor">
 var b = require('bonescript');
-b.pinMode('P8_19', b.INPUT);
+var inputPin = 'P8_19';
+b.pinMode(inputPin, b.INPUT);
+b.attachInterrupt(inputPin, true, 'both', interruptCallback);
+setTimeout(detach, 12000);
 
-function interruptHandler(x) { return({'value': x.value}); }
 function interruptCallback(x) {
- if(x.output) $('#attachInterruptValue').text(x.output.value);
+ console.log(JSON.stringify(x));
 }
-attachInterrupt('P8_19', interruptHandler, 'both', interruptCallback);
 
-stopTimer = function() {
- detachInterrupt(bone.P8_5);
-};
-setTimeout(stopTimer, 12000);</pre>
+function detach() {
+ detachInterrupt(inputPin);
+}</pre>
 <textarea readonly id='console-output'></textarea>
 <h2>Build and execute instructions</h2>
 <ul>
- <li>Apply 0V to P9_12 and run the example code.</li>
- <li>Apply 3.3V to P9_12 and run the example code again.</li>
- <li>Alter the code to look at inputs on other pins.</li>
 </ul>
 <h2>See also</h2>
 <h3>Topics</h3>
@@ -123,11 +121,11 @@ setTimeout(stopTimer, 12000);</pre>
 <ul>
  <li><a href="bonescript.html#require">require</a></li>
  <li><a href="pinMode.html">pinMode</a></li>
- <li><a href="digitalWrite.html">digitalWrite</a></li>
- <li><a href="attachInterrupt.html">attachInterrupt</a></li>
+ <li><a href="detachInterrupt.html">detachInterrupt</a></li>
 </ul>
 <h3>Examples</h3>
 <ul>
+ <li><a href="cape_bacon.html">Bacon Cape</a></li>
 </ul>
 
      <!--- START FOOTER -->

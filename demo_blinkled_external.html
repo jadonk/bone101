@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>BeagleBoard.org - digitalRead</title>
+  <title>BeagleBoard.org - Blink an LED</title>
   <meta name="keywords" content="Beagle Board, BeagleBoard, beagleboard.org, BeagleBone, BeagleBoard-xM, bealgeboard, open hardware, open source, Linux, computer" />
   <link href="http://feeds.feedburner.com/BeagleBoard" rel="alternate" title="BeagleBoard.org news feed" type="application/atom+xml" />
   <link rel="icon" href="/static/beagle.ico" type="image/x-icon">
@@ -15,7 +15,7 @@
 pre#code {
  position: relative;
  width: 500px;
- height: 140px;
+ height: 280px;
  padding-left: 0;
  border-radius: 4px;
  border-bottom-right-radius: 0px;
@@ -68,59 +68,55 @@ textarea#console-output {
      <div id="content_child">
      <!--- START CONTENT -->
 
-<p>You might be able to see a newer version of this on <a href="http://beagleboard.org/support/bonescript/digitalRead">beagleboard.org/support/bonescript/digitalRead</a></p>
-<h1>digitalRead(pin, [callback])</h1>
-<p>Read the status of a digital I/O pin.</p>
-<h2>Arguments</h2>
-<ul>
- <li><em>pin</em>: the <a href="bonescript.html#pin">BeagleBone pin</a> identifier</li>
- <li><em>callback</em>: called upon completion</li>
-</ul>
-<h2>Return value</h2>
-<ul>
- <li><a href="bonescript.html#HIGH">HIGH</a> if pin is HIGH</li>
- <li><a href="bonescript.html#LOW">LOW</a> if pin is LOW</li>
-</ul>
-<h2>callback(x)</h2>
-<ul>
- <li><em>x.value</em>: return value</li>
- <li><em>x.err</em>: error status message</li>
-</ul>
-<h2>Example
+<p>You might be able to see a newer version of this on <a href="http://beagleboard.org/support/bonescript/demo_blinkled_external">beagleboard.org/support/bonescript/demo_blinkled_external</a></p>
+<h1>Demo: Blink an external LED</h1>
+<h2>Code
  <button class="dynlink" onclick="demoRun('code')">run</button>
  <button class="dynlink" onclick="demoRestore('code')">restore</button>
 </h2>
 <pre id="code" class="use-editor">
 var b = require('bonescript');
-b.pinMode('P8_19', b.INPUT);
-b.digitalRead('P8_19', printStatus);
-function printStatus(x) {
-    console.log('x.value = ' + x.value);
-    console.log('x.err = ' + x.err);
-}</pre>
+var led = "P8_13";
+var state = 0;
+
+b.pinMode(led, 'out');
+toggleLED = function() {
+ state = state ? 0 : 1;
+ b.digitalWrite(led, state);
+};
+
+timer = setInterval(toggleLED, 100);
+
+stopTimer = function() {
+ clearInterval(timer);
+};
+
+setTimeout(stopTimer, 30000);</pre>
 <textarea readonly id='console-output'></textarea>
 <h2>Build and execute instructions</h2>
+<!-- <img align="right" width="50%" src="/static/images/bone-usr3-led.png" /> -->
+<img align="right" width="50%" src="/static/images/beaglebone_with_led_bb.png" />
 <ul>
- <li>Apply 0V to P8_19 and run the example code.</li>
- <li>Apply 3.3V to P8_19 and run the example code again.</li>
- <li>Alter the code to look at inputs on other pins.</li>
+    <li>Connect an LED and resistor as shown being sure to get the anode/cathode orientation correct.</li>
+    <li>Run the example code and observe the blinking.</li>
+    <li>Alter the frequency and re-run the example.</li>
 </ul>
 <h2>See also</h2>
 <h3>Topics</h3>
 <ul>
  <li><a href="bonescript.html#headers">BeagleBone expansion headers</a></li>
  <li><a href="bonescript.html#digitalio">Digital I/O</a></li>
+ <li><a href="bonescript.html#timers">Timers</a></li>
 </ul>
 <h3>Related functions</h3>
 <ul>
  <li><a href="bonescript.html#require">require</a></li>
  <li><a href="pinMode.html">pinMode</a></li>
  <li><a href="digitalWrite.html">digitalWrite</a></li>
- <li><a href="attachInterrupt.html">attachInterrupt</a></li>
 </ul>
 <h3>Examples</h3>
 <ul>
- <li><a href="cape_bacon.html">Bacon Cape</a></li>
+ <li><a href="demo_blinkled.html">Blink an on-board LED</a></li>
 </ul>
 
      <!--- START FOOTER -->
