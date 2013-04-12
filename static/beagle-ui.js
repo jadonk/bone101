@@ -120,7 +120,7 @@ function updateBoardInfo() {
     var b = require('bonescript');
     b.getPlatform(function(x) {
         var info = '<div id="board-info">' + x.name;
-        if(typeof x.revision != 'undefined')
+        if(typeof x.version != 'undefined')
             info += ' rev ' + x.version;
         if(typeof x.serialNumber != 'undefined')
             info += ' S/N ' + x.serialNumber;
