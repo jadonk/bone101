@@ -125,26 +125,30 @@ function complete() {
   to completion before other event handlers are run.
   </p>
   <h3 id="timers">Timers</h3>
-  <p>Timing operations in JavaScript are provided by setting timers with callback event handlers that </p>
+  <p>Timing operations in JavaScript are provided by setting timers with callback event handlers.  A nice overview of
+  JavaScript timers can be found on <a href="http://www.w3schools.com/js/js_timing.asp" target="_blank">www.w3schools.com</a>.</p>
   <ul>
-   <li><a href="setTimeout.html">setTimeout()</a></li>
-   <li><a href="clearTimeout.html">clearTimeout()</a></li>
-   <li><a href="setInterval.html">setInterval()</a></li>
-   <li><a href="clearInterval.html">clearInterval()</a></li>
+   <li>var timer = setTimeout(callback, milliseconds)</li>
+   <li>clearTimeout(timer)</li>
+   <li>var timer = setInterval(callback, milliseconds)</li>
+   <li>clearInterval(timer)</li>
   </ul>
-  <p id="console">The Chrome browser has a rather nice JavaScript debugger you can use to examine your code.  You might
-   also get good benefit out of 'console.log()'.</p>
-  <p id="typeof">Because JavaScript is dynamically typed, you might find the 'typeof operator' rather useful to determine
-   the type of a variable at run-time.</p>
- <h2 id="libraries">Libraries</h2>
+ <h3 id="libraries">Libraries</h3>
  <p>The Bonescript library runs in Node.JS.  You can run it
  directly on the board using the 'node' interpreter or the Cloud9 IDE that invokes the 'node' interpreter.  You can
  also run it using the <a href="/bonescript.js">bonescript.js</a> script within your browser via remote procedure calls
  using Socket.io and served up by the web server running on your BeagleBoard.</p>
  <p id="require">Access to the library functions is provided through the "require('bonescript')" function call.  The
  call returns an object containing all of the functions and constants exported by the library.  The Node.JS API documentation
- on <a href="http://www.nodejs.org/docs/v0.8.22/api/modules.html">modules</a> provides more information on the usage
+ on <a href="http://www.nodejs.org/docs/v0.8.22/api/modules.html" target="_blank">modules</a> provides more information on the usage
  of 'require' within the 'node' interpreter.</p>
+  <h3>Other JavaScript topics</h3>
+  <p id="console">The Chrome browser has a rather nice JavaScript debugger you can use to examine your code.  You might
+  also get good benefit out of 'console.log()'.</p>
+  <p id="typeof">Because JavaScript is dynamically typed, you might find the 'typeof operator' rather useful to determine
+  the type of a variable at run-time.  A nice overview of the JavaScript typeof operator can be found at 
+  <a target="_blank" href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Operators/typeof">
+      developer.mozilla.org</a>.</p>
 
 
 <h3>Resources</h3>
