@@ -11,6 +11,29 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/static/login.css" />
   <link rel="stylesheet" type="text/css" media="screen" href="/static/beagle.css" />
   <script src="/static/bonescript-demo.js"></script>
+  <style>
+pre#code {
+ position: relative;
+ width: 500px;
+ height: 1800px;
+ padding-left: 0;
+ border-radius: 4px;
+ border-bottom-right-radius: 0px;
+ border-bottom-left-radius: 0px;
+ margin-bottom: 0px;
+ margin-left: 30px;
+ margin-right: 0px;
+ align: left;
+}
+textarea#console-output {
+ margin-top: 0px;
+ margin-left: 30px;
+ width: 496px;
+ height: 80px;
+ border: 1px solid #cccccc;
+ resize: vertical;
+}
+  </style>
  </head>
  <body>
  <div class="top">
@@ -56,6 +79,8 @@
   <div id="led1" style="display: table-cell; height:50px;"></div>
   <div style="display: table-cell; height:50px">
    <div id="slider1" style="width:400px; vertical-align:center;"></div>
+   <div id="slider2" style="width:400px; vertical-align:center;"></div>
+   <div id="slider3" style="width:400px; vertical-align:center;"></div>
   </div>
  </div>
 </div>
@@ -92,12 +117,18 @@
   </ul>
  <li><em>U2</em>: I2C EEPROM connected to I2C2</li>
 </ul>
+<!--
 <h2>Currently running code example</h2>
 <script>
     onbonescriptinit = function() {
         $(document).ready(function(){demoRun('code');});
     };
 </script>
+-->
+<h2>Demo
+ <button class="dynlink" onclick="demoRun('code')">run</button>
+ <button class="dynlink" onclick="demoRestore('code')">restore</button>
+</h2>
 <pre id="code" class="use-editor">
 console.log('Starting Bacon Cape demo');
 var b = require('bonescript');
@@ -110,6 +141,8 @@ var POT = 'P9_36';
 
 try {
     $('#slider1').slider();
+    $('#slider2').slider();
+    $('#slider3').slider();
     $('#led1').css('width', '50px');
     $('#led1').css('height', '50px');
     $('#led1').css('background-color', 'rgb(0,0,0)');
@@ -126,11 +159,14 @@ b.digitalWrite('USR0', b.LOW);
 b.digitalWrite('USR1', b.LOW);
 b.digitalWrite('USR2', b.LOW);
 b.digitalWrite('USR3', b.LOW);
-b.digitalWrite(LED_RED, b.LOW);
-b.digitalWrite(LED_GREEN, b.LOW);
-b.digitalWrite(LED_BLUE, b.LOW);
+b.analogWrite(LED_RED, 0);
+b.analogWrite(LED_GREEN, 0);
+b.analogWrite(LED_BLUE, 0);
 //b.attachInterrupt(BUTTON, true, b.CHANGE, handleButton);
 blink();
+$("#slider3").bind("slidechange", function(event, ui) {
+    updateRed({value:(1-ui.value/100.0)});
+});
 
 function blink(x) {
     s = (s == b.LOW) ? b.HIGH : b.LOW;
@@ -138,30 +174,54 @@ function blink(x) {
 }
 
 function doAnalogRead() {
-    b.analogRead(POT, updateSlider);
-    b.digitalRead(BUTTON, handleButton);
+    b.digitalRead(BUTTON, updateBlue);
+    b.analogRead(POT, updateGreen);
     setTimeout(blink, 100);
 }
 
-function updateSlider(x) {
-    try {
-        if(x.value) $("#slider1").slider("option", "value", x.value*100);
-    } catch(ex) {}
-}
-
-function handleButton(x) {
+function updateBlue(x) {
     if(typeof x.value == 'undefined') return;
-    updateLED(0, 0, parseInt(x.value, 2) ? 0 : 1);
+    updateLED({blue:x.value});
 }
 
-function updateLED(red, green, blue) {
-    b.digitalWrite(LED_BLUE, blue ? 0 : 1);
-    blue = parseInt(blue*255, 10);
+function updateGreen(x) {
+    if(typeof x.value == 'undefined') return;
+    updateLED({green:x.value});
+}
+
+function updateRed(x) {
+    if(typeof x.value == 'undefined') return;
+    updateLED({red:x.value});
+}
+
+function updateLED(led) {
+    if(typeof led.red == 'number') {
+        b.analogWrite(LED_RED, 1-led.red);
+        this.red = 1-led.red;
+    }
+    if(typeof led.green == 'number') {
+        b.analogWrite(LED_GREEN, 1-led.green);
+        this.green = 1-led.green;
+    }
+    if(typeof led.blue == 'number') {
+        b.analogWrite(LED_BLUE, 1-led.blue);
+        this.blue = 1-led.blue;
+    }
     try {
-        $('#led1').css('background-color', 'rgb(' + red + ',' + green + ',' + blue + ')');
+        if(typeof this.red == 'undefined') this.red = 0;
+        if(typeof this.green == 'undefined') this.green = 0;
+        if(typeof this.blue == 'undefined') this.blue = 0;
+        var rgb = 'rgb(' + Math.round(this.red*255) + ',' + 
+            Math.round(this.green*255) + ',' +
+            Math.round(this.blue*255) + ')';
+        $('#led1').css('background-color', rgb);
+        $("#slider1").slider("option", "value", this.blue*100);
+        $("#slider2").slider("option", "value", this.green*100);
+        //$("#slider3").slider("option", "value", this.red*100);
     } catch(ex) {}
 }
 </pre>
+<textarea readonly id='console-output'></textarea>
 <script>
 window.onbeforeunload = restore;
 function restore() {
