@@ -259,9 +259,18 @@ function toggle() {
       <li><em>Port</em> - 22</li>
       <li><em>User</em> - root</li>
      </ul>
+     <p><small><em>Note</em>: If you get errors, you might need to set the date on your BeagleBone.
+      <button class="dynlink" onclick="setDate();">Set Date</button>
+     </small></p>
      <a target="_blank" class="gateone-url">
       <img src="/static/images/gateone.png" width="100%" />
      </a>
+     <script>
+         function setDate() {
+            var b = require('bonescript');
+            b.setDate(Date().toString());
+         }
+     </script>
 
      <h3>List of common Linux commands</h3>
      <table><tr>
@@ -303,6 +312,9 @@ function toggle() {
       </ul></td>
      </tr></table>
       
+     <h3>Other programming environments</h3>
+     <p>The board also ships with gcc, python and more that can be invoked directly from the command-line.</p>
+
      <h1 id="hardware">Hardware documentation</h1>
      <p><a target="_blank" href="http://circuitco.com/support/index.php?title=BeagleBoneBlack">
 CircuitCo.com's BeagleBoneBlack page</a> documents all of the known hardware issues, as well as the latest available software, 
