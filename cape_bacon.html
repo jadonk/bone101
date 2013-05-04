@@ -25,7 +25,7 @@ pre#code {
  margin-right: 0px;
  align: left;
 }
-textarea#console-output {
+div#console-output {
  margin-top: 0px;
  margin-left: 30px;
  width: 496px;
@@ -221,7 +221,7 @@ function updateLED(led) {
     } catch(ex) {}
 }
 </pre>
-<textarea readonly id='console-output'></textarea>
+<div readonly id='console-output'></div>
 <script>
 window.onbeforeunload = restore;
 function restore() {
