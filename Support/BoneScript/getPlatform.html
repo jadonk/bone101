@@ -12,10 +12,9 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/static/beagle.css" />
   <script src="/static/bonescript-demo.js"></script>
   <style>
-pre#code {
+#code {
  position: relative;
  width: 500px;
- height: 150px;
  padding-left: 0;
  border-radius: 4px;
  border-bottom-right-radius: 0px;
@@ -25,11 +24,10 @@ pre#code {
  margin-right: 0px;
  align: left;
 }
-div#console-output {
+#console-output {
  margin-top: 0px;
  margin-left: 30px;
  width: 496px;
- height: 200px;
  border: 1px solid #cccccc;
  resize: vertical;
 }
@@ -89,7 +87,7 @@ div#console-output {
  <button class="dynlink" onclick="demoRun('code')">run</button>
  <button class="dynlink" onclick="demoRestore('code')">restore</button>
 </h2>
-<pre id="code" class="use-editor">
+<pre id="code" class="use-editor" style="height: 150px;">
 var b = require('bonescript');
 b.getPlatform(printData);
 function printData(x) {
@@ -98,19 +96,23 @@ function printData(x) {
  console.log('serialNumber = ' + x.serialNumber);
  console.log('bonescript = ' + x.bonescript);
 }</pre>
-<div readonly id='console-output'></div>
+<div readonly id='console-output' style='height: 200px;'></div>
 <h2>Build and execute instructions</h2>
 <p>Simply plug the board in or point to it on the network.</p>
 <h2>See also</h2>
+<!--
 <h3>Topics</h3>
+-->
 <h3>Related functions</h3>
 <ul>
- <li><a href="require">require</a></li>
+ <li><a href="/Support/BoneScript/#require">require</a></li>
 </ul>
+<!--
 <h3>Examples</h3>
 <ul>
  <li><a href="demo_attachedCapes">Show attached capes</a></li>
 </ul>
+-->
 
      <!--- START FOOTER -->
      </div>
