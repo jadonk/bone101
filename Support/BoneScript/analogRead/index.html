@@ -12,10 +12,9 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/static/beagle.css" />
   <script src="/static/bonescript-demo.js"></script>
   <style>
-pre#code {
+#code {
  position: relative;
  width: 500px;
- height: 120px;
  padding-left: 0;
  border-radius: 4px;
  border-bottom-right-radius: 0px;
@@ -25,11 +24,10 @@ pre#code {
  margin-right: 0px;
  align: left;
 }
-div#console-output {
+#console-output {
  margin-top: 0px;
  margin-left: 30px;
  width: 496px;
- height: 80px;
  border: 1px solid #cccccc;
  resize: vertical;
 }
@@ -73,7 +71,7 @@ div#console-output {
 <p>Read the voltage at an analog input pin.</p>
 <h2>Arguments</h2>
 <ul>
- <li><em>pin</em>: the <a href="../#pin">pin identifier</a></li>
+ <li><em>pin</em>: the <a href="/Support/BoneScript/#pin">pin identifier</a></li>
  <li><em>callback</em>: called upon completion</li>
 </ul>
 <h2>Return value</h2>
@@ -89,14 +87,14 @@ div#console-output {
  <button class="dynlink" onclick="demoRun('code')">run</button>
  <button class="dynlink" onclick="demoRestore('code')">restore</button>
 </h2>
-<pre id="code" class="use-editor">
+<pre id="code" class="use-editor" style="height: 120px;">
 var b = require('bonescript');
 b.analogRead('P9_36', printStatus);
 function printStatus(x) {
     console.log('x.value = ' + x.value);
     console.log('x.err = ' + x.err);
 }</pre>
-<div readonly id='console-output'></div>
+<div readonly id='console-output' style='height: 80px;'></div>
 <h2>Build and execute instructions</h2>
 <ul>
  <li>Apply voltage between 0V and 1.8V to P9_36 and run the example code.</li>
@@ -106,16 +104,17 @@ function printStatus(x) {
 <h2>See also</h2>
 <h3>Topics</h3>
 <ul>
- <li><a href="../#headers">BeagleBone expansion headers</a></li>
- <li><a href="../#analogio">Analog I/O</a></li>
+ <li><a href="/Support/bone101/#headers">BeagleBone expansion headers</a></li>
+ <li><a href="/Support/BoneScript/#analogio">Analog I/O</a></li>
 </ul>
 <h3>Related functions</h3>
 <ul>
- <li><a href="../#require">require</a></li>
- <li><a href="analogWrite">analogWrite</a></li>
+ <li><a href="/Support/BoneScript/#require">require</a></li>
+ <li><a href="/Support/BoneScript/analogWrite/">analogWrite</a></li>
 </ul>
 <h3>Examples</h3>
 <ul>
+ <li><a href="/Support/BoneScript/cape_bacon/">Bacon Cape</a></li>
 </ul>
 
      <!--- START FOOTER -->
