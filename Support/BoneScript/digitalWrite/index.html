@@ -12,10 +12,9 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/static/beagle.css" />
   <script src="/static/bonescript-demo.js"></script>
   <style>
-pre#code {
+#code {
  position: relative;
  width: 500px;
- height: 60px;
  padding-left: 0;
  border-radius: 4px;
  border-bottom-right-radius: 0px;
@@ -25,11 +24,10 @@ pre#code {
  margin-right: 0px;
  align: left;
 }
-div#console-output {
+#console-output {
  margin-top: 0px;
  margin-left: 30px;
  width: 496px;
- height: 80px;
  border: 1px solid #cccccc;
  resize: vertical;
 }
@@ -70,19 +68,19 @@ div#console-output {
 
 <p>You might be able to see a newer version of this on <a href="http://beagleboard.org/support/bonescript/digitalWrite">beagleboard.org/support/bonescript/digitalWrite</a></p>
 <h1>digitalWrite(pin, value, [callback])</h1>
-<p>Write a <a href="../#HIGH">HIGH</a> or <a href="../#LOW">LOW</a> to a digital I/O pin.</p>
+<p>Write a <a href="/Support/BoneScript/#HIGH">HIGH</a> or <a href="/Support/BoneScript/#LOW">LOW</a> to a digital I/O pin.</p>
 <p>NOTE: The 4 USRx LEDs are all able to operate as digital output pins, giving you an always-available
  output to test your software.</p>
 <h2>Arguments</h2>
 <ul>
- <li><em>pin</em>: the <a href="../#pin">BeagleBone pin</a> identifier</li>
+ <li><em>pin</em>: the <a href="/Support/BoneScript/#pin">BeagleBone pin</a> identifier</li>
  <li><em>value</em>: the logic level to set the pin</li>
  <li><em>callback</em>: called upon completion</li>
 </ul>
 <h2>Return value</h2>
 <ul>
- <li><a href="../#true">true</a> if successful</li>
- <li><a href="../#false">false</a> on failure</li>
+ <li><a href="/Support/BoneScript/#true">true</a> if successful</li>
+ <li><a href="/Support/BoneScript/#false">false</a> on failure</li>
 </ul>
 <h2>callback(x)</h2>
 <ul>
@@ -92,11 +90,11 @@ div#console-output {
  <button class="dynlink" onclick="demoRun('code')">run</button>
  <button class="dynlink" onclick="demoRestore('code')">restore</button>
 </h2>
-<pre id="code" class="use-editor">
+<pre id="code" class="use-editor" style="height: 60px;">
 var b = require('bonescript');
 b.pinMode('USR0', b.OUTPUT);
 b.digitalWrite('USR0', b.HIGH);</pre>
-<div readonly id='console-output'></div>
+<div readonly id='console-output' style='height: 80px;'></div>
 <h2>Build and execute instructions</h2>
 <img align="right" width="50%" src="/static/images/bone-usr3-led.png" />
 <ul>
@@ -107,18 +105,18 @@ b.digitalWrite('USR0', b.HIGH);</pre>
 <h2>See also</h2>
 <h3>Topics</h3>
 <ul>
- <li><a href="../#headers">BeagleBone expansion headers</a></li>
- <li><a href="../#digitalio">Digital I/O</a></li>
+ <li><a href="/Support/bone101/#headers">BeagleBone expansion headers</a></li>
+ <li><a href="/Support/BoneScript/#digitalio">Digital I/O</a></li>
 </ul>
 <h3>Related functions</h3>
 <ul>
- <li><a href="../#require">require</a></li>
- <li><a href="pinMode">pinMode</a></li>
+ <li><a href="/Support/BoneScript/#require">require</a></li>
+ <li><a href="/Support/BoneScript/pinMode/">pinMode</a></li>
 </ul>
 <h3>Examples</h3>
 <ul>
- <li><a href="demo_blinkled">Blink an on-board LED</a></li>
- <li><a href="demo_blinkled_external">Blink an external LED</a></li>
+ <li><a href="/Support/BoneScript/demo_blinkled/">Blink an on-board LED</a></li>
+ <li><a href="/Support/BoneScript/demo_blinkled_external/">Blink an external LED</a></li>
 </ul>
 
      <!--- START FOOTER -->
