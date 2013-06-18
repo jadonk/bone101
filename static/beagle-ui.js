@@ -30,7 +30,7 @@ $(function() {
 
 $(document).ready(function(){
     if($('#side-menu').length) {
-        $.get('/static/side-menu.html', function(data){
+        $.get('/Support/BoneScript/menu/', function(data){
             $('#side-menu').replaceWith(data);
         });
     }
