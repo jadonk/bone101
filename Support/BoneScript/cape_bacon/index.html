@@ -12,10 +12,9 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/static/beagle.css" />
   <script src="/static/bonescript-demo.js"></script>
   <style>
-pre#code {
+#code {
  position: relative;
  width: 500px;
- height: 1500px;
  padding-left: 0;
  border-radius: 4px;
  border-bottom-right-radius: 0px;
@@ -25,11 +24,10 @@ pre#code {
  margin-right: 0px;
  align: left;
 }
-div#console-output {
+#console-output {
  margin-top: 0px;
  margin-left: 30px;
  width: 496px;
- height: 80px;
  border: 1px solid #cccccc;
  resize: vertical;
 }
@@ -94,8 +92,8 @@ div#console-output {
  </li>
  <li><em>D1</em>: an RGB LED provides an indicator for digital output
   <ul>
-   <li><em>P9_14</em>: digital I/O connection for <em><font color="blue">BLUE</font></em></li>
-   <li><em>P9_16</em>: digital I/O connection for <em><font color="green">GREEN</font></em></li>
+   <li><em>P9_16</em>: digital I/O connection for <em><font color="blue">BLUE</font></em></li>
+   <li><em>P9_14</em>: digital I/O connection for <em><font color="green">GREEN</font></em></li>
    <li><em>P9_42</em>: digital I/O connection for <em><font color="red">RED</font></em></li>
    <li>Configured as active-low (lit when low) using a common anode</li>
   </ul>
@@ -129,13 +127,13 @@ div#console-output {
  <button class="dynlink" onclick="demoRun('code')">run</button>
  <button class="dynlink" onclick="demoRestore('code')">restore</button>
 </h2>
-<pre id="code" class="use-editor">
+<pre id="code" class="use-editor" style="height: 1500px;">
 console.log('Starting Bacon Cape demo');
 var b = require('bonescript');
 var s = b.LOW;
 var LED_RED = 'P9_42';
-var LED_GREEN = 'P9_16';
-var LED_BLUE = 'P9_14';
+var LED_GREEN = 'P9_14';
+var LED_BLUE = 'P9_16';
 var BUTTON = 'P8_19';
 var POT = 'P9_36';
 
@@ -165,7 +163,7 @@ b.analogWrite(LED_BLUE, 0);
 //b.attachInterrupt(BUTTON, true, b.CHANGE, handleButton);
 blink();
 $("#slider3").bind("slidechange", function(event, ui) {
-    updateRed({value:(1-ui.value/100.0)});
+    updateRed({value:(ui.value/100.0)});
 });
 
 function blink(x) {
@@ -217,11 +215,10 @@ function updateLED(led) {
         $('#led1').css('background-color', rgb);
         $("#slider1").slider("option", "value", this.blue*100);
         $("#slider2").slider("option", "value", this.green*100);
-        //$("#slider3").slider("option", "value", this.red*100);
     } catch(ex) {}
 }
 </pre>
-<div readonly id='console-output'></div>
+<div readonly id='console-output' style='height: 80px;'></div>
 <script>
 window.onbeforeunload = restore;
 function restore() {
@@ -241,17 +238,17 @@ function restore() {
 <h2>See also</h2>
 <h3>Topics</h3>
 <ul>
- <li><a href="../#headers">BeagleBone expansion headers</a></li>
- <li><a href="../#analogio">Analog I/O</a></li>
+ <li><a href="/Support/bone101/#headers">BeagleBone expansion headers</a></li>
+ <li><a href="/Support/BoneScript/#analogio">Analog I/O</a></li>
 </ul>
 <h3>Related functions</h3>
 <ul>
- <li><a href="../#require">require</a></li>
- <li><a href="pinMode">pinMode</a></li>
- <li><a href="analogWrite">analogWrite</a></li>
- <li><a href="analogRead">analogRead</a></li>
- <li><a href="digitalWrite">digitalWrite</a></li>
- <li><a href="digitalRead">digitalRead</a></li>
+ <li><a href="/Support/BoneScript/#require">require</a></li>
+ <li><a href="/Support/BoneScript/pinMode/">pinMode</a></li>
+ <li><a href="/Support/BoneScript/analogWrite/">analogWrite</a></li>
+ <li><a href="/Support/BoneScript/analogRead/">analogRead</a></li>
+ <li><a href="/Support/BoneScript/digitalWrite/">digitalWrite</a></li>
+ <li><a href="/Support/BoneScript/digitalRead/">digitalRead</a></li>
 </ul>
 
      <!--- START FOOTER -->

@@ -12,10 +12,9 @@
   <script src="/static/bonescript-demo.js"></script>
   <script src="/static/processing.js"></script> 
   <style>
-pre#code {
+#code {
  position: relative;
  width: 500px;
- height: 800px;
  padding-left: 0;
  border-radius: 4px;
  border-bottom-right-radius: 0px;
@@ -25,11 +24,10 @@ pre#code {
  margin-right: 0px;
  align: left;
 }
-div#console-output {
+#console-output {
  margin-top: 0px;
  margin-left: 30px;
  width: 496px;
- height: 80px;
  border: 1px solid #cccccc;
  resize: vertical;
 }
@@ -80,7 +78,7 @@ table#canvas-output {
  <button class="dynlink" onclick="demoRun('code')">run</button>
  <button class="dynlink" onclick="demoRestore('code')">restore</button>
 </h2>
-<pre id="code" class="use-editor">
+<pre id="code" class="use-editor" style="height: 800px;">
 var b = require('bonescript');
 var i2c = '/sys/class/i2c-adapter/i2c-1/';
 b.writeTextFile(i2c + 'new_device', 'bmp085 0x77');
@@ -145,7 +143,7 @@ function sketchProc(p) {
         }
     };
 }</pre>
-<div readonly id='console-output'></div>
+<div readonly id='console-output' style='height: 80px;'></div>
 <table id='canvas-output'><tr><td width="500px">
  <canvas id="canvas1"></canvas>
 </td></tr></table>
@@ -163,18 +161,20 @@ function sketchProc(p) {
 <h2>See also</h2>
 <h3>Topics</h3>
 <ul>
- <li><a href="../#headers">BeagleBone expansion headers</a></li>
+ <li><a href="/Support/bone101/#headers">BeagleBone expansion headers</a></li>
 </ul>
 <h3>Related functions</h3>
 <ul>
- <li><a href="../#require">require</a></li>
- <li><a href="readTextFile">readTextFile</a></li>
- <li><a href="writeTextFile">writeTextFile</a></li>
+ <li><a href="/Support/BoneScript/#require">require</a></li>
+ <li><a href="/Support/BoneScript/readTextFile/">readTextFile</a></li>
+ <li><a href="/Support/BoneScript/writeTextFile/">writeTextFile</a></li>
 </ul>
+<!--
 <h3>Examples</h3>
 <ul>
  <li><a href="demo_bmp085_graphing">BMP085 pressure/temperature sensor graphing</a></li>
 </ul>
+-->
 
      <!--- START FOOTER -->
      </div>
