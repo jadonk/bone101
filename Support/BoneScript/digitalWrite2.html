@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>BeagleBoard.org - <% response.title %></title>
+  <meta name="keywords" content="Beagle Board, BeagleBoard, beagleboard.org, BeagleBone, BeagleBoard-xM, bealgeboard, open hardware, open source, Linux, computer" />
+  <link href="http://feeds.feedburner.com/BeagleBoard" rel="alternate" title="Beagle Board news feed" type="application/atom+xml">
+  <link rel="icon" href="/static/beagle.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/static/beagle.ico" type="image/x-icon">
+  <style type="text/css" media="screen">@import "common.css";</style>
+  <style type="text/css" media="screen">@import "login.css";</style>
+  <style type="text/css" media="screen">@import "beagle.css";</style>
+  
+  <script type="text/javascript" src="jquery-1.8.3.js"></script>
+  <script type="text/javascript" src="jquery.ui.accordion.js"></script>
+  <script type="text/javascript" src="jquery.ui.core.js"></script>
+  <script type="text/javascript" src="jquery.ui.widget.js"></script>
+  <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+
+  </script>
+<script language="javascript" src="jquery.js"></script>  
+<script language="javascript" src="jquery.dimensions.js"></script>
+<script language="javascript">  
+var name = "#floatMenu";  
+var menuYloc = null;  
+  
+$(document).ready(function(){  
+    menuYloc = parseInt($(name).css("top").substring(0,$(name).css("top").indexOf("px")))  
+    $(window).scroll(function () {   
+        var offset = menuYloc+$(document).scrollTop()+"px";  
+        $(name).animate({top:offset},{duration:500,queue:false});  
+    });  
+});  
+</script> 
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-3429714-1']);
+    _gaq.push(['_setDomainName', 'beagleboard.org']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+  <script>
+	$(function() {
+		$( "#accordion" ).accordion({
+			collapsible: true
+		});
+	});
+	</script>
+ </head>
+ <body>
+ <div class="top">
+  <div class="top-header"><a href="/"><img src="images/beagle_logo_hdr.gif" alt="Beagle Board - beagleboard.org" border="0" width="326" height="60" /></a>
+  
+  <div class="social">
+     <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src=  "images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
+    <span style="padding-left:8px"><a href="http://twitter.com/beagleboardorg" name="header_twitter_icon"><img src="images/icon_twitter.png" width="27" height="28" border="0" alt="twitter"/></a></span>
+    <span style="padding-left:8px"><a href="http://www.linkedin.com/groups/BeagleBoardorg-1474607?gid=1474607&mostPopular=&trk=tyah" name="header_linkedin_icon"><img src="images/icon_linkedin.png" width="27" height="28" border="0" alt="linkedin" /></a></span>
+    <span style="padding-left:8px"><a href="http://plus.google.com/+beagleboard" name="header_google+_icon"><img src="images/icon_google+.png" width="27" height="28" border="0" alt="google+"/></a></span>
+  </div> 
+</div>
+   </div>
+  <a name="top" id="top"></a>
+  <!-- DIV that centers page - START -->
+  <div id="wrapper">
+  <!--start menu bar-->
+<div id='cssmenu'>
+<ul>
+   <li class='has-sub'><a href='/Products'><span>Products</span></a></li>
+   <li class='has-sub'><a href='/Getting Started'><span>Getting Started</span></a></li>
+   <li class='has-sub'><a href='/support'><span>Support &#8659;</span></a>   
+   <ul>
+         <li class='has-sub'><a href='/Support/Hardware Support'><span>Hardware Support</span></a></li>
+         <li class='has-sub'><a href='/Support/Software Support'><span>Software Support</span></a></li>
+         <li class='has-sub'><a href='/Support/BoneScript'><span>BoneScript</span></a></li>
+         <li class='has-sub'><a href='/Support/FAQ'><span>F.A.Q.</span></a></li>
+         <li class='has-sub'><a href='/Videos'><span>Videos</span></a></li>
+         <li class='has-sub'><a href='/Support/RMA'><span>RMA</span></a></li>
+      </ul>   
+   </li>
+   
+   <li class='has-sub'><a href='/Community'><span>Community &#8659;</span></a>
+   <ul>
+         <li class='has-sub'><a href='/Community/Live Chat'><span>Live Chat</span></a></li>
+         <li class='has-sub'><a href='/Community/Mailing Lists'><span>Mailing Lists</span></a></li>
+         <li class='has-sub'><a href='/Videos'><span>Videos</span></a></li>
+         <li class='has-sub'><a href='/Community/Third Party'><span>Third Party</span></a></li>
+      </ul>
+   </li>
+   <li class='has-sub'><a href='/project'><span>Projects</span></a></li>
+</ul>
+<div id="search">
+<li class="google">
+       <form action="http://www.google.com/cse" id="cse-search-box">
+        <input type="hidden" name="cx" value="001071468846613058269:xd-gxvzmbq4" />
+        <input type="hidden" name="ie" value="UTF-8" />
+        <input type="text" name="q" style="width:180px;" />
+        <input class="btn1" type="submit" name="sa" value="Search"/>
+       </form>
+       <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+      </li></div></div>
+<!--end menu bar-->
+
+   <!-- Content Area - START -->
+    <div id="content">
+     <div id="contentbuffer">
+     <p class="breadcrumb"><% Root.breadcrumb %></p>
+<h2>BeagleBone Functions</h2>
+  <!-- start left menu -->
+<div class="t3_sidebar">
+
+  <ul class="left-menu">
+<strong>Basic Functions</strong>
+    <li><a href="/Support/BoneScript/digitalWrite">digitalWrite</a></li>
+    <li>attachInterrupt</li>
+    <li>Simple demo apps</li>
+    <li>Blink LED #1</li>
+    <li>Blink LED #2</li>
+    <li>analogWrite with Slider</li>
+    <li>analogRead with Slider</li>
+    <li>Oscilliscope demo</li>
+    <li>Weather Station demo</li>
+    <li>Early prototypes</li>
+    <li>Blockly</li>
+    </ul></div>
+
+  <!-- start content -->
+    <div class="t3_content_1"><div class="browser-connect"><img alt="Not Connected" src="images/usb.png" border="0">
+<div id="browser-content"><strong>Did you know (that this page can connect with your BeagleBoard?</strong><br>Type in your IP address here:</div></div>
+<div class="browser-connected"><img alt="Connected" src="images/green_check.png" border="0">
+<div id="browser-content"><strong>Your board is connected!</strong><br>Detected:  BeagleBoard Version 1.0Download ISO</div></div>
+    <div id="content_child"><h1>DigitalWrite</h1><p></p>
+    <p>/// The function can run on both the Beaglebone and Beaglebone Black. (JASON PLEASE CONFIRM)<br>
+    // This function sets the binary logic for the GPIO pins on the Beaglebone. The pin values can be //dynamically set to DGND 
+    or 3.3V with the usage of this function.</p></div>
+<div id="content_child">
+    <p></p><h2>Syntax</h2><br>
+    <p><strong>digitalWrite(ledPin_#, HIGH_or_LOW);</strong></p>
+    <p>edPin_#: A user defined GPIO pin on the beaglebone on the P8 or P9 header. Note, that the P9_15 GPIO line is a pin used in debugging and should be avoided for GPIO use when using bonescript 
+</p><p>HIGH_or_LOW: The user should user either the macro ‘HIGH’ or ‘LOW’, which correlates to ‘1’ or ‘0’. Setting a GPIO pin as ‘HIGH’ will set the output voltage to be 3.3V. Setting the pin ‘LOW’ will set the voltage to DGND or ~0V.
+</p></div>
+<div id="content_child">
+    <h2>Code Example</h2>
+    <p>//This example is to toggle both an on board as well as external LED every ~1 second. The onboard LED //is located next to the Ethernet port and the reset button. The hardware setup required is a standard LED //and a ~100 Ohm resistor. The anode of the LED should be connected to pin 23, on the P9 header. The cathode should be connected in series with resistor, which is connected to DGND.
+</p><img alt="Connected" src="images/code_example1.gif" border="0">
+    <h2>Circuit Diagram</h2>
+    <p>/**NEED FRITZING PART UPDATED**
+    <img alt="Connected" src="images/circuit1.gif" border="0">
+</p></div>
+<div id="content_child">
+<h2>Schematic Diagram</h2>
+<p>/**NEED FRITZING PART UPDATED**
+<img alt="Connected" src="images/schematic.gif" border="0">
+</p></div></div>
+
+ 
+
+
+    </div>
+   </div>
+
+   <!-- Content Area - END -->
+
+  <!-- Footer - START -->
+  
+  <!--start footer-->       
+<div class="footer">
+<div class="social">
+     <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src=  "images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
+    <span style="padding-left:8px"><a href="http://twitter.com/beagleboardorg" name="header_twitter_icon"><img src="images/icon_twitter.png" width="27" height="28" border="0" alt="twitter"/></a></span>
+    <span style="padding-left:8px"><a href="http://www.linkedin.com/groups/BeagleBoardorg-1474607?gid=1474607&mostPopular=&trk=tyah" name="header_linkedin_icon"><img src="images/icon_linkedin.png" width="27" height="28" border="0" alt="linkedin" /></a></span>
+    <span style="padding-left:8px"><a href="http://plus.google.com/+beagleboard" name="header_google+_icon"><img src="images/icon_google+.png" width="27" height="28" border="0" alt="google+"/></a></span>
+  </div> 
+<div id="login">
+<% User.prompt  %><br /><!--registrant=<% Page.registrant %>-->
+</div>
+
+<div id="footer-col1">
+<ul>
+<li><a href="/about">About Us</a></li>
+<li><a href="/Products">Products</a></li>
+<li><a href="/support">Support</a></li>
+</ul>
+</div>
+<div id="footer-col2">
+<ul>
+<li><a href="/Community">Community</a></li>
+<li><a href="/project">Projects</a></li>
+<li><a href="/Videos">Videos</a></li>
+</ul>
+</div>
+<div id="footer-col3">
+<ul>
+
+<li><a href="/privacy">Privacy policy</a></li>
+<li><a href="/terms">Terms of Use</a></li>
+</ul>
+</div>
+<div id="cc"><a href="http://creativecommons.org/about/license/" target="_blank"><img src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" alt="Creative Commons - Conditions - Attribution and Share Alike" border="0" width="88" height="31" /></a><span style="padding-left:8px">Except where otherwise noted, content on this site is licensed under a Creative Commons Attribution-Share Alike 3.0 license </span></div>
+
+</div>
+  <!-- Footer - END -->
+  </div>
+  <!-- DIV that centers page - END -->
+  
+
+  <script type="text/javascript">
+    $('#prompt_form')(''
+     + '  <form method="post" action="">'
+     + '   <input type="text" id="openid" name="openid_url"></input>'
+     + '   <button type="submit">Login</button>'
+     + '  </form>'
+     + $('#prompt_form')()
+    );
+  </script>
+  <script type="text/javascript">
+   gapi.plusone.render("nav-gplusone", {size:"small",annotation:"none"});
+  </script>
+  <script type="text/javascript">
+   $(document).ready(
+    function() {
+     var indexID = 0;
+     $('.wants-g-plusone').each(function() {
+      $(this).attr('id', 'gp' + indexID);
+      var gp = document.createElement('script');
+      gp.type = 'text/javascript';
+      gp.async = true;
+      var args = {"size":"small"};
+      var href = $(this).attr('data-href');
+      if(href) args.href = href;
+      gp.text = 'setTimeout(function() {' +
+       'gapi.plusone.render(gp' + 
+       indexID +
+       ', ' +
+       JSON.stringify(args) +
+       ');}, ' +
+       (indexID * 800) +
+       ');';
+      $('#footer').append(gp);
+      indexID++;
+     });
+    }
+   );
+  </script>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=5397214219";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+  <iframe src='http://pixel.fetchback.com/serve/fb/pdc?cat=&name=landing&sid=1866' scrolling='no' width='1' height='1' marginheight='0' marginwidth='0' frameborder='0'></iframe>
+ </body>
+</html>
+

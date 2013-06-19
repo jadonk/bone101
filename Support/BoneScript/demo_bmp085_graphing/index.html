@@ -1,8 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>BeagleBoard.org - bone101</title>
+  <title>BeagleBoard.org - BMP085 pressure/temperature sensor graphing demo</title>
   <meta name="keywords" content="Beagle Board, BeagleBoard, beagleboard.org, BeagleBone, BeagleBoard-xM, bealgeboard, open hardware, open source, Linux, computer" />
   <link href="http://feeds.feedburner.com/BeagleBoard" rel="alternate" title="BeagleBoard.org news feed" type="application/atom+xml" />
   <link rel="icon" href="/static/beagle.ico" type="image/x-icon">
@@ -10,13 +9,36 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/static/common.css" />
   <link rel="stylesheet" type="text/css" media="screen" href="/static/login.css" />
   <link rel="stylesheet" type="text/css" media="screen" href="/static/beagle.css" />
-  <script src="/static/jquery.js"></script>  
-  <script src="/static/jquery.dimensions.js"></script>
-  <script src="/static/jquery.ui.core.js"></script>
-  <script src="/static/jquery.ui.widget.js"></script>
-  <script src="/static/jquery.ui.accordion.js"></script>
-  <script src="/static/bonescript.js"></script>
-  <script src="/static/beagle-ui.js"></script>
+  <script src="/static/bonescript-demo.js"></script>
+  <script src="/static/processing.js"></script> 
+  <style>
+#code {
+ position: relative;
+ width: 500px;
+ padding-left: 0;
+ border-radius: 4px;
+ border-bottom-right-radius: 0px;
+ border-bottom-left-radius: 0px;
+ margin-bottom: 0px;
+ margin-left: 30px;
+ margin-right: 0px;
+ align: left;
+}
+#console-output {
+ margin-top: 0px;
+ margin-left: 30px;
+ width: 496px;
+ border: 1px solid #cccccc;
+ resize: vertical;
+}
+table#canvas-output {
+ margin-top: 0px;
+ margin-left: 30px;
+ width: 500px;
+ height: 300px;
+ padding: 0px;
+}
+  </style>
  </head>
  <body>
  <div class="top">
@@ -38,7 +60,7 @@
    <div id="contentbuffer">
 
     <!-- NEED TITLE HERE -->
-    <h2>BeagleBone 101</h2>
+    <h2>Demos</h2>
 
     <div id='side-menu' class="t3_sidebar">
      <ul class="left-menu">
@@ -51,7 +73,108 @@
      <div id="content_child">
      <!--- START CONTENT -->
 
+<h1>BMP085 I2C pressure/temperature sensor graphing demo</h1>
+<h2>Demo
+ <button class="dynlink" onclick="demoRun('code')">run</button>
+ <button class="dynlink" onclick="demoRestore('code')">restore</button>
+</h2>
+<pre id="code" class="use-editor" style="height: 800px;">
+var b = require('bonescript');
+var i2c = '/sys/class/i2c-adapter/i2c-1/';
+b.writeTextFile(i2c + 'new_device', 'bmp085 0x77');
+var graphDataSize = 50;
+window.graphData = new Array(graphDataSize);
+var canvas = document.getElementById("canvas1");
+var processing = new Processing(canvas, sketchProc);
+setInterval(readTemp, 100);
 
+function readTemp() {
+    b.readTextFile(i2c + '1-0077/temp0_input', updateGraph);    
+}
+
+function updateGraph(x) {
+    for(var i=0; i&lt;graphDataSize-1; i++) {
+        window.graphData[i] = window.graphData[i+1];
+    }
+    window.graphData[i] = (parseInt(x.data, 10)/200.0)-0.7;
+    processing.redraw();
+}
+
+function sketchProc(p) {
+    p.size(500, 300);
+
+    // variables referenced elsewhere
+    window.height = p.height;
+
+    // variables that might get updated
+    window.rangeLow = 0;
+    window.rangeHigh = 1;
+    window.scaleY = window.height /
+        (window.rangeHigh - window.rangeLow);
+
+    // local variables
+    var stepX = p.width / (graphDataSize - 1);
+    var centerY = window.height / 2;
+
+    p.noLoop();
+    p.draw = function() {
+        // erase background
+        p.background(224);
+
+        // draw axis
+        p.stroke(25);
+        p.strokeWeight(1);
+        p.line(0, centerY, p.width, centerY);
+
+        // draw graph
+        p.stroke(0);
+        p.strokeWeight(3);
+        //p.line(0, centerY+1, p.width, centerY+1);
+        var lastX = 0, nextX = 0, lastY, nextY;
+        for(var point in window.graphData) {
+            nextY = ((window.rangeHigh -
+                window.graphData[point]) * scaleY);
+            if(point !== 0) {
+                p.line(lastX, lastY, nextX, nextY);
+                lastX += stepX;
+            }
+            nextX += stepX;
+            lastY = nextY;
+        }
+    };
+}</pre>
+<div readonly id='console-output' style='height: 80px;'></div>
+<table id='canvas-output'><tr><td width="500px">
+ <canvas id="canvas1"></canvas>
+</td></tr></table>
+
+<h2>Build and execute instructions</h2>
+<img align="right" height="500px" src="/static/images/beaglebone_with_bmp085_bb.png" />
+<ul>
+ <li>Disconnect your board from power (including USB)</li>
+ <li>Connect BMP085 GND to P9_1</li>
+ <li>Connect BMP085 VCC to P9_3</li>
+ <li>Connect BMP085 SCL to P9_19</li>
+ <li>Connect BMP085 SDA to P9_20</li>
+ <li>Reapply power and refresh this page before running the demo code</li>
+</ul>
+<h2>See also</h2>
+<h3>Topics</h3>
+<ul>
+ <li><a href="/Support/bone101/#headers">BeagleBone expansion headers</a></li>
+</ul>
+<h3>Related functions</h3>
+<ul>
+ <li><a href="/Support/BoneScript/#require">require</a></li>
+ <li><a href="/Support/BoneScript/readTextFile/">readTextFile</a></li>
+ <li><a href="/Support/BoneScript/writeTextFile/">writeTextFile</a></li>
+</ul>
+<!--
+<h3>Examples</h3>
+<ul>
+ <li><a href="demo_bmp085_graphing">BMP085 pressure/temperature sensor graphing</a></li>
+</ul>
+-->
 
      <!--- START FOOTER -->
      </div>

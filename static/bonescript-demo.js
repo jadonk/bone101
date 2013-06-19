@@ -73,6 +73,9 @@ function loadScript(url, callback) {
 
 function initClient() {
     $('.use-editor').each(demoEdit);
+    var co_style = $('#console-output').attr('style');
+    $('#console-output').replaceWith('<textarea id="console-output" />')
+    $('#console-output').attr('style', co_style);
 
     function demoEdit(index) {
         if(typeof editor == 'undefined') editor = {};

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>BeagleBoard.org - bone101</title>
+  <title>BeagleBoard.org - Blink an LED</title>
   <meta name="keywords" content="Beagle Board, BeagleBoard, beagleboard.org, BeagleBone, BeagleBoard-xM, bealgeboard, open hardware, open source, Linux, computer" />
   <link href="http://feeds.feedburner.com/BeagleBoard" rel="alternate" title="BeagleBoard.org news feed" type="application/atom+xml" />
   <link rel="icon" href="/static/beagle.ico" type="image/x-icon">
@@ -10,13 +10,30 @@
   <link rel="stylesheet" type="text/css" media="screen" href="/static/common.css" />
   <link rel="stylesheet" type="text/css" media="screen" href="/static/login.css" />
   <link rel="stylesheet" type="text/css" media="screen" href="/static/beagle.css" />
-  <script src="/static/jquery.js"></script>  
-  <script src="/static/jquery.dimensions.js"></script>
-  <script src="/static/jquery.ui.core.js"></script>
-  <script src="/static/jquery.ui.widget.js"></script>
-  <script src="/static/jquery.ui.accordion.js"></script>
-  <script src="/static/bonescript.js"></script>
-  <script src="/static/beagle-ui.js"></script>
+  <script src="/static/bonescript-demo.js"></script>
+  <style>
+pre#code {
+ position: relative;
+ width: 500px;
+ height: 280px;
+ padding-left: 0;
+ border-radius: 4px;
+ border-bottom-right-radius: 0px;
+ border-bottom-left-radius: 0px;
+ margin-bottom: 0px;
+ margin-left: 30px;
+ margin-right: 0px;
+ align: left;
+}
+div#console-output {
+ margin-top: 0px;
+ margin-left: 30px;
+ width: 496px;
+ height: 80px;
+ border: 1px solid #cccccc;
+ resize: vertical;
+}
+  </style>
  </head>
  <body>
  <div class="top">
@@ -38,7 +55,7 @@
    <div id="contentbuffer">
 
     <!-- NEED TITLE HERE -->
-    <h2>BeagleBone 101</h2>
+    <h2>Bonescript</h2>
 
     <div id='side-menu' class="t3_sidebar">
      <ul class="left-menu">
@@ -51,7 +68,54 @@
      <div id="content_child">
      <!--- START CONTENT -->
 
+<p>You might be able to see a newer version of this on <a href="http://beagleboard.org/support/bonescript/demo_blinkled">beagleboard.org/support/bonescript/demo_blinkled</a></p>
+<h1>Demo: Blink an on-board LED</h1>
+<h2>Code
+ <button class="dynlink" onclick="demoRun('code')">run</button>
+ <button class="dynlink" onclick="demoRestore('code')">restore</button>
+</h2>
+<pre id="code" class="use-editor">
+var b = require('bonescript');
+var led = "USR3";
+var state = 0;
 
+b.pinMode(led, 'out');
+toggleLED = function() {
+ state = state ? 0 : 1;
+ b.digitalWrite(led, state);
+};
+
+timer = setInterval(toggleLED, 100);
+
+stopTimer = function() {
+ clearInterval(timer);
+};
+
+setTimeout(stopTimer, 3000);</pre>
+<div readonly id='console-output'></div>
+<h2>Build and execute instructions</h2>
+<img align="right" width="50%" src="/static/images/bone-usr3-led.png" />
+<ul>
+    <li>Run the example code and observe USR3 blinking.</li>
+    <li>Alter the frequency and re-run the example.</li>
+</ul>
+<h2>See also</h2>
+<h3>Topics</h3>
+<ul>
+ <li><a href="../#headers">BeagleBone expansion headers</a></li>
+ <li><a href="../#digitalio">Digital I/O</a></li>
+ <li><a href="../#timers">Timers</a></li>
+</ul>
+<h3>Related functions</h3>
+<ul>
+ <li><a href="../#require">require</a></li>
+ <li><a href="pinMode">pinMode</a></li>
+ <li><a href="digitalWrite">digitalWrite</a></li>
+</ul>
+<h3>Examples</h3>
+<ul>
+ <li><a href="demo_blinkled_external">Blink an external LED</a></li>
+</ul>
 
      <!--- START FOOTER -->
      </div>

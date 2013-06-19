@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>BeagleBoard.org - bone101</title>
+  <meta name="keywords" content="Beagle Board, BeagleBoard, beagleboard.org, BeagleBone, BeagleBoard-xM, bealgeboard, open hardware, open source, Linux, computer" />
+  <link href="http://feeds.feedburner.com/BeagleBoard" rel="alternate" title="BeagleBoard.org news feed" type="application/atom+xml" />
+  <link rel="icon" href="/static/beagle.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/static/beagle.ico" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" media="screen" href="/static/common.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="/static/login.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="/static/beagle.css" />
+  <script src="/static/bonescript-demo.js"></script>
+ </head>
+ <body>
+ <div class="top">
+  <div class="top-header"><a href="http://beagleboard.org"><img src="/static/images/beagle_logo_hdr.gif" alt="beagleboard.org" border="0" width="326" height="60" /></a>
+  
+  <div class="social">
+    <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src="/static/images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
+    <span style="padding-left:8px"><a href="http://twitter.com/beagleboardorg" name="header_twitter_icon"><img src="/static/images/icon_twitter.png" width="27" height="28" border="0" alt="twitter"/></a></span>
+    <span style="padding-left:8px"><a href="http://www.linkedin.com/groups/BeagleBoardorg-1474607?gid=1474607&mostPopular=&trk=tyah" name="header_linkedin_icon"><img src="/static/images/icon_linkedin.png" width="27" height="28" border="0" alt="linkedin" /></a></span>
+    <span style="padding-left:8px"><a href="http://plus.google.com/+beagleboard" name="header_google+_icon"><img src="/static/images/icon_google+.png" width="27" height="28" border="0" alt="google+"/></a></span>
+   </div> 
+  </div>
+ </div>
+ <a name="top" id="top"></a>
+ <div id="wrapper">
+  <div id='cssmenu'>
+  </div>
+  <div id="content">
+   <div id="contentbuffer">
+
+    <!-- NEED TITLE HERE -->
+    <h2>BeagleBone 101</h2>
+
+    <div id='side-menu' class="t3_sidebar">
+     <ul class="left-menu">
+      <strong>Navigation</strong>
+      <li><a href="/Support/BoneScript/menu/">Menu contents</a></li>
+     </ul>
+    </div>
+    <div class="t3_content_1">
+     <div id='connect-status'></div>
+     <div id="content_child">
+     <!--- START CONTENT -->
+
+  <h1>BoneScript</h1>
+  <h2>Familiar Arduino function calls, exported to the browser</h2>
+  <p>The buttons below wil run code in your that will impact
+   the LEDs on your BeagleBone. The exact code used
+   in the browser is below and will send messages to your board using <a href="http://socket.io/">
+   Socket.IO</a>.</p>
+  <p>Turn LEDs on: <button onclick="demoRun('led1')">run</button></p>
+  <pre id="led1">
+var b=require('bonescript');
+b.pinMode('USR0', 'out');
+b.pinMode('USR1', 'out');
+b.pinMode('USR2', 'out');
+b.pinMode('USR3', 'out');
+b.digitalWrite('USR0', 1);
+b.digitalWrite('USR1', 1);
+b.digitalWrite('USR2', 1);
+b.digitalWrite('USR3', 1);</pre>
+  <p>Turn LEDs off: <button onclick="demoRun('led2')">run</button></p>
+  <pre id="led2">
+var b=require('bonescript');
+b.pinMode('USR0', 'out');
+b.pinMode('USR1', 'out');
+b.pinMode('USR2', 'out');
+b.pinMode('USR3', 'out');
+b.digitalWrite('USR0', 0);
+b.digitalWrite('USR1', 0);
+b.digitalWrite('USR2', 0);
+b.digitalWrite('USR3', 0);</pre>
+  <p>Restore LEDs to default state: <button onclick="demoRun('led3')">run</button></p>
+  <pre id="led3">
+var b = require('bonescript');
+var p = '/sys/class/leds/beaglebone:green:usr';
+b.digitalWrite('USR0', b.LOW);
+b.digitalWrite('USR1', b.LOW);
+b.digitalWrite('USR2', b.LOW);
+b.digitalWrite('USR3', b.LOW);
+resetUSR0();
+function resetUSR0() {
+    b.writeTextFile(p+'0/trigger', 'heartbeat', resetUSR1);
+}
+function resetUSR1() {
+    b.writeTextFile(p+'1/trigger', 'mmc0', resetUSR2);
+}
+function resetUSR2() {
+    b.writeTextFile(p+'2/trigger', 'cpu0', resetUSR3);
+}
+function resetUSR3() {
+    b.writeTextFile(p+'3/trigger', 'mmc1', complete);
+}
+function complete() {
+}</pre>
+
+ <h2 id="functions">Functions</h2>
+ <p>The Bonescript library provides several functions useful for interacting with your hardware.</p>
+ <ul>
+  <li>Digital I/O<ul>
+   <li><a href="/Support/BoneScript/getPlatform/">getPlatform()</a></li>
+   <li><a href="/Support/BoneScript/pinMode/">pinMode()</a></li>
+   <li><a href="/Support/BoneScript/getPinMode/">getPinMode()</a></li>
+   <li><a href="/Support/BoneScript/digitalWrite/">digitalWrite()</a></li>
+   <li><a href="/Support/BoneScript/digitalRead/">digitalRead()</a></li>
+   <!-- <li><a href="/Support/BoneScript/shiftOut/">shiftOut()</a></li> -->
+   <li><a href="/Support/BoneScript/attachInterrupt/">attachInterrupt()</a></li>
+   <li><a href="/Support/BoneScript/detachInterrupt/">detatchInterrupt()</a></li>
+  </ul><li>Analog I/O<ul>
+   <li><a href="/Support/BoneScript/analogWrite/">analogWrite()</a></li>
+   <li><a href="/Support/BoneScript/analogRead/">analogRead()</a></li>
+  </ul><li>File I/O<ul>
+   <li><a href="/Support/BoneScript/readTextFile/">readTextFile()</a></li>
+   <li><a href="/Support/BoneScript/writeTextFile/">writeTextFile()</a></li>
+  </ul>
+ </ul>
+
+ <h2 id="javascript">JavaScript</h2>
+ <p>Performing physical computing tasks in JavaScript is a rather different than C on microcontrollers.  JavaScript and the
+  Node.JS interpreter like to do everything asynchronously using callbacks.  An event loop runs waiting on whatever the next
+  system-blocking event is, such as waiting for a keypress or a file load to complete.  The callbacks are then executed
+  to completion before other event handlers are run.
+  </p>
+  <h3 id="timers">Timers</h3>
+  <p>Timing operations in JavaScript are provided by setting timers with callback event handlers.  A nice overview of
+  JavaScript timers can be found on <a href="http://www.w3schools.com/js/js_timing.asp" target="_blank">www.w3schools.com</a>.</p>
+  <ul>
+   <li>var timer = setTimeout(callback, milliseconds)</li>
+   <li>clearTimeout(timer)</li>
+   <li>var timer = setInterval(callback, milliseconds)</li>
+   <li>clearInterval(timer)</li>
+  </ul>
+ <h3 id="libraries">Libraries</h3>
+ <p>The Bonescript library runs in Node.JS.  You can run it
+ directly on the board using the 'node' interpreter or the Cloud9 IDE that invokes the 'node' interpreter.  You can
+ also run it using the <a href="/bonescript.js">bonescript.js</a> script within your browser via remote procedure calls
+ using Socket.io and served up by the web server running on your BeagleBoard.</p>
+ <p id="require">Access to the library functions is provided through the "require('bonescript')" function call.  The
+ call returns an object containing all of the functions and constants exported by the library.  The Node.JS API documentation
+ on <a href="http://www.nodejs.org/docs/v0.8.22/api/modules.html" target="_blank">modules</a> provides more information on the usage
+ of 'require' within the 'node' interpreter.</p>
+  <h3>Other JavaScript topics</h3>
+  <p id="console">The Chrome browser has a rather nice JavaScript debugger you can use to examine your code.  You might
+  also get good benefit out of 'console.log()'.</p>
+  <p id="typeof">Because JavaScript is dynamically typed, you might find the 'typeof operator' rather useful to determine
+  the type of a variable at run-time.  A nice overview of the JavaScript typeof operator can be found at 
+  <a target="_blank" href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Operators/typeof">
+      developer.mozilla.org</a>.</p>
+
+
+<h3>Resources</h3>
+<a id="console"></a>
+<a id="typeof"></a>
+ <p>To learn more about Cloud9 IDE and to synchronize the software on your board with cloud-hosted services, see
+  <a target="_blank" href="http://c9.io">www.c9.io</a>.
+ <p>For more information on Node.JS, the JavaScript interpreter, see <a target="_blank" href="http://nodejs.org">www.nodejs.org</a>.
+  Note that version 0.8.22 is what is currently installed on the default image and you can find the api documentation
+  at <a target="_blank" href="http://nodejs.org/docs/v0.8.22/api">www.nodejs.org/docs/v0.8.22/api</a>.
+ </p>
+ <p>For more information about the Bonescript library, see <a target="_blank" href="http://beagleboard.org/bonescript">
+  www.beagleboard.org/bonescript</a>.
+ </p>
+
+     <!--- START FOOTER -->
+     </div>
+    </div>
+    <div class="footer">
+    <div class="social">
+     <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src="/static/images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
+     <span style="padding-left:8px"><a href="http://twitter.com/beagleboardorg" name="header_twitter_icon"><img src="/static/images/icon_twitter.png" width="27" height="28" border="0" alt="twitter"/></a></span>
+     <span style="padding-left:8px"><a href="http://www.linkedin.com/groups/BeagleBoardorg-1474607?gid=1474607&mostPopular=&trk=tyah" name="header_linkedin_icon"><img src="/static/images/icon_linkedin.png" width="27" height="28" border="0" alt="linkedin" /></a></span>
+     <span style="padding-left:8px"><a href="http://plus.google.com/+beagleboard" name="header_google+_icon"><img src="/static/images/icon_google+.png" width="27" height="28" border="0" alt="google+"/></a></span>
+    </div>
+    <div id="login"></div>
+    <div id="footer-col1">
+     <ul>
+      <li><a target="_blank" href="http://beagleboard.org/about">About Us</a></li>
+      <li><a target="_blank" href="http://beagleboard.org/support">Support</a></li>
+      <li><a target="_blank" href="http://beagleboard.org/buy">Distributors</a></li>
+     </ul>
+    </div>
+    <div id="footer-col2">
+     <ul>
+      <li><a target="_blank" href="http://beagleboard.org/chat">Live chat</a></li>
+      <li><a target="_blank" href="http://beagleboard.org/discuss">Mailing list</a></li>
+      <li><a target="_blank" href="http://beagleboard.org/project">Projects</a></li>
+     </ul>
+    </div>
+    <div id="footer-col3">
+     <ul>
+      <li><a target="_blank" href="http://beagleboard.org/privacy">Privacy Policy</a></li>
+      <li><a target="_blank" href="http://beagleboard.org/terms">Terms of Use</a></li>
+     </ul>
+    </div>
+    <div id="cc"><a href="http://creativecommons.org/about/license/" target="_blank"><img src="/static/images/88x31.png" alt="Creative Commons - Conditions - Attribution and Share Alike" border="0" width="88" height="31" /></a><span style="padding-left:8px">Except where otherwise noted, content on this site is licensed under a Creative Commons Attribution-Share Alike 3.0 license </span></div>
+   </div>
+  </div>
+ </div>
+ <div id="fb-root"></div>
+ </body>
+</html>

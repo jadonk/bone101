@@ -1,0 +1,456 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>BeagleBoard.org - bone101</title>
+  <meta name="keywords" content="Beagle Board, BeagleBoard, beagleboard.org, BeagleBone, BeagleBoard-xM, bealgeboard, open hardware, open source, Linux, computer" />
+  <link href="http://feeds.feedburner.com/BeagleBoard" rel="alternate" title="BeagleBoard.org news feed" type="application/atom+xml" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" media="screen" href="/static/common.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="/static/login.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="/static/beagle.css" />
+  <script src="/static/bonescript-demo.js"></script>
+  <style>
+#code {
+ position: relative;
+ width: 500px;
+ padding-left: 0;
+ border-radius: 4px;
+ border-bottom-right-radius: 0px;
+ border-bottom-left-radius: 0px;
+ margin-bottom: 0px;
+ margin-left: 30px;
+ margin-right: 0px;
+ align: left;
+}
+  </style>
+ </head>
+ <body>
+ <div class="top">
+  <div class="top-header"><a href="http://beagleboard.org"><img src="/static/images/beagle_logo_hdr.gif" alt="beagleboard.org" border="0" width="326" height="60" /></a>
+  
+  <div class="social">
+    <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src="/static/images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
+    <span style="padding-left:8px"><a href="http://twitter.com/beagleboardorg" name="header_twitter_icon"><img src="/static/images/icon_twitter.png" width="27" height="28" border="0" alt="twitter"/></a></span>
+    <span style="padding-left:8px"><a href="http://www.linkedin.com/groups/BeagleBoardorg-1474607?gid=1474607&mostPopular=&trk=tyah" name="header_linkedin_icon"><img src="/static/images/icon_linkedin.png" width="27" height="28" border="0" alt="linkedin" /></a></span>
+    <span style="padding-left:8px"><a href="http://plus.google.com/+beagleboard" name="header_google+_icon"><img src="/static/images/icon_google+.png" width="27" height="28" border="0" alt="google+"/></a></span>
+   </div> 
+  </div>
+ </div>
+ <a name="top" id="top"></a>
+ <div id="wrapper">
+  <div id='cssmenu'>
+  </div>
+  <div id="content">
+   <div id="contentbuffer">
+
+    <!-- NEED TITLE HERE -->
+    <h2>BeagleBone 101</h2>
+
+    <div id='side-menu' class="t3_sidebar">
+     <ul class="left-menu">
+      <strong>Navigation</strong>
+      <li><a href="/Support/BoneScript/menu/">Menu contents</a></li>
+     </ul>
+    </div>
+    <div class="t3_content_1">
+     <div id='connect-status'></div>
+     <div id="content_child">
+     <!--- START CONTENT -->
+
+     <h1>BeagleBone: open-hardware expandable computer</h1>
+     <h2>Artist-tested, engineer approved</h2>
+     <p>The left-hand navigation bar will help you explore
+      your board and learn how to program it.
+     </p>
+     <img src="/static/images/artist-tested-engineer-approved.jpg" />
+
+     <h2 id="software"></h2>
+     <h2>Latest ARM open source focused on easy hardware experimentation</h2>
+     <ul>
+      <img src="/static/images/beaglebone-in-hand.JPG" align="right" width="25%" />
+      <li>Ships ready to use<ul>
+       <li>Angstrom Distribution with C++, Perl, Python, ...</li>
+       <li>Linux drivers support countless USB peripherals</li>
+       <li>Interactive tutorial to start learning about capabilities</li>
+      </ul></li>
+      <li>Open source means options<ul>
+       <li>Texas Instruments releases:
+        <a target="_blank" href="http://beagleboard.org/project/rowboat">Android</a>,
+        <a target="_blank" href="http://beagleboard.org/project/amsdk">Linux</a>,
+        <a target="_blank" href="http://beagleboard.org/project/starterware">StarterWare (no OS)</a>
+       </li>
+       <li>Linux: 
+        <a target="_blank" href="http://beagleboard.org/project/angstrom">Angstrom Distribution</a>,
+        <a target="_blank" href="http://beagleboard.org/project/ubuntu">Ubuntu</a>,
+        <a target="_blank" href="http://beagleboard.org/project/debian">Debian</a>,
+        <a target="_blank" href="http://beagleboard.org/project/AM/">ArchLinux</a>,
+        <a target="_blank" href="http://beagleboard.org/project/sabayon/">Sabayon</a>,
+        <a target="_blank" href="http://beagleboard.org/project/buildroot/">Buildroot</a>,
+        <a target="_blank" href="http://beagleboard.org/project/Nerves/">Erlang</a>,
+        <a target="_blank" href="http://beagleboard.org/project/fedora/">Fedora</a>
+       </li>
+       <li>Other:
+        <a target="_blank" href="http://beagleboard.org/project/QNX+Neutrino+on+OMAP/">QNX</a>,
+        <a target="_blank" href="http://beagleboard.org/project/freebsd/">FreeBSD</a>
+       </li>
+       <li><a target="_blank" href="http://beagleboard.org/project">Projects page</a></li>
+      </ul></li>
+      <img align="right" src="/static/images/imager.png" width="30%" />
+      <li>SD card images like get-out-of-jail-free card
+       <pre>xzcat XXX.img.xz | sudo dd of=/dev/sdX</pre>
+       <ul>
+        <li>Can be used just as easily for backups</li>
+        <li>Board can be booted from SD using device ROM, so you can't "brick" it</li>
+        <li> 
+         <a href="http://http://www.7-zip.org/">7-zip</a> 
+         and
+         <a href="https://wiki.ubuntu.com/Win32DiskImager">
+         Ubuntu Win32DiskImager
+         </a>
+         enable programming cards from Windows
+        </li>
+       </ul>
+      </li>
+     </ul>
+ 
+     <h2 id="updates"><a href="/Support/BoneScript/updates/">Update
+      board with latest software</a></h2>
+     <p>There are multiple ways to run initial software on your board, but
+      it is likley that the simplest way to get an update is to create an
+      exact replica of a bootable microSD card and boot off of it.  The
+      BeagleBone Black has 2GB of eMMC storage that can be initialized by
+      a program booted off of a microSD card.  If you want to update to the
+      latest software image for your board, this is a way to do that.</p>
+     <p>See <a href="/Support/BoneScript/updates/">updates</a> 
+      for the step-by-step guide.</p>
+     <p>Information about getting the source code for the image shipped with
+      your board can be found at <a target="_blank" href="http://beagleboard.org/angstrom">
+      beagleboard.org/angstrom</a>, along with instructions for rebuilding it.</p>
+
+     <h2 id="bonescript"><a href="/Support/BoneScript/">BoneScript interactive guide</a></h2>
+     <p>BoneScript is a JavaScript library to simplify learning how to perform
+      physical computing tasks using your embedded Linux.  This web page is able
+      to interact with your board to provide an interactive tutorial.
+     </p>
+<h3>Example
+ <button class="dynlink" onclick="demoRun('code')">run</button>
+ <button class="dynlink" onclick="demoRestore('code'); restore()">restore</button>
+</h3>
+<pre id="code" class="use-editor" style="height: 180px;">
+var b = require('bonescript');
+b.pinMode('USR0', b.OUTPUT);
+b.pinMode('USR1', b.OUTPUT);
+b.pinMode('USR2', b.OUTPUT);
+b.pinMode('USR3', b.OUTPUT);
+b.digitalWrite('USR0', b.HIGH);
+b.digitalWrite('USR1', b.HIGH);
+b.digitalWrite('USR2', b.HIGH);
+b.digitalWrite('USR3', b.HIGH);
+setTimeout(restore, 2000);
+</pre>
+<script>
+function restore() {
+    var b = require('bonescript');
+    var p = '/sys/class/leds/beaglebone:green:usr';
+    b.digitalWrite('USR0', b.LOW);
+    b.digitalWrite('USR1', b.LOW);
+    b.digitalWrite('USR2', b.LOW);
+    b.digitalWrite('USR3', b.LOW);
+    resetUSR0();
+    function resetUSR0() {
+        b.writeTextFile(p+'0/trigger', 'heartbeat', resetUSR1);
+    }
+    function resetUSR1() {
+        b.writeTextFile(p+'1/trigger', 'mmc0', resetUSR2);
+    }
+    function resetUSR2() {
+        b.writeTextFile(p+'2/trigger', 'cpu0', resetUSR3);
+    }
+    function resetUSR3() {
+        b.writeTextFile(p+'3/trigger', 'mmc1', complete);
+    }
+    function complete() {
+    }
+}
+</script>
+     <p>Running the above example will cause all of your LEDs to light up at once for a
+      couple of seconds.
+     </p>
+     <p>To learn more about BoneScript, please continue exploring <a
+      href="/Support/BoneScript/">
+      this interactive guide</a>.
+     </p>
+
+     <h2 id="cloud9"><a target="_blank" class="cloud9-url" href="http://192.168.7.2:3000">Cloud9 IDE</a></h2>
+     <p>To begin editing programs that live on your board, you can use the Cloud9 IDE.</p>
+     <p>Click on the "Cloud9 IDE" link above to start the editor.</p>
+     <a target="_blank" class="cloud9-url">
+      <img src="/static/images/Cloud9_Screen.png" width="100%" />
+     </a>
+
+ <p>As a simple exercise to become familiar with <a href="http://c9.io"
+  target="_blank">Cloud9 IDE</a> and the <a target="_blank"
+  href="http://beagleboard.org/project/bonescript">BoneScript JavaScript library</a>, 
+  creating a simple application to blink one of the 4 user programmable LEDs on the
+  BeagleBone is a good start.</p>
+ <ul class="action">
+  <li><b>Step A:</b>&nbsp;Close any open file tabs.<br /><br />
+   <img src="/static/images/c9-close-tab.png" /><br /><br />
+  </li>
+  <li><b>Step B:</b>&nbsp;Click the &quot;+&quot; in the top-right to create a new file.<br /><br />
+   <img src="/static/images/c9-create-tab.png" /><br /><br />
+   <img src="/static/images/c9-new-tab.png" /><br /><br />
+  </li>
+  <li><b>Step C:</b>&nbsp;Cut and paste the following code into the new tab:<br />
+   <pre>
+var b = require('bonescript');
+
+var state = b.LOW;
+
+b.pinMode("USR0", b.OUTPUT);
+b.pinMode("USR1", b.OUTPUT);
+b.pinMode("USR2", b.OUTPUT);
+b.pinMode("USR3", b.OUTPUT);
+setInterval(toggle, 1000);
+
+function toggle() {
+    if(state == b.LOW) state = b.HIGH;
+    else state = b.LOW;
+    b.digitalWrite("USR3", state);
+}</pre>
+  </li>
+  <li><b>Step D:</b>&nbsp;Save the file by clicking the disk icon and giving the file a name with the .js extension.<br /><br />
+   <img src="/static/images/c9-disk-icon.png" /><br /><br />
+   <img src="/static/images/c9-save-name.png" /><br /><br />
+   <img src="/static/images/c9-save-name-complete.png" /><br /><br />
+   <img src="/static/images/c9-named-tab.png" /><br /><br />
+  </li>
+  <li><b>Step E:</b>&nbsp;Run the code by selecting the arrow to the right of &quot;run&quot; (or &quot;debug&quot;) in the toolbar to pull down the list of files to run and select your new file.<br /><br />
+   <img src="/static/images/c9-run.png" /><br /><br />
+  </li>
+  <li><b>Step F:</b>&nbsp;Observe the BeagleBone USR3 LED blinking steadily about 5 times a second.<br /><br />
+  </li>
+  <li><b>Step G:</b>&nbsp;Stop the code by clicking &quot;stop&quot; in the toolbar.<br /><br />
+   <img src="/static/images/c9-stop.png" /><br /><br />
+  </li>
+ </ul>
+ <p>Additional information about the Bonescript library is available in the presentation viewed in the next step and on-line at <a target="_blank" href="http://beagleboard.org/project/bonescript">http://beagleboard.org/project/bonescript</a>.</p>
+ <h3>Autorun</h3>
+ <p>Once you've finished developing your JavaScript application, you can have it start upon boot-up by simply
+  dropping it into the 'autorun' subfolder (located at /var/lib/cloud9/autorun in the file system).
+ </p>
+ <p>The systemd bonescript-autorun.service runs at start-up and uses the /usr/lib/node_modules/bonescript/autorun.js
+  script to automatically detect when .js files are in this directory and invoke them as separate processes with
+  node.js.  When the files are changed or moved, the script will kill the processes.
+ </p>
+ <h3>Resources</h3>
+ <p>To learn more about Cloud9 IDE and to synchronize the software on your board with cloud-hosted services, see
+  <a target="_blank" href="http://c9.io">www.c9.io</a>.
+ <p>For more information on Node.JS, the JavaScript interpreter, see <a target="_blank" href="http://nodejs.org">www.nodejs.org</a>.
+  Note that version 0.8.22 is what is currently installed on the default image and you can find the api documentation
+  at <a target="_blank" href="http://nodejs.org/docs/v0.8.22/api">www.nodejs.org/docs/v0.8.22/api</a>.
+ </p>
+ <p>For more information about the Bonescript library, see <a target="_blank" href="http://beagleboard.org/bonescript">
+  www.beagleboard.org/bonescript</a>.
+ </p>
+
+     <h2 id="gateone"><a target="_blank" class="gateone-url" href="https://192.168.7.2">GateOne SSH client</a></h2>
+     <p>GateOne provides a method for logging into the shell of your board without installing an
+      ssh client on your computer.  Click on the "GateOne SSH client" link above to login.
+     </p>
+     <ul>
+      <li><em>Host/IP or SSH URL</em> - localhost</li>
+      <li><em>Port</em> - 22</li>
+      <li><em>User</em> - root</li>
+      <li><em>Password</em> - &lt;empty&gt;</li>
+     </ul>
+     <p><small><em>Note</em>: If you get errors, you might need to set the date on your BeagleBone.
+      <button class="dynlink" onclick="setDate();">Set Date</button>
+     </small></p>
+     <a target="_blank" class="gateone-url">
+      <img src="/static/images/gateone.png" width="100%" />
+     </a>
+     <script>
+         function setDate() {
+            var b = require('bonescript');
+            b.setDate(Date().toString());
+         }
+     </script>
+
+     <h3>List of common Linux commands</h3>
+     <table><tr>
+      <td><ul>
+       <li><em>pwd</em> - show current directory</li>
+       <li><em>cd</em> - change current directory</li>
+       <li><em>ls</em> - list directory contents</li>
+       <li><em>chmod</em> - change file permissions</li>
+       <li><em>chown</em> - change file ownership</li>
+       <li><em>cp</em> - copy files</li>
+       <li><em>mv</em> - move files</li>
+       <li><em>rm</em> - remove files</li>
+       <li><em>mkdir</em> - make directory</li>
+       <li><em>rmdir</em> - remove directory</li>
+       <li><em>cat</em> - dump file contents</li>
+       <li><em>less</em> - progressively dump file</li>
+       <li><em>vi</em> - edit file (complex)</li>
+       <li><em>nano</em> - edit file (simple)</li>
+       <li><em>head</em> - trim dump to top</li>
+       <li><em>tail</em> - trim dump to bottom</li>
+      </ul></td>
+      <td><ul>
+       <li><em>echo</em> - print/dump value</li>
+       <li><em>env</em> - dump environment variables</li>
+       <li><em>export</em> - set environment variable</li>
+       <li><em>history</em> - dump command history</li>
+       <li><em>grep</em> - search dump for strings</li>
+       <li><em>man</em> - get help on command</li>
+       <li><em>apropos</em> - show list of man pages</li>
+       <li><em>find</em> - search for files</li>
+       <li><em>tar</em> - create/extract file archives</li>
+       <li><em>gzip</em> - compress a file</li>
+       <li><em>gunzip</em> - decompress a file</li>
+       <li><em>du</em> - show disk usage</li>
+       <li><em>df</em> - show disk free space</li>
+       <li><em>mount</em> - mount disks</li>
+       <li><em>tee</em> - write dump to file in parallel</li>
+       <li><em>hexdump</em> - readable binary dumps</li>
+      </ul></td>
+     </tr></table>
+      
+     <h3>Other programming environments</h3>
+     <p>The board also ships with gcc, python and more that can be invoked directly from the command-line.</p>
+
+     <h1 id="hardware">Hardware documentation</h1>
+     <p><a target="_blank" href="http://circuitco.com/support/index.php?title=BeagleBoneBlack">
+CircuitCo.com's BeagleBoneBlack page</a> documents all of the known hardware issues, as well as the latest available software, 
+hardware documentation and design materials.
+     </p>
+     <p><em>Always read the System Reference Manual!!!</em></p>
+
+     <h3><a href="http://beagleboard.org/hardware/design">Design materials</a></h3>
+     <p>Design materials for creating your own customized version of the hardware or for better
+      understanding the design are also linked from the traditional home of
+      &quot;<a href="http://beagleboard.org/hardware/design">http://beagleboard.org/hardware/design</a>&quot;
+     </p>
+
+     <h3>BeagleBone Black hardware details</h3>
+     <img src="/static/images/black_hardware_details.png" width="100%" />
+     <p>Revision A5 also provides a POWER button that can be used to enter and exit hibernate modes once
+      that feature is implemented in the software.
+     </p>
+
+     <h3 id="headers">Headers</h3>
+     <p>The expansion headers provide extensive I/O capabitilities.</p>
+     <img src="/static/images/cape-headers.png" width="100%" />
+     <p>Each digital I/O pin has 8 different modes that can be selected, including GPIO.</p>
+     <img src="/static/images/cape-headers-digital.png" width="100%" />
+     <p>In GPIO mode, each digital I/O can produce interrupts.</p>
+     <img id="headers-pwm" src="/static/images/cape-headers-pwm.png" width="100%" />
+     <p>Up to 8 digital I/O pins can be configured with pulse-width modulators (PWM) to
+      produce signals to control motors or create analog voltage levels, without taking
+      up any extra CPU cycles.
+     </p>
+     <img src="/static/images/cape-headers-analog.png" width="100%" />
+     <p><em>Make sure you don't input more than 1.8V to the analog input pins.</em></p>
+     <p>This is a single 12-bit analog-to-digital converter with 8 channels, 7 of which
+      are made available on the headers.
+     </p>
+     <img src="/static/images/cape-headers-serial.png" width="100%" />
+     <p>There is a dedicated header for getting to the UART0 pins and connecting a
+      debug cable. Five additional serial ports are brought to the expansion headers,
+      but one of them only has a single direction brought to the headers.
+     </p>
+     <img src="/static/images/cape-headers-i2c.png" width="100%" />
+     <p>The first I2C bus is utilized for reading EEPROMS on cape add-on boards and
+      can't be used for other digital I/O operations without interfering with that
+      function, but you can still use it to add other I2C devices at available
+      addresses.
+     </p>
+     <p>The second I2C bus is available for you to configure and use.</p>
+     <img src="/static/images/cape-headers-spi.png" width="100%" />
+     <p>For shifting out data fast, you might consider using one of the SPI ports.</p>
+
+     <img src="/static/images/boris-cape.png" width="20%" align="right" />
+     <h1 id="capes"><a target="_blank" href="http://beaglebonecapes.com">Capes</a></h1>
+     <p>Capes are really just daughterboards for BeagleBone and BeagleBone Black, but
+      we refer to them enough that a short name makes sense.  BeagleBone wears them, they
+      typically have a cut-out around the Ethernet connector that gives them a cape-like
+      shape and <em>Underdog is a Beagle</em>!
+     </p>
+     <p>The <a href="http://beaglebonecapes.com" target="_blank">beaglebonecapes.com</a>
+      site attempts to consolidate the currently available cape add-on boards for
+      BeagleBone and BeagleBone Black.
+     </p>
+     <img src="/static/images/what-is-a-cape.png" width="100%" />
+     <p>The types of capes available is quite diverse, from 3D printer capes and
+      touchscreen displays to wireless communications and FPGA-based prototyping tools.
+     </p>
+     <img src="/static/images/cape-eeprom.png" width="100%" />
+     <p>Every cape that utilizes pins on the expansion header is expected to notify
+      software on the board by providing contents within EEPROM connected to I2C2 with
+      an address from 0x54 to 0x57.  To work with other capes, you can make your
+      address selectable between those values to avoid conflicts.  It is also possible
+      to provide through connectors such that other capes can also get connections to
+      the cape header pins
+     </p>
+     <img src="/static/images/black-emmc-and-hdmi-pins.png" width="100%" />
+     <p>BeagleBone Black ships with two virtual capes alreay on it, one for the
+      on-board eMMC storage and one for the HDMI output.  When configured for use
+      these virtual capes consume actual resources.
+     </p>
+     <p>If the eMMC is not placed in
+      reset, the MMC1* signals may not be used without potentially corrupting the
+      contents of your on-board eMMC---and possibly damaging the physical circuit
+      as well.
+     </p>
+     <p>The HDMI signals are all inputs to the HDMI device, so there is no need to
+      put the HDMI device into reset, but using those pins for other operations will
+      cause the HDMI output to be disrupted.  However, note that the Linux software
+      typically allocates these for use by the HDMI driver, so your software might
+      not be able to get access to them without unloading that driver.
+     </p>
+     <h2>Cape demos</h2>
+     <ul>
+      <li><em><a href="cape_bacon">Bacon Cape</a></em> - Teach basic interactions</li>
+     </ul>
+
+     <!--- START FOOTER -->
+     </div>
+    </div>
+    <div class="footer">
+    <div class="social">
+     <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src="/static/images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
+     <span style="padding-left:8px"><a href="http://twitter.com/beagleboardorg" name="header_twitter_icon"><img src="/static/images/icon_twitter.png" width="27" height="28" border="0" alt="twitter"/></a></span>
+     <span style="padding-left:8px"><a href="http://www.linkedin.com/groups/BeagleBoardorg-1474607?gid=1474607&mostPopular=&trk=tyah" name="header_linkedin_icon"><img src="/static/images/icon_linkedin.png" width="27" height="28" border="0" alt="linkedin" /></a></span>
+     <span style="padding-left:8px"><a href="http://plus.google.com/+beagleboard" name="header_google+_icon"><img src="/static/images/icon_google+.png" width="27" height="28" border="0" alt="google+"/></a></span>
+    </div>
+    <div id="login"></div>
+    <div id="footer-col1">
+     <ul>
+      <li><a target="_blank" href="http://beagleboard.org/about">About Us</a></li>
+      <li><a target="_blank" href="http://beagleboard.org/support">Support</a></li>
+      <li><a target="_blank" href="http://beagleboard.org/buy">Distributors</a></li>
+     </ul>
+    </div>
+    <div id="footer-col2">
+     <ul>
+      <li><a target="_blank" href="http://beagleboard.org/chat">Live chat</a></li>
+      <li><a target="_blank" href="http://beagleboard.org/discuss">Mailing list</a></li>
+      <li><a target="_blank" href="http://beagleboard.org/project">Projects</a></li>
+     </ul>
+    </div>
+    <div id="footer-col3">
+     <ul>
+      <li><a target="_blank" href="http://beagleboard.org/privacy">Privacy Policy</a></li>
+      <li><a target="_blank" href="http://beagleboard.org/terms">Terms of Use</a></li>
+     </ul>
+    </div>
+    <div id="cc"><a href="http://creativecommons.org/about/license/" target="_blank"><img src="/static/images/88x31.png" alt="Creative Commons - Conditions - Attribution and Share Alike" border="0" width="88" height="31" /></a><span style="padding-left:8px">Except where otherwise noted, content on this site is licensed under a Creative Commons Attribution-Share Alike 3.0 license </span></div>
+   </div>
+  </div>
+ </div>
+ <div id="fb-root"></div>
+ </body>
+</html>
