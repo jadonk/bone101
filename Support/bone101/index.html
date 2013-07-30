@@ -256,29 +256,6 @@ function toggle() {
   www.beagleboard.org/bonescript</a>.
  </p>
 
-     <h2 id="gateone"><a target="_blank" class="gateone-url" href="https://192.168.7.2">GateOne SSH client</a></h2>
-     <p>GateOne provides a method for logging into the shell of your board without installing an
-      ssh client on your computer.  Click on the "GateOne SSH client" link above to login.
-     </p>
-     <ul>
-      <li><em>Host/IP or SSH URL</em> - localhost</li>
-      <li><em>Port</em> - 22</li>
-      <li><em>User</em> - root</li>
-      <li><em>Password</em> - &lt;empty&gt;</li>
-     </ul>
-     <p><small><em>Note</em>: If you get errors, you might need to set the date on your BeagleBone.
-      <button class="dynlink" onclick="setDate();">Set Date</button>
-     </small></p>
-     <a target="_blank" class="gateone-url">
-      <img src="/static/images/gateone.png" width="100%" />
-     </a>
-     <script>
-         function setDate() {
-            var b = require('bonescript');
-            b.setDate(Date().toString());
-         }
-     </script>
-
      <h3>List of common Linux commands</h3>
      <table><tr>
       <td><ul>
