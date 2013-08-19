@@ -72,10 +72,6 @@ kernel, so all you have to do is ask the kernel to load the driver and then star
  <button class="dynlink" onclick="demoRun('code')">run</button>
  <button class="dynlink" onclick="demoRestore('code')">restore</button>
 </h2>
-
-
-
-
 <pre id="code" class="use-editor" style="height:425px;">
 var b = require('bonescript');
 var iic = '/sys/class/i2c-adapter/i2c-1/'; 
@@ -105,10 +101,6 @@ function printTemperature(x) {
    x.data += 32;
    console.log("or: ", x.data + '\xB0' + " Fahrenheit"); 
 }</pre>
-
-
-
-
 <div readonly id='console-output' style='height: 80px;'></div>
 <h2>Build and execute instructions</h2>
 <img align="right" height="500px" src="/static/images/beaglebone_with_bmp085_bb.png" />
@@ -120,10 +112,6 @@ function printTemperature(x) {
  <li>Connect BMP085 SDA to P9_20</li>
  <li>Reapply power and refresh this page before running the demo code</li>
 </ul>
-
-
-
-
 <h2>See also</h2>
 <h3>Topics</h3>
 <ul>
