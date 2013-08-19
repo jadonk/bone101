@@ -1,0 +1,338 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>BeagleBoard.org - accelerometer</title>
+  <meta name="keywords" content="Beagle Board, BeagleBoard, beagleboard.org, BeagleBone, BeagleBoard-xM, bealgeboard, open hardware, open source, Linux, computer" />
+  <link href="http://feeds.feedburner.com/BeagleBoard" rel="alternate" title="Beagle Board news feed" type="application/atom+xml" />
+  <link rel="icon" href="/static/beagle.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="/static/beagle.ico" type="image/x-icon" />
+  <link rel="publisher" href="https://plus.google.com/109587204186717390991" />
+  <style type="text/css" media="screen">@import "/static/common2.css";</style>
+  <style type="text/css" media="screen">@import "/static/login2.css";</style>
+  <style type="text/css" media="screen">@import "/static/beagle2.css";</style>
+  <script type="text/javascript" src="/static/jquery-1.8.3.js"></script>
+  <script type="text/javascript" src="/static/jquery.ui.core.js"></script>
+  <script type="text/javascript" src="/static/jquery.ui.widget.js"></script>
+  <!--
+  <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
+   {"parsetags": "explicit"}
+  </script>
+  -->
+  <script type="text/javascript">
+  (function() {
+    var po = document.createElement("script"); po.type = "text/javascript"; po.async = true;
+    po.src = "https://apis.google.com/js/plusone.js?publisherid=109587204186717390991";
+    var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(po, s);
+  })();
+  </script>
+  <script language="javascript" src="/static/jquery.js"></script>  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-3429714-1']);
+    _gaq.push(['_setDomainName', 'beagleboard.org']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+ 
+ </head>
+ <body>
+ <div class="top">
+  <div class="top-header"><a href="/"><img src="/static/images/beagle_logo_hdr.gif" alt="Beagle Board - beagleboard.org" border="0" width="326" height="60" /></a>
+  
+  <div class="social">
+    <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src=  "/static/images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
+    <span style="padding-left:8px"><a href="http://twitter.com/beagleboardorg" name="header_twitter_icon"><img src="/static/images/icon_twitter.png" width="27" height="28" border="0" alt="twitter"/></a></span>
+    <span style="padding-left:8px"><a href="https://www.youtube.com/user/jadonk"><img src="/static/images/youTube-icon.png" width="27" height="28" border="0" alt="YouTube" /></a></span>
+    <span style="padding-left:8px"><a href="http://plus.google.com/+beagleboard" name="header_google+_icon"><img src="/static/images/icon_google+.png" width="27" height="28" border="0" alt="google+"/></a></span>
+  </div> 
+</div>
+   </div>
+  <a name="top" id="top"></a>
+  <!-- DIV that centers page - START -->
+  <div id="wrapper">
+  <!--start menu bar-->
+<div id='cssmenu'>
+<ul>
+   <li class='has-sub'><a href='/Getting Started'><span>Getting Started &#8659;</span></a>
+   <ul>
+         <li class='has-sub'><a href='/about'><span>About Us</span></a></li>
+         <li class='has-sub'><a href='/Getting Started'><span>Getting Started</span></a></li>
+      </ul>   
+   </li>
+
+   <li class='has-sub'><a href='/Products'><span>Boards &#8659;</span></a>
+   <ul>
+         <li class='has-sub'><a href='/Products/BeagleBone Black'><span>BeagleBone Black  <img src= "/static/images/new.png"  alt="New" border="0"/></span></a></li>
+         <li class='has-sub'><a href='/Products/BeagleBone'><span>BeagleBone</span></a></li>
+         <li class='has-sub'><a href='/Products/BeagleBoard-xM'><span>BeagleBoard-xM</span></a></li>
+         <li class='has-sub'><a href='/Products/BeagleBoard'><span>BeagleBoard</span></a></li>
+      </ul>   
+    </li>
+  
+   <li class='has-sub'><a href='/support'><span>Support &#8659;</span></a>   
+   <ul>
+         <li class='has-sub'><a href='/Support/Hardware Support'><span>Hardware Support</span></a></li>
+         <li class='has-sub'><a href='/Support/Software Support'><span>Software Support</span></a></li>
+         <li class='has-sub'><a href='/Support/BoneScript'><span>BoneScript Library</span></a></li>
+         <li class='has-sub'><a href='/Support/FAQ'><span>FAQ</span></a></li>
+         <li class='has-sub'><a href='/Support/RMA'><span>RMA</span></a></li>
+      </ul>   
+   </li>
+   
+   <li class='has-sub'><a href='/Community'><span>Community &#8659;</span></a>
+   <ul>
+         <li class='has-sub'><a href='/blog'><span>Blog</span></a></li>
+         <li class='has-sub'><a href='/Community/Live Chat'><span>Live Chat</span></a></li>
+         <li class='has-sub'><a href='/Community/Forums'><span>Forums</span></a></li>
+         <li class='has-sub'><a href='/Videos'><span>Videos</span></a></li>
+      </ul>
+   </li>
+   <li class='has-sub'><a href='/project'><span>Projects</span></a></li>
+</ul>
+<div id="search">
+<li class="google">
+       <form action="http://www.google.com/cse" id="cse-search-box">
+        <input type="hidden" name="cx" value="001071468846613058269:xd-gxvzmbq4" />
+        <input type="hidden" name="ie" value="UTF-8" />
+        <input type="text" name="q" style="width:180px;" />
+        <input class="btn1" type="submit" name="sa" value="Search"/>
+       </form>
+       <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=en"></script>
+      </li></div></div>
+<!--end menu bar-->
+
+   <!-- Content Area - START -->
+    <div id="content">
+     <div id="contentbuffer">
+     <p class="breadcrumb"><a href="/">BeagleBoard.org</a> &rsaquo; <a href="/support/">support</a> &rsaquo; <a href="/support/BoneScript/">BoneScript</a> &rsaquo; <a href="/support/BoneScript/accelerometer/">accelerometer</a></p>
+     <div id="page">
+<script src="/static/bonescript-demo.js"></script>
+<div id='side-menu' class="t3_sidebar">
+    <ul class="left-menu"><strong>Navigation</strong>
+        <li><a href="/static/side-menu.html">Menu contents</a></li>
+    </ul>
+</div>
+<div class="t3_content_1"><div id='connect-status'></div><div id="content_child">
+<h1>Demo: Accelerometer</h1>
+<p>This example reads values from <a 
+    href="https://www.sparkfun.com/products/9269">Sparkfun’s ADXL335 3-axis
+    accelerometer</a>. Because the output of the ADXL335 is between 0-3.3V 
+    and because BeagleBone's analogRead pins are 1.8V tolerant, we used a 
+    hardware (resistor) voltage divider on each of the accelerometer outputs. 
+    This provides a range of 0-1.65V to be read on BeagleBone analogRead pins.
+</p>
+<p><i>NOTE: Due to output impedance of the ADXL335 being ~32kOhms, a low resistor
+value for the voltage divider is recommended (between 500 Ohms- 1k Ohms).</i>
+</p>
+<p>
+    
+    We need to do simple math before we continue. Ultimately, we want to know the 
+    value in G’s being exerted on the accelerometer. The output of the
+    accelerometer is in volts. The first thing we need to do is calculate a
+    formula that will convert volts to Gs for us in our software. This formula
+    for us is:
+</p>
+<p>
+    <center><i>(axisRead - zeroOffset) / (conversionFactor) = acceleration</center><br />
+    <center>Where: zeroOffset = 0.0917 and conversionFactor = 0.4584</i></center>
+</p>
+<h2>Example
+ <button class="dynlink" onclick="demoRun('code')">run</button>
+ <button class="dynlink" onclick="demoRestore('code')">restore</button>
+</h2>
+<pre id="code" class="use-editor" style="height:700px;">
+var b = require('bonescript');
+var zeroOffset  = 0.4584;
+var conversionFactor = 0.0917;
+
+function callADC(){
+    b.analogRead('P9_36', printX);
+    b.analogRead('P9_38', printY);
+    b.analogRead('P9_40', printZ);
+}
+
+function printX(x) {
+    var value = (x.value - zeroOffset)/conversionFactor;
+    console.log('Analog Read Value x: ' +value);    
+    // when the ADXL335 resting flat on a table or
+    //board, then readings should be x:0
+}
+
+function printY(x) {
+    var value = (x.value - zeroOffset)/conversionFactor;
+    console.log('Analog Read Value y: ' +value);
+    // when the ADXL335 resting flat on a table or
+    //board, then readings should be y:0
+}
+
+function printZ(x) {
+    var value = (x.value - zeroOffset)/conversionFactor;
+    console.log('Analog Read Value z: ' +value);    
+    // when the ADXL335 resting flat on a table or 
+    //board, then readings should be z:1
+    console.log('');
+}
+
+//callADC will be invoked 20 times a sec or once every 50 ms
+var loop = setInterval(callADC, 50);          
+
+function clear(){
+    clearInterval(loop);
+}
+
+//after 1 second (1000ms), the interval
+setTimeout(clear, 1000);                                
+</pre>
+<div readonly id='console-output' style="height:250px;"></div>
+<br></br>
+<img align="center" width="90%" src="/static/uploads/bbb_accelerometer_image.png" />
+<br></br>
+<h2>Build and execute instructions</h2>
+<ul>
+ <li>Hook up BeagleBone to the breadboard as shown in the diagram (above).</li>
+ <li>After clicking ‘run’, notice the console output above for the accelerometer
+    data.</li>
+ <li>Experiment by altering the second argument in ‘setTimeout(clear, x) to 
+    another number where x is a value in milliseconds (this value determines how
+    long the example will run).</li>
+</ul>
+
+<h2>See also</h2>
+<h3>Related functions</h3>
+<ul>
+ <li><a href="/Support/BoneScript/#require">require</a></li>
+ <li><a href="/Support/BoneScript/analogRead/">analogRead</a></li>
+</ul>
+</div>
+<div id="list">
+
+</div>
+<br/>
+<div id="createtime">Last updated by rachelballdesign on Thu Jun 27 2013 14:00:27 GMT-0500 (CDT).</div>
+
+</div>
+   <!-- Content Area - END -->
+
+  <!-- Footer - START -->
+  
+  <!--start footer-->       
+<div class="footer">
+<div class="social">
+     <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src=  "/static/images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
+    <span style="padding-left:8px"><a href="http://twitter.com/beagleboardorg" name="header_twitter_icon"><img src="/static/images/icon_twitter.png" width="27" height="28" border="0" alt="twitter"/></a></span>
+	    <span style="padding-left:8px"><a href="https://www.youtube.com/user/jadonk"><img src="/static/images/youTube-icon.png" width="27" height="28" border="0" alt="YouTube" /></a></span>
+    <span style="padding-left:8px"><a href="http://plus.google.com/+beagleboard" name="header_google+_icon"><img src="/static/images/icon_google+.png" width="27" height="28" border="0" alt="google+"/></a></span>
+  </div> 
+<div id="login">
+<div class="login"> <div id="prompt_form"> | </div> <a href="/register">Register</a>
+</div><br /><!--registrant=-->
+</div>
+
+<div id="footer-col1">
+<ul>
+<li><a href="/Products">Products</a></li>
+<li><a href="/Getting Started">Getting Started</a></li>
+<li><a href="/support">Support</a></li>
+
+</ul>
+</div>
+<div id="footer-col2">
+<ul>
+<li><a href="/Community">Community</a></li>
+<li><a href="/project">Projects</a></li>
+<li><a href="/Videos">Videos</a></li>
+</ul>
+</div>
+<div id="footer-col3">
+<ul>
+<li><a href="/about">About Us</a></li>
+<li><a href="/privacy">Privacy policy</a></li>
+<li><a href="/terms">Terms of Use</a></li>
+</ul>
+</div>
+<div id="cc"><a href="http://creativecommons.org/about/license/" target="_blank"><img src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" alt="Creative Commons - Conditions - Attribution and Share Alike" border="0" width="88" height="31" /></a><span style="padding-left:8px">Except where otherwise noted, content on this site is licensed under a Creative Commons Attribution-Share Alike 3.0 license </span></div>
+
+</div>
+  <!-- Footer - END -->
+  </div>
+  <!-- DIV that centers page - END -->
+  
+
+  <script type="text/javascript">
+    $('#prompt_form').html(''
+     + '  <form method="post" action="">'
+     + '   <input type="text" id="openid" name="openid_url"></input>'
+     + '   <button type="submit">Login</button>'
+     + '  </form>'
+     + $('#prompt_form').html()
+    );
+  </script>
+  <!--
+  <script type="text/javascript">
+   gapi.plusone.render("nav-gplusone", {size:"small",annotation:"none"});
+  </script>
+  -->
+  <script type="text/javascript">
+   $(document).ready(
+    function() {
+     var indexID = 0;
+     $('.wants-g-plusone').each(function() {
+      $(this).attr('id', 'gp' + indexID);
+      var gp = document.createElement('script');
+      gp.type = 'text/javascript';
+      gp.async = true;
+      var args = {"size":"small"};
+      var href = $(this).attr('data-href');
+      if(href) args.href = href;
+      gp.text = 'setTimeout(function() {' +
+       'gapi.plusone.render(gp' + 
+       indexID +
+       ', ' +
+       JSON.stringify(args) +
+       ');}, ' +
+       (indexID * 800) +
+       ');';
+      $('#footer').append(gp);
+      indexID++;
+     });
+    }
+   );
+  </script>
+<div id="fb-root"></div>
+<!--
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=5397214219";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+-->
+  <iframe src='http://pixel.fetchback.com/serve/fb/pdc?cat=&name=landing&sid=1866' scrolling='no' width='1' height='1' marginheight='0' marginwidth='0' frameborder='0'></iframe>
+<script type="text/javascript">
+adroll_adv_id = "EC3AD5CVBRBDZK2IF5HUG7";
+adroll_pix_id = "KPOF2PWBSVAU7LE7IYHV7U";
+(function () {
+var oldonload = window.onload;
+window.onload = function(){
+   __adroll_loaded=true;
+   var scr = document.createElement("script");
+   var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+   scr.setAttribute('async', 'true');
+   scr.type = "text/javascript";
+   scr.src = host + "/j/roundtrip.js";
+   ((document.getElementsByTagName('head') || [null])[0] ||
+    document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+   if(oldonload){oldonload()}};
+}());
+</script>
+ </body>
+</html>
