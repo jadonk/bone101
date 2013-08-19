@@ -95,7 +95,7 @@
    <li><em>P9_16</em>: digital I/O connection for <em><font color="blue">BLUE</font></em></li>
    <li><em>P9_14</em>: digital I/O connection for <em><font color="green">GREEN</font></em></li>
    <li><em>P9_42</em>: digital I/O connection for <em><font color="red">RED</font></em></li>
-   <li>Configured as active-low (lit when low) using a common anode</li>
+   <li>Configured as active-high (lit when high)</li>
   </ul>
  </li>
  <li><em>R10</em>: a slide potentiometer provides an analog input
@@ -179,12 +179,12 @@ function doAnalogRead() {
 
 function updateBlue(x) {
     if(typeof x.value == 'undefined') return;
-    updateLED({blue:x.value});
+    updateLED({blue:1-x.value});
 }
 
 function updateGreen(x) {
     if(typeof x.value == 'undefined') return;
-    updateLED({green:x.value});
+    updateLED({green:1-x.value});
 }
 
 function updateRed(x) {
@@ -194,15 +194,15 @@ function updateRed(x) {
 
 function updateLED(led) {
     if(typeof led.red == 'number') {
-        b.analogWrite(LED_RED, 1-led.red);
+        b.analogWrite(LED_RED, led.red);
         this.red = led.red;
     }
     if(typeof led.green == 'number') {
-        b.analogWrite(LED_GREEN, 1-led.green);
+        b.analogWrite(LED_GREEN, led.green);
         this.green = led.green;
     }
     if(typeof led.blue == 'number') {
-        b.analogWrite(LED_BLUE, 1-led.blue);
+        b.analogWrite(LED_BLUE, led.blue);
         this.blue = led.blue;
     }
     try {
@@ -216,8 +216,7 @@ function updateLED(led) {
         $("#slider1").slider("option", "value", this.blue*100);
         $("#slider2").slider("option", "value", this.green*100);
     } catch(ex) {}
-}
-</pre>
+}</pre>
 <div readonly id='console-output' style='height: 80px;'></div>
 <script>
 window.onbeforeunload = restore;
