@@ -8,10 +8,10 @@
   <link rel="icon" href="/static/beagle.ico" type="image/x-icon" />
   <link rel="shortcut icon" href="/static/beagle.ico" type="image/x-icon" />
   <link rel="publisher" href="https://plus.google.com/109587204186717390991" />
-  <style type="text/css" media="screen">@import "/static/common2.css";</style>
-  <style type="text/css" media="screen">@import "/static/login2.css";</style>
-  <style type="text/css" media="screen">@import "/static/beagle2.css";</style>
-  <script type="text/javascript" src="/static/jquery-1.8.3.js"></script>
+  <style type="text/css" media="screen">@import "/static/common.css";</style>
+  <style type="text/css" media="screen">@import "/static/login.css";</style>
+  <style type="text/css" media="screen">@import "/static/beagle.css";</style>
+  <script type="text/javascript" src="/static/jquery.js"></script>
   <script type="text/javascript" src="/static/jquery.ui.core.js"></script>
   <script type="text/javascript" src="/static/jquery.ui.widget.js"></script>
   <!--
@@ -227,6 +227,11 @@ function update() {
     b.digitalWrite('USR0', s, do7SegUpdate);
 }
 
+function scheduleUpdate() {
+    // update again in another 100ms
+    setTimeout(update, 100);
+}
+
 function do7SegUpdate(x) {
     // update 7segment LED
     digit = (digit + 1) % 10;
@@ -242,28 +247,23 @@ function doLatch() {
 }
 
 function doLatchLow() {
-    b.digitalWrite(S_LATCH, b.LOW, scheduleUpdate);
-}
-
-function scheduleUpdate() {
-    // update again in another 100ms
-    setTimeout(doUpdate, 100);
+    b.digitalWrite(S_LATCH, b.LOW, doAnalogRead);
 }
 
 function doAnalogRead() {
-    b.digitalRead(BUTTON, updateBlue);
     b.analogRead(POT, updateGreen);
-    setTimeout(blink, 100);
-}
-
-function updateBlue(x) {
-    if(typeof x.value == 'undefined') return;
-    updateLED({blue:1-x.value});
 }
 
 function updateGreen(x) {
     if(typeof x.value == 'undefined') return;
     updateLED({green:1-x.value});
+    b.digitalRead(BUTTON, updateBlue);
+}
+
+function updateBlue(x) {
+    if(typeof x.value == 'undefined') return;
+    updateLED({blue:1-x.value});
+    scheduleUpdate();
 }
 
 function updateRed(x) {
