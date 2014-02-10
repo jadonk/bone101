@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+ <head outer_template="/static/bonescript_template.html">
+  <title template_id="title">BeagleBoard.org - digitalRead</title>
+ </head>
+  <div template_id="content_child">
+<p>You might be able to see a newer version of this on <a href="http://beagleboard.org/support/bonescript/digitalRead">beagleboard.org/support/bonescript/digitalRead</a></p>
+<h1>digitalRead(pin, [callback])</h1>
+<p>Read the status of a digital I/O pin.</p>
+<h2>Arguments</h2>
+<ul>
+ <li><em>pin</em>: the <a href="/Support/BoneScript/#pin">BeagleBone pin</a> identifier</li>
+ <li><em>callback</em>: called upon completion</li>
+</ul>
+<h2>Return value</h2>
+<ul>
+ <li><a href="/Support/BoneScript/#HIGH">HIGH</a> if pin is HIGH</li>
+ <li><a href="/Support/BoneScript/#LOW">LOW</a> if pin is LOW</li>
+</ul>
+<h2>callback(x)</h2>
+<ul>
+ <li><em>x.value</em>: return value</li>
+ <li><em>x.err</em>: error status message</li>
+</ul>
+<h2>Example
+ <button class="dynlink" onclick="demoRun('code')">run</button>
+ <button class="dynlink" onclick="demoRestore('code')">restore</button>
+</h2>
+<pre id="code" class="use-editor" style="height: 140px;">
+var b = require('bonescript');
+b.pinMode('P8_19', b.INPUT);
+b.digitalRead('P8_19', printStatus);
+function printStatus(x) {
+    console.log('x.value = ' + x.value);
+    console.log('x.err = ' + x.err);
+}</pre>
+<div readonly id='console-output' style='height: 80px;'></div>
+<h2>Build and execute instructions</h2>
+<ul>
+ <li>Apply 0V to P8_19 and run the example code.</li>
+ <li>Apply 3.3V to P8_19 and run the example code again.</li>
+ <li>Alter the code to look at inputs on other pins.</li>
+</ul>
+<h2>See also</h2>
+<h3>Topics</h3>
+<ul>
+ <li><a href="/Support/bone101/#headers">BeagleBone expansion headers</a></li>
+ <li><a href="/Support/BoneScript/#digitalio">Digital I/O</a></li>
+</ul>
+<h3>Related functions</h3>
+<ul>
+ <li><a href="/Support/BoneScript/#require">require</a></li>
+ <li><a href="/Support/BoneScript/pinMode/">pinMode</a></li>
+ <li><a href="/Support/BoneScript/digitalWrite/">digitalWrite</a></li>
+ <li><a href="/Support/BoneScript/attachInterrupt/">attachInterrupt</a></li>
+</ul>
+<h3>Examples</h3>
+<ul>
+ <li><a href="/Support/BoneScript/cape_bacon/">Bacon Cape</a></li>
+</ul>
+</div>
+</body>
+</html>
