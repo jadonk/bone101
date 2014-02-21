@@ -11,7 +11,6 @@ div.login * button:hover
  {
   cursor: pointer;
   text-decoration: underline;
-  color:#de7224;
  }
 
 div.login * button
@@ -20,7 +19,7 @@ div.login * button
   text-decoration: none;
   border-style: none;
   background-color: transparent;
-  color: #ffffff;
+  color: #929292;;
   padding: 0px;
  }
 
