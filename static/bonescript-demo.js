@@ -1,4 +1,4 @@
-bonescriptStaticPath = typeof bonescriptStaticPath == 'undefined' ? '../../' : bonescriptStaticPath;
+bonescriptStaticPath = typeof bonescriptStaticPath == 'undefined' ? '../../static/' : bonescriptStaticPath;
 
 var cssUrls = [
     'jquery.terminal.css',         // http://terminal.jcubic.pl/js/jquery.terminal.css
