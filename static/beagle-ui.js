@@ -1,3 +1,4 @@
+serverBasePath = typeof serverBasePath == 'undefined' ? '../../' : serverBasePath;
 var name = "#floatMenu";  
 var menuYloc = null;  
   
@@ -27,7 +28,7 @@ $(function() {
 
 $(document).ready(function(){
     if($('#side-menu').length) {
-        $.get('/Support/BoneScript/menu/', function(data){
+        $.get(serverBasePath + 'Support/BoneScript/menu/', function(data){
             $('#side-menu').replaceWith(data);
         });
     }
@@ -39,7 +40,7 @@ $(document).ready(function(){
         var statusDisconnected = '' +
             '<div id="connect-status">' +
             '    <div class="browser-connect">' +
-            '        <img alt="Not Connected" src="/static/images/usb.png" border="0">' +
+            '        <img alt="Not Connected" src="' + serverBasePath + 'static/images/usb.png" border="0">' +
             '        <div id="browser-content"><strong>Did you know?</strong>  This page can interact with your BeagleBone<br />' +
             'Type in your BeagleBone&#39;s IP address here:<input id="connect-ip"></input>' +
             '        </div>' +
@@ -48,7 +49,7 @@ $(document).ready(function(){
         var statusConnected = '' +
             '<div id="connect-status">' +
             '    <div class="browser-connected">' +
-            '        <img alt="Connected" src="/static/images/green_check.png" border="0">' +
+            '        <img alt="Connected" src="' + serverBasePath + 'static/images/green_check.png" border="0">' +
             '        <div id="browser-content"><strong>Your board is connected!</strong><br>' +
             '            <div id="board-info"></div>' +
             '        </div>' +
