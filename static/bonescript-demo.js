@@ -1,22 +1,24 @@
+bonescriptStaticPath = typeof bonescriptStaticPath == 'undefined' ? '../../' : bonescriptStaticPath;
+
 var cssUrls = [
-    '/static/jquery.terminal.css',         // http://terminal.jcubic.pl/js/jquery.terminal.css
-    '/static/jquery-ui.css',               // http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css
-    '/static/client.css'
+    'jquery.terminal.css',         // http://terminal.jcubic.pl/js/jquery.terminal.css
+    'jquery-ui.css',               // http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css
+    'client.css'
 ];
 
 var scriptUrls = [
-    '/static/jquery.js',
-    '/static/jquery.dimensions.js',
-    '/static/jquery.ui.core.js',
-    '/static/jquery.ui.widget.js',
-    '/static/jquery.ui.accordion.js',
-    '/static/jquery.svg.js',
-    '/static/jquery.terminal.js',          // http://terminal.jcubic.pl/js/jquery.terminal-0.4.12.min.js
-    '/static/jquery.mousewheel.js',        // http://terminal.jcubic.pl/js/jquery.mousewheel-min.js
-    '/static/jquery-ui.min.js',            // http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js
-    '/static/bonescript.js',
-    '/static/beagle-ui.js',
-    '/static/ajaxorg-ace-builds-c2f3abb/ace.js'// https://github.com/ajaxorg/ace-builds/commit/c2f3abb2ecd3287f90225d804132f0fd26cfb639
+    'jquery.js',
+    'jquery.dimensions.js',
+    'jquery.ui.core.js',
+    'jquery.ui.widget.js',
+    'jquery.ui.accordion.js',
+    'jquery.svg.js',
+    'jquery.terminal.js',          // http://terminal.jcubic.pl/js/jquery.terminal-0.4.12.min.js
+    'jquery.mousewheel.js',        // http://terminal.jcubic.pl/js/jquery.mousewheel-min.js
+    'jquery-ui.min.js',            // http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js
+    'bonescript.js',
+    'beagle-ui.js',
+    'ajaxorg-ace-builds-c2f3abb/ace.js'// https://github.com/ajaxorg/ace-builds/commit/c2f3abb2ecd3287f90225d804132f0fd26cfb639
 ];
 
 var oldLog = console.log;
@@ -43,7 +45,7 @@ function loadCss() {
         var link = document.createElement('link');
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = url;
+        link.href = bonescriptStaticPath + url;
         var linkObj = head.appendChild(link);
         loadCss();
     } else {
