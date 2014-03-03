@@ -67,7 +67,7 @@ function loadScript(url, callback) {
     var head = document.getElementsByTagName('head')[0];
     var script = document.createElement('script');
     script.type = 'text/javascript';
-    script.src = url;
+    script.src = bonescriptStaticPath + url;
     script.charset = 'UTF-8';
     var scriptObj = head.appendChild(script);
     scriptObj.onload = callback;
