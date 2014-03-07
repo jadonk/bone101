@@ -1,0 +1,20 @@
+// Create a custom Cloud9 runner - similar to the Sublime build system
+// For more information see http://docs.c9.io:8080/#!/api/run-method-run
+{
+    "cmd" : [
+        "make",
+        "-f",
+        "/var/lib/cloud9/extras/Userspace-Arduino/Makefile",
+        "TARGET=$file_base_name",
+        "LOCAL_INO_SRCS=$file_name",
+        "LOCAL_C_SRCS=",
+        "LOCAL_CPP_SRCS=",
+        "LOCAL_PDE_SRCS=",
+        "LOCAL_AS_SRCS=",
+        "COMMON_DEPS=",
+        "$args"
+    ],
+    "info" : "Started $project_path: $file_name",
+    "env" : {},
+    "selector" : "source.ino"
+}
