@@ -9,7 +9,7 @@ void setup() {
   // initialize the digital pin as an output.
   // Pin 14 is the USR0 LED
   // See http://elinux.org/Userspace_Arduino for more details on pinmap
-  pinMode(14, OUTPUT);     
+  pinMode(14, OUTPUT);
 }
 
 void loop() {
