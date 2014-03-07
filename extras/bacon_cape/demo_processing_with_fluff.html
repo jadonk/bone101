@@ -1,9 +1,9 @@
 <html>
     <head>
         <title>Bacon Cape Processing.JS Demo</title>
-        <script src="http://192.168.7.2/static/jquery.js"></script>
-        <script src="http://192.168.7.2/static/processing.js"></script>
-        <script src="http://192.168.7.2/static/bonescript.js"></script>
+        <script src="../../static/jquery.js"></script>
+        <script src="../../static/processing.js"></script>
+        <script src="../../static/bonescript.js"></script>
     </head>
     <body>
         <h1>Bacon Cape Processing.JS Demo</h1>
@@ -36,7 +36,7 @@
                 var segDigits = [ 0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90 ];
                 
                 // Get the BoneScript library and begin updating the canvas
-                setTargetAddress('192.168.7.2', {initialized: run});
+                setTargetAddress(window.location.hostname, {initialized: run});
                 function run() {
                     var b = require('bonescript');
                     var port = '/dev/i2c-2'
