@@ -1,5 +1,4 @@
 serverBasePath = typeof serverBasePath == 'undefined' ? '../../' : serverBasePath;
-serverSuffix = window.location.href.match(/index.html/) ? 'index.html' : '';
 var name = "#floatMenu";  
 var menuYloc = null;  
   
@@ -29,7 +28,7 @@ $(function() {
 
 $(document).ready(function(){
     if($('#side-menu').length) {
-        $.get(serverBasePath + 'Support/BoneScript/menu/' + serverSuffix, function(data){
+        $.get(serverBasePath + 'Support/BoneScript/menu/', function(data){
             $('#side-menu').replaceWith(data);
         });
     }
@@ -58,7 +57,6 @@ $(document).ready(function(){
             '</div>';
         var i = 0;
         var serversToTry = [
-            window.location.hostname,
             window.location.host,
             '192.168.7.2',
             'beaglebone.local',
@@ -80,7 +78,6 @@ $(document).ready(function(){
             handlers.reconnect = connected;
             handlers.reconnecting = connected;
             $('#connect-ip').keypress(oninput);
-            console.log("Attempting to connect to " + serversToTry[i]);
             setTargetAddress(serversToTry[i], handlers);
             i++;
             if(i >= serversToTry.length) i = 0;
