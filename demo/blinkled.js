@@ -1,20 +1,22 @@
 var b = require('bonescript');
 
-var ledPin = "P9_14";
-var ledPin2 = "USR3";
+var leds = ["USR0", "USR1", "USR2", "USR3", "P9_14"];
 
-b.pinMode(ledPin, b.OUTPUT);
-b.pinMode(ledPin2, b.OUTPUT);
+for(var i in leds) {
+    b.pinMode(leds[i], b.OUTPUT);
+}
 
 var state = b.LOW;
-b.digitalWrite(ledPin, state);
-b.digitalWrite(ledPin2, state);
+for(var i in leds) {
+    b.digitalWrite(leds[i], state);
+}
 
 setInterval(toggle, 1000);
 
 function toggle() {
     if(state == b.LOW) state = b.HIGH;
     else state = b.LOW;
-    b.digitalWrite(ledPin, state);
-    b.digitalWrite(ledPin2, state);
+    for(var i in leds) {
+        b.digitalWrite(leds[i], state);
+    }
 }
