@@ -3,7 +3,7 @@
         <title>Flot Demo</title>
         <script src="flot/jquery.min.js"></script>
         <script src="flot/jquery.flot.min.js"></script>
-        <script src="http://192.168.7.2/static/bonescript.js"></script>
+        <script src="../../static/bonescript.js"></script>
     </head>
     <body>
         <h1>Flot Demo</h1>
@@ -34,7 +34,7 @@
         <script>
             $(document).ready( function() {          
                 // Get the BoneScript library and begin app
-                setTargetAddress('192.168.7.2', {initialized: run});
+                setTargetAddress(window.location.hostname, {initialized: run});
                 function run() {
                     var b = require('bonescript');
                     var buttonStatus = 0;
