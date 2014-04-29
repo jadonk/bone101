@@ -183,8 +183,8 @@ a img {
 pre, code {
   font-family: Monaco, monospace;
   font-size: 12px;
-  background: #111;
-  color: #F5F5F5;
+  //background: #111;
+  color: #1A1919;
 }
 
 p code {
@@ -318,7 +318,7 @@ button {
 .box img,
 #tumblelog img {
   display: block;
-  width: 100%;
+  width: 20%;
 }
 
 .rtl .box {
@@ -329,7 +329,7 @@ button {
 
 
 
-.col1 { width: 80px; }
+.col1 { width: 50px; }
 .col2 { width: 180px; }
 .col3 { width: 280px; }
 .col4 { width: 380px; }
@@ -413,7 +413,7 @@ button {
 
 #tumblelog {
   background: #FFF;
-  padding: 1.0em;
+  padding: 0;
 }
 
 #tumblelog .story {
@@ -427,7 +427,7 @@ button {
 #tumblelog h1, #tumblelog h2, #tumblelog h3 { font-weight: bold;}
 
 #tumblelog .col1 { width: 220px;}
-#tumblelog .col2 { width: 460px;}
+#tumblelog .col2 { width: 420px;}
 #tumblelog .col3 { width: 700px;}
 
 #tumblelog .col1 img,
