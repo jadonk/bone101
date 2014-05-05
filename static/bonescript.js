@@ -5,7 +5,7 @@ function require(file) {
 function setTargetAddress(address, handlers) {
     var url = address;
     url = url.replace(/^(http:\/\/|https:\/\/)*/, 'http://');
-    url = url.replace(/(\/)*$/, 'bonescript.js');
+    url = url.replace(/(\/)*$/, '/bonescript.js');
     loadScript(url, addHandlers);
     function loadScript(url, onload) {
         var head = document.getElementsByTagName('head')[0];
