@@ -1,5 +1,6 @@
 var net = require('net');
 var b = require('bonescript');
+var io = require('bonescript/node_modules/socket.io').listen(2013);
 
 var DIO_SIZE = 12;
 var AI_SIZE = 7;
@@ -38,6 +39,7 @@ function socketOpen(socket) {
 
 console.log("starting");
 server.listen(2012);
+io.sockets.on('connection', socketOpen);
 Startlights();
 
 function RunBotSpeak (command,socket) {
