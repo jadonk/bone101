@@ -1,280 +1,479 @@
-var net = require('net');
-var b = require('bonescript');
-var io = require('bonescript/node_modules/socket.io').listen(2013);
+/**
+ * BotSpeak JS - BotSpeak Chrome Extension
+ * @author Rafi Yagudin
+ * @version 1.0
+ */
 
-var DIO_SIZE = 12;
-var AI_SIZE = 7;
-var PWM_SIZE = 8;
-var TMR_SIZE = 5;
-var AO_SIZE = 0;
+var socketio;
 
-var pins = [ "USR0", "USR1", "USR2", "USR3", "P8_15", "P8_14", "P8_12", "P8_11", "P9_13", "P9_15", "P9_17", "P9_23"];
-var PinsState = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-var AnalogInPins = ["P9_39","P9_40","P9_37","P9_38","P9_33","P9_36","P9_35"];
-var PWMPins = ["P9_14","P9_16","P8_19","P8_13", "P8_34", "P8_36", "P8_45", "P8_46"];
 
-var SCRIPT = [];
-var TIMER = [];
-var VARS = {VER:'0.9', HI:'1', LO:'0', END: '0'};
+var BOTSPEAK_DEVICES = {
+	'BEAGLEBONE_BLACK' : {
+		'name' : 'Beaglebone Black',
+		'img'  : 'images/beaglebone.jpg',
+		'ip'   : '',
+		'connection_id' : -1
+	},
+	'BEAGLEBONE_BLACK_TCP' : {
+		'name' : 'Beaglebone Black (TCP)',
+		'img'  : 'images/beaglebone.jpg',
+		'ip'   : '',
+		'connection_id' : -1
+	},
+	'ARDUINO_UNO' : {
+		'name' : 'Arduino Uno',
+		'img'  : 'images/arduino.jpg',
+		'port' : '',
+		'connection_id' : -1
+	},
+	'LILLY_PAD' : {
+		'name' : 'Lily Pad',
+		'img'  : 'images/lillypad.jpg',
+		'port' : '',
+		'connection_id' : -1
+	},
+	'PROTO_SNAP' : {
+		'name' : 'ProtoSnap',
+		'img'  : 'images/protosnap.png',
+		'port' : '',
+		'connection_id' : -1
+	},
+	'RASPBERRY_PI' : {
+		'name' : 'Raspberry Pi',
+		'img'  : 'images/rpi.jpg',
+		'ip'   : '',
+		'connection_id' : -1
+	},
+	'GENERIC_TCPIP' : {
+		'name' : 'Generic TCPIP Device',
+		'img'  : 'images/generic_tcpip.jpg',
+		'ip'   : '',
+		'connection_id' : -1
+	}
+};
+var DEBUG_BOTSPEAK = false;
+var SOCKETIO_DEVICE_SELECTED = true;
+var TCP_DEVICE_SELECTED    = false; 
+var SERIAL_DEVICE_SELECTED = false;
+var SOCKETIO_DEVICES    = ['BEAGLEBONE_BLACK'];
+var TCP_DEVICES    = ['BEAGLEBONE_BLACK_TCP', 'RASPBERRY_PI', 'GENERIC_TCPIP'];
+var SERIAL_DEVICES = ['ARDUINO_UNO', 'LILLY_PAD', 'PROTO_SNAP'];
+var CONNECTION_ID  = -1;
+var SOCKET_ID      = -1;
+var BOTSPEAK_VERSION = ['1.0', '9'];
+var SERIAL_PORTS = '';
 
-var server = net.createServer(socketOpen);
+(function($){
 
-function socketOpen(socket) {
-    socket.on('end', tcpClose);
-    function tcpClose() {
-    }
-    socket.on('data', tcpData);
-    var my_input = "";
-    function tcpData(data) {
-        my_input = my_input + data;
-        if(my_input.match(/\r\n$/)) {
-            var command = my_input.split("\r\n");
-            var reply = RunBotSpeak(command[0],socket); // don't want \r\n and whatever is after it - assume only one \r\n
-            if (reply !== '') socket.write(reply + "\r\n");
-            if ((reply !== "close") && (command[0] !== '')) console.log("Got: " + command[0].replace(/\n/g,",") + " Replied: " + reply.replace(/\n/g,","));
-            my_input = "";
-        }
-    }
-}
+	$( document ).ready(function(){
+		
+		var loadsio = $.getScript('http://' + window.location.host + ':2013/socket.io/socket.io.js');
+		loadsio.done(function(script, textStatus) {
+			try {
+				if(io) socketio = io.connect(':2013');
+				else console.log('Unable to make socket.io connection');
+			} catch(ex) {
+				console.log('Unable to make socket.io connection: ' + ex);
+			}
+  		});
 
-console.log("starting");
-server.listen(2012);
-io.sockets.on('connection', socketOpen);
-Startlights();
+		function showError(error_msg){
+			$('#error_msg').append(error_msg);
+		}
 
-function RunBotSpeak (command,socket) {
-    var BotCode = command.split('\n');
-    //        console.log(BotCode);
-    var TotalSize = BotCode.length;
-    var reply = "";
-    var scripting = -1, ptr = 0,i,j;
-    
-    for (i = 0;i < TotalSize; i++) {
-        //        console.log(GetCommand(BotCode[i]));
-        switch (GetCommand(BotCode[i])) {
-            case "":console.log("blank"); break;
-                
-            case "SCRIPT":
-                scripting = 0;
-                ptr = 0;
-                reply += "start script\n";
-                break;
-                
-            case "ENDSCRIPT":
-                scripting = -1;
-                ptr = 0;
-                reply += "end script\n";
-                console.log(SCRIPT);
-                break;
-                
-            case "RUN":
-                socket.write("Done\r\n");
-                
-            case "RUN&WAIT":
-            case "DEBUG":
-                console.log(BotCode[i]);
-                j = Retrieve(BotCode[i].slice(BotCode[i].indexOf(' ')));
-                VARS["END"] = SCRIPT.length;
-                while (j < VARS["END"]) {
-                    var reply1 = ExecuteCommand(SCRIPT[j]);
-                    //                    console.log('executed '+SCRIPT[j]+' -> ' + reply1);
-                    if (command !== 'RUN') socket.write(SCRIPT[j] + ' -> '+ reply1 + '\n');
-                    var goto = String(reply1).split(' ');
-                    j = (goto[0] == "GOTO") ? Number(goto[1]): j + 1;
-                    //                    reply += reply1 + '\n';
-                }
-                reply += "ran " +VARS["END"] + " lines of script\nDone";
-                if (command == 'RUN') reply = '';
-                break;
-                
-            case "Done": break;
-            default: {
-                if (scripting >= 0) {
-                    SCRIPT[ptr] = BotCode[i];
-                    reply += SCRIPT[ptr] + '\n';
-                    ptr ++;
-                }
-                else reply += ExecuteCommand(BotCode[i]) + '\n';
-            }
-        }
-    }
-    return reply;
-}
+		//Append each device to the device_selection dropdown
+		var option_html = '';
+		$.each(BOTSPEAK_DEVICES, function(key, val){
+			option_html += '<option value="' + key + '">' + val.name + '</option>';
+		});
+		$('#device_selection').append(option_html);
 
-function ExecuteCommand(Code) {
-    if (trim(Code.slice(0,2)) == '//') return " ";  // just a comment
-    if (trim(Code) =='') return '';   // blank line
-    var command = GetCommand(Code);   // everything before the space
-    var args = trim(Code.slice(Code.indexOf(' '))).split(',');  // everything after the space, split by ','
-    var dest = trim(args[0]);
-    var value = (args.length > 1) ? trim(args[1]):0;
-    var waittime = 0;
-    
-    switch (command) {
-        case "SET": return Assign(dest,Retrieve(value));
-        case "GET": return Retrieve(dest);
-        case "WAIT": waittime = 1000*Retrieve(dest); return delay(waittime);
-        case "WAITµs": microdelay(Retrieve(dest)); return Retrieve(dest);
-        case "ADD": return VARS[dest] += Retrieve(value);
-        case "SUB": return VARS[dest] -= Retrieve(value);
-        case "MUL": return VARS[dest] *= Retrieve(value);
-        case "DIV": return VARS[dest] /= Retrieve(value);
-        case "AND": return VARS[dest] &= Retrieve(value);
-        case "OR":  return VARS[dest] |= Retrieve(value);
-        case "NOT": return VARS[dest]  = !Retrieve(value);
-        case "BSL": return VARS[dest] <<= Retrieve(value);
-        case "BSR": return VARS[dest] >>= Retrieve(value);
-        case "MOD": return VARS[dest] %= Retrieve(value);
-        case "GOTO":return Jump = dest;
-        case "LBL": return 0;
-        case "IF": {
-            var conditional = trim(Code.slice(Code.indexOf('(')+1,Code.indexOf(')')));
-            var Jump = trim(Code.slice(Code.indexOf('GOTO')));
-            var params = conditional.split(' ');
-            switch (trim(params[1])) {
-                case '>':   if (Retrieve(trim(params[0])) > Retrieve(trim(params[2])))  return Jump; else return 1;
-                case '<':   if (Retrieve(trim(params[0])) < Retrieve(trim(params[2])))  return Jump; else return 1;
-                case '<':   if (Retrieve(trim(params[0])) < Retrieve(trim(params[2])))  return Jump; else return 1;
-                case '==':  if (Retrieve(trim(params[0])) == Retrieve(trim(params[2]))) return Jump; else return 1;
-                case '!=':  if (Retrieve(trim(params[0])) != Retrieve(trim(params[2]))) return Jump; else return 1;
-                case '<=':  if (Retrieve(trim(params[0])) <= Retrieve(trim(params[2]))) return Jump; else return 1;
-                case '>=':  if (Retrieve(trim(params[0])) >= Retrieve(trim(params[2]))) return Jump; else return 1;
-                default: return "unsupported conditional";
-            }
-            return 1;
-        }
-        case "SYSTEM": return SystemCall(args);
-        case "": return 1;
-        case "end": return "end";
-        default: return (command + " not yet supported");
-    }
-}
+		//Get the serial ports every 5 seconds in case thing get attached
+		function getDevices(){
+			if(chrome && chrome.serial) chrome.serial.getDevices(function(ports){
+				SERIAL_PORTS = ports;
+				if( SERIAL_PORTS ){
+					var port_options = '';
+					SERIAL_PORTS.forEach(function(port){
+						port_options += '<option value="' + port.path + '">' + port.path + '</div>';
+					});
+					$('#serial_ports').html(port_options);
+				}
+			})
+		}
+		
+		getDevices();
 
-function Assign(dest,value)  {
-    var i;
-    var param = dest.split('[');
-    var param1 = GetArrayIndex(param);
-    switch (param[0]) {
-        case "DIO":
-            param1 = (param1 < DIO_SIZE)?param1:0;
-            b.pinMode(pins[param1] , b.OUTPUT);
-            b.digitalWrite(pins[param1], value);
-            return PinsState[param1] = value;
-            
-        case "AO":
-        case "PWM":
-            param1 = (param1 < PWM_SIZE)?param1:0;
-            b.pinMode(PWMPins[param1] , b.OUTPUT);
-            //            value = value / 100;  // PWM goes from 0 - 100 percent
-            value = (value < 1) ? value: 1;
-            console.log("param " + param1 + " Pin " +  PWMPins[param1] + " value " + value);
-            b.analogWrite(PWMPins[param1], value);
-            return PinsState[param1] = value;
-            
-        case "TMR":
-            param1 = (param1 < TMR_SIZE)?param1:0;
-            TIMER[param1] = value + new Date().getTime();
-            return value;
-            
-            // Read Only Variables
-        case "VER": return VARS["VER"];
-        case "AI":
-            param1 = (param1 < AI_SIZE)?param1:0;
-            return b.analogRead(AnalogInPins[param1]);
-            
-        default:
-            if (param.length == 1) {
-                var arrayName=dest.split('_SIZE');  // see if they are defining an array
-                if (arrayName.length > 1) {
-                    VARS[arrayName[0]] =[];
-                    for (i=0;i<value;i++) VARS[arrayName[0]][i]=0;
-                    VARS[arrayName[0]+'_COLS']=1;  // assume a 1D array initially
-                }
-                return VARS[dest] = value;
-            }
-            //            console.log("Assigning "+param[0]+"__"+param1+" of "+VARS[param[0]+'_SIZE']);
-            param1 = (param1 < VARS[param[0]+'_SIZE'])?param1:VARS[param[0]+'_SIZE'] - 1;
-            
-            return VARS[param[0]][param1] = value;
-    }
-}
+		$('#get_ports').click(function(){
+			getDevices();
+		});
 
-function Retrieve(source)  {
-    var param = source.split('[');
-    var param1 = GetArrayIndex(param);
-    var reply = '';
-    
-    switch (param[0]) {
-        case "DIO": reply = (param1 < DIO_SIZE)?PinsState[param1]:-1; break;
-        case "AI":  reply = (param1 < AI_SIZE)?b.analogRead(AnalogInPins[param1]):-1; break;
-        case "TMR": reply = (param1 < TMR_SIZE)?(new Date().getTime() - TIMER[param1]):-1; break;
-        default: {
-            switch(param.length) {
-                case 1: {
-                    if (VARS[source] === undefined) reply = Number(source);
-                    else reply = VARS[source];  // if not declared then probably a number
-                    break;
-                }
-                default:  {
-                    //                    console.log("Retrieving "+param[0]+"__"+param1+" of "+VARS[param[0]+'_SIZE']);
-                    var ArrayPtr = (param1 < VARS[param[0]+'_SIZE'])? param1 : VARS[param[0]+'_SIZE']-1;
-                    reply = VARS[param[0]][ArrayPtr];
-                    break;
-                }
-                    
-            }
-        }
-    }
-    return reply;
-}
 
-function GetArrayIndex(param)  {
-    if (param.length <= 1) return -1;
-    var TwoD=param[1].split(':');
-    //    console.log(param[1]+' : '+TwoD);  //2D does not work because the comma is used elsewhere
-    if (TwoD.length <= 1) return Retrieve(trim(param[1].split(']')[0]));  // recursive to allow variables in the brackets]
-    console.log(Retrieve(TwoD[0]*VARS[param[0]+'_COLS'])+Retrieve(trim(TwoD[1].split(']')[0])));
-    return Retrieve(TwoD[0]*VARS[param[0]+'_COLS'])+Retrieve(trim(TwoD[1].split(']')[0]));
-}
+		/**
+		 * Converts a string to an array buffer
+		 * @see http://stackoverflow.com/questions/6965107/converting-between-strings-and-arraybuffers
+		 * @param str
+		 * @returns {ArrayBuffer}
+		 */
+		function str2ab(str) {
+			var buf = new ArrayBuffer(str.length); // 1 byte for each char
+			var bufView = new Uint8Array(buf);
+			for (var i=0, strLen=str.length; i<strLen; i++) {
+				bufView[i] = str.charCodeAt(i);
+			}
+			return buf;
+		}
 
-function trim(AnyString) {
-    return AnyString.replace(/^\s+|\s+$/g,"");
-}
-function delay (msec) {
-    var start = new Date().getTime();
-    for (var i = 0; i < 1e7; i++) {
-        if ((new Date().getTime() - start) > msec) break;
-    }
-    return msec;
-}
-function microdelay (msec) {
-    var start = new Date().getTime();
-    for (var i = 0; i < 1e7; i++) {
-        if ((new Date().getTime() - start) > msec/1000) break;
-    }
-}
-function Startlights() {
-    var i;
-    for (i = 1; i < 4; i++) {
-        b.pinMode(pins[i], 'out');
-        b.digitalWrite(pins[i], 1);
-        delay (100);
-    }
-    for (i = 3; i >= 0; i--) {
-        b.digitalWrite(pins[i], 0);
-        delay (100);
-    }
-}
+		/**
+		 * Converts array buffer to string
+		 * @see http://updates.html5rocks.com/2012/06/How-to-convert-ArrayBuffer-to-and-from-String
+		 * @param buf
+		 * @returns {string}
+		 */
+		function ab2str(buf) {
+			return String.fromCharCode.apply(null, new Uint8Array(buf));
+		}
 
-function GetCommand(Code) {
-    return (Code.indexOf(' ') >= 0) ? trim(Code.slice(0,Code.indexOf(' '))) : Code;
-}
+		/**
+		 * Send a command over Socket.IO
+		 * 
+		 * @string hostname - IP address or hostname of the device to connect to. Default: 127.0.0.1 (localhost)
+		 * @int port   - The port to connect on. Default is 9999.
+		 * @string cmd - The command to send over Socket.IO
+		 * @callback   - callback of the form callback(message) where message is the data read back via Socket.IO
+		 */
+		var send_socketio_msg = function(hostname, port, cmd, callback){
+			if(socketio) {
+				socketio.once('message', stripData);
+				socketio.emit('data', cmd);
+			}
+			
+			function stripData(message) {
+				message = message.replace(/\n$/, "");
+				callback(message);
+			}
+		};
 
-function SystemCall(args) {
-    var ampl = Retrieve(args[1]);
-    var freq = Retrieve(args[2]);
-    
-    Assign(args[0],ampl);
-    
-    return freq;
-}
+		/**
+		 * Send a command over TCP/IP
+		 * 
+		 * @string hostname - IP address or hostname of the device to connect to. Default: 127.0.0.1 (localhost)
+		 * @int port   - The port to connect on. Default is 9999.
+		 * @string cmd - The command to send over TCP/IP
+		 * @callback   - callback of the form callback(arrayBufferResult) where ArrayBufferResult is an arrayBuffer of the data read back via TCP/IP
+		 */
+		var send_tcp_msg = function(hostname, port, cmd, callback){
+			if(chrome && chrome.socket) chrome.socket.create("tcp", null, function(createInfo){
+
+				SOCKET_ID = createInfo.socketId;
+				
+				if(SOCKET_ID == -1){
+					showError('<p>Error: could not connect over TCP to host: ' + hostname +'.</p>');
+					return;
+				}
+
+				if(typeof hostname !== 'string'){
+					showError('Hostname argument is not of type string in send_tcp_msg().')
+				}
+
+				if(typeof port !== 'number'){
+					showError('Port argument is not of type string in send_tcp_msg().')
+				}
+
+				if(hostname == undefined || hostname == ''){
+					hostname = '127.0.0.1';
+				}
+
+				if(port == undefined || port == ''){
+					port = 9999;
+				}
+
+				console.log('Command:' + cmd);
+
+				chrome.socket.connect(SOCKET_ID, hostname, port, function(result) {
+					// console.log('tcp_result: ');
+					// console.log(result);
+
+					var str2ab_arrayBuffer = str2ab(cmd + '\r\n');
+					var str2ab_bufView = new Uint8Array(str2ab_arrayBuffer);
+					console.log('using str2ab:');
+					console.log(str2ab_bufView);
+
+
+					 chrome.socket.write(SOCKET_ID, str2ab_arrayBuffer, function(writeInfo) {
+
+						 console.log('TCP socket writeInfo:');
+						 console.log(writeInfo);
+
+						 if(writeInfo.bytesWritten  < 0){
+							 console.log('TCP socket error, no bytes written to TCP socket.');
+						 }
+
+						 chrome.socket.read(SOCKET_ID, null, function(readInfo) {
+							 console.log('TCP readInfo:');
+							 console.log(readInfo);
+							 var labview_bufView = new Uint8Array(readInfo.data);
+							 console.log('TinySpeak Server result:');
+							 console.log(labview_bufView);
+							 callback(readInfo.data);
+						 });
+					 });
+
+					/*
+					_stringToArrayBuffer(cmd + '\r\n', function(arrayBuffer) {
+
+						var bufView = new Uint8Array(arrayBuffer);
+						console.log('using _stringToArrayBuffer:');
+						console.log(bufView);
+
+					}); // end _stringToArrayBuffer
+					*/
+
+				});
+			});
+			if(chrome && chrome.socket) chrome.socket.destroy(SOCKET_ID);
+		};
+
+		//Test the Socket.IO connection by sending "GET VER" over Socket.IO
+		$('#test_socketio_button').click(function(){
+			var device_ip    = $('#device_ip').val();
+			var device_port  = $('#device_port').val(); // note, this is never assigned!
+			var botspeak_cmd = 'GET VER';
+			send_socketio_msg(device_ip, device_port, botspeak_cmd, function(version){
+				console.log('version: ')
+				console.log(version)
+				if(  $.inArray(version, BOTSPEAK_VERSION) != -1 ){
+					$('#socketio_devices').append('<p style="color: green;">Connection successful! BotSpeak Version: ' + version + '</p>')
+				}else{
+					$('#socketio_devices').append('<p style="color: red;"> Connection Error: ' + version + '</p>')
+				}
+			});
+		});
+
+		//Test the TCP connection by sending "GET VER" over TCP/IP
+		$('#test_tcp_button').click(function(){
+			var device_ip    = $('#device_ip').val()
+			var device_port  = $('#device_port').val()
+			var botspeak_cmd = 'GET VER';
+			send_tcp_msg(device_ip, device_port, botspeak_cmd, function(arrayBufferResult){
+				_arrayBufferToString(arrayBufferResult, function(version){
+					console.log('version: ')
+					console.log(version)
+					if(  $.inArray(version, BOTSPEAK_VERSION) != -1 ){
+						$('#tcp_devices').append('<p style="color: green;">Connection successful! BotSpeak Version: ' + version + '</p>')
+					}else{
+						$('#tcp_devices').append('<p style="color: red;"> Connection Error: ' + version + '</p>')
+					}
+				});
+			});
+		});
+
+		/**
+		 * Send a serial comand
+		 * @param connection_id
+		 * @param serial_cmd
+		 * @param callback
+		 */
+		var send_serial_cmd = function(connection_id, serial_cmd) {
+			console.log('Sending serial on connection id:' + connection_id + ' with command: ' + serial_cmd);
+
+			if(chrome && chrome.serial) chrome.serial.send(connection_id, serial_cmd, function(sendInfo){
+				console.log('Serial send info:');
+				console.log(sendInfo);
+				if(sendInfo.bytesWritten == -1){
+					console.log("Error: could not write to serial.");
+					return;
+				}
+			});
+		};
+
+		/**
+		 * Register onReceive event
+		 */
+		if(chrome && chrome.serial) chrome.serial.onReceive.addListener(function(responseInfo){
+
+			console.log('Serial response info:');
+			console.log(responseInfo);
+
+			var responseArrayBufferView = new Uint8Array( responseInfo.data );
+
+			console.log( 'Response array buffer view:' );
+			console.log( responseArrayBufferView );
+
+			var string_response = ab2str( responseInfo.data );
+
+			console.log( 'Response string:' + string_response );
+
+			terminal_obj.echo( 'Response:' + string_response );
+
+		});
+
+		//Tests and sets the serial connection for each serial device
+		$('#test_serial_button').click(function(){
+
+			var device_id = $('#device_selection').val();
+			var port_id   = $('#serial_ports').val();
+			var device = BOTSPEAK_DEVICES[device_id];
+
+			//Get TinySpeak from LabView TCP server
+			send_tcp_msg('127.0.0.1', 9999, 'GET VER', function(labview_result){
+
+				// console.log('Labview result:');
+				// console.log(labview_result);
+
+				if( device.port != port_id ){
+					device.port = port_id;
+
+					chrome.serial.connect(device.port, null, function(connectionInfo){
+
+						console.log('Serial connection info:');
+						console.log(connectionInfo);
+
+						device.connection_id = connectionInfo.connectionId;
+						if (device.connection_id === -1) {
+							console.log('Could not connect to serial');
+							return;
+						}
+					});
+				}
+
+				send_serial_cmd(device.connection_id, labview_result, function(arrayBufferResponse){
+					var stringResponse = ab2str( arrayBufferResponse );
+					console.log(stringResponse);
+					$('#connection_status').html('<p>' + stringResponse + '</p>');
+				});
+
+			});
+
+		});
+
+		//Show device info
+		$('#device_selection').change(function(){
+			var device  = $( this ).val();
+			var img_src = BOTSPEAK_DEVICES[device].img;
+			
+			//Show device image
+			$('#device_image').html('<img src="' + img_src + '" />');
+			
+			//Show/hide tcp/ip serial inputs
+			if( $.inArray(device, TCP_DEVICES) != -1 ){
+				TCP_DEVICE_SELECTED = true;
+				$('#tcp_devices').show();
+			}else{
+				TCP_DEVICE_SELECTED = false;
+				$('#tcp_devices').hide();
+			}
+
+			if( $.inArray(device, SERIAL_DEVICES) != -1 ){
+				SERIAL_DEVICE_SELECTED = true;
+				$('#serial_devices').show();
+			}else{
+				SERIAL_DEVICE_SELECTED = false;
+				$('#serial_devices').hide();
+			}
+
+			if( $.inArray(device, SOCKETIO_DEVICES) != -1 ){
+				SOCKETIO_DEVICE_SELECTED = true;
+				$('#socketio_devices').show();
+			}else{
+				SOCKETIO_DEVICE_SELECTED = false;
+				$('#socketio_devices').hide();
+			}
+		});
+
+		var terminal_obj = {};
+
+		//Setup the terminal interface
+		$('#terminal').terminal(function(command, term) {
+
+			terminal_obj = term;
+
+			try {
+				var device_id = $('#device_selection').val();
+				var device = BOTSPEAK_DEVICES[device_id];
+				
+				if(SOCKETIO_DEVICE_SELECTED){
+					send_socketio_msg(device.ip, 2013, command, function(cmd_result){
+						term.echo(cmd_result);
+					});
+				}
+
+				if(TCP_DEVICE_SELECTED){
+					//send_tcp_msg(device.ip, 9999, command, function(arrayBufferResult){
+					send_tcp_msg(device.ip, 2012, command, function(arrayBufferResult){
+						_arrayBufferToString(arrayBufferResult, function(cmd_result){
+							term.echo(new String(cmd_result));
+						});
+					});
+				}
+
+				if(SERIAL_DEVICE_SELECTED){
+
+					device.port = $('#serial_ports').val();
+
+					if( device.connection_id === -1 ){
+						chrome.serial.connect(device.port, null, function(connectionInfo){
+
+							if( DEBUG_BOTSPEAK ){
+								console.log( 'Serial connection info:' );
+								console.log(connectionInfo);
+							}
+
+							device.connection_id = connectionInfo.connectionId;
+							if (device.connection_id === -1) {
+								showError('Error: could not connect to serial.');
+								return;
+							}
+						});
+					}
+
+					if( command == "FLUSH" && device.connection_id !== -1 ){
+						chrome.serial.flush( device.connection_id, function(result){
+						   term.echo('Flush status:' + result);
+						});
+						return;
+					}
+
+					//Get TinySpeak from LabView TCP server and convert it to ArrayBuffer
+					send_tcp_msg('127.0.0.1', 9999, command, function(arrayBufferResult){
+
+						var uint8View  = new Uint8Array(arrayBufferResult);
+						var bufferTruncated = new ArrayBuffer(uint8View.length - 1);
+						var uint8truncated  = new Uint8Array(bufferTruncated);
+						var sentString = '';
+
+						//Strip off the last byte
+						for(var i = 0; i < uint8View.length - 1; i++){
+							uint8truncated[i] = uint8View[i];
+							sentString = sentString + uint8View[i].toString(16);
+						}
+
+						console.log('serial command: ');
+						console.log(uint8truncated);
+
+						term.echo('Hex: ' + sentString);
+
+						send_serial_cmd(device.connection_id, bufferTruncated);
+					});
+				}
+
+			} catch(e) {
+					term.error(new String(e));
+				}
+				if (command !== '') {
+			} else {
+			   term.echo('');
+			}
+		}, {
+			enabled: false,
+			greetings: 'BotSpeak Terminal',
+			name: 'botspeak_demo',
+			height: 300,
+			width: 400,
+			prompt: '> '
+			}
+		);
+	})
+
+})(jQuery)
+

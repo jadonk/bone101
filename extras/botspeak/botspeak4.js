@@ -1,6 +1,7 @@
 var net = require('net');
 var b = require('bonescript');
 var socketio = require('bonescript/node_modules/socket.io');
+var fs = require('fs');
 
 var DIO_SIZE = 12;
 var AI_SIZE = 7;
@@ -26,7 +27,6 @@ function socketOpen(socket) {
 	socket.on('data', tcpData);
 	var my_input = "";
 	function tcpData(data) {
-		console.log(data);
 		my_input = my_input + data;
 		if(my_input.match(/\r\n$/)) {
 			var command = my_input.split("\r\n");
@@ -44,12 +44,23 @@ function socketioOpen(socket) {
 		args.unshift('message');
 		socket.emit.apply(this, args);
 	}
-	socketOpen(socket);
+	socket.on('end', socketClose);
+	function socketClose() {
+	}
+	socket.on('data', socketData);
+	var my_input = "";
+	function socketData(data) {
+		var reply = RunBotSpeak(data,socket);
+		if (reply !== '') socket.emit('message', reply);
+		if ((reply !== "close") && (data !== '')) console.log("Got: " + data.replace(/\n/g,",") + " Replied: " + reply.replace(/\n/g,","));
+	}
 }
 
 console.log("starting");
 server.listen(2012);
-socketio.listen(2013).sockets.on('connection', socketioOpen);
+var io = socketio.listen(2013);
+io.set('log level', 0);
+io.sockets.on('connection', socketioOpen);
 Startlights();
 
 function RunBotSpeak (command,socket) {
@@ -167,6 +178,7 @@ function Assign(dest,value)  {
 	switch (param[0]) {
 		case "DIO":
 			param1 = (param1 < DIO_SIZE)?param1:0;
+			console.log("setting " + pins[param1] + " to " + value);
 			b.pinMode(pins[param1] , b.OUTPUT);
 			b.digitalWrite(pins[param1], value);
 			return PinsState[param1] = value;
@@ -288,3 +300,13 @@ function SystemCall(args) {
 	
 	return freq;
 }
+
+process.on('uncaughtException', function(err) {
+  console.log('Exception: ' + err);
+  
+  // Trigger autorun to restart us
+  var stat = fs.statSync(__filename);
+  fs.utimesSync(__filename, stat.atime, new Date());
+  
+  process.exit(1);
+});
