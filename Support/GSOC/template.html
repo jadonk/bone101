@@ -5,197 +5,103 @@
         <title>BeagleBoard.org</title>
 
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+            <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
-        <link rel="stylesheet" href="../GSOC/css/style.css" />
-        <link rel="stylesheet" href="../GSOC/css/colorbox.css" />
 
-        <style>
-            .gist{
-                margin-left:2em;
-                margin-right:2em
-            }
-        </style>    
+            <style>
+                
+                
+                .gist{
+                    margin-left:2em;
+                    margin-right:2em
+                }
+
+                div.container {
+                    width: 100%;
+                    overflow: hidden;
+                    margin-left: 15px;
+                }
+
+                div.bonecard {
+                    background-color: white;
+                    margin: 10px;
+                    width: 340px;
+                    height: 210px;
+                    border: 2px solid black;
+                    border-left: 2px solid black;
+                    padding: 10px;
+                    -webkit-border-radius: 20px;
+                    -webkit-border-top-right-radius: 50px;
+                    -webkit-border-bottom-right-radius: 50px;
+                    -moz-border-radius: 20px;
+                    -moz-border-radius-topright: 50px;
+                    -moz-border-radius-bottomright: 50px;
+                    border-radius: 20px;
+                    border-top-right-radius: 50px;
+                    border-bottom-right-radius: 50px;
+                    position: relative; 
+                    float: left;
+                    -webkit-transition: color 0.5s ease;
+                }
+                div.bonecard:after, div.bonecard:before {
+                    background-color: white;
+                    position: absolute;
+                    display: block;
+                    content:"";
+                    border: 2px solid black;
+                    border-right: 2px solid white;
+                    width: 6px;
+                    left: -10px;
+                }
+                div.bonecard:before {
+                    top: 60px;
+                    height: 60px;
+                }
+                div.bonecard:after {
+                    top: 180px;
+                    height: 30px;
+                }
+                
+                div.bonecard img {
+                    max-width: 45%;
+                    -webkit-border-radius: 5px;
+                    -moz-border-radius: 5px;
+                    border-radius: 5px;
+                    margin-left: auto;
+                    margin-right: auto;
+                }
+            </style>    
 
     </head>
     <body>
 
-
-        <section id="content">
-
-            <h1>Beagle Board Documentation</h1>
-            <div id="container" class="clearfix">
-                <div id="tumblelog" class="clearfix">
-                    <div class="story col2">
-                        <a href='#' id='open'> 
-                            <h3>Blinking an LED with BeagleBone Black</h3>
-                            <p>
-                                <img src="https://learn.adafruit.com/system/guides/images/000/000/309/medium310/overview.jpg?1396718934" alt="">
-                            </p>
-                            <p>Make an LED Blink using Python on a BeagleBone Black In this tutorial, you will learn how to control an external LED using a BeagleBone Black (BBB) from Python.
-                            </p>
-                        </a>
-                    </div>
-
-                    <div class="story col2">
-                        <h3>Connecting a Push Button to BeagleBone Black</h3>
-                        <img src="https://learn.adafruit.com/system/guides/images/000/000/339/medium310/overview_web.jpg" alt="" />
-                        <p>In this tutorial, you will learn how to connect a push button switch to a BeagleBone Black and have it display a message when the button is pressed.
-                        </p>                                         
-                    </div>
-
-                    <div class="story col2">
-                        <h3>Connecting a Push Button to BeagleBone Black</h3>
-                        <img src="https://learn.adafruit.com/system/guides/images/000/000/324/medium310/project_big_servo_web.jpg?" alt="" />
-                        <p>In this tutorial, you will learn how to control a servo from Python using a BeagleBone Black (BBB). A Python test program will allow you to set the angle of the servo between 0 and 180 degrees.
-                        </p>                                         
-                    </div>
-
-                    <div class="story col2">
-                        <h3>Introduction to the BeagleBone Black Device Tree</h3>
-                        <img src="https://learn.adafruit.com/system/guides/images/000/000/329/medium310/BeagleBone_Black_Large.jpg" alt="" />
-                        <p>The BeagleBone Black uses the Device Tree to describe the hardware for the system. It also uses it in user-space for accessing GPIO's, PWM, UART, SPI and more in real-time by using device tree overlays.
-                        </p>                                         
-                    </div>
-
-                    <div class="story col2">
-                        <h3>Adding a Real Time Clock to BeagleBone Black</h3>
-                        <img src="https://learn.adafruit.com/system/guides/images/000/000/325/medium310/ds1307rtc_LRG.jpg" alt="" />
-                        <p>The BeagleBone Black uses the Device Tree to describe the hardware for the system. It also uses it in user-space for accessing GPIO's, PWM, UART, SPI and more in real-time by using device tree overlays.
-                        </p>                                         
-                    </div>
-
-                    <div class="story col2">
-                        <h3>Measuring Temperature with a BeagleBone Black</h3>
-                        <img src="https://learn.adafruit.com/system/guides/images/000/000/314/medium310/overview_web.jpg?" alt="" />
-                        <p>In this tutorial, you will learn how to connect temperature sensor to a BeagleBone Black.
-                        </p>                                         
-                    </div>
-
-                    <div class="story col2">
-                        <h3>Measuring Light with a BeagleBone Black</h3>
-                        <img src="https://learn.adafruit.com/system/guides/images/000/000/316/medium310/overview_web.jpg?" alt="" />
-                        <p>In this tutorial, you will learn how to connect a photoresistor to a BeagleBone Black. The tutorial can also be used for other resistive sensors such as FSRs or SoftPots.
-                        </p>                                         
-                    </div>
-
-                    <div class="story col2">
-                        <h3>Fading a RGB LED on BeagleBone Black</h3>
-                        <img src="https://learn.adafruit.com/system/guides/images/000/000/322/medium310/overview_web.jpg?" alt="" />
-                        <p>In this tutorial, you will learn how to control the color of an RGB LED using a BeagleBone Black and Python.
-                        </p>                                         
-                    </div>
-
-                    <div class="story col2">
-                        <h3>SSH to BeagleBone Black over USB</h3>
-                        <img src="https://learn.adafruit.com/system/guides/images/000/000/296/medium310/overview.png" alt="" />
-                        <p>In this tutorial, you will learn how to control your BeagleBone Black using SSH with just the USB lead supplied.
-                        </p>                                         
-                    </div>                    
-
-                    <div class="story col2">
-                        <h3>BeagleBone Black: Installing Operating Systems</h3>
-                        <img src="https://learn.adafruit.com/system/guides/images/000/000/288/medium310/win32_choose_img.png" alt="" />
-                        <p>This is a step-by-step tutorial on how to re-flash an operating system onto the on-board flash memory on your BeagleBone Black.
-                        </p>                                         
-                    </div>
+        <div class="container">
+            <div class="bonecard"><b>BLINKING AN LED WITH BEAGLEBONE BLACK</b>
+                <br><img src="https://learn.adafruit.com/system/guides/images/000/000/309/medium310/overview.jpg" alt=""/>
+                <br>Make an LED Blink using Python on a BeagleBone Black In this tutorial.
+            </div>
+            <div class="bonecard">Example #2
+                <br />Next line
+                <br />Line after
+            </div>
+            <div class="bonecard">Example #3
+                <br />Next line
+                <br />Line after
+            </div>
+            <div class="bonecard">Example #4
+                <br />Next line
+                <br />Line after
+            </div>
+            <div class="bonecard">Example #5
+                <br />Next line
+                <br />Line after
+            </div>
+            <div class="bonecard">Example #6
+                <br />Next line
+                <br />Line after
+            </div>    
+        </div>        
 
 
-                    
-
-
-
-
-               
-            </div> <!-- /#thumblog-->
-    <!-- This contains the hidden content for inline calls -->
-                    <div style='display:none'>
-
-                        <div class="inline" style='padding:10px; background:#fff;'>
-                            <h1>Card#1</h1>
-                            <div class="gist">
-                                <script src="https://gist.github.com/10611021.js?file=CARD_INTRO_MATERIALS.md" type="text/javascript"></script>
-                            </div>
-                        </div>
-
-                        <div class="inline" style='padding:10px; background:#fff;'>
-                            <h1>Card#2 Image Just Exported From Fritzing</h1>
-                            <div class="gist">
-                                <script src="https://gist.github.com/10611021.js?file=CARD_HD_IMG1_Online.md" type="text/javascript"></script>
-                            </div>
-                        </div>
-
-                        <div class='inline'>
-                            <h1>Card#2_A Resize Image</h1>
-                            <div class="gist">
-                                <script src="https://gist.github.com/10611021.js?file=CARD_HD_IMG3_Online.md" type="text/javascript"></script>
-                            </div>
-                        </div>
-                        <div class='inline'>
-                            <div style='padding:10px; background:#fff;'>
-                                <h1>Card#3 Code Just Gist</h1>
-                                <div class="gist">
-                                    <script src="https://gist.github.com/10611021.js?file=CARD_CD_code.js" type="text/javascript"></script>
-                                </div>
-                            </div>
-                        </div>
-                        <div class='inline'>
-                            <div style='padding:10px; background:#fff;'>
-                                <h1>Card#3 Code </h1>
-                                <div class="gist">
-                                    <pre>
-                                    <code>
-var b = require('bonescript');
-var led = "P8_10";
-var state = 0;
- 
-b.pinMode(led, 'out');
-toggleLED = function() {
-    state = state ? 0 : 1;
-    b.digitalWrite(led, state);
-};
- 
-timer = setInterval(toggleLED, 100);
- 
-stopTimer = function() {
-    clearInterval(timer);
-};
- 
-setTimeout(stopTimer, 3000);
-                                        
-                                    </code>
-                                    </pre>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>              
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script src="../GSOC/js/jquery.colorbox.js"></script>
-<script src="../GSOC/js/jquery.masonry.js"></script>
-<script>
-    $(function() {
-
-        var $tumblelog = $('#tumblelog');
-
-        $tumblelog.imagesLoaded(function() {
-            $tumblelog.masonry({
-                columnWidth: 240
-            });
-        });
-    });
-
-    var $group = $('.inline').colorbox({inline: true, width: "1200px", height: "600px", rel: 'inline', href: function() {
-            return $(this).children();
-        }});
-
-    $('#open').on('click', function(e) {
-        e.preventDefault();
-        $group.eq(0).click();
-    });
-</script>
-
-
-     </section>
     </body>
 </html>
