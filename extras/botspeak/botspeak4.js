@@ -49,14 +49,12 @@ function socketioOpen(socket) {
     function socketClose() {
     }
     socket.on('data', socketData);
-    var my_input = "";
     function socketData(data) {
         var reply = RunBotSpeak(data,socket);
         if (reply !== '') socket.emit('message', reply);
-        if ((reply !== "close") && (data !== '')) console.log("Got: " + data.replace(/\n/g,",") + " Replied: " + reply.replace(
+        if ((reply !== "close") && (data !== '')) console.log("Got: " + data.replace(/\n/g,",") + " Replied: " + reply.replace(/\n/g,","));
     }
 }
-
 
 console.log("starting");
 server.listen(2012);
@@ -78,7 +76,7 @@ function RunBotSpeak (command,socket) {
 		while (j < VARS["END"]) {
 			var reply1 = ExecuteCommand(SCRIPT[j]);
 			//                    console.log('executed '+SCRIPT[j]+' -> ' + reply1);
-			if (debug && (command !== 'RUN')) socket.write(SCRIPT[j] + ' -> '+ reply1 + '\n');}
+			if (debug && (command !== 'RUN')) socket.write(SCRIPT[j] + ' -> '+ reply1 + '\n');
 			var goto = String(reply1).split(' ');
 			j = (goto[0] == "GOTO") ? Number(goto[1]): j + 1;
 		}
@@ -307,10 +305,9 @@ function SystemCall(args) { //this is just an example of something a user might 
 
 process.on('uncaughtException', function(err) {
 	console.log('Exception: ' + err);
-  
+
 	// Trigger autorun to restart us
 	var stat = fs.statSync(__filename);
 	fs.utimesSync(__filename, stat.atime, new Date());
 	process.exit(1);
 });
-
