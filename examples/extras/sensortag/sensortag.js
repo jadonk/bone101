@@ -37,24 +37,38 @@ function ondiscover(sensorTag) {
     function onsn(serialNumber) {
 		console.log('\tserial number = ' + serialNumber);
 		sensorTag.enableIrTemperature();
+		sensorTag.notifyIrTemperature(dummycb);
 		sensorTag.enableAccelerometer(onaccelen);
 		sensorTag.enableHumidity(onhumen);
 		sensorTag.enableMagnetometer(onmagen);
 		sensorTag.enableBarometricPressure();
+		sensorTag.notifyBarometricPressure(dummycb);
 		sensorTag.enableGyroscope();
+		sensorTag.notifyGyroscope(dummycb);
 		sensorTag.notifySimpleKey(dummycb);
+		//setInterval(dopoll, 1000);
     }
 
     function onaccelen() {
+        console.log('Enabled accelerometer')
         sensorTag.setAccelerometerPeriod(1000);
+        sensorTag.notifyAccelerometer(dummycb);
     }
 
     function onmagen() {
+        console.log('Enabled magnetometer')
         sensorTag.setMagnetometerPeriod(1000);
+        sensorTag.notifyMagnetometer(dummycb);
     }
     
     function onhumen() {
         sensorTag.notifyHumidity(dummycb);
+    }
+    
+    function dopoll() {
+        console.log('Performing poll');
+        sensorTag.readIrTemperature(ontemp);
+        sensorTag.readMagnetometer(onmag);
     }
 }
 
@@ -108,24 +122,4 @@ function dummycb() {
     console.log('dummy callback called');
 }
 
-/*
-
-			function(callback) {
-				sensorTag.on('simpleKeyChange', function(left, right) {
-					console.log('keys left: ' + left + '  right: ' + right);
-
-					if (left && right) {
-						sensorTag.notifySimpleKey(callback);
-					}
-				});
-
-				sensorTag.notifySimpleKey(function() {
-
-				});
-			}, function(callback) {
-				console.log('disconnect');
-				sensorTag.disconnect(callback);
-			} ]);
-});
-*/
 
