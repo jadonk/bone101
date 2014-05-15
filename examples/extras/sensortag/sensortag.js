@@ -1,3 +1,4 @@
+var fs = require('fs');
 var sensortag = require('sensortag');
 var bonescript = require('bonescript');
 var winston = require('winston');
@@ -11,6 +12,8 @@ for(var i in leds) {
     bonescript.pinMode(leds[i], bonescript.OUTPUT);
     bonescript.digitalWrite(leds[i], bonescript.LOW);
 }
+process.on('exit', onexit);
+process.on('SIGINT', onexit);
 
 var port = 5001;
 var client = null;
@@ -123,101 +126,76 @@ function ondisconnect() {
 }
 
 function ontemp(objectTemperature, ambientTemperature) {
-    ondata();
-    winston.debug('objectTemperature = ' + objectTemperature);
-    winston.debug('ambientTemperature = ' + ambientTemperature);
-    if(client) {
-        client.emit('temp', {
-            'objectTemperature': objectTemperature,
-            'ambientTemperature': ambientTemperature
-        });
-    }
+    ondata('temp', {
+        'objectTemperature': objectTemperature,
+        'ambientTemperature': ambientTemperature
+    });
 }
 
 function onaccel(x, y, z) {
-    ondata();
-    winston.debug('accel x = ' + x);
-    winston.debug('accel y = ' + y);
-    winston.debug('accel z = ' + z);
-    if(client) {
-        client.emit('accel', {
-            'x': x,
-            'y': y,
-            'z': z
-        });
-    }
+    ondata('accel', {
+        'x': x,
+        'y': y,
+        'z': z
+    });
 }
 
 function onhum(temperature, humidity) {
-    ondata();
-    winston.debug('temperature = ' + temperature);
-    winston.debug('humidity = ' + humidity);
-    if(client) {
-        client.emit('hum', {
-            'temperature': temperature,
-            'humidity': humidity
-        });
-    }
+    ondata('hum', {
+        'temperature': temperature,
+        'humidity': humidity
+    });
 }
 
 function onmag(x, y, z) {
-    ondata();
-    winston.debug('mag x = ' + x);
-    winston.debug('mag y = ' + y);
-    winston.debug('mag z = ' + z);
-    if(client) {
-        client.emit('mag', {
-            'x': x,
-            'y': y,
-            'z': z
-        });
-    }
+    ondata('mag', {
+        'x': x,
+        'y': y,
+        'z': z
+    });
 }
 
 function onbar(pressure) {
-    ondata();
-    winston.debug('pressure = ' + pressure);
-    if(client) {
-        client.emit('pressure', {
-            'pressure': pressure
-        });
-    }
+    ondata('pressure', {
+        'pressure': pressure
+    });
 }
 
 function ongyro(x, y, z) {
-    ondata();
-    winston.debug('gyro x = ' + x);
-    winston.debug('gyro y = ' + y);
-    winston.debug('gyro z = ' + z);
-    if(client) {
-        client.emit('gyro', {
-            'x': x,
-            'y': y,
-            'z': z
-        });
-    }
+    ondata('gyro', {
+        'x': x,
+        'y': y,
+        'z': z
+    });
 }
 
 function onkey(left, right) {
-    ondata();
-    winston.debug('left = ' + left);
-    winston.debug('right = ' + right);
-    if(client) {
-        client.emit('key', {
-            'left': left,
-            'right': right
-        });
-    }
+    ondata('key', {
+        'left': left,
+        'right': right
+    });
 }
 
 function dummycb() {
     winston.debug('dummy callback called');
 }
 
-function ondata() {
+function ondata(type, data) {
     bonescript.digitalWrite(LED_DATA, bonescript.HIGH, onledon);
+    winston.debug('type = ' + type);
+    winston.debug('data = ' + JSON.stringify(data));
+    if(client) client.emit(type, data);
 }
 
 function onledon() {
     bonescript.digitalWrite(LED_DATA, bonescript.LOW, dummycb);
+}
+
+function onexit() {
+    var ledpath = '/sys/class/leds/beaglebone:green:usr';
+    fs.writeFileSync(ledpath+'0/trigger', 'heartbeat')
+    fs.writeFileSync(ledpath+'1/trigger', 'mmc0')
+    fs.writeFileSync(ledpath+'2/trigger', 'cpu0')
+    fs.writeFileSync(ledpath+'3/trigger', 'mmc1')
+    process.exit(0);
 }
