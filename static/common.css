@@ -1,6 +1,6 @@
 /* CSS Document */
 body {
-	text-align: center;
+	/* text-align: center; */
 	margin: 10px 0 0 0;
 	padding: 0;
 	background:#7886D1;
@@ -8,7 +8,7 @@ body {
 	background: #fcf7ed; url();
 	font-family:Arial, Helvetica, Verdana, sans-serif; color:#525252; font-size: 71%; 
 	}
-a:link {color:#de7224; text-decoration:none;}
+a:link {color: #de7224; text-decoration:none;}
 a:visited {color:#de7224; text-decoration:none;}
 a:hover {text-decoration:underline;}
 ul.default {list-style-type:none; margin:0; padding:0 0 0 1.3em;font-size:1.1em; line-height:1.1em; max-width:550px;}
@@ -24,7 +24,7 @@ h1 p {margin:2px 0 5px 0;}
 h2 {font-size:1.5em; font-family: Arial, Verdana, Helvetica, sans-serif; font-weight:normal; color:#b4a279; margin:10px 0 5px 0;}
 h2 a:link, h2 a:visited, .portal h3 a:link, .portal h3 a:visited {text-decoration:none; padding-right:15px; color:#de7224;}
 h2 a:hover, .portal h3 a:hover {text-decoration:underline;}
-h3, h4 {font-size:1.2em;font-family: "Arial", Verdana, Helvetica, sans-serif; color:#b4a279; margin:20px 0 5px 0; font-weight:normal; }
+h3, h4 {font-size: 1.12em;font-family: "Arial", Verdana, Helvetica, sans-serif; color:#b4a279; margin: 20px 0 0px 0; font-weight:normal; }
 #news h3 a:link, #news h3 a:visited, #news h3 a:hover {font-family: "Arial", Verdana, Helvetica, sans-serif;background: url(none);font-size:.9em; font-weight:normal;}
 #news div.pipesTitle {font-weight:normal;}
 #news div.pipesTitle a:hover {font-weight:normal; text-decoration:underline;}

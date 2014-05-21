@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>BeagleBoard.org</title>
+        
+        <style>
+            html			{ background:#67b2ff; font-family:Arial, Helvetica, sans-serif; }
+            
+              .gist{
+                margin-left:2em;
+                margin-right:2em
+            }
+            /**LIGHT BOX**/
+
+            div.bonecardLightBox {
+                background-color: white;
+                background: #fff;
+                z-index: 1001;
+                
+                margin-left: 50px;
+                margin-top: 0px;
+                width: 850px;
+                height: 525px;
+                border: 2px solid black;
+                border-left: 2px solid black;
+                padding: 10px;
+                -webkit-border-radius: 20px;
+                -webkit-border-top-right-radius: 50px;
+                -webkit-border-bottom-right-radius: 50px;
+                -moz-border-radius: 20px;
+                -moz-border-radius-topright: 50px;
+                -moz-border-radius-bottomright: 50px;
+                border-radius: 20px;
+                border-top-right-radius: 50px;
+                border-bottom-right-radius: 50px;
+                position: relative;
+                //position: absolute;
+                float: center;
+                -webkit-transition: color 0.5s ease;
+            }
+
+            div.bonecardLightBox:after, div.bonecardLightBox:before {
+                background-color: white;
+                position: absolute;
+                display: block;
+                content:"";
+                border: 2px solid black;
+                border-right: 2px solid white;
+                width: 6px;
+                left: -10px;
+            }
+
+            div.bonecardLightBox:before {
+                top: 150px;
+                height: 150px;
+            }
+            div.bonecardLightBox:after {
+                top: 460px;
+                height: 45px;
+            }
+        </style>    
+    </head>   
+    
+    <body>
+        <br>
+        <article>
+          <div class="bonecardLightBox">
+                        <div class="gist">
+                            <script src="https://gist.github.com/10611021.js?file=CARD_IN.md" type="text/javascript"></script>
+                        </div>
+                    </div>
+        </article> <br>
+        <article>
+ <div class="bonecardLightBox">
+                        <div class="gist">
+                            <script src="https://gist.github.com/10611021.js?file=CARD_INTRO_MATERIALS.md" type="text/javascript"></script>
+                        </div>
+                    </div>
+        </article> <br>
+        <article>
+<div class="bonecardLightBox">
+                        <div class="gist">
+                            <script src="https://gist.github.com/10611021.js?file=CARD_HD_IMG1_Online.md" type="text/javascript"></script>
+                        </div>
+                    </div>
+        </article> <br>
+        <Article>
+				
+<div class="bonecardLightBox">
+                        <div class="gist">
+                            <script src="https://gist.github.com/10611021.js?file=CARD_CD_code.js" type="text/javascript"></script>
+                        </div>
+                    </div>
+        </article>
+        <br>
+        
+        <article>
+             <div class="bonecardLightBox">
+                        <div class="gist">
+                            <button onclick="myRun()">Run</button>
+                            <pre>
+                    <code>
+    var b = require('bonescript');
+    var led2 = "P8_12";
+    var led1 = "P8_10";
+    var state = 0;
+
+    b.pinMode(led1, 'out');
+    b.pinMode(led2, 'out');
+    toggleLED = function() {
+        state = state ? 0 : 1;
+        b.digitalWrite(led1, state);
+        b.digitalWrite(led2, state);
+    };
+
+    timer = setInterval(toggleLED, 500);
+
+    stopTimer = function() {
+        clearInterval(timer);
+    };
+
+    setTimeout(stopTimer, 12000);
+
+                                    </code>
+                            </pre>
+                        </div>
+                    </div>
+            <article
+    </body>   
+</html>

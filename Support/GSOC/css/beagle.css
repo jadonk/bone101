@@ -1,14 +1,16 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 05-20-2014, 07:32:55 PM
+    Author     : diego
+*/
 @charset "utf-8";
 /* CSS Document */
 
-body {
-	font: Arial, Helvetica, sans-serif;
-	font-size:12px;
-	background-color: #fcf7ed;
-	margin: 0;
-	padding: 0;
-	color: #525252;
-}
+
 
 /* Element/tag selectors */
 /* 
@@ -236,7 +238,7 @@ a:link
 {
 color: #de7224;
 }
-a:hover   {color:#de7224; text-decoration:underline;}
+a:hover   {color: #de7224; text-decoration:underline;}
 
 .breadcrumb_divider{
 	font-size:13px;  
@@ -1411,3 +1413,4 @@ pre#code {
                height:auto;
                min-height:150px;
 }
+

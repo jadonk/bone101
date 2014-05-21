@@ -6,10 +6,11 @@ and open the template in the editor.
 -->
 <html>
     <head>
-       <title>BeagleBoard.org</title>
+        <title>BeagleBoard.org</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="../../../static/bonescript.js"></script>
         <style>
             body {
                 position: absolute;
@@ -131,7 +132,32 @@ and open the template in the editor.
 
             <div class="bonecardLightBox">
                 <div class="gist">
-                    <script src="https://gist.github.com/10611021.js?file=CARD_CD_code.js" type="text/javascript"></script>
+                    <button onclick="myRun()">Run</button>
+                    <pre>
+                    <code>
+    var b = require('bonescript');
+    var led2 = "P8_12";
+    var led1 = "P8_10";
+    var state = 0;
+
+    b.pinMode(led1, 'out');
+    b.pinMode(led2, 'out');
+    toggleLED = function() {
+        state = state ? 0 : 1;
+        b.digitalWrite(led1, state);
+        b.digitalWrite(led2, state);
+    };
+
+    timer = setInterval(toggleLED, 500);
+
+    stopTimer = function() {
+        clearInterval(timer);
+    };
+
+    setTimeout(stopTimer, 12000);
+
+                                    </code>
+                    </pre>
                 </div>
             </div>
             <div class="lb_controls">
@@ -149,17 +175,52 @@ and open the template in the editor.
         $('.back').click(function() {
 
         });
-         $(document).keyup(function(e){
-            if (event.which == "27"){
+        $(document).keyup(function(e) {
+            if (event.which == "27") {
                 window.location = "../../GSOC/template.html";
             }
-            else if(event.which == "37"){
-                 window.location = "BLINKING_3.html";
+            else if (event.which == "37") {
+                window.location = "BLINKING_4.html";
             }
-            else if (event.which == "39"){
-                window.location = "BLINKING_5.html";
+            else if (event.which == "39") {
+
             }
         });
+
+        function myRun() {
+
+            setTargetAddress('beaglebone.local', {
+                initialized: run
+            });
+
+            setTargetAddress('192.168.7.2', {
+                initialized: run
+            });
+
+            function run() {
+                var b = require('bonescript');
+                var led2 = "P8_12";
+                var led1 = "P8_10";
+                var state = 0;
+
+                b.pinMode(led1, 'out');
+                b.pinMode(led2, 'out');
+                toggleLED = function() {
+                    state = state ? 0 : 1;
+                    b.digitalWrite(led1, state);
+                    b.digitalWrite(led2, state);
+                };
+
+                timer = setInterval(toggleLED, 500);
+
+                stopTimer = function() {
+                    clearInterval(timer);
+                };
+
+                setTimeout(stopTimer, 12000);
+            }
+        }
+
     </script>
 
 </html>
