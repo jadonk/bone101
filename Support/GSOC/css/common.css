@@ -20,7 +20,7 @@ h3, h4 {font-size: 1.12em;font-family: "Arial", Verdana, Helvetica, sans-serif; 
 #news h3 a:link, #news h3 a:visited, #news h3 a:hover {font-family: "Arial", Verdana, Helvetica, sans-serif;background: url(none);font-size:.9em; font-weight:normal;}
 #news div.pipesTitle {font-weight:normal;}
 #news div.pipesTitle a:hover {font-weight:normal; text-decoration:underline;}
-h5, h6, p {font-size:1.1em;line-height:1.3em; }
+h5, h6, p {font-size: 0.85em;line-height:1.3em; }
 p.action a:link, p.action a:visited {text-decoration:none; padding-right:15px;
 background:url(images/beagle-alink-action-arrow.gif) right no-repeat;}
 p.action a:hover {background: url(images/beagle-alink-action-arrow.gif) right no-repeat; padding-right:15px;text-decoration:underline;}
