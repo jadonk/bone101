@@ -15,12 +15,10 @@ var express = require('express')
 var GITHUB_CLIENT_ID = "efc9059ce2616781cb6e"
 var GITHUB_CLIENT_SECRET = "4b65e667601ecac03bf8b4d70f0ec73521fece93";
 
-var OAuth2 = require('simple-oauth2')({
-  clientID: GITHUB_CLIENT_ID,
-  clientSecret: GITHUB_CLIENT_SECRET,
-  site: 'https://github.com/login',
-  tokenPath: '/oauth/access_token'
-});
+var oauth = require("oauth").OAuth2;
+
+var OAuth2 = new oauth(GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, "https://github.com/", "login/oauth/authorize", "login/oauth/access_token");
+
 
 
 var github = new GitHubApi({
@@ -31,7 +29,7 @@ var github = new GitHubApi({
 
 var accessToken = "";
 
-var authorization_uri = OAuth2.AuthCode.authorizeURL({
+var authorization_uri = OAuth2.getAuthorizeUrl({
   redirect_uri: 'http://127.0.0.1:3000/auth/github/callback',
   scope: '"user,repo,gist"'
 });
@@ -93,7 +91,13 @@ passport.use(new GitHubStrategy({
 //   back to this application at /auth/github/callback
 
 app.get('/auth/github',function(req,res){
-  res.redirect(authorization_uri);
+   res.writeHead(303, {
+     Location: OAuth2.getAuthorizeUrl({
+       redirect_uri: 'http://127.0.0.1:3000/auth/github/callback',
+       scope: "user,repo,gist"
+     })
+    });
+    res.end();
 });
 
 /*app.get('/auth/github',
@@ -116,28 +120,20 @@ app.get('/auth/github/callback',
 });*/
 
 app.get('/auth/github/callback',function (req, res) {
-
-
-
   var code = req.query.code;
-
-
-
-
-  OAuth2.AuthCode.getToken({
-    code: code,
-    redirect_uri: 'http://127.0.0.1:3000/auth/github/callback'
-  }, saveToken);
-
-
-
-  res.redirect('home');
-  function saveToken(error, result) {
-    if (error) { console.log('Access Token Error', error.message); }
-    accessToken = OAuth2.AccessToken.create(result);
+  OAuth2.getOAuthAccessToken(code, {}, function (err, access_token, refresh_token) {
+    if (err) {
+      console.log(err);
+    }
+    accessToken = access_token;
+    // authenticate github API
     console.log("AccessToken: "+accessToken+"\n");
-
-  }
+    github.authenticate({
+      type: "oauth",
+      token: accessToken
+    });
+  });
+  res.redirect('home');
 });
 
 
@@ -149,8 +145,8 @@ app.get('/home', function(req, res){
 
 
 app.post('/BLINKINGTUTORIALS/viewAll', function(req, res){
+  console.log("AccessToken: "+accessToken+"\n");
 
-  debugger;
   var IN_name= req.body.TXT_GI_Title;
   var IN_shor = req.body.TXAREA_GI_SD;
   var PRE_name = req.body.TXT_PR_Title;
@@ -167,13 +163,15 @@ app.post('/BLINKINGTUTORIALS/viewAll', function(req, res){
   var four="<html><code>"+CD_code+"</code>";
   var five="<html><h3>"+AD_name+"</h3><p>"+AD_extra+"</p>";
 
-var files = {"CARD_IN_01.md": {"content": one},
+  var files = {"CARD_IN_01.md": {"content": one},
              "CARD_PRE_01.md":{ "content": two},
              "CARD_HD_01.md": {"content": three},
              "CARD_CD_01.md": {"content": four},
              "CARD_AD_01.md":{ "content": five}
             };
-console.log(files);
+  console.log(files);
+
+
 
     github.gists.create({
       "description": "the description for this gist",
