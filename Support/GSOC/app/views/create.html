@@ -1,107 +1,178 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-    <title>BeagleBoard.org</title>
-    <link rel="icon" href="../../../favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="../../../favicon.ico" type="image/x-icon">
+        <title>BeagleBoard.org</title>
+        <link rel="icon" href="../../../favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="../../../favicon.ico" type="image/x-icon">
 
-    <!-- Bootstrap core CSS -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap theme -->
-    <link href="../css/bootstrap-theme.min.css" rel="stylesheet">
+        <!-- Bootstrap core CSS -->
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <!-- Bootstrap theme -->
+        <link href="../css/bootstrap-theme.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
-    <link href="../css/theme.css" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="../css/theme.css" rel="stylesheet">
 
 
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+        <!-- Just for debugging purposes. Don't actually copy this line! -->
+        <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
- <style>
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <style>
 
-.social{
-	width:200px;
-	float:right;
-	padding-top:15px;
-}
+            .social{
+                width:200px;
+                float:right;
+                padding-top:15px;
+            }
 
-body{margin-top:20px;}
-.fa-fw {width: 2em;}
-            </style>
-  </head>
+            body{margin-top:20px;}
+            .fa-fw {width: 2em;}
+        </style>
+    </head>
 
-  <body role="document">
+    <body role="document">
 
-    <!-- Fixed navbar -->
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+        <!-- Fixed navbar -->
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+
+                    <div class="social">
+                        <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src="../../images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
+                        <span style="padding-left:8px"><a href="http://twitter.com/beagleboardorg" name="header_twitter_icon"><img src="../../images/icon_twitter.png" width="27" height="28" border="0" alt="twitter"/></a></span>
+                        <span style="padding-left:8px"><a href="http://www.linkedin.com/groups/BeagleBoardorg-1474607?gid=1474607&mostPopular=&trk=tyah" name="header_linkedin_icon"><img src="../../images/icon_linkedin.png" width="27" height="28" border="0" alt="linkedin" /></a></span>
+                        <span style="padding-left:8px"><a href="http://plus.google.com/+beagleboard" name="header_google+_icon"><img src="../../images/icon_google.png" width="27" height="28" border="0" alt="google+"/></a></span>
+                    </div>
+
+
+
+                </div><!--/.nav-collapse -->
+            </div>
 
         </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-          </ul>
 
-            <div class="social">
-    <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src="/bone101/static/images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
-    <span style="padding-left:8px"><a href="http://twitter.com/beagleboardorg" name="header_twitter_icon"><img src="/bone101/static/images/icon_twitter.png" width="27" height="28" border="0" alt="twitter"/></a></span>
-    <span style="padding-left:8px"><a href="http://www.linkedin.com/groups/BeagleBoardorg-1474607?gid=1474607&mostPopular=&trk=tyah" name="header_linkedin_icon"><img src="/bone101/static/images/icon_linkedin.png" width="27" height="28" border="0" alt="linkedin" /></a></span>
-    <span style="padding-left:8px"><a href="http://plus.google.com/+beagleboard" name="header_google+_icon"><img src="/bone101/static/images/icon_google.png" width="27" height="28" border="0" alt="google+"/></a></span>
-   </div>
+        <div class="container theme-showcase" role="main">
+
+            <div class="row">
+                <div class="col-md-3 well">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="active"><a href="#tab_GInfo" data-toggle="pill">General Info</a></li>
+                        <li><a href="#tab_PreReq" data-toggle="pill">Pre Requisites</a></li>
+                        <li><a href="#tab_Hardware" data-toggle="pill">Hardware</a></li>
+                        <li><a href="#tab_Code" data-toggle="pill">Code</a></li>
+                        <li><a href="#tab_Add" data-toggle="pill">Additional Info</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-9 well">
+                    <form action="/BLINKINGTUTORIALS/viewAll" method="POST">
+                    <div class="tab-content">
+
+                        <div class="tab-pane active" id="tab_GInfo">
+                            <div class="form-group">
+                                <label for="L_GI_Title">Title</label>
+                                <input type="text" class="form-control" id="TXT_GI_Title"  name="TXT_GI_Title" placeholder="Enter title">
+                            </div>
+                            <div class="form-group">
+                                <label for="L_GI_Info">Short Description</label>
+                               <textarea class="form-control" rows="5" name="TXAREA_GI_SD" id="TXAREA_GI_SD"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="FileUpload">Upload Image</label>
+                                <input type="file" id="exampleInputFile">
+
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_PreReq">
+                             <div class="form-group">
+                                <label for="L_PR_Title">Topic</label>
+                                <input type="text" class="form-control" id="TXT_PR_Title" name="TXT_PR_Title" placeholder="Pre Req">
+                            </div>
+                            <div class="form-group">
+                                <label for="L_PR_Info">Materials</label>
+                               <textarea class="form-control" rows="5" id="TXAREA_PR_SD" name="TXAREA_PR_SD"></textarea>
+                            </div>
+                        </div>
+
+                         <div class="tab-pane" id="tab_Hardware">
+                             <div class="form-group">
+                                <label for="L_HD_Title">Topic</label>
+                                <input type="text" class="form-control" id="TXT_HD_Title" name="TXT_HD_Title" placeholder="Topic">
+                            </div>
+                            <div class="form-group">
+                                <label for="L_HD_Info">Information</label>
+                               <textarea class="form-control" rows="5" id="TXAREA_HD_SD" name="TXAREA_HD_SD"></textarea>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="tab_Code">
+                             <div class="form-group">
+                                <label for="L_CO_Title">Type in your BeagleBone's IP Address</label>
+                                <input type="text" class="form-control" id="TXT_CD_Title" name="TXT_CD_Title" placeholder="BeagleBone's IP Address">
+                            </div>
+                            <div class="form-group">
+                                <label for="L_CO_Info">Code</label>
+                               <textarea class="form-control" rows="5" id="TXAREA_CD_SD" name="TXAREA_CD_SD"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="tab_Add">
+                             <div class="form-group">
+                                <label for="L_AD_Title">Topic</label>
+                                <input type="text" class="form-control" id="TXT_AD_Title" name="TXT_AD_Title" placeholder="Enter title">
+                            </div>
+                            <div class="form-group">
+                                <label for="L_AD_Info">Extra</label>
+                               <textarea class="form-control" rows="5" id="TXAREA_AD_SD" name="TXAREA_AD_SD"></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-default">Default</button>
+                        </div>
 
 
-
-        </div><!--/.nav-collapse -->
-      </div>
-
-    </div>
-
-    <div class="container theme-showcase" role="main">
-
-        <div class="row">
-        <div class="col-md-3 well">
-            <ul class="nav nav-pills nav-stacked">
-               <li class="active"><a href="#tab_0" data-toggle="pill">General Info</a></li>
-               <li><a href="#tab_a" data-toggle="pill">Pre Requisites</a></li>
-               <li><a href="#tab_a" data-toggle="pill">Hardware</a></li>
-               <li><a href="#tab_a" data-toggle="pill">Code</a></li>
-               <li><a href="#tab_a" data-toggle="pill">Additional Info</a></li>
-            </ul>
-        </div>
-        <div class="col-md-9 well">
-            Vertical admin menu
-        </div>
-    </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
 
 
-    </div> <!-- /container -->
+        </div> <!-- /container -->
 
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/docs.min.js"></script>
-  </body>
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+        <script src="../js/docs.min.js"></script>
+        <script type="text/javascript">
+            $('#myTabs a').click(function(e) {
+                e.preventDefault()
+                $(this).tab('show')
+            });
+        </script>
+    </body>
 </html>
