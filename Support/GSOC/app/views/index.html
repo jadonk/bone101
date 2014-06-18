@@ -21,6 +21,8 @@
     <link href="../css/theme.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen" href="../css/common.css" />
 
+    <script src="../js/oauth.js"></script>
+    <script src="../js/githubOauth.js"></script>
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
@@ -140,7 +142,9 @@ p {font-size: 0.85em;line-height:1.3em; }
    </div>
 
     <ul class="nav navbar-nav navbar-right">
-        <li id="nav-login-btn" class=""><a href="/auth/github"><i class="icon-login"></i>Login</a></li>
+        <li id="nav-login-btn" class=""><a id="create"><i class="icon-login"></i></a></li>
+        <li id="nav-login-btn" class=""><a id="user"><i class="icon-login"></i></a></li>
+        <li id="nav-login-btn" class=""><a id="login" href="#"><i class="icon-login"></i>Login</a></li>
     </ul>
 
         </div><!--/.nav-collapse -->
@@ -189,5 +193,11 @@ p {font-size: 0.85em;line-height:1.3em; }
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/docs.min.js"></script>
+    <script>
+    $('a#login').click(function() {
+        start();
+     });   
+    
+    </script>
   </body>
 </html>

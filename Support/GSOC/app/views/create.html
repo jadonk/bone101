@@ -1,10 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
         <meta name="description" content="">
         <meta name="author" content="">
 
@@ -13,14 +11,50 @@
         <link rel="shortcut icon" href="../../../favicon.ico" type="image/x-icon">
 
         <!-- Bootstrap core CSS -->
-        <link href="../css/bootstrap.min.css" rel="stylesheet">
+      
         <!-- Bootstrap theme -->
-        <link href="../css/bootstrap-theme.min.css" rel="stylesheet">
+        
 
         <!-- Custom styles for this template -->
-        <link href="../css/theme.css" rel="stylesheet">
 
+        <!-- include jquery -->
+  <script src="//code.jquery.com/jquery-1.9.1.min.js"></script> 
 
+  <!-- include libs stylesheets -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" />
+   <link href="../css/theme.css" rel="stylesheet">
+  <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script> 
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+
+  <!-- code mirror -->
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.min.css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/blackboard.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/monokai.min.css">
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/xml/xml.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/2.36.0/formatting.min.js"></script>
+
+       
+  <!-- include summernote -->
+  <link rel="stylesheet" href="../css/summernote.css">
+  <script type="text/javascript" src="../js/summernote.js"></script>
+  <script src="../js/oauth.js"></script>
+    <script src="../js/githubOauth.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.summernote').summernote({
+        height: 250,
+        tabsize: 2,
+        codemirror: {
+          theme: 'cosmo'
+        }
+      });
+      $('a#login').click(function() {
+        start();
+     }); 
+    });
+  </script>
         <!-- Just for debugging purposes. Don't actually copy this line! -->
         <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
@@ -42,7 +76,11 @@
         </style>
     </head>
 
+
     <body role="document">
+
+
+
 
         <!-- Fixed navbar -->
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -61,12 +99,17 @@
                         <li class="active"><a href="#">Home</a></li>
                         <li><a href="#about">About</a></li>
                     </ul>
+                    
+                    <ul class="nav navbar-nav navbar-right">
+        <li id="nav-login-btn" class=""><a id="user"><i class="icon-login"></i></a></li>
+        <li id="nav-login-btn" class=""><a id="login" href="#"><i class="icon-login"></i>Login</a></li>
+    </ul>
 
                     <div class="social">
-                        <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src="../../images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
-                        <span style="padding-left:8px"><a href="http://twitter.com/beagleboardorg" name="header_twitter_icon"><img src="../../images/icon_twitter.png" width="27" height="28" border="0" alt="twitter"/></a></span>
-                        <span style="padding-left:8px"><a href="http://www.linkedin.com/groups/BeagleBoardorg-1474607?gid=1474607&mostPopular=&trk=tyah" name="header_linkedin_icon"><img src="../../images/icon_linkedin.png" width="27" height="28" border="0" alt="linkedin" /></a></span>
-                        <span style="padding-left:8px"><a href="http://plus.google.com/+beagleboard" name="header_google+_icon"><img src="../../images/icon_google.png" width="27" height="28" border="0" alt="google+"/></a></span>
+                        <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src="../images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
+                        <span style="padding-left:8px"><a href="http://twitter.com/beagleboardorg" name="header_twitter_icon"><img src="../images/icon_twitter.png" width="27" height="28" border="0" alt="twitter"/></a></span>
+                        <span style="padding-left:8px"><a href="http://www.linkedin.com/groups/BeagleBoardorg-1474607?gid=1474607&mostPopular=&trk=tyah" name="header_linkedin_icon"><img src="../images/icon_linkedin.png" width="27" height="28" border="0" alt="linkedin" /></a></span>
+                        <span style="padding-left:8px"><a href="http://plus.google.com/+beagleboard" name="header_google+_icon"><img src="../images/icon_google.png" width="27" height="28" border="0" alt="google+"/></a></span>
                     </div>
 
 
@@ -75,6 +118,11 @@
             </div>
 
         </div>
+
+
+
+
+
 
         <div class="container theme-showcase" role="main">
 
@@ -89,64 +137,57 @@
                     </ul>
                 </div>
                 <div class="col-md-9 well">
-                    <form action="/BLINKINGTUTORIALS/viewAll" method="POST">
+                    <form id="createForm">
                     <div class="tab-content">
 
                         <div class="tab-pane active" id="tab_GInfo">
                             <div class="form-group">
-                                <label for="L_GI_Title">Title</label>
-                                <input type="text" class="form-control" id="TXT_GI_Title"  name="TXT_GI_Title" placeholder="Enter title">
+                                <label for="L_GI_Info">General Information</label>
+                               
                             </div>
                             <div class="form-group">
-                                <label for="L_GI_Info">Short Description</label>
-                               <textarea class="form-control" rows="5" name="TXAREA_GI_SD" id="TXAREA_GI_SD"></textarea>
+                             
+                                <div class="summernote"></div>
+                          
                             </div>
-                            <div class="form-group">
-                                <label for="FileUpload">Upload Image</label>
-                                <input type="file" id="exampleInputFile">
-
-                            </div>
+                           
+                          
                         </div>
                         <div class="tab-pane" id="tab_PreReq">
                              <div class="form-group">
-                                <label for="L_PR_Title">Topic</label>
-                                <input type="text" class="form-control" id="TXT_PR_Title" name="TXT_PR_Title" placeholder="Pre Req">
+                                <label for="L_PR_Info">Pre Requisites</label>
+                                
                             </div>
                             <div class="form-group">
-                                <label for="L_PR_Info">Materials</label>
-                               <textarea class="form-control" rows="5" id="TXAREA_PR_SD" name="TXAREA_PR_SD"></textarea>
+                              <div class="summernote">summernote 2</div>
                             </div>
                         </div>
 
                          <div class="tab-pane" id="tab_Hardware">
-                             <div class="form-group">
-                                <label for="L_HD_Title">Topic</label>
-                                <input type="text" class="form-control" id="TXT_HD_Title" name="TXT_HD_Title" placeholder="Topic">
+                            <div class="form-group">
+                                <label for="L_HD_Info">Hardware</label>
+                               
                             </div>
                             <div class="form-group">
-                                <label for="L_HD_Info">Information</label>
-                               <textarea class="form-control" rows="5" id="TXAREA_HD_SD" name="TXAREA_HD_SD"></textarea>
+                                
+                              <div class="summernote"></div>
                             </div>
                         </div>
                         <div class="tab-pane" id="tab_Code">
-                             <div class="form-group">
-                                <label for="L_CO_Title">Type in your BeagleBone's IP Address</label>
-                                <input type="text" class="form-control" id="TXT_CD_Title" name="TXT_CD_Title" placeholder="BeagleBone's IP Address">
-                            </div>
+                             
                             <div class="form-group">
                                 <label for="L_CO_Info">Code</label>
-                               <textarea class="form-control" rows="5" id="TXAREA_CD_SD" name="TXAREA_CD_SD"></textarea>
+                                <div class="summernote"></div>
                             </div>
                         </div>
 
                         <div class="tab-pane" id="tab_Add">
                              <div class="form-group">
-                                <label for="L_AD_Title">Topic</label>
-                                <input type="text" class="form-control" id="TXT_AD_Title" name="TXT_AD_Title" placeholder="Enter title">
+                                <label for="L_AD_Info">Additional Info</label>
+                               
                             </div>
                             <div class="form-group">
-                                <label for="L_AD_Info">Extra</label>
-                               <textarea class="form-control" rows="5" id="TXAREA_AD_SD" name="TXAREA_AD_SD"></textarea>
+                               <div class="summernote"></div>
                             </div>
 
                             <button type="submit" class="btn btn-default">Default</button>
@@ -165,14 +206,129 @@
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <script src="../js/bootstrap.min.js"></script>
-        <script src="../js/docs.min.js"></script>
+        
+      
         <script type="text/javascript">
+            var result=""; 
+            var files;
+            var auth;
+            var createJson = function createJson(){
+                one= $('.summernote').eq(0).code();
+                two= $('.summernote').eq(1).code();
+                three= $('.summernote').eq(2).code();
+                four= $('.summernote').eq(3).code();
+                five= $('.summernote').eq(4).code();
+                
+                Jfile = {
+                        "description": "the description for this gist",
+                        "public": true,
+                        "files": {"CARD_IN_01.md": {"content": one},
+                         "CARD_PRE_01.md":{ "content": two},
+                         "CARD_HD_01.md": {"content": three},
+                         "CARD_CD_01.md": {"content": four},
+                         "CARD_AD_01.md":{ "content": five}
+                       }};
+                
+                
+                files = {"CARD_IN_01.md": {"content": one},
+                         "CARD_PRE_01.md":{ "content": two},
+                         "CARD_HD_01.md": {"content": three},
+                         "CARD_CD_01.md": {"content": four},
+                         "CARD_AD_01.md":{ "content": five}
+                         
+                };
+                return Jfile;
+            };
+            
+            
             $('#myTabs a').click(function(e) {
                 e.preventDefault()
                 $(this).tab('show')
             });
+            
+            $('a#login').click(function() {
+               OAuth.initialize('wksJjQzMRCHmhVK7u4ry_k72ON4');
+               OAuth.popup('github', function(err, result) {
+                console.log(err);
+                auth = result;
+               });
+            });  
+            
+            $( "#createForm" ).submit(function( event ) {
+                Jfile = {
+                        "message": "This is a test", 
+                        "content": "bXkgbmV3IGZpbGUgY29udGVudHM=",
+                        "branch": "master"
+                       };
+                       
+                x = {
+                  "path": "index.html",
+                  "ref": "master"
+                };    
+                
+              
+               //files =createJson();
+               
+               var url = "https://api.github.com/gists";
+               var urlR = "https://api.github.com/repos/DiegoTc/bone101/contents/Support/index11.txt";
+               /*var mypost = {
+                type: "POST",
+                url: url,
+                data: JSON.stringify(files),//JSON.stringify(Jfile),
+                success: onsuccess,
+                dataType: "json"
+               };*/
+        
+               if(auth) {
+                //mypost.headers = {
+                //"Authorization": 'token ' + auth.access_token
+                //};
+                
+               
+               var myput = {
+                type: "PUT",
+                url: urlR,
+                data: JSON.stringify(Jfile),//JSON.stringify(Jfile),
+                success: onsuccess,
+                dataType: "json"
+               };
+               /*
+               var myput = {
+                type: "GET",
+                url: urlR,
+                data: JSON.stringify(x),//JSON.stringify(Jfile),
+                success: onsuccess,
+                dataType: "json"
+               };*/
+               
+               myput.headers = {
+                "Authorization": 'token ' + auth.access_token
+                };
+               }
+        
+                //console.log("Doing post: " + JSON.stringify(mypost));
+                //$.ajax(mypost).fail(onfail);
+                
+                 console.log("Doing post: " + JSON.stringify(myput));
+                $.ajax(myput).fail(onfail);
+        
+                function onsuccess(response) {
+                console.log('success: ' + JSON.stringify(response));
+                
+                }
+        
+                function onfail(response) {
+                    console.log('fail: ' + JSON.stringify(response));
+                }
+ 
+               
+            });
+            
         </script>
+
+
+
+
+
     </body>
 </html>

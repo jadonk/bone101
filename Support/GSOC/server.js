@@ -16,7 +16,6 @@ var GITHUB_CLIENT_ID = "efc9059ce2616781cb6e"
 var GITHUB_CLIENT_SECRET = "4b65e667601ecac03bf8b4d70f0ec73521fece93";
 
 var oauth = require("oauth").OAuth2;
-
 var OAuth2 = new oauth(GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, "https://github.com/", "login/oauth/authorize", "login/oauth/access_token");
 
 
