@@ -1,5 +1,5 @@
-$(".bonecard-list li a").each(function(index) {
-    var content = this;
+$(".bonecard-list .bonecard").each(function(index) {
+    var item = this;
     var gistid = $(this).attr("gistid");
     var gisturl = "https://api.github.com/gists/" + gistid;
     var gistrequest = {
@@ -13,7 +13,8 @@ $(".bonecard-list li a").each(function(index) {
     
     function gistsuccess(response) {
         console.log('success: ' + JSON.stringify(response));
-        $(content).replaceWith(response.files["cover.html"].content);
+        $(item).find("a").first().replaceWith(response.files["cover.html"].content);
+        $(item).show();
     }
     
     function gistfail(response) {
