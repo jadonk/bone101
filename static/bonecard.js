@@ -1,3 +1,26 @@
+$(".bonecard-list li a").each(function(index) {
+    var content = this;
+    var gistid = $(this).attr("gistid");
+    var gisturl = "https://api.github.com/gists/" + gistid;
+    var gistrequest = {
+        type: "GET",
+        url: gisturl,
+        success: gistsuccess,
+        dataType: "json"
+    };
+    console.log('request: ' + JSON.stringify(gistrequest));
+    $.ajax(gistrequest).fail(gistfail);
+    
+    function gistsuccess(response) {
+        console.log('success: ' + JSON.stringify(response));
+        $(content).replaceWith(response.files["cover.html"].content);
+    }
+    
+    function gistfail(response) {
+        console.log('fail: ' + JSON.stringify(response));
+    }
+});
+
 $('.bonecard').css("cursor", "pointer");
 $('.bonecard').click(function() {
     $(this).toggleClass('zoomed');
