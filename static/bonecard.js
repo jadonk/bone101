@@ -22,8 +22,11 @@ $(".bonecard-list li a").each(function(index) {
 });
 
 $('.bonecard').css("cursor", "pointer");
+
+// TODO: This isn't the right way to zoom, just a placeholder
+// URL needs to be replaced
 $('.bonecard').click(function() {
-    $(this).toggleClass('zoomed');
+    $(this).toggleClass('bonecard-zoomed');
 });
 
 OAuth.initialize('t4Qxz2lcwB10Qgz_iXZwNjsZ1w4');
