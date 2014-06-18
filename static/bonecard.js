@@ -1,6 +1,7 @@
 $(".bonecard-list .bonecard").each(function(index) {
-    var item = this;
-    var gistid = $(this).attr("gistid");
+    var item = $(this);
+    var anchor = item.find("a").first();
+    var gistid = anchor.attr("gistid");
     var gisturl = "https://api.github.com/gists/" + gistid;
     var gistrequest = {
         type: "GET",
@@ -13,15 +14,14 @@ $(".bonecard-list .bonecard").each(function(index) {
     
     function gistsuccess(response) {
         console.log('success: ' + JSON.stringify(response));
-        $(item).find("a").first().replaceWith(response.files["cover.html"].content);
-        $(item).show();
+        anchor.replaceWith(response.files["cover.html"].content);
+        item.show();
     }
     
     function gistfail(response) {
         console.log('fail: ' + JSON.stringify(response));
     }
 });
-
 $('.bonecard').css("cursor", "pointer");
 
 // TODO: This isn't the right way to zoom, just a placeholder
