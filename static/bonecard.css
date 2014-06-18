@@ -1,8 +1,8 @@
-div.container {
+.bonecard-list {
 	width: 100%;
 	overflow: hidden;
 }
-div.bonecard {
+.bonecard {
     background-color: white;
     margin: 10px;
     width: 340px;
@@ -19,11 +19,11 @@ div.bonecard {
     border-radius: 20px;
     border-top-right-radius: 50px;
     border-bottom-right-radius: 50px;
-    position: relative; 
-	  float: left;
+    position: relative;
+    float: left;
     -webkit-transition: color 0.5s ease;
 }
-div.bonecard:after, div.bonecard:before {
+.bonecard:after, div.bonecard:before {
     background-color: white;
     position: absolute;
     display: block;
@@ -33,23 +33,23 @@ div.bonecard:after, div.bonecard:before {
     width: 6px;
     left: -10px;
 }
-div.bonecard:before {
+.bonecard:before {
     top: 60px;
     height: 60px;
 }
-div.bonecard:after {
+.bonecard:after {
     top: 180px;
     height: 30px;
 }
-div.zoomed {
+.bonecard-zoomed {
     width: 850px;
     height: 525px;
 }
-div.zoomed:before {
+.bonecard-zoomed:before {
     top: 150px;
     height: 150px;
 }
-div.zoomed:after {
+.bonecard-zoomed:after {
     top: 460px;
     height: 45px;
 }
