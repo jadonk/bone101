@@ -13,11 +13,16 @@ var start = function(){
         OAuth.popup('github', function(err, result) {
             console.log(err);
             auth = result;
-
+            token= auth.access_token;
+            $.cookie('githubToken', token,{ expires: 1, path: '/' });
             auth.me().done(function(me) {
                 $('a#user').append(me.name);
+                user=me.name;
+                $.cookie('githubUser', user,{ expires: 1, path: '/' });
                 $("a#create").attr("href", "create.html");
                 $("a#create").append("Create");
+                $("a#login").empty();
+                $("a#login").attr("href", "#");
             })
         });
     //};

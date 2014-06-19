@@ -21,8 +21,7 @@
     <link href="../css/theme.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen" href="../css/common.css" />
 
-    <script src="../js/oauth.js"></script>
-    <script src="../js/githubOauth.js"></script>
+    
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
@@ -190,10 +189,26 @@ p {font-size: 0.85em;line-height:1.3em; }
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.9.1.min.js"></script> 
+    <script src="../js/oauth.js"></script>
+    <script src="../js/githubOauth.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
     <script src="../js/docs.min.js"></script>
     <script>
+    $(document).ready(function() {
+       var token=$.cookie('githubToken');
+       var user=$.cookie('githubUser');
+       if(token != null){
+           $('a#user').append(user);
+           $("a#create").attr("href", "create.html");
+           $("a#create").append("Create");
+           $("a#login").empty();
+           $("a#login").attr("href", "#");
+       }
+
+    });
+    
     $('a#login').click(function() {
         start();
      });   

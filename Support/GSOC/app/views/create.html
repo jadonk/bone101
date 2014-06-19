@@ -38,8 +38,9 @@
   <!-- include summernote -->
   <link rel="stylesheet" href="../css/summernote.css">
   <script type="text/javascript" src="../js/summernote.js"></script>
+  <script src="../js/jquery.cookie.js"></script>
   <script src="../js/oauth.js"></script>
-    <script src="../js/githubOauth.js"></script>
+  <script src="../js/githubOauth.js"></script>
 
   <script type="text/javascript">
     $(document).ready(function() {
@@ -50,6 +51,19 @@
           theme: 'cosmo'
         }
       });
+      
+      var token=$.cookie('githubToken');
+       var user=$.cookie('githubUser');
+       if(token != null){
+           $('a#user').append(user);
+           $("a#login").empty();
+           $("a#login").attr("href", "#");
+       }
+       else{
+           $(location).attr('href',"index.html");
+       }
+      
+      
       $('a#login').click(function() {
         start();
      }); 
@@ -228,15 +242,6 @@
                          "CARD_CD_01.md": {"content": four},
                          "CARD_AD_01.md":{ "content": five}
                        }};
-                
-                
-                files = {"CARD_IN_01.md": {"content": one},
-                         "CARD_PRE_01.md":{ "content": two},
-                         "CARD_HD_01.md": {"content": three},
-                         "CARD_CD_01.md": {"content": four},
-                         "CARD_AD_01.md":{ "content": five}
-                         
-                };
                 return Jfile;
             };
             
@@ -246,18 +251,11 @@
                 $(this).tab('show')
             });
             
-            $('a#login').click(function() {
-               OAuth.initialize('wksJjQzMRCHmhVK7u4ry_k72ON4');
-               OAuth.popup('github', function(err, result) {
-                console.log(err);
-                auth = result;
-               });
-            });  
             
             $( "#createForm" ).submit(function( event ) {
                 Jfile = {
-                        "message": "This is a test", 
-                        "content": "bXkgbmV3IGZpbGUgY29udGVudHM=",
+                        "message": "Adding a html file!", 
+"content": "bXkgdXBkYXRlZCBmaWxlIGNvbnRlbnRz",
                         "branch": "master"
                        };
                        
@@ -267,58 +265,54 @@
                 };    
                 
               
-               //files =createJson();
+               files =createJson();
                
                var url = "https://api.github.com/gists";
-               var urlR = "https://api.github.com/repos/DiegoTc/bone101/contents/Support/index11.txt";
-               /*var mypost = {
+               var urlR = "https://api.github.com/repos/DiegoTc/bone101/contents/Support/indexTest.html";
+               var mypost = {
                 type: "POST",
                 url: url,
                 data: JSON.stringify(files),//JSON.stringify(Jfile),
                 success: onsuccess,
                 dataType: "json"
-               };*/
+               };
         
-               if(auth) {
-                //mypost.headers = {
-                //"Authorization": 'token ' + auth.access_token
-                //};
+             
                 
-               
+               /*
                var myput = {
                 type: "PUT",
                 url: urlR,
                 data: JSON.stringify(Jfile),//JSON.stringify(Jfile),
                 success: onsuccess,
                 dataType: "json"
-               };
-               /*
-               var myput = {
-                type: "GET",
-                url: urlR,
-                data: JSON.stringify(x),//JSON.stringify(Jfile),
-                success: onsuccess,
-                dataType: "json"
                };*/
                
-               myput.headers = {
-                "Authorization": 'token ' + auth.access_token
-                };
-               }
-        
-                //console.log("Doing post: " + JSON.stringify(mypost));
-                //$.ajax(mypost).fail(onfail);
+               var token=$.cookie('githubToken');
+               /*myput.headers = {
+                "Authorization": 'token ' + token
+                };*/
                 
-                 console.log("Doing post: " + JSON.stringify(myput));
-                $.ajax(myput).fail(onfail);
+                mypost.headers = {
+                "Authorization": 'token ' + token
+                };
+               
+        
+                console.log("Doing post: " + JSON.stringify(mypost));
+                $.ajax(mypost).fail(onfail);
+                
+                // console.log("Doing post: " + JSON.stringify(myput));
+                //$.ajax(myput).fail(onfail);
         
                 function onsuccess(response) {
                 console.log('success: ' + JSON.stringify(response));
+                $(location).attr('href',"index.html");
                 
                 }
         
                 function onfail(response) {
                     console.log('fail: ' + JSON.stringify(response));
+                    alert("Error creating the Tutorial");
                 }
  
                
