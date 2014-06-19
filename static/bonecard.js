@@ -1,36 +1,71 @@
-$( document ).ready(init);
+$(document).ready(init);
 
 function init() {
-    $(".bonecard-list .bonecard").each(function(index) {
-        var item = $(this);
-        var anchor = item.find("a").first();
-        var gistid = anchor.attr("gistid");
-        var gisturl = "https://api.github.com/gists/" + gistid;
-        var gistrequest = {
-            type: "GET",
-            url: gisturl,
-            success: gistsuccess,
-            dataType: "json"
-        };
-        console.log('request: ' + JSON.stringify(gistrequest));
-        $.ajax(gistrequest).fail(gistfail);
-        
-        function gistsuccess(response) {
-            console.log('success: ' + JSON.stringify(response));
-            anchor.replaceWith(response.files["cover.html"].content);
-            item.show();
+    if(location.hash) {
+        console.log(location.hash);
+        var gistid = location.hash.substring(1);
+        $(".bonecard-list").each(function(index) {
+            var list = $(this);
+            console.log("Replacing gistid " + list.attr("gistid") +
+                        "with " + gistid);
+            list.attr("gistid", gistid);
+        });
+    }
+    $(".bonecard-list").each(function(index) {
+        var list = $(this);
+        var gistid = list.attr("gistid");
+        if(gistid) {
+            var gisturl = "https://api.github.com/gists/" + gistid;
+            var gistrequest = {
+                type: "GET",
+                url: gisturl,
+                success: gistsuccess,
+                dataType: "json"
+            };
+            console.log('request: ' + JSON.stringify(gistrequest));
+            $.ajax(gistrequest).fail(gistfail);
         }
-        
+
         function gistfail(response) {
             console.log('fail: ' + JSON.stringify(response));
         }
-    });
-    $('.bonecard').css("cursor", "pointer");
+        
+        function gistsuccess(response) {
+            console.log('success: ' + JSON.stringify(response));
+            list.replaceWith(response.files["list.html"].content);
+            $(".bonecard").each(function(index) {
+                console.log('found a bonecard');
+                var card = $(this);
+                var gistid = card.attr("gistid");
+                if(gistid) {
+                    var gisturl = "https://api.github.com/gists/" + gistid;
+                    var gistrequest = {
+                        type: "GET",
+                        url: gisturl,
+                        success: gistsuccess,
+                        dataType: "json"
+                    };
+                    console.log('request: ' + JSON.stringify(gistrequest));
+                    $.ajax(gistrequest).fail(gistfail);
+                }        
 
-    // TODO: This isn't the right way to zoom, just a placeholder
-    // URL needs to be replaced
-    $('.bonecard').click(function() {
-        $(this).toggleClass('bonecard-zoomed');
+                function gistsuccess(response) {
+                    console.log('success: ' + JSON.stringify(response));
+                    card.replaceWith('<div class="bonecard">\n' +
+                        response.files["cover.html"].content +
+                        '\n</div>'
+                    );
+                    card.show();
+                }
+            });
+            $('.bonecard').css("cursor", "pointer");       
+            $('.bonecard').click(function() {
+                // TODO: This isn't the right way to zoom, just a placeholder
+                // URL needs to be replaced
+                $(this).toggleClass('bonecard-zoomed');
+            });
+            list.show();
+        }
     });
     
     OAuth.initialize('t4Qxz2lcwB10Qgz_iXZwNjsZ1w4');
