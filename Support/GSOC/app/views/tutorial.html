@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>BeagleBoard.org</title>
+    <link rel="icon" href="../../../favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="../css/bootstrap-theme.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="../css/tut.css" /> 
+    <script type="text/javascript" src="http://jadonk.github.io/bone101/static/jquery.js"></script>
+    
+    <script src="../js/jquery-1.9.1.min.js"></script>
+     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.scrollTo-1.4.2-min.js"></script>
+    <script src="../js/bonecard.js"></script>
+    <style>
+        .social{
+            width:200px;
+            float:right;
+            padding-top:15px;
+        }
+        
+        body{
+            margin-top: 50px;
+        }
+        
+        p{
+           margin-top: 0%;
+        }
+
+        .divide-nav{
+            height: 50px;
+            //background-color: #428bca;
+        }
+
+        .divide-text{
+            color:#fff;
+            line-height: 20px;
+            font-size:20px;
+            padding: 15px 0;
+        }
+
+        .affix {
+          top: 50px;
+          width:100%;
+        }
+
+        .filler{
+          min-height: 2000px;
+        }
+
+        .navbar-form {
+           padding-left: 0;
+        }
+
+        .navbar-collapse{
+           padding-left:0; 
+        }
+        
+        .navbar-left {
+            float: left!important;
+            margin-left: 40%;
+        }
+   
+    </style>
+  
+    <script>
+        $('.navbar-lower').affix({
+            offset: {top: 50}
+        });
+        
+        $(document).ready(function() {
+         
+                $('a.link').click(function() {
+                    $('#wrapper').scrollTo($(this).attr('href'), 400);
+                    $('.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    return false;
+                });
+                
+                
+        });
+        
+    </script>  
+  </head>
+  <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Home</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                
+
+                <div class="social">
+                    <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src="../images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
+                    <span style="padding-left:8px"><a href="http://twitter.com/beagleboardorg" name="header_twitter_icon"><img src="../images/icon_twitter.png" width="27" height="28" border="0" alt="twitter"/></a></span>
+                    <span style="padding-left:8px"><a href="http://www.linkedin.com/groups/BeagleBoardorg-1474607?gid=1474607&mostPopular=&trk=tyah" name="header_linkedin_icon"><img src="../images/icon_linkedin.png" width="27" height="28" border="0" alt="linkedin" /></a></span>
+                    <span style="padding-left:8px"><a href="http://plus.google.com/+beagleboard" name="header_google+_icon"><img src="../images/icon_google.png" width="27" height="28" border="0" alt="google+"/></a></span>
+                </div>
+
+                
+            </div><!--/.nav-collapse -->
+          </div><!-- /.container-fluid -->
+        </nav>
+        <div class="divide-nav">
+            <div class="container">
+               <nav class="navbar navbar-default navbar-lower" role="navigation">
+                    <div class="container">
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav navbar-left">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">Action</a></li>
+                                            <li><a href="#">Another action</a></li>
+                                            <li><a href="#">Something else here</a></li>
+                                        </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        
+        
+        <div id="wrapper">
+            <ul class="bonecard-list" id="cardList">
+                <!--<li class="box">
+                  <div class="bonecard">
+                      <a href="https://gist.github.com/jadonk/10611021" gistid="10611021">Deck #1</a>
+                    </div>
+                    
+                </li>!-->
+            </ul>
+            
+            <!--
+            <ul class="bonecard-list">
+                <li class="bonecard" style="display:none;">
+                    
+                </li>
+ </ul>!-->
+            
+        </div>
+      
+  </body>
+    
+</html>
+    

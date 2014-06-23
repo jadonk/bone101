@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : diego
 */
 /*** Style Definitions ***/
-html			{ background:#67b2ff; font-family:Arial, Helvetica, sans-serif; }
+//html			{ background:#67b2ff; font-family:Arial, Helvetica, sans-serif; }
 
 /*** Clouds ***/
 .clouds					{ width:100%; height:262px; overflow:hidden; }
@@ -36,9 +36,9 @@ h1#logo				{ background:url(../images/Logo.png) top left no-repeat; height:62px;
 /*** Body Content ***/
 #wrapper	{ width:100%; height:100%; position:absolute; top:0; left:0; overflow:hidden; }
 
-#mask		{ width:400%; height:100%; }
+#mask		{ width:500%; height:100%; }
 
-.box		{ width: 25%; height:100%; float:left; }
+.box		{ width: 20%; height:100%; float:left; }
 
 .content	{ width:960px; height:400px; top:20%; margin: 0 auto; position:relative; background:rgba(255,255,255, 0.3);
 				border-radius:35px; -moz-border-radius:35px; -webkit-border-radius:35px; }
@@ -51,11 +51,15 @@ h1#logo				{ background:url(../images/Logo.png) top left no-repeat; height:62px;
                 margin-right:2em
             }
 
-div.bonecardLightBox {
+.bonecard-list {
+	width:100%; 
+	height:100%;
+	float:left;
+}            
+
+
+div.bonecard {
                 background-color: white;
-                background: #fff;
-                z-index: 1001;
-                //margin-top: 5px;
                 margin-left: 11%;
                 margin-top: 7%;
                 width: 80%;//850px;
@@ -72,13 +76,22 @@ div.bonecardLightBox {
                 border-radius: 20px;
                 border-top-right-radius: 50px;
                 border-bottom-right-radius: 50px;
-                //position: relative;
                 position: absolute;
                 float: center;
                 -webkit-transition: color 0.5s ease;
+                //background: #fff;
+                //z-index: 1001;
+                
+                
+                
+               
+                
+                
+                //position: relative;
+                
             }
 
-            div.bonecardLightBox:after, div.bonecardLightBox:before {
+            div.bonecard:after, div.bonecard:before {
                 background-color: white;
                 position: absolute;
                 display: block;
@@ -89,12 +102,66 @@ div.bonecardLightBox {
                 left: -10px;
             }
 
-            div.bonecardLightBox:before {
+            div.bonecard:before {
                 top: 150px;
                 height: 150px;
             }
-            div.bonecardLightBox:after {
+            div.bonecard:after {
                 top: 460px;
                 height: 45px;
             }
+/*
 
+div.bonecard {
+                background-color: white;
+                background: #fff;
+                z-index: 1001;
+                
+                margin-left: 50px;
+                margin-top: 0px;
+                width: 850px;
+                height: 525px;
+                border: 2px solid black;
+                border-left: 2px solid black;
+                padding: 10px;
+                -webkit-border-radius: 20px;
+                -webkit-border-top-right-radius: 50px;
+                -webkit-border-bottom-right-radius: 50px;
+                -moz-border-radius: 20px;
+                -moz-border-radius-topright: 50px;
+                -moz-border-radius-bottomright: 50px;
+                border-radius: 20px;
+                border-top-right-radius: 50px;
+                border-bottom-right-radius: 50px;
+                position: relative;
+                //position: absolute;
+                float: center;
+                -webkit-transition: color 0.5s ease;
+            }
+
+            div.bonecard:after, div.bonecard:before {
+                background-color: white;
+                position: absolute;
+                display: block;
+                content:"";
+                border: 2px solid black;
+                border-right: 2px solid white;
+                width: 6px;
+                left: -10px;
+            }
+
+            div.bonecard:before {
+                top: 150px;
+                height: 150px;
+            }
+            div.bonecard:after {
+                top: 460px;
+                height: 45px;
+            }
+*/
+.scroll
+{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}

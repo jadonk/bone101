@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
         <meta name="description" content="">
         <meta name="author" content="">
 
@@ -11,64 +11,40 @@
         <link rel="shortcut icon" href="../../../favicon.ico" type="image/x-icon">
 
         <!-- Bootstrap core CSS -->
-      
+
         <!-- Bootstrap theme -->
-        
+
 
         <!-- Custom styles for this template -->
 
         <!-- include jquery -->
-  <script src="//code.jquery.com/jquery-1.9.1.min.js"></script> 
+        <script src="//code.jquery.com/jquery-1.9.1.min.js"></script> 
 
-  <!-- include libs stylesheets -->
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" />
-   <link href="../css/theme.css" rel="stylesheet">
-  <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script> 
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+        <!-- include libs stylesheets -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" />
+        <link href="../css/theme.css" rel="stylesheet">
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script> 
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
 
-  <!-- code mirror -->
-  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.min.css" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/blackboard.min.css">
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/monokai.min.css">
-  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/xml/xml.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/2.36.0/formatting.min.js"></script>
+        <!-- code mirror -->
+        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.min.css" />
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/blackboard.min.css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/monokai.min.css">
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/xml/xml.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/2.36.0/formatting.min.js"></script>
 
-       
-  <!-- include summernote -->
-  <link rel="stylesheet" href="../css/summernote.css">
-  <script type="text/javascript" src="../js/summernote.js"></script>
-  <script src="../js/jquery.cookie.js"></script>
-  <script src="../js/oauth.js"></script>
-  <script src="../js/githubOauth.js"></script>
 
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $('.summernote').summernote({
-        height: 250,
-        tabsize: 2,
-        codemirror: {
-          theme: 'cosmo'
-        }
-      });
-      
-      var token=$.cookie('githubToken');
-       var user=$.cookie('githubUser');
-       if(token != null){
-           $('a#user').append(user);
-           $("a#login").empty();
-           $("a#login").attr("href", "#");
-       }
-       else{
-           $(location).attr('href',"index.html");
-       }
-      
-      
-      $('a#login').click(function() {
-        start();
-     }); 
-    });
-  </script>
+        <!-- include summernote -->
+        <link rel="stylesheet" href="../css/summernote.css">
+        <script type="text/javascript" src="../js/summernote.js"></script>
+        <script src="../js/jquery.cookie.js"></script>
+        <script src="../js/oauth.js"></script>
+        <script src="../js/githubOauth.js"></script>
+        <script src="../js/createOptionForm.js"></script>
+        <script type="text/javascript">
+
+        </script>
         <!-- Just for debugging purposes. Don't actually copy this line! -->
         <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
 
@@ -87,6 +63,16 @@
 
             body{margin-top:20px;}
             .fa-fw {width: 2em;}
+
+            .btnGroup{
+                position: relative;
+                display: inline-block;
+                vertical-align: middle;
+                background-color: #f5f5f5;
+                border: 1px solid #e3e3e3;
+                border-radius: 4px;  
+                width: 40%;
+            };
         </style>
     </head>
 
@@ -113,11 +99,11 @@
                         <li class="active"><a href="#">Home</a></li>
                         <li><a href="#about">About</a></li>
                     </ul>
-                    
+
                     <ul class="nav navbar-nav navbar-right">
-        <li id="nav-login-btn" class=""><a id="user"><i class="icon-login"></i></a></li>
-        <li id="nav-login-btn" class=""><a id="login" href="#"><i class="icon-login"></i>Login</a></li>
-    </ul>
+                        <li id="nav-login-btn" class=""><a id="user"><i class="icon-login"></i></a></li>
+                        <li id="nav-login-btn" class=""><a id="login" href="#"><i class="icon-login"></i>Login</a></li>
+                    </ul>
 
                     <div class="social">
                         <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src="../images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
@@ -151,44 +137,74 @@
                     </ul>
                 </div>
                 <div class="col-md-9 well">
-                    <form id="createForm">
+                    <!-- <form id="createForm">!-->
                     <div class="tab-content">
 
                         <div class="tab-pane active" id="tab_GInfo">
                             <div class="form-group">
                                 <label for="L_GI_Info">General Information</label>
-                               
+
                             </div>
                             <div class="form-group">
-                             
+
                                 <div class="summernote"></div>
-                          
+
                             </div>
-                           
-                          
+
+
                         </div>
                         <div class="tab-pane" id="tab_PreReq">
-                             <div class="form-group">
-                                <label for="L_PR_Info">Pre Requisites</label>
-                                
-                            </div>
-                            <div class="form-group">
-                              <div class="summernote">summernote 2</div>
+                            <div class="row">
+                                <div class="col-xs-6 col-md-4">
+                                    <div class="form-group">
+                                        <button type="button" id="btPre" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span></button>
+                                        <button type="button" id="btPreDel" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-minus"></span></button>
+                                    </div>
+                                    <div class="btnGroup">               
+                                        <ul class="nav nav-pills nav-stacked" id="listPreReq" style="height: 200px; overflow: auto" role="menu">
+                                            <li class="active" id="1"><a href="#">Page 1</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-8">
+                                    <div class="form-group">
+                                        <label for="L_PR_Info">Pre Requisites</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="summernote"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                         <div class="tab-pane" id="tab_Hardware">
-                            <div class="form-group">
-                                <label for="L_HD_Info">Hardware</label>
-                               
-                            </div>
-                            <div class="form-group">
-                                
-                              <div class="summernote"></div>
+                        <div class="tab-pane" id="tab_Hardware">
+                            <div class="row">
+                                <div class="col-xs-6 col-md-4">
+                                    <div class="form-group">
+                                        <button type="button" id="btHD" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span></button>
+                                        <button type="button" id="btHDDel" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-minus"></span></button>
+                                    </div>
+                                    <div class="btnGroup">               
+                                        <ul class="nav nav-pills nav-stacked" id="listHDReq" style="height: 200px; overflow: auto" role="menu">
+                                            <li class="active" id="1"><a href="#">Page 1</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-xs-12 col-sm-6 col-md-8">
+                                    <div class="form-group">
+                                        <label for="L_HD_Info">Hardware</label>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="summernote"></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="tab-pane" id="tab_Code">
-                             
+
                             <div class="form-group">
                                 <label for="L_CO_Info">Code</label>
                                 <div class="summernote"></div>
@@ -196,20 +212,20 @@
                         </div>
 
                         <div class="tab-pane" id="tab_Add">
-                             <div class="form-group">
+                            <div class="form-group">
                                 <label for="L_AD_Info">Additional Info</label>
-                               
+
                             </div>
                             <div class="form-group">
-                               <div class="summernote"></div>
+                                <div class="summernote"></div>
                             </div>
 
-                            <button type="submit" class="btn btn-default">Default</button>
+                            <button id="Bsubmit" class="btn btn-default">Default</button>
                         </div>
 
 
                     </div>
-                    </form>
+                    <!--</form>!-->
                 </div>
             </div>
 
@@ -220,105 +236,148 @@
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        
-      
         <script type="text/javascript">
-            var result=""; 
+            var pagesPreReq = [];
+            var pagesHDReq = [];
+            var result = "";
             var files;
             var auth;
-            var createJson = function createJson(){
-                one= $('.summernote').eq(0).code();
-                two= $('.summernote').eq(1).code();
-                three= $('.summernote').eq(2).code();
-                four= $('.summernote').eq(3).code();
-                five= $('.summernote').eq(4).code();
-                
-                Jfile = {
-                        "description": "the description for this gist",
-                        "public": true,
-                        "files": {"CARD_IN_01.md": {"content": one},
-                         "CARD_PRE_01.md":{ "content": two},
-                         "CARD_HD_01.md": {"content": three},
-                         "CARD_CD_01.md": {"content": four},
-                         "CARD_AD_01.md":{ "content": five}
-                       }};
-                return Jfile;
-            };
-            
-            
-            $('#myTabs a').click(function(e) {
-                e.preventDefault()
-                $(this).tab('show')
-            });
-            
-            
-            $( "#createForm" ).submit(function( event ) {
-                Jfile = {
-                        "message": "Adding a html file!", 
-"content": "bXkgdXBkYXRlZCBmaWxlIGNvbnRlbnRz",
-                        "branch": "master"
-                       };
-                       
-                x = {
-                  "path": "index.html",
-                  "ref": "master"
-                };    
-                
-              
-               files =createJson();
-               
-               var url = "https://api.github.com/gists";
-               var urlR = "https://api.github.com/repos/DiegoTc/bone101/contents/Support/indexTest.html";
-               var mypost = {
-                type: "POST",
-                url: url,
-                data: JSON.stringify(files),//JSON.stringify(Jfile),
-                success: onsuccess,
-                dataType: "json"
-               };
-        
-             
-                
-               /*
-               var myput = {
-                type: "PUT",
-                url: urlR,
-                data: JSON.stringify(Jfile),//JSON.stringify(Jfile),
-                success: onsuccess,
-                dataType: "json"
-               };*/
-               
-               var token=$.cookie('githubToken');
-               /*myput.headers = {
-                "Authorization": 'token ' + token
-                };*/
-                
-                mypost.headers = {
-                "Authorization": 'token ' + token
-                };
-               
-        
-                console.log("Doing post: " + JSON.stringify(mypost));
-                $.ajax(mypost).fail(onfail);
-                
-                // console.log("Doing post: " + JSON.stringify(myput));
-                //$.ajax(myput).fail(onfail);
-        
-                function onsuccess(response) {
-                console.log('success: ' + JSON.stringify(response));
-                $(location).attr('href',"index.html");
-                
+            $(document).ready(function() {
+                $('.summernote').summernote({
+                    height: 250,
+                    tabsize: 2,
+                    codemirror: {
+                        theme: 'cosmo'
+                    }
+                });
+
+                var token = $.cookie('githubToken');
+                var user = $.cookie('githubUser');
+                if (token != null) {
+                    $('a#user').append(user);
+                    $("a#login").empty();
+                    $("a#login").attr("href", "#");
                 }
-        
-                function onfail(response) {
-                    console.log('fail: ' + JSON.stringify(response));
-                    alert("Error creating the Tutorial");
+                else {
+                    $(location).attr('href', "index.html");
                 }
- 
-               
+
+
+                $('a#login').click(function() {
+                    start();
+                });
+
+                $('#btPreDel').click(function(e) {
+                    list = $("#listPreReq");
+                    listActive = $("#listPreReq .active");
+                    arrayList = pagesPreReq;
+                    editor = 1;
+                    deleteUi(list, listActive, arrayList, editor);
+
+                });
+
+                $('#btPre').click(function(e) {
+                    list = $("#listPreReq");
+                    listActive = $("#listPreReq .active");
+                    arrayList = pagesPreReq;
+                    editor = 1;
+                    addNewElement(list, listActive, arrayList, editor);
+                });
+
+                $("#listPreReq").on('click', 'li', function() {
+                    ids = $(this).attr("id");
+                    listActive = $("#listPreReq .active");
+                    arrayList = pagesPreReq;
+                    editor = 1;
+                    allThis = $(this);
+                    changeElement(ids, listActive, arrayList, editor, allThis);
+                });
+
+                $('#btHDDel').click(function(e) {
+                    list = $("#listHDReq");
+                    listActive = $("#listHDReq .active");
+                    arrayList = pagesHDReq;
+                    editor = 2;
+                    deleteUi(list, listActive, arrayList, editor);
+
+                });
+
+                $('#btHD').click(function(e) {
+                    list = $("#listHDReq");
+                    listActive = $("#listHDReq .active");
+                    arrayList = pagesHDReq;
+                    editor = 2;
+                    addNewElement(list, listActive, arrayList, editor);
+                });
+
+                $("#listHDReq").on('click', 'li', function() {
+                    ids = $(this).attr("id");
+                    listActive = $("#listHDReq .active");
+                    arrayList = pagesHDReq;
+                    editor = 2;
+                    allThis = $(this);
+                    changeElement(ids, listActive, arrayList, editor, allThis);
+                });
+
+
+
+
+
+
+
+
+                // $( "#createForm" ).submit(function( event ) {
+                $('#Bsubmit').click(function(e) {
+                    checkTab($("#listPreReq"), pagesPreReq, 1);
+                    checkTab($("#listHDReq"), pagesHDReq, 2);
+
+                    files = create_Json(pagesPreReq, pagesHDReq);//createJson();
+                    var url = "https://api.github.com/gists";
+                    var mypost = {
+                        type: "POST",
+                        url: url,
+                        data: JSON.stringify(files), //JSON.stringify(Jfile),
+                        success: onsuccess,
+                        dataType: "json"
+                    };
+
+
+
+                    var token = $.cookie('githubToken');
+
+
+                    mypost.headers = {
+                        "Authorization": 'token ' + token
+                    };
+
+
+                    console.log("Doing post: " + JSON.stringify(mypost));
+                    $.ajax(mypost).fail(onfail);
+
+
+
+                    function onsuccess(response) {
+                        console.log('success: ' + JSON.stringify(response));
+                        $(location).attr('href', "index.html");
+
+                    }
+
+                    function onfail(response) {
+                        console.log('fail: ' + JSON.stringify(response));
+                        alert("Error creating the Tutorial");
+                    }
+
+
+                });
+
             });
-            
+
+
+
+
         </script>
+
+
 
 
 

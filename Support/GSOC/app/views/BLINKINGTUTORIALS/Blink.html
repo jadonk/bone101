@@ -8,10 +8,10 @@ and open the template in the editor.
     <head>
         <title>Jquery Parallax Scrolling Tutorial</title>
         <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.7.0/build/reset/reset-min.css">
-        <link rel="stylesheet" type="text/css" media="screen" href="../css/tut.css" /> 
+        <link rel="stylesheet" type="text/css" media="screen" href="../../css/tut.css" /> 
 
-        <script type="text/javascript" src="../js/jquery-1.3.2.min.js"></script>
-        <script type="text/javascript" src="../js/jquery.scrollTo-1.4.2-min.js"></script>
+        <script src="//code.jquery.com/jquery-1.9.1.min.js"></script> 
+        <script type="text/javascript" src="../../js/jquery.scrollTo-1.4.2-min.js"></script>
 
         <script type="text/javascript">
            
@@ -20,10 +20,10 @@ and open the template in the editor.
                
                 
                 $('a.link').click(function() {
-                    $('#wrapper').scrollTo($(this).attr('href'), 800);
+                    $('#wrapper').scrollTo($(this).attr('href'), 400);
                     //current=$(current).attr('href');
-                    setPosition($(this).attr('href'), '#cloud1', '0px', '400px', '800px', '1200px')
-                    setPosition($(this).attr('href'), '#cloud2', '0px', '800px', '1600px', '2400px')
+                    //setPosition($(this).attr('href'), '#cloud1', '0px', '400px', '800px', '1200px', '1600px')
+                    //setPosition($(this).attr('href'), '#cloud2', '0px', '800px', '1600px', '2400px', '3200px')
                     
                     
                     $('.selected').removeClass('selected');
@@ -79,7 +79,7 @@ and open the template in the editor.
                     }
                 }
             });
-            function setPosition(check, div, p1, p2, p3, p4) {
+            function setPosition(check, div, p1, p2, p3, p4,p5) {
                 if (check === '#box1')
                 {
                     $(div).scrollTo(p1, 800);
@@ -92,9 +92,13 @@ and open the template in the editor.
                 {
                     $(div).scrollTo(p3, 800);
                 }
-                else
+                else if (check === '#box4')
                 {
                     $(div).scrollTo(p4, 800);
+                }
+                else (check === '#box5')
+                {
+                    $(div).scrollTo(p5, 800);
                 }
       
             };
@@ -156,29 +160,12 @@ and open the template in the editor.
                         <div class="gist">
                             <button onclick="myRun()">Run</button>
                             <pre>
-                    <code>
-    var b = require('bonescript');
-    var led2 = "P8_12";
-    var led1 = "P8_10";
-    var state = 0;
-
-    b.pinMode(led1, 'out');
-    b.pinMode(led2, 'out');
-    toggleLED = function() {
-        state = state ? 0 : 1;
-        b.digitalWrite(led1, state);
-        b.digitalWrite(led2, state);
-    };
-
-    timer = setInterval(toggleLED, 500);
-
-    stopTimer = function() {
-        clearInterval(timer);
-    };
-
-    setTimeout(stopTimer, 12000);
-
-                                    </code>
+                                <code>
+                                    var b = require('bonescript');
+                                    var led2 = "P8_12";
+                                    var led1 = "P8_10";
+                                    var state = 0;
+                                </code>
                             </pre>
                         </div>
                     </div>
