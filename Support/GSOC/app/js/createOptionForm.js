@@ -78,8 +78,9 @@ var create_Json = function createJson(pagesPreReq,pagesHDReq){
         "description": "Bone101 Tutorial",
         "public": true,
         "files": {
-            "CARD_AD_01.html":{ "content": tabAdditional},
-            "CARD_CD_01.html": {"content": tabCode}
+            "CARD_1_IN_1.html":{ "content": tabOne},
+            //"CARD_AD_01.html":{ "content": tabAdditional},
+            //"CARD_CD_01.html": {"content": tabCode}
                          //"CARD_HD_01.md": {"content": three},
                          //"CARD_PRE_01.md":{ "content": two},
                          //"CARD_IN_01.md": {"content": tabOne}
@@ -88,17 +89,20 @@ var create_Json = function createJson(pagesPreReq,pagesHDReq){
                 //JfilePre = Jfile;
     obj={};            
     for(i=0;i<pagesPreReq.length;i++){
-        name="CARD_PRE_0"+(i+1)+".html";
+        name="CARD_2_PRE_"+(i+1)+".html";
         obj={"content": pagesPreReq[i]};
         Jfile["files"][name]=obj;
     }
     for(i=0;i<pagesHDReq.length;i++){
-        name="CARD_HD_0"+(i+1)+".html";
+        name="CARD_3_HD_"+(i+1)+".html";
         obj={"content": pagesHDReq[i]};
         Jfile["files"][name]=obj;
     }
-    obj={"content": tabOne};
-    Jfile["files"]["CARD_IN_01.html"]=obj;
+    obj={"content": tabCode};
+    Jfile["files"]["CARD_4_CD_1.html"]=obj;
+    
+    obj={"content": tabAdditional};
+    Jfile["files"]["CARD_5_AD_1.html"]=obj;
     
      //return JSON.stringify(Jfile);
     return Jfile;

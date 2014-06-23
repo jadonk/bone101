@@ -60,8 +60,12 @@ function init() {
             $(".box").css({"height":"100%","float":"left","width":len+"%"});
             $(".bonecard-list").css({"height":"100%","float":"left","width":mult+"%"});
             
+            var x= $('indexCards');
+            var xx = $(indexCards);
             for(i=0;i<objFiles.length;i++){
                 $("#cardList").append('<li class="box" id='+i+'><div class="bonecard"></div></li>');
+                name=objFiles[i].filename;
+                $('#indexCards').append('<li><a href="#'+i+'">'+name+'</a></li>');
             }
             
         }
