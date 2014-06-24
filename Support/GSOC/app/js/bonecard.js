@@ -42,12 +42,23 @@ function init() {
             console.log('fail: ' + JSON.stringify(response));
         }
         
+        function getFileCardsNames(obj){
+            objFiles = [];
+            $.each(obj, function(key, value) {
+                var str = obj[key].filename;
+                if (str.indexOf("CARD_") >= 0){
+                    objFiles.push(obj[key].filename);
+                }
+            });
+            return objFiles;
+        }
+        
         function getFileCards(obj){
             objFiles = [];
             $.each(obj, function(key, value) {
                 var str = obj[key].filename;
                 if (str.indexOf("CARD_") >= 0){
-                    objFiles.push(obj[key])
+                    objFiles.push(obj[key]);
                 }
             });
             return objFiles;
@@ -58,25 +69,34 @@ function init() {
             len=100/objFiles.length;
             mult=100*objFiles.length;
             $(".box").css({"height":"100%","float":"left","width":len+"%"});
+            //$('.box').css({"width":len+"%"});
             $(".bonecard-list").css({"height":"100%","float":"left","width":mult+"%"});
             
             var x= $('indexCards');
             var xx = $(indexCards);
             for(i=0;i<objFiles.length;i++){
                 $("#cardList").append('<li class="box" id='+i+'><div class="bonecard"></div></li>');
-                name=objFiles[i].filename;
-                $('#indexCards').append('<li><a href="#'+i+'">'+name+'</a></li>');
+                //name=objFiles[i].filename;
+                $('#indexCards').append('<li><a href="#'+i+'">Card '+(i+1)+'</a></li>');
             }
             
+        }
+        
+        function replaceCards(objFiles,cardNames){
+            var list= $("#cardList").find("li");
+            for(i=0;i<list.length;i++){
+                list[i].innerHTML='<div class="bonecard">'+objFiles[cardNames[i]].content+'</div>'
+            }
         }
         
         function gistsuccess(response) {
             console.log('success: ' + JSON.stringify(response));
             obj = response.files;
             var objFiles = getFileCards(obj);
-            
+            var cardNames = getFileCardsNames(obj);
             //list.replaceWith(response.files["list.html"].content);
             addCards(objFiles);
+            replaceCards(response.files,cardNames);
             /*$(".bonecard").each(function(index) {
                 console.log('found a bonecard');
                 var card = $(this);

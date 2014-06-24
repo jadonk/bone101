@@ -36,7 +36,7 @@ h1#logo				{ background:url(../images/Logo.png) top left no-repeat; height:62px;
 /*** Body Content ***/
 #wrapper	{ width:100%; height:100%; position:absolute; top:0; left:0; overflow:hidden; }
 
-#mask		{ width:500%; height:100%; }
+//#mask		{ width:600%; height:100%; }
 
 .box		{ width: 20%; height:100%; float:left; }
 
