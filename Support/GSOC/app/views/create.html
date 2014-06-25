@@ -358,7 +358,9 @@
 
                     function onsuccess(response) {
                         console.log('success: ' + JSON.stringify(response));
-                        $(location).attr('href', "index.html");
+                        id= response.id;
+                        path="tutorial.html?gistid="+id;
+                        $(location).attr('href', path);
 
                     }
 

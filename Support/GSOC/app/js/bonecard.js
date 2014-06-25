@@ -66,11 +66,8 @@ function init() {
         
         function addCards(objFiles){
             $("#cardList");
-            len=100/objFiles.length;
-            mult=100*objFiles.length;
-            $(".box").css({"height":"100%","float":"left","width":len+"%"});
-            //$('.box').css({"width":len+"%"});
-            $(".bonecard-list").css({"height":"100%","float":"left","width":mult+"%"});
+            
+          
             
             var x= $('indexCards');
             var xx = $(indexCards);
@@ -87,6 +84,11 @@ function init() {
             for(i=0;i<list.length;i++){
                 list[i].innerHTML='<div class="bonecard">'+objFiles[cardNames[i]].content+'</div>'
             }
+            len=100/list.length;
+            mult=100*list.length;
+              $(".box").css({"height":"100%","float":"left","width":len+"%"});
+            //$('.box').css({"width":len+"%"});
+            $(".bonecard-list").css({"height":"100%","float":"left","width":mult+"%"});
         }
         
         function gistsuccess(response) {
