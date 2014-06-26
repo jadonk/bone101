@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 $(document).ready(init);
-/*
+
 function init() {
     $(".bonecard-list").each(function(index) {
         var list = $(this);
@@ -46,8 +46,11 @@ function init() {
 
                 function gistsuccess(response) {
                     console.log('success: ' + JSON.stringify(response));
-                    
-                    card.replaceWith('<a href="tutorial?gistid='+response.id+'><div class="bonecard">\n'+ response.files["CARD_1_IN_1.html"].content +'\n></div></a>');
+                    console.log('Response id: '+ response.id);
+                    link='<a href="tutorial.html?gistid='+response.id+'">';
+                    newDiv='<div class="bonecard">'+ response.files["CARD_1_IN_1.html"].content +'></div></a>';
+                    link=link+newDiv;
+                    card.replaceWith(link);
                     card.show();
                 }
             });
@@ -62,7 +65,7 @@ function init() {
     });
     
     
-}*/
+}
 
 
 
