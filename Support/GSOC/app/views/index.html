@@ -146,9 +146,20 @@ p {font-size: 0.85em;line-height:1.3em; }
    </div>
 
     <ul class="nav navbar-nav navbar-right">
-        <li id="nav-login-btn" class=""><a id="create"><i class="icon-login"></i></a></li>
-        <li id="nav-login-btn" class=""><a id="user"><i class="icon-login"></i></a></li>
-        <li id="nav-login-btn" class=""><a id="login" href="#"><i class="icon-login"></i>Login</a></li>
+        <li><a id="create"><i class="icon-login"></i></a></li>
+        <li><a id="user"><i class="icon-login"></i></a></li>
+        <li><a id="login" href="#"><i class="icon-login"></i>Login</a></li>
+        
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
     </ul>
 
         </div><!--/.nav-collapse -->
@@ -171,13 +182,16 @@ p {font-size: 0.85em;line-height:1.3em; }
     <script src="../js/oauth.js"></script>
     <script src="../js/githubOauth.js"></script>
     <script src="../js/jquery.cookie.js"></script>
-    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+    
+   
+    <script src="../js/bootstrap.min.js"></script>
     <script src="../js/docs.min.js"></script>
     <script>
     $(document).ready(function() {
        var token=$.cookie('githubToken');
        var user=$.cookie('githubUser');
        if(token != null){
+           //$('a#user')
            $('a#user').append(user);
            $("a#create").attr("href", "create.html");
            $("a#create").append("Create");
