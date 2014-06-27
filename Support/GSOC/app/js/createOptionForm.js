@@ -59,12 +59,6 @@ function checkTab(list,arrayList,editor){
             arrayList.push(Prevalue);
         }
     }
-    if(editor == 1){
-        $.cookie('preReqObject', arrayList,{ expires: 1, path: '/' });
-    }
-    else if(editor ==2){
-        $.cookie('preReqHD', arrayList,{ expires: 1, path: '/' });
-    }
 } 
 
 
@@ -89,14 +83,18 @@ var create_Json = function createJson(pagesPreReq,pagesHDReq){
                 //JfilePre = Jfile;
     obj={};            
     for(i=0;i<pagesPreReq.length;i++){
-        name="CARD_2_PRE_"+(i+1)+".html";
-        obj={"content": pagesPreReq[i]};
-        Jfile["files"][name]=obj;
+        if(pagesPreReq[i].length>3){
+            name="CARD_2_PRE_"+(i+1)+".html";
+            obj={"content": pagesPreReq[i]};
+            Jfile["files"][name]=obj;
+        }
     }
     for(i=0;i<pagesHDReq.length;i++){
-        name="CARD_3_HD_"+(i+1)+".html";
-        obj={"content": pagesHDReq[i]};
-        Jfile["files"][name]=obj;
+        if(pagesHDReq[i].length>3){
+            name="CARD_3_HD_"+(i+1)+".html";
+            obj={"content": pagesHDReq[i]};
+            Jfile["files"][name]=obj;
+        }
     }
     obj={"content": tabCode};
     Jfile["files"]["CARD_4_CD_1.html"]=obj;
