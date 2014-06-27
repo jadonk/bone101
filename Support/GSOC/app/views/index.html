@@ -19,8 +19,7 @@
     <!-- Custom styles for this template -->
     <link href="../css/theme.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen" href="../css/common.css" />
-    <script src="../js/jquery-1.9.1.min.js"></script>
-    <script src="../js/indexBonecard.js"></script>
+  
     
     <!-- Just for debugging purposes. Don't actually copy this line! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -122,7 +121,7 @@ p {font-size: 0.85em;line-height:1.3em; }
 
     <!-- Fixed navbar -->
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
+      <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -147,19 +146,19 @@ p {font-size: 0.85em;line-height:1.3em; }
 
     <ul class="nav navbar-nav navbar-right">
         <li><a id="create"><i class="icon-login"></i></a></li>
-        <li><a id="user"><i class="icon-login"></i></a></li>
-        <li><a id="login" href="#"><i class="icon-login"></i>Login</a></li>
-        
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
+        <li  id="dropName" class="dropdown">
+            <a id="user" href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="icon-login"></i>
+                
+            </a>
+             <ul id="dropNameU" class="dropdown-menu" role="menu">
+                 
+            
+            </ul>
         </li>
+        <li><a id="login" href="#"><i class="icon-login"></i>Login</a></li>
+           
+      
     </ul>
 
         </div><!--/.nav-collapse -->
@@ -167,13 +166,11 @@ p {font-size: 0.85em;line-height:1.3em; }
 
     </div>
 
-    <div class="container theme-showcase" role="main">
+  
 
-<div class="bonecard-list">
+    <div class="bonecard-list"></div>
             
             
- </div> 
-
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -182,7 +179,7 @@ p {font-size: 0.85em;line-height:1.3em; }
     <script src="../js/oauth.js"></script>
     <script src="../js/githubOauth.js"></script>
     <script src="../js/jquery.cookie.js"></script>
-    
+    <script src="../js/indexBonecard.js"></script>
    
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/docs.min.js"></script>
@@ -193,6 +190,9 @@ p {font-size: 0.85em;line-height:1.3em; }
        if(token != null){
            //$('a#user')
            $('a#user').append(user);
+           $('a#user').append('<span class="caret"></span>');
+           $('ul#dropNameU').append('<li><a id="edit" href="#">Edit</a></li>');
+           $('ul#dropNameU').append('<li><a id="logout" href="#"><i class="icon-login"></i>Logout</a></li>');
            $("a#create").attr("href", "create.html");
            $("a#create").append("Create");
            $("a#login").empty();
@@ -203,7 +203,31 @@ p {font-size: 0.85em;line-height:1.3em; }
     
     $('a#login').click(function() {
         start();
-     });   
+     }); 
+    
+    $('a#edit').click(function() {
+        alert("Hola");
+     }); 
+     
+     $('li#logout').click(function() {
+        logout();
+        $(location).attr('href', "index.html");
+     }); 
+    
+    jQuery(function($) {
+$('.navbar .dropdown').hover(function() {
+$(this).find('.dropdown-menu').first().stop(true, true).delay(250).slideDown();
+
+}, function() {
+$(this).find('.dropdown-menu').first().stop(true, true).delay(100).slideUp();
+
+});
+
+$('.navbar .dropdown > a').click(function(){
+location.href = this.href;
+});
+
+});
     
     </script>
   </body>

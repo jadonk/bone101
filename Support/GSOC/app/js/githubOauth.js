@@ -28,6 +28,11 @@ var start = function(){
     //};
 };
 
+var logout = function(){
+     $.removeCookie('githubUser', user,{ expires: 1, path: '/' });
+     $.removeCookie('githubToken', token,{ expires: 1, path: '/' });
+}
+
 var createLogin = function(){
     auth.me().done(function(me) {
                 $('a#user').append(me.name);

@@ -18,10 +18,10 @@ function deleteUi(list,listActive,arrayList,editor){
         for(i=0;i<sizeList;i++){
             x=i+1;
             if (i == 0){
-                list[0].children[i].outerHTML='<li class="active" id='+x+'><a href="#">Page '+x+'</a></li>';
+                list[0].children[i].outerHTML='<li class="active" id='+x+'><a href="#">Card '+x+'</a></li>';
             }
             else{
-                list[0].children[i].outerHTML='<li class="" id='+x+'><a href="#">Page '+x+'</a></li>';
+                list[0].children[i].outerHTML='<li class="" id='+x+'><a href="#">Card '+x+'</a></li>';
             }
         }
        
