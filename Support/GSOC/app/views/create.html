@@ -74,49 +74,87 @@
                 width: 40%;
             };
             
-              div.bonecard {
-                background-color: white;
-                //margin-left: 11%;
-                //margin-top: 7%;
-                width: 850px;//80%;
-                height: 525px;//80%;
-                border: 2px solid black;
-                border-left: 2px solid black;
-                padding: 10px;
-                -webkit-border-radius: 20px;
-                -webkit-border-top-right-radius: 50px;
-                -webkit-border-bottom-right-radius: 50px;
-                -moz-border-radius: 20px;
-                -moz-border-radius-topright: 50px;
-                -moz-border-radius-bottomright: 50px;
-                border-radius: 20px;
-                border-top-right-radius: 50px;
-                border-bottom-right-radius: 50px;
-                position: absolute;
-                float: center;
-                -webkit-transition: color 0.5s ease;
-  
-            }
+            .btn-primary {
+color: #fff;
+background-color: #428bca;
+border-color: #357ebd;
+}
+            
+            
+            .btn1 {
+display: inline-block;
+padding: 6px 12px;
+margin-bottom: 0;
+margin-left:80%;
+font-size: 14px;
+font-weight: normal;
+line-height: 1.428571429;
+text-align: center;
+white-space: nowrap;
+vertical-align: middle;
+cursor: pointer;
+background-image: none;
+border: 1px solid transparent;
+border-radius: 4px;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+-o-user-select: none;
+user-select: none;
+};
+ 
+.well {
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+}            
+            
+div.bonecard {
+    background-color: white;
+    width: 850px;//80%;
+    height: 525px;//80%;
+    border: 2px solid black;
+    border-left: 2px solid black;
+    padding: 10px;
+    -webkit-border-radius: 20px;
+    -webkit-border-top-right-radius: 50px;
+    -webkit-border-bottom-right-radius: 50px;
+    -moz-border-radius: 20px;
+    -moz-border-radius-topright: 50px;
+    -moz-border-radius-bottomright: 50px;
+    border-radius: 20px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    position: absolute;
+    float: center;
+    -webkit-transition: color 0.5s ease;
+}
 
-            div.bonecard:after, div.bonecard:before {
-                background-color: white;
-                position: absolute;
-                display: block;
-                content:"";
-                border: 2px solid black;
-                border-right: 2px solid white;
-                width: 6px;
-                left: -10px;
-            }
+div.bonecard:after, div.bonecard:before {
+    background-color: white;
+    position: absolute;
+    display: block;
+    content:"";
+    border: 2px solid black;
+    border-right: 2px solid white;
+    width: 6px;
+    left: -10px;
+}
 
-            div.bonecard:before {
-                top: 150px;
-                height: 150px;
-            }
-            div.bonecard:after {
-                top: 460px;
-                height: 45px;
-            }
+div.bonecard:before {
+    top: 150px;
+    height: 150px;
+}
+
+div.bonecard:after {
+    top: 460px;
+    height: 45px;
+}
         </style>
     </head>
 
@@ -167,24 +205,50 @@
 
 
 
-
+      <button type="button"  id="Bsubmit" class="btn1 btn-primary">Save</button>
         <div class="container theme-showcase" role="main">
 
             <div class="row">
                 <div class="col-md-3 well">
-                    <ul class="nav nav-pills nav-stacked">
-                        <li class="active"><a href="#tab_GInfo" data-toggle="pill">General Info</a></li>
-                        <li><a href="#tab_PreReq" data-toggle="pill">Pre Requisites</a></li>
-                        <li><a href="#tab_Hardware" data-toggle="pill">Hardware</a></li>
-                        <li><a href="#tab_Code" data-toggle="pill">Code</a></li>
-                        <li><a href="#tab_Add" data-toggle="pill">Additional Info</a></li>
+                    <ul class="nav nav-pills nav-stacked" id="myTab">
+                        <li id="fTab" class="active">
+                            <a href="#tab_GInfo" data-toggle="pill">
+                                <span  id ="tabG1" class="display">General Info</span>
+                                <input type="text" class="edit" style="display:none"/>
+                            </a>
+                        </li>
+                        <li id="pTab">
+                            <a href="#tab_PreReq" data-toggle="pill">
+                                <span id ="tabP2" class="display">Pre Requisites</span>
+                                <input type="text" class="edit" style="display:none"/>
+                            </a>
+                        </li>
+                        <li id="hTab">
+                            <a href="#tab_Hardware" data-toggle="pill">
+                                <span id ="tabH3" class="display">Hardware</span>
+                                <input type="text" class="edit" style="display:none"/>
+                            </a>
+                        </li>
+                        <li id="cTab">
+                            <a href="#tab_Code" data-toggle="pill">
+                                <span id ="tabC4" class="display">Code</span>
+                                <input type="text" class="edit" style="display:none"/>
+                            </a>
+                        </li>
+                        <li id="aTab">
+                            <a href="#tab_Add" data-toggle="pill">
+                                <span id ="tabA5" class="display">Additional Info</span>
+                                <input type="text" class="edit" style="display:none"/>
+                            </a>
+                        </li>
                     </ul>
                 </div>
-                <div class="col-md-9 well">
+                
+                <div class="col-md-9">
                     <!-- <form id="createForm">!-->
                     <div class="tab-content">
 
-                        <div class="tab-pane active" id="tab_GInfo">
+                        <div class="tab-pane bonecard active" id="tab_GInfo">
                             <div class="form-group">
                                 <label for="L_GI_Info">General Information</label>
 
@@ -197,7 +261,7 @@
 
 
                         </div>
-                        <div class="tab-pane" id="tab_PreReq">
+                        <div class="tab-pane bonecard" id="tab_PreReq">
                             <div class="row">
                                 <div class="col-xs-6 col-md-4">
                                     <div class="form-group">
@@ -221,7 +285,7 @@
                             </div>
                         </div>
 
-                        <div class="tab-pane" id="tab_Hardware">
+                        <div class="tab-pane bonecard" id="tab_Hardware">
                             <div class="row">
                                 <div class="col-xs-6 col-md-4">
                                     <div class="form-group">
@@ -247,7 +311,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane" id="tab_Code">
+                        <div class="tab-pane bonecard" id="tab_Code">
 
                             <div class="form-group">
                                 <label for="L_CO_Info">Card -- Code</label>
@@ -255,7 +319,7 @@
                             </div>
                         </div>
 
-                        <div class="tab-pane" id="tab_Add">
+                        <div class="tab-pane bonecard" id="tab_Add">
                             <div class="form-group">
                                 <label for="L_AD_Info">Card -- Additional Info</label>
 
@@ -264,7 +328,7 @@
                                 <div class="summernote"></div>
                             </div>
 
-                            <button id="Bsubmit" class="btn btn-default">Save</button>
+                           
                         </div>
 
 
@@ -288,7 +352,8 @@
             var auth;
             $(document).ready(function() {
                 $('.summernote').summernote({
-                    height: 250,
+                    height: 350,
+                    maxHeight: 350,
                     tabsize: 2,
                     codemirror: {
                         theme: 'cosmo'
@@ -363,16 +428,57 @@
                     changeElement(ids, listActive, arrayList, editor, allThis);
                 });
 
+                $("#fTab").dblclick(function(){
+                   $("#tabG1").hide().siblings(".edit").show().val($("#tabG1").text()).focus();
+                });
 
+                $("#pTab").dblclick(function(){
+                   $("#tabP2").hide().siblings(".edit").show().val($("#tabP2").text()).focus();
+                });
+                
+                $("#hTab").dblclick(function(){
+                   $("#tabH3").hide().siblings(".edit").show().val($("#tabH3").text()).focus();
+                });
+                
+                $("#cTab").dblclick(function(){
+                   $("#tabC4").hide().siblings(".edit").show().val($("#tabC4").text()).focus();
+                });
+                
+                $("#aTab").dblclick(function(){
+                   $("#tabA5").hide().siblings(".edit").show().val($("#tabA5").text()).focus();
+                });
 
+                $(".edit").focusout(function(){
+                    $(this).hide().siblings(".display").show().text($(this).val());
+                });
 
-
-
+                $('#myTab a').click(function (e) {
+                    e.preventDefault();
+                    autoSaveTutorial();
+                    nextTab=$(this).context.hash;
+                    if(nextTab == "#tab_PreReq"){
+                        
+                    }
+                    else if(nextTab == "#tab_Hardware"){
+                        
+                    }
+                    else if(nextTab == "#tab_Code"){
+                        
+                    }
+                    else if(nextTab == "#tab_Add"){
+                        
+                    }
+                    else if(nextTab == "#tab_GInfo"){
+                        
+                    }
+                    $(this).tab('show');
+                });
 
 
                 // $( "#createForm" ).submit(function( event ) {
                 $('#Bsubmit').click(function(e) {
-                    checkTab($("#listPreReq"), pagesPreReq, 1);
+                    createtutorial();
+                    /*checkTab($("#listPreReq"), pagesPreReq, 1);
                     checkTab($("#listHDReq"), pagesHDReq, 2);
 
                     files = create_Json(pagesPreReq, pagesHDReq);//createJson();
@@ -411,7 +517,7 @@
                     function onfail(response) {
                         console.log('fail: ' + JSON.stringify(response));
                         alert("Error creating the Tutorial");
-                    }
+                    }*/
 
 
                 });

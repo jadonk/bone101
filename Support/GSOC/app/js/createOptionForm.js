@@ -67,41 +67,212 @@ var create_Json = function createJson(pagesPreReq,pagesHDReq){
     var tabOne=$('.summernote').eq(0).code();
     var tabCode=four= $('.summernote').eq(3).code();
     var tabAdditional = $('.summernote').eq(4).code();
-                
+    
+    cardName=$("#myTab li");
+    name="CARD_1_"+cardName[0].innerText.replace(/\r?\n|\r/g,'')+"_1.html";
     Jfile = {
         "description": "Bone101 Tutorial",
         "public": true,
         "files": {
-            "CARD_1_IN_1.html":{ "content": tabOne},
-            //"CARD_AD_01.html":{ "content": tabAdditional},
-            //"CARD_CD_01.html": {"content": tabCode}
-                         //"CARD_HD_01.md": {"content": three},
-                         //"CARD_PRE_01.md":{ "content": two},
-                         //"CARD_IN_01.md": {"content": tabOne}
+            
             }};
-                //Jfile=JSON.stringify(Jfile);   
-                //JfilePre = Jfile;
+              
+    Jfile["files"][name]={"content": tabOne};            
     obj={};            
     for(i=0;i<pagesPreReq.length;i++){
-        if(pagesPreReq[i].length>3){
-            name="CARD_2_PRE_"+(i+1)+".html";
-            obj={"content": pagesPreReq[i]};
-            Jfile["files"][name]=obj;
-        }
+        name="CARD_2_"+cardName[1].innerText.replace(/\r?\n|\r/g,'')+"_"+(i+1)+".html";
+        obj={"content": pagesPreReq[i]};
+        Jfile["files"][name]=obj;
     }
     for(i=0;i<pagesHDReq.length;i++){
-        if(pagesHDReq[i].length>3){
-            name="CARD_3_HD_"+(i+1)+".html";
-            obj={"content": pagesHDReq[i]};
-            Jfile["files"][name]=obj;
-        }
+        name="CARD_3_"+cardName[2].innerText.replace(/\r?\n|\r/g,'')+"_"+(i+1)+".html";
+        obj={"content": pagesHDReq[i]};
+        Jfile["files"][name]=obj;
     }
-    obj={"content": tabCode};
-    Jfile["files"]["CARD_4_CD_1.html"]=obj;
     
-    obj={"content": tabAdditional};
-    Jfile["files"]["CARD_5_AD_1.html"]=obj;
+    if(tabCode.length > 11){
+        obj={"content": tabCode};
+        Jfile["files"]["CARD_4_"+cardName[3].innerText.replace(/\r?\n|\r/g,'')+"_1.html"]=obj;
+    }
+    
+    if(tabAdditional.length > 11){
+        obj={"content": tabAdditional};
+        Jfile["files"]["CARD_5_"+cardName[4].innerText.replace(/\r?\n|\r/g,'')+"_1.html"]=obj;
+    }
+    
+    
     
      //return JSON.stringify(Jfile);
     return Jfile;
 }
+
+function onsuccess(response) {
+    console.log('success: ' + JSON.stringify(response));
+    id= response.id;
+    $.cookie('gistId', id,{ expires: 1, path: '/' });
+    
+    var gisturl = "https://api.github.com/gists/" + "25aec40876dfb11f8d36";
+    var gistrequest = {
+        type: "GET",
+        url: gisturl,
+        success: gistsuccess,
+        dataType: "json"
+    };
+    console.log('request: ' + JSON.stringify(gistrequest));
+    $.ajax(gistrequest).fail(gistfail);
+}
+
+function onsuccessAuto(response) {
+    console.log('success: ' + JSON.stringify(response));
+    id= response.id;
+    $.cookie('gistId', id,{ expires: 1, path: '/' });
+}
+
+function gistsuccess(response) {
+    console.log('success: ' + JSON.stringify(response));
+    content=response.files["ToApprove.html"].content;
+    //content=content.replace("</div>",'');
+    var tutorialId=$.cookie('gistId');
+    content=content+' <a href="tutorial?gistid='+tutorialId+'"><div class="bonecard" gistid="'+tutorialId+'"></div></a>'
+    //content= response.files.
+    var gisturl = "https://api.github.com/gists/" + "25aec40876dfb11f8d36";
+    files={
+        "description": "Bone101 tutorials at beagleboard.org",
+            "files": {
+                "Sitelist.html": {
+                    "content": response.files["Sitelist.html"].content
+                },
+                "ToApprove.html": {
+                    "content": content
+                }
+            }
+        };
+    
+    var gistupdate = {
+        type: "PATCH",
+        url: gisturl,
+        data: JSON.stringify(files), //JSON.stringify(Jfile),
+        success: onsuccessUpdate,
+        dataType: "json"
+    };
+    
+    var token = $.cookie('githubToken');
+    gistupdate.headers = {
+        "Authorization": 'token ' + token
+    };
+    
+    console.log('request: ' + JSON.stringify(gistupdate));
+    $.ajax(gistupdate).fail(gistfailUpdate);
+}
+
+function onsuccessUpdate(response){
+    var tutorialId=$.cookie('gistId');
+    $.removeCookie('gistId', { path: '/' }); 
+    path="tutorial.html?gistid="+tutorialId;
+    $(location).attr('href', path);
+}
+
+function gistfailUpdate(response){
+    $.removeCookie('gistId', { path: '/' }); 
+    alert("Error creating the tutorial");
+}
+
+function gistfail(response){
+    $.removeCookie('gistId', { path: '/' }); 
+    alert("Error creating the tutorial");
+}
+
+function onfail(response) {
+    $.removeCookie('gistId', { path: '/' }); 
+    console.log('fail: ' + JSON.stringify(response));
+    alert("Error creating the Tutorial");
+}
+                    
+function createtutorial(){
+    checkTab($("#listPreReq"), pagesPreReq, 1);
+    checkTab($("#listHDReq"), pagesHDReq, 2);
+    
+    var tutorialId=$.cookie('gistId');
+    files = create_Json(pagesPreReq, pagesHDReq);//createJson();
+    
+    if(tutorialId == undefined){
+        var url = "https://api.github.com/gists";
+        var mypost = {
+            type: "POST",
+            url: url,
+            data: JSON.stringify(files), //JSON.stringify(Jfile),
+            success: onsuccess,
+            dataType: "json"
+        };
+        var token = $.cookie('githubToken');
+        mypost.headers = {
+            "Authorization": 'token ' + token
+        };
+        console.log("Doing post: " + JSON.stringify(mypost));
+        $.ajax(mypost).fail(onfail);
+    }
+    else{
+        var gisturl = "https://api.github.com/gists/" + tutorialId;
+        var gistupdate = {
+            type: "PATCH",
+            url: gisturl,
+            data: JSON.stringify(files), //JSON.stringify(Jfile),
+            success: onsuccess,
+            dataType: "json"
+        };
+        var token = $.cookie('githubToken');
+        gistupdate.headers = {
+            "Authorization": 'token ' + token
+        };
+        
+        console.log('Doing patch: ' + JSON.stringify(gistupdate));
+        $.ajax(gistupdate).fail(onfail);
+        
+    }
+}                    
+
+function autoSaveTutorial(){
+    checkTab($("#listPreReq"), pagesPreReq, 1);
+    checkTab($("#listHDReq"), pagesHDReq, 2);
+    
+    var tutorialId=$.cookie('gistId');
+    files = create_Json(pagesPreReq, pagesHDReq);//createJson();
+    
+    if(tutorialId == undefined){
+        var url = "https://api.github.com/gists";
+        var mypost = {
+            type: "POST",
+            url: url,
+            data: JSON.stringify(files), //JSON.stringify(Jfile),
+            success: onsuccessAuto,
+            dataType: "json"
+        };
+        var token = $.cookie('githubToken');
+        mypost.headers = {
+            "Authorization": 'token ' + token
+        };
+        console.log("Doing post: " + JSON.stringify(mypost));
+        $.ajax(mypost).fail(onfail);
+    }
+    else{
+        var gisturl = "https://api.github.com/gists/" + tutorialId;
+        var gistupdate = {
+            type: "PATCH",
+            url: gisturl,
+            data: JSON.stringify(files), //JSON.stringify(Jfile),
+            success: onsuccessAuto,
+            dataType: "json"
+        };
+        var token = $.cookie('githubToken');
+        gistupdate.headers = {
+            "Authorization": 'token ' + token
+        };
+        
+        console.log('Doing patch: ' + JSON.stringify(gistupdate));
+        $.ajax(gistupdate).fail(onfail);
+        
+    }
+}                   
+                    
+                    
+                    
