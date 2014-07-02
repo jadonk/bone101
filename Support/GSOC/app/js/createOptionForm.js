@@ -100,8 +100,9 @@ var create_Json = function createJson(pagesPreReq,pagesHDReq){
         Jfile["files"]["CARD_5_"+cardName[4].innerText.replace(/\r?\n|\r/g,'')+"_1.html"]=obj;
     }
     
-    
-    
+    list=cardName[0].innerText.replace(/\r?\n|\r/g,'')+"\n"+cardName[1].innerText.replace(/\r?\n|\r/g,'')+"\n"+cardName[2].innerText.replace(/\r?\n|\r/g,'')+"\n"+cardName[3].innerText.replace(/\r?\n|\r/g,'')+"\n"+cardName[4].innerText.replace(/\r?\n|\r/g,'')
+     obj={"content": list};
+     Jfile["files"]["names.html"]=obj;
      //return JSON.stringify(Jfile);
     return Jfile;
 }
