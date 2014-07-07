@@ -274,6 +274,14 @@ and open the template in the editor.
         <script type="text/javascript">
             var content=[];
             var code={value:''},preview={value:''};
+            var ob={};
+            Object.size = function(obj) {
+                var size = 0, key;
+                for (key in obj) {
+                    if (obj.hasOwnProperty(key)) size++;
+                }
+                return size;
+            };
             var flag=false;
             $(document).ready(function() {
                 var token = $.cookie('githubToken');
@@ -310,7 +318,7 @@ and open the template in the editor.
                         updateEditor(list,id,content,code,preview);
                     }
                     
-                    //autoSaveTutorial(list,content,code,preview);
+                    autoSaveTutorial(list,content,code,preview,ob);
                    
                 });
                 
