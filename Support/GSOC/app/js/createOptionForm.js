@@ -280,34 +280,110 @@ var create_JsonSave = function create_JsonSave(list,content,code,preview){
         "public": true,
         "files": {}
     };
-    
-    var listLi= list.find('li');
-    var  name="CARD_Preview.html";
-    var x=0;
-    obj={};     
-    for(i=0;i<listLi.length;i++){
-        if(i == 0){
-            Jfile["files"][name]={"content": preview.value};
-        }
-        else{
-            if(listLi[i].id == "cardCode"){
-                na=listLi[i].children[0].children[0].innerHTML;
-                name="CARD_"+(i)+"_"+na+".js";
-                obj={"content": code.value};
-                Jfile["files"][name]=obj;
+    if(flag == true){
+        var listLi= list.find('li');
+        var  name="CARD_Preview.html";
+        var x=0;
+        obj={};     
+        for(i=0;i<listLi.length;i++){
+            if(i == 0){
+                Jfile["files"][name]={"content": preview.value};
             }
             else{
-                na=listLi[i].children[0].children[0].innerHTML;
-                name="CARD_"+i+"_"+na+".html";
-                if(content.length > 0){
-                    obj={"content": content[x]};
-                    x++;
-                    Jfile["files"][name]=obj;
+                if(listLi[i].id == "cardCode"){
+                    //na=listLi[i].children[0].children[0].innerHTML
+                    if(code.value !=""){
+                        name="CARD_"+(x)+".js";
+                        obj={"content": code.value};
+                        Jfile["files"][name]=obj;
+                        obj={"name":name,"content": code.value}
+                        ob[x]=obj;
+                        x++;
+                    }
                 }
+                else{
+                    //na=listLi[i].children[0].children[0].innerHTML;
+                   
+                    if(content.length > 0){
+                        name="CARD_"+x+".html";
+                        obj={"content": content[x]};
+                        x++;
+                        Jfile["files"][name]=obj;
+                        obj={"name":name,"content": content[x]}
+                        ob[x]=obj;
+                    }
+                }
+
             }
-            
         }
+        console.log(JSON.stringify(Jfile));
+       
+    }else{
+        var listLi= list.find('li');
+        var  name="CARD_Preview.html";
+        var x=0,y=0,id=0;
+        obj={};
+        var existCard=ob.length;
+        for(i=0;i<listLi.length;i++){
+            if(i == 0){
+                Jfile["files"][name]={"content": preview.value};
+            }
+            else{
+                if(listLi[i].id == "cardCode"){
+                    if(code.value !=""){
+                        name="CARD_"+(id)+".js";
+                        id++;
+                        if(Object.size(ob) > (i-1) ){
+                            obj={"filename": name,"content": code.value};
+                            Jfile["files"][ob[y].name]=obj;
+                            //ob[name]=code.value;
+                            obj={"name":name,"content": code.value}
+                            ob[y]=obj;
+                            y++;
+                        }
+                        else{
+                            obj={"content": code.value};
+                            Jfile["files"][name]=obj;
+                            obj={"name":name,"content": code.value}
+                            ob[y]=obj;
+                            y++;
+                        }
+                    }
+                }
+                else{
+                    //na=listLi[i].children[0].children[0].innerHTML;
+                    
+                    if(content.length > 0){
+                        name="CARD_"+id+".html";
+                        id++;
+                        if(Object.size(ob) > (i-1) ){
+                            obj={"filename": name,"content": content[x]};
+                            
+                            Jfile["files"][ob[y].name]=obj;
+                            obj={"name":name,"content": content[x]}
+                            ob[y]=obj;
+                            x++;
+                            y++;
+                        }
+                        else{
+                            obj={"content": content[x]};
+                            
+                            Jfile["files"][name]=obj;
+                            obj={"name":name,"content": content[x]}
+                            ob[y]=obj;
+                            x++;
+                            y++;
+                        }
+                    }
+                }
+
+            }
+        }
+        console.log(JSON.stringify(Jfile));
+        
     }
+    
+   
     var value="";
     for(i=0;i<listLi.length;i++){
         value=value+listLi[i].children[0].children[0].innerHTML+"\n";
@@ -448,11 +524,11 @@ function onfail(response) {
     alert("Error creating the Tutorial");
 }
                     
-function createtutorial(list,content,code,preview){
+function createtutorial(list,content,code,preview,ob){
     var tutorialId=$.cookie('gistId');
-    files = create_JsonSave(list,content,code,preview);
     
     if(tutorialId == undefined){
+        files = create_JsonSave(list,content,code,preview,ob,true);
         var url = "https://api.github.com/gists";
         var mypost = {
             type: "POST",
@@ -469,6 +545,7 @@ function createtutorial(list,content,code,preview){
         $.ajax(mypost).fail(onfail);
     }
     else{
+        files = create_JsonSave(list,content,code,preview,ob,false);
         var gisturl = "https://api.github.com/gists/" + tutorialId;
         var gistupdate = {
             type: "PATCH",
@@ -526,7 +603,7 @@ function autoSaveTutorial(list,content,code,preview,ob){
         $.ajax(gistupdate).fail(onfail);
         
     }
-    setTimeout(autoSaveTutorial, 300000);
+   
 }
 
 /*
@@ -571,7 +648,4 @@ function autoSaveTutorial(){
         $.ajax(gistupdate).fail(onfail);
         
     }
-} */                  
-                    
-                    
-                    
+} */         

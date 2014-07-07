@@ -20,7 +20,9 @@ and open the template in the editor.
         <!-- Bootstrap theme -->
 
 
-        <!-- Custom styles for this template -->
+        <!-- Custom styles for this template
+        <link href="../css/bootstrap.min.css" rel="stylesheet"> 
+        -->
 
         <!-- include jquery -->
         <script src="//code.jquery.com/jquery-1.9.1.min.js"></script> 
@@ -224,14 +226,11 @@ and open the template in the editor.
         </div>
         
         <div class="row">
-            <div class="col-md-12 well">
-                <div>
-                    <button type="button" id="btPre" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span></button>
-                    <button type="button" id="btPreDel" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-minus"></span></button>
-                    <button type="button"  id="Bsubmit" class="btn1 btn-primary">Save</button>
-                </div>
-            </div>
+            
              <div class="col-md-3 well">
+                 <button type="button" id="btPre" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span></button>
+                    <button type="button" id="btPreDel" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-minus"></span></button>
+                    <button type="button"  id="Bsubmit" class="btn btn-primary btn-sm">Save</button>
                 <ul class="nav nav-pills nav-stacked example" id="myTab" style="height: 200px; overflow: auto">
                     <li id="cZero" class="active">
                             <a href="#tab_preview" data-toggle="pill">
@@ -310,7 +309,7 @@ and open the template in the editor.
                     }
                     else{
                         listActive = $("#myTab .active");
-                        newIds = $(this).attr("id");
+                        
                         changeElementothers( listActive,content,code,preview);
                         $(this).tab('show');
                         listActive = $("#myTab .active");
@@ -361,7 +360,9 @@ and open the template in the editor.
                 });
                 
                $('#Bsubmit').click(function(e) {
-                  createtutorial(list,content,code,preview); 
+                   listActive = $("#myTab .active");
+                   changeElementothers( listActive,content,code,preview);
+                   createtutorial(list,content,code,preview,ob); 
                });
                 
                $(document).on('dblclick','.edit_text',function(event){
