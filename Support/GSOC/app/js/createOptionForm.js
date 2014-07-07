@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-
+/*
 function deleteUi(list,listActive,arrayList,editor){
     sizeList = list.find("li").size();
     if(sizeList > 1){
@@ -26,9 +26,110 @@ function deleteUi(list,listActive,arrayList,editor){
         }
        
     }
+}*/
+
+function deleteUi(list,listActive,content,preview){
+    sizeList = list.find("li").size();
+    if(sizeList > 1){
+        var id=listActive.attr("id");
+        var text=listActive.text();
+        var numId=parseInt(id)-1;
+        $("li:has('a'):contains("+text+")").remove();
+        content.splice(numId,1)
+        $('.summernote').code(preview.value);
+        $('#myTab a:first').tab('show');
+    }
 }
 
+function addNewElement(list,listActive,content,code,preview){
+    var psize= list.find('li');
+    listActive.removeClass('active');
+    var id=listActive.attr("id");
+    if(id == "cZero"){
+        preview.value=$('.summernote').code();
+    }
+    else if(id == "cardCode"){
+        var editor = ace.edit("editor");
+        code.value = editor.getSession().getValue();
+        editor.getSession().setValue("");
+    }
+    else{
+        content.push($('.summernote').code());
+    }
+    psize = psize.size()-1;
+    var newLi='<li class="active" id='+psize+'>';
+    newLi=newLi+'<a href="#tab_preview" data-toggle="pill">';
+    newLi=newLi+'<span  class="display edit_text">Card '+psize+'</span>';
+    newLi=newLi+'<input type="text" class="edit" style="display:none"/></a></li>';
+    list.append(newLi);
+    $('.summernote').code("");
+    $('#myTab a[href="#tab_preview"]').tab('show');
+    
+}
 
+function saveInformation(id,content,code,preview){
+    if(id == "cZero"){
+        preview.value=$('.summernote').code();
+    }
+    else if(id == "cardCode"){
+        var editor = ace.edit("editor");
+        code.value=editor.getSession().getValue();
+    }
+    else{
+        var numids=parseInt(id);
+        if (numids <= content.length  ){
+            content[numids-1]= $('.summernote').code();
+        }
+        else{
+            content.push($('.summernote').code());
+        }
+    }
+}
+
+function updateEditor(list,id,content,code,preview){
+    if(id == "cZero"){
+        $('.summernote').code(preview.value);
+    }
+    else if(id == "cardCode"){
+        var editor = ace.edit("editor");
+        editor.getSession().setValue(code.value);
+    }
+    else{
+        var numids=getpostion(list,id);//parseInt(id);
+        $('.summernote').code(content[numids]);
+    }
+}
+
+function getpostion(list,id){
+    var counter=0;
+    var psize= list.find('li');
+    for(i=0;i<psize.length;i++){
+        if(psize[i].id == "cardCode" || psize[i].id =="cZero" ){
+            
+        }
+        else if(psize[i].id == id){
+            return counter;
+        }
+        else{
+            counter++;
+        }
+    }
+    return counter;
+}
+
+function changeElement(list,listActive,newIds,content,code,preview){
+    var id=listActive.attr("id");
+    saveInformation(id,content,code,preview);
+    updateEditor(list,newIds,content,code,preview);
+}
+
+function changeElementothers(listActive,content,code,preview){
+    var id=listActive.attr("id");
+    saveInformation(id,content,code,preview);
+    //updateEditor(newIds,content,code,preview);
+}
+
+/*
 function addNewElement(list,listActive,arrayList,editor){
     var Psize= list.find('li');
     listActive.removeClass('active')
@@ -48,7 +149,7 @@ function changeElement(ids,listActive,arrayList,editor,allThis){
     listActive.removeClass('active')
     allThis.addClass('active');
     $('.summernote').eq(editor).code(arrayList[numids-1])    
-}           
+}*/           
             
 function checkTab(list,arrayList,editor){
     var Prevalue= $('.summernote').eq(editor).code();
@@ -61,8 +162,94 @@ function checkTab(list,arrayList,editor){
     }
 } 
 
+var create_Json = function createJson(list,content,code,preview){
+    Jfile = {
+        "description": "Bone101 Tutorial",
+        "public": true,
+        "files": {}
+    };
+    
+    var listLi= list.find('li');
+    var  name="CARD_Preview.html";
+    var x=0;
+    obj={};     
+    for(i=0;i<listLi.length;i++){
+        if(i == 0){
+            Jfile["files"][name]={"content": preview.value};
+        }
+        else{
+            if(listLi[i].id == "cardCode"){
+                na=listLi[i].children[0].children[0].innerHTML;
+                name="CARD_"+(i)+"_"+na+".js";
+                obj={"content": code.value};
+                Jfile["files"][name]=obj;
+            }
+            else{
+                na=listLi[i].children[0].children[0].innerHTML;
+                name="CARD_"+i+"_"+na+".html";
+                if(content.length > 0){
+                    obj={"content": content[x]};
+                    x++;
+                    Jfile["files"][name]=obj;
+                }
+            }
+            
+        }
+    }
+    console.log(JSON.stringify(Jfile));
+    return Jfile;
+   
+    
+}
+
+var create_JsonSave = function create_JsonSave(list,content,code,preview){
+    Jfile = {
+        "description": "Bone101 Tutorial",
+        "public": true,
+        "files": {}
+    };
+    
+    var listLi= list.find('li');
+    var  name="CARD_Preview.html";
+    var x=0;
+    obj={};     
+    for(i=0;i<listLi.length;i++){
+        if(i == 0){
+            Jfile["files"][name]={"content": preview.value};
+        }
+        else{
+            if(listLi[i].id == "cardCode"){
+                na=listLi[i].children[0].children[0].innerHTML;
+                name="CARD_"+(i)+"_"+na+".js";
+                obj={"content": code.value};
+                Jfile["files"][name]=obj;
+            }
+            else{
+                na=listLi[i].children[0].children[0].innerHTML;
+                name="CARD_"+i+"_"+na+".html";
+                if(content.length > 0){
+                    obj={"content": content[x]};
+                    x++;
+                    Jfile["files"][name]=obj;
+                }
+            }
+            
+        }
+    }
+    var value="";
+    for(i=0;i<listLi.length;i++){
+        value=value+listLi[i].children[0].children[0].innerHTML+"\n";
+    }
+    obj={"content": value};
+    name="CardList.html";
+    Jfile["files"][name]=obj;
+    
+    console.log(JSON.stringify(Jfile));
+    return Jfile;
+}
 
 
+/*
 var create_Json = function createJson(pagesPreReq,pagesHDReq){
     var tabOne=$('.summernote').eq(0).code();
     var tabCode=four= $('.summernote').eq(3).code();
@@ -106,7 +293,7 @@ var create_Json = function createJson(pagesPreReq,pagesHDReq){
      //return JSON.stringify(Jfile);
     return Jfile;
 }
-
+*/
 function onsuccess(response) {
     console.log('success: ' + JSON.stringify(response));
     id= response.id;
@@ -189,12 +376,9 @@ function onfail(response) {
     alert("Error creating the Tutorial");
 }
                     
-function createtutorial(){
-    checkTab($("#listPreReq"), pagesPreReq, 1);
-    checkTab($("#listHDReq"), pagesHDReq, 2);
-    
+function createtutorial(list,content,code,preview){
     var tutorialId=$.cookie('gistId');
-    files = create_Json(pagesPreReq, pagesHDReq);//createJson();
+    files = create_JsonSave(list,content,code,preview);
     
     if(tutorialId == undefined){
         var url = "https://api.github.com/gists";
@@ -232,6 +416,47 @@ function createtutorial(){
     }
 }                    
 
+function autoSaveTutorial(list,content,code,preview){
+    var tutorialId=$.cookie('gistId');
+    files = create_Json(list,content,code,preview);
+    if(tutorialId == undefined){
+        var url = "https://api.github.com/gists";
+        var mypost = {
+            type: "POST",
+            url: url,
+            data: JSON.stringify(files), //JSON.stringify(Jfile),
+            success: onsuccessAuto,
+            dataType: "json"
+        };
+        var token = $.cookie('githubToken');
+        mypost.headers = {
+            "Authorization": 'token ' + token
+        };
+        console.log("Doing post: " + JSON.stringify(mypost));
+        $.ajax(mypost).fail(onfail);
+    }
+    else{
+        var gisturl = "https://api.github.com/gists/" + tutorialId;
+        var gistupdate = {
+            type: "PATCH",
+            url: gisturl,
+            data: JSON.stringify(files), //JSON.stringify(Jfile),
+            success: onsuccessAuto,
+            dataType: "json"
+        };
+        var token = $.cookie('githubToken');
+        gistupdate.headers = {
+            "Authorization": 'token ' + token
+        };
+        
+        console.log('Doing patch: ' + JSON.stringify(gistupdate));
+        $.ajax(gistupdate).fail(onfail);
+        
+    }
+    setTimeout(autoSaveTutorial, 300000);
+}
+
+/*
 function autoSaveTutorial(){
     checkTab($("#listPreReq"), pagesPreReq, 1);
     checkTab($("#listHDReq"), pagesHDReq, 2);
@@ -273,7 +498,7 @@ function autoSaveTutorial(){
         $.ajax(gistupdate).fail(onfail);
         
     }
-}                   
+} */                  
                     
                     
                     
