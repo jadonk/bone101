@@ -22,13 +22,15 @@ and open the template in the editor.
 
         <!-- Custom styles for this template
         <link href="../css/bootstrap.min.css" rel="stylesheet"> 
+                <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" />
         -->
 
         <!-- include jquery -->
         <script src="//code.jquery.com/jquery-1.9.1.min.js"></script> 
 
         <!-- include libs stylesheets -->
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" />
+        <link href="../css/bootstrap.min.css" rel="stylesheet"> 
+        
         <link href="../css/theme.css" rel="stylesheet">
         <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script> 
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
@@ -317,7 +319,7 @@ and open the template in the editor.
                         updateEditor(list,id,content,code,preview);
                     }
                     
-                    autoSaveTutorial(list,content,code,preview,ob);
+                   autoSaveTutorial(list,content,code,preview,ob);
                    
                 });
                 
@@ -325,10 +327,7 @@ and open the template in the editor.
                     list = $("#myTab");
                     listActive = $("#myTab .active");
                     addNewElement(list,listActive,content,code,preview);
-                    if(flag==false){
-                        //autoSaveTutorial(list,content,code,preview);
-                    }
-                    flag=true;
+                    autoSaveTutorial(list,content,code,preview,ob);
                 });
                
                 

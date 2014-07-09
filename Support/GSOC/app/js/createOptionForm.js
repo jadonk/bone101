@@ -191,14 +191,15 @@ var create_Json = function createJson(list,content,code,preview,ob,flag){
                 }
                 else{
                     //na=listLi[i].children[0].children[0].innerHTML;
-                   
-                    if(content.length > 0){
-                        name="CARD_"+x+".html";
-                        obj={"content": content[x]};
-                        x++;
-                        Jfile["files"][name]=obj;
-                        obj={"name":name,"content": content[x]}
-                        ob[x]=obj;
+                    if(content[x] != undefined){
+                        if(content[x].length > 0){
+                            name="CARD_"+x+".html";
+                            obj={"content": content[x]};
+                            x++;
+                            Jfile["files"][name]=obj;
+                            obj={"name":name,"content": content[x]}
+                            ob[x]=obj;
+                        }
                     }
                 }
 
@@ -240,33 +241,44 @@ var create_Json = function createJson(list,content,code,preview,ob,flag){
                 }
                 else{
                     //na=listLi[i].children[0].children[0].innerHTML;
+                        if(content[x] != undefined){
+                            if(content[x].length > 0   ){
+
+                                name="CARD_"+id+".html";
+                                id++;
+                                if(Object.size(ob) > (i-1) ){
+                                    obj={"filename": name,"content": content[x]};
+
+                                    Jfile["files"][ob[y].name]=obj;
+                                    obj={"name":name,"content": content[x]}
+                                    ob[y]=obj;
+                                    x++;
+                                    y++;
+                                }
+                                else{
+                                    obj={"content": content[x]};
+
+                                    Jfile["files"][name]=obj;
+                                    obj={"name":name,"content": content[x]}
+                                    ob[y]=obj;
+                                    x++;
+                                    y++;
+                                }
+                            }
+                        }
                     
-                    if(content.length > 0){
-                        name="CARD_"+id+".html";
-                        id++;
-                        if(Object.size(ob) > (i-1) ){
-                            obj={"filename": name,"content": content[x]};
-                            
-                            Jfile["files"][ob[y].name]=obj;
-                            obj={"name":name,"content": content[x]}
-                            ob[y]=obj;
-                            x++;
-                            y++;
-                        }
-                        else{
-                            obj={"content": content[x]};
-                            
-                            Jfile["files"][name]=obj;
-                            obj={"name":name,"content": content[x]}
-                            ob[y]=obj;
-                            x++;
-                            y++;
-                        }
-                    }
                 }
 
             }
         }
+        var value="";
+        for(i=0;i<listLi.length;i++){
+            value=value+listLi[i].children[0].children[0].innerHTML+"\n";
+        }
+        obj={"content": value};
+        name="CardList.html";
+        Jfile["files"][name]=obj;
+    
         console.log(JSON.stringify(Jfile));
         return Jfile;
     }
@@ -303,14 +315,15 @@ var create_JsonSave = function create_JsonSave(list,content,code,preview){
                 }
                 else{
                     //na=listLi[i].children[0].children[0].innerHTML;
-                   
-                    if(content.length > 0){
-                        name="CARD_"+x+".html";
-                        obj={"content": content[x]};
-                        x++;
-                        Jfile["files"][name]=obj;
-                        obj={"name":name,"content": content[x]}
-                        ob[x]=obj;
+                    if(content[x] != undefined){
+                        if(content[x].length > 0){
+                            name="CARD_"+x+".html";
+                            obj={"content": content[x]};
+                            x++;
+                            Jfile["files"][name]=obj;
+                            obj={"name":name,"content": content[x]}
+                            ob[x]=obj;
+                        }
                     }
                 }
 
@@ -352,27 +365,28 @@ var create_JsonSave = function create_JsonSave(list,content,code,preview){
                 }
                 else{
                     //na=listLi[i].children[0].children[0].innerHTML;
-                    
-                    if(content.length > 0){
-                        name="CARD_"+id+".html";
-                        id++;
-                        if(Object.size(ob) > (i-1) ){
-                            obj={"filename": name,"content": content[x]};
-                            
-                            Jfile["files"][ob[y].name]=obj;
-                            obj={"name":name,"content": content[x]}
-                            ob[y]=obj;
-                            x++;
-                            y++;
-                        }
-                        else{
-                            obj={"content": content[x]};
-                            
-                            Jfile["files"][name]=obj;
-                            obj={"name":name,"content": content[x]}
-                            ob[y]=obj;
-                            x++;
-                            y++;
+                    if(content[x] != undefined){
+                        if(content[x].length > 0){
+                            name="CARD_"+id+".html";
+                            id++;
+                            if(Object.size(ob) > (i-1) ){
+                                obj={"filename": name,"content": content[x]};
+
+                                Jfile["files"][ob[y].name]=obj;
+                                obj={"name":name,"content": content[x]}
+                                ob[y]=obj;
+                                x++;
+                                y++;
+                            }
+                            else{
+                                obj={"content": content[x]};
+
+                                Jfile["files"][name]=obj;
+                                obj={"name":name,"content": content[x]}
+                                ob[y]=obj;
+                                x++;
+                                y++;
+                            }
                         }
                     }
                 }
