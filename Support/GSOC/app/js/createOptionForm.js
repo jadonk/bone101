@@ -4,70 +4,123 @@
  * and open the template in the editor.
  */
 
-/*
-function deleteUi(list,listActive,arrayList,editor){
+function deleteUi(list,listActive,content,preview,code){
     sizeList = list.find("li").size();
     if(sizeList > 1){
-        var id=listActive.attr("id");
+        var id=listActive.attr("id").replace(/[CODE]*_|[HTML]*_/,'');//replace(/\r?\n|\r/g,'')
+        var card=listActive.attr("id").replace(/_[0-9]*/,'');
         var text=listActive.text();
         var numId=parseInt(id)-1;
         $("li:has('a'):contains("+text+")").remove();
-        arrayList.splice(numId,1)
-        $('.summernote').eq(editor).code(arrayList[0]);
-        sizeList = list.find("li").size();
-        for(i=0;i<sizeList;i++){
-            x=i+1;
-            if (i == 0){
-                list[0].children[i].outerHTML='<li class="active" id='+x+'><a href="#">Card '+x+'</a></li>';
-            }
-            else{
-                list[0].children[i].outerHTML='<li class="" id='+x+'><a href="#">Card '+x+'</a></li>';
-            }
+        if(card == "HTML"){
+            content.splice(numId,1);
+        }else{
+            code.splice(numId,1);
         }
-       
-    }
-}*/
-
-function deleteUi(list,listActive,content,preview){
-    sizeList = list.find("li").size();
-    if(sizeList > 1){
-        var id=listActive.attr("id");
-        var text=listActive.text();
-        var numId=parseInt(id)-1;
-        $("li:has('a'):contains("+text+")").remove();
-        content.splice(numId,1)
-        $('.summernote').code(preview.value);
+        $('.summernote_Small').code(preview.value);
         $('#myTab a:first').tab('show');
+       
     }
 }
 
-function addNewElement(list,listActive,content,code,preview){
-    var psize= list.find('li');
-    listActive.removeClass('active');
-    var id=listActive.attr("id");
-    if(id == "cZero"){
-        preview.value=$('.summernote').code();
+function getSizeList(size,cardType){
+    var html=0;
+    var code=0;
+    for(i=0;i<size.size();i++){
+        if(size[i].getAttribute("id").replace(/_[0-9]*/,'') == "HTML"){
+            html++;
+        }
+        else if(size[i].getAttribute("id").replace(/_[0-9]*/,'') == "CODE"){
+            code++;
+        }
     }
-    else if(id == "cardCode"){
-        var editor = ace.edit("editor");
-        code.value = editor.getSession().getValue();
-        editor.getSession().setValue("");
-    }
-    else{
-        content.push($('.summernote').code());
-    }
-    psize = psize.size()-1;
-    var newLi='<li class="active" id='+psize+'>';
-    newLi=newLi+'<a href="#tab_html" data-toggle="pill">';
-    newLi=newLi+'<span  class="display edit_text">Card '+psize+'</span>';
-    newLi=newLi+'<input type="text" class="edit" style="display:none"/></a></li>';
-    list.append(newLi);
-    $('.summernote').code("");
-    $(".note-editor").css({"margin-top": "-6%"});
-    $('#myTab a[href="#tab_html"]').tab('show');
+    if (cardType == "HTML"){return html;}else{return code;}
     
 }
 
+function addNewElement(list,listActive,content,code,preview,currentWindow,cardType){
+    var ps= list.find('li');
+    psize =  getSizeList(ps,cardType)+1;
+    var newLi="";
+    listActive.removeClass('active');
+    if(currentWindow == "#tab_small"){ //If the card is the preview card
+        preview.value=$('.summernote_Small').code();
+    }else if(currentWindow == "#tab_html"){//If the card is the html card
+        newId=listActive.attr("id");
+        saveInformation(newId,content,code,preview);
+        //content.push($('.summernote').code());
+    }else if(currentWindow == "#tab_Code"){//If the card is the code card
+        newId=listActive.attr("id");
+        saveInformation(newId,content,code,preview);
+        /*var editor = ace.edit("editor");
+        var obj = {value:'',language:''};
+        obj.value=editor.getSession().getValue();
+        obj.language = $("#comboLanguages option:selected").text();
+        code.push(obj*/
+    }
+    if(cardType == "HTML"){
+        newLi=addCardtoList("HTML",(ps.size()+1),psize);
+        list.append(newLi);
+        $('.summernote').code("");
+        $(".note-editor").css({"margin-top": "-6%"});
+        $('#myTab a[href="#tab_html"]').tab('show');
+    }else if(cardType =="CODE"){
+         newLi=addCardtoList("CODE",(ps.size()+1),psize);
+         list.append(newLi);
+         var editor = ace.edit("editor");
+         editor.setTheme("ace/theme/monokai");
+         editor.getSession().setValue("");
+         $('#myTab a[href="#tab_Code"]').tab('show');
+    }
+}
+
+function addCardtoList(card,psize,realSize){
+    var newLi="";
+    if(card == "HTML"){
+        newLi='<li class="active" id=HTML_'+realSize+'>';
+        newLi=newLi+'<a href="#tab_html" data-toggle="pill">';
+    }else if(card =="CODE"){
+        newLi='<li class="active" id=CODE_'+realSize+'>'; 
+        newLi=newLi+'<a href="#tab_Code" data-toggle="pill">';
+    }
+    newLi=newLi+'<span  class="display edit_text">Card '+psize+'</span>';
+    newLi=newLi+'<input type="text" class="edit" style="display:none"/></a></li>';
+    return newLi;
+}
+
+
+function saveInformation(id,content,code,preview){
+    var typeId=id.replace(/_[0-9]*/,'');
+    if(typeId == "cZero"){
+        preview.value=$('.summernote_Small').code();
+    }
+    else if(typeId =="HTML"){
+        var num= id.replace(/[CODE]*_|[HTML]*_/,'');
+        var numids=parseInt(num);
+        if (numids <= content.length  ){
+            content[numids-1]= $('.summernote').code();
+        }
+        else{
+            content.push($('.summernote').code());
+            $('.summernote').code("");
+        }
+    }else if(typeId =="CODE"){
+        var num= id.replace(/[CODE]*_|[HTML]*_/,'');
+        var numids=parseInt(num);
+        var editor = ace.edit("editor");
+        var obj = {value:'',language:''};
+        obj.value=editor.getSession().getValue();
+        obj.language = $("#comboLanguages option:selected").text();
+        if (numids <= code.length  ){
+            code[numids-1]=obj;
+        }
+        else{
+            code.push(obj);
+        }
+    }
+}
+
+/*
 function saveInformation(id,content,code,preview){
     if(id == "cZero"){
         preview.value=$('.summernote').code();
@@ -85,43 +138,56 @@ function saveInformation(id,content,code,preview){
             content.push($('.summernote').code());
         }
     }
-}
+}*/
 
 function updateEditor(list,id,content,code,preview){
+    idName =id.replace(/_[0-9]*/,'');
+    idNumber=id.replace(/[CODE]*_|[HTML]*_/,'');
     if(id == "cZero"){
-        $('.summernote').code(preview.value);
+        $('.summernote_Small').code(preview.value);
     }
-    else if(id == "cardCode"){
+    else if(idName == "CODE"){
         var editor = ace.edit("editor");
-        editor.getSession().setValue(code.value);
+        editor.setTheme("ace/theme/monokai");
+        var numids=getpostion(list,id);
+        if(code.length > 0){
+            editor.getSession().setValue(code[numids].value);
+            $('.selectpicker').val(code[numids].language);
+            $('.selectpicker').selectpicker('render');
+        }
     }
     else{
         var numids=getpostion(list,id);//parseInt(id);
-        $('.summernote').code(content[numids]);
+        if(content.length > 0){
+            $('.summernote').code(content[numids]);
+        }
     }
 }
 
-function getpostion(list,id){
-    var counter=0;
+function getpostion(list,idNumber,idName){
+    var counterHTML=-1;
+    var counterCODE=-1;
     var psize= list.find('li');
     for(i=0;i<psize.length;i++){
-        if(psize[i].id == "cardCode" || psize[i].id =="cZero" ){
+        if( psize[i].id =="cZero" ){
             
         }
-        else if(psize[i].id == id){
-            return counter;
+        else if(psize[i].id.replace(/_[0-9]*/,'') == "HTML"){
+            if(psize[i].id.replace(/[CODE]*_|[HTML]*_/,'')==idNumber){
+                return counterHTML;
+            }else{
+                counterHTML++;
+            }
         }
         else{
-            counter++;
+            if(psize[i].id.replace(/[CODE]*_|[HTML]*_/,'')==idNumber){
+                return counterCODE;
+            }else{
+                counterCODE++;
+            }
         }
     }
-    return counter;
-}
-
-function changeElementCode(list,listActive,newIds,content,code,preview,edit){
-    var id=listActive.attr("id");
-    saveInformation(id,content,code,preview);
-    updateEditor(list,newIds,content,code,preview);
+    if(idName == "HTML"){ return counterHTML;}else{ return counterCODE++;} 
 }
 
 function changeElement(list,listActive,newIds,content,code,preview){

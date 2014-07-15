@@ -55,7 +55,7 @@ and open the template in the editor.
         <script src="../js/src/ace.js"></script>
         <script src="../js/jquery-ui.js"></script>
         <script type="text/javascript" src="../js/bootstrap-select.js"></script>
-    
+        <script type="text/javascript" src="../js/jquery.contextmenu.r2.js"></script>
         <style>
         .social{
             width:200px;
@@ -302,20 +302,20 @@ and open the template in the editor.
                 <ul class="nav nav-pills nav-stacked example" id="myTab" style="height: 200px; overflow: auto">
                     <li id="cZero" class="active">
                             <a href="#tab_small" data-toggle="pill">
-                            <span  class="display edit_text">Preview Card</span>
+                            <span  class="display edit_text">Preview Card 1</span>
                             <input type="text" class="edit" style="display:none"/>
                         </a>
                     </li>
-                    <li id="cOne">
+                    <li id="HTML_1">
                             <a href="#tab_html" data-toggle="pill">
-                            <span  class="display edit_text">Card 1</span>
+                            <span  class="display edit_text">Card 2</span>
                             <input type="text" class="edit" style="display:none"/>
                         </a>
                     </li>
                     
-                    <li id="cardCode">
+                    <li id="CODE_1">
                         <a href="#tab_Code" data-toggle="pill">
-                            <span class="display edit_text">Code 1</span>
+                            <span class="display edit_text">Card 3</span>
                             <input type="text" class="edit" style="display:none"/>
                         </a>
                     </li>
@@ -338,7 +338,7 @@ and open the template in the editor.
                     <div class="tab-pane bonecard" id="tab_Code">
                         <div class="btn-group">
                             
-                            <select class="selectpicker" data-style="btn-primary">
+                            <select id="comboLanguages" class="selectpicker" data-style="btn-primary">
                               <option>Javascript</option>
                               <option>Ruby</option>
                               <option>Python</option>
@@ -369,10 +369,16 @@ and open the template in the editor.
             </div>
         </div>
       
+         <div class="contextMenu" id="myMenu1">
+            <ul>
+                <li id="rename">Rename</li>
+            </ul>
+        </div>
         
         <script type="text/javascript">
             var content=[];
-            var code={value:''},preview={value:''};
+            var code=[];
+            var preview={value:''};
             var ob={};
             Object.size = function(obj) {
                 var size = 0, key;
@@ -383,7 +389,17 @@ and open the template in the editor.
             };
             var flag=false;
             $(document).ready(function() {
+                 $('#myTab').contextMenu('myMenu1', {
+                    bindings: {
+                    'rename': function(t) {
+                        $(this).hide().siblings(".edit").show().val($(this).text()).focus();
+                      //alert('Trigger was '+t.id+'\nAction was Open');
+                    }
+                    }
+                });
+                
                 $('.selectpicker').selectpicker();
+                
                 var token = $.cookie('githubToken');
                 var user = $.cookie('githubUser');
                 if (token != null) {
@@ -396,6 +412,32 @@ and open the template in the editor.
                     $(location).attr('href', "index.html");
                 }
                 
+                $('.selectpicker').change(function(){
+                   var str="";
+                   $( "select option:selected" ).each(function() {
+                        str = $( this ).text();
+                    });
+                    var editor = ace.edit("editor");
+                    var code="";
+                    if(str == "Javascript" ){
+                         editor.getSession().setMode("ace/mode/javascript");
+                         code = editor.getSession().getValue();
+                         editor.getSession().setValue(code);
+                    }else if(str == "Ruby"){
+                         editor.getSession().setMode("ace/mode/ruby");
+                         code = editor.getSession().getValue();
+                         editor.getSession().setValue(code);
+                    }else if(str == "Python"){
+                         editor.getSession().setMode("ace/mode/python");
+                         code = editor.getSession().getValue();
+                         editor.getSession().setValue(code);
+                    }else if(str=="Java"){
+                         editor.getSession().setMode("ace/mode/java");
+                         code = editor.getSession().getValue();
+                         editor.getSession().setValue(code);
+                    }
+                });
+                
                 $("#myTab").on("click", "a", function(e){
                     e.preventDefault();
                     list = $("#myTab");
@@ -406,17 +448,17 @@ and open the template in the editor.
                     else if (nextTab == "#tab_small"){
                         $(".note-editor").css({"margin-top": "-14%"});
                     }
+                    
                     if(nextTab == "#tab_Code"){
                         var editor = ace.edit("editor");
                         editor.setTheme("ace/theme/monokai");
                         editor.getSession().setMode("ace/mode/javascript");
                         listActive = $("#myTab .active");
-                        changeElementCode( list,listActive,'cardCode',content,code,preview,edit);
-                         $(this).tab('show');
+                        changeElement( list,listActive,"CODE",content,code,preview);
+                        $(this).tab('show');
                     }
                     else{
                         listActive = $("#myTab .active");
-                        
                         changeElementothers( listActive,content,code,preview);
                         $(this).tab('show');
                         listActive = $("#myTab .active");
@@ -424,30 +466,29 @@ and open the template in the editor.
                         updateEditor(list,id,content,code,preview);
                     }
                     
-                   autoSaveTutorial(list,content,code,preview,ob);
+                   //autoSaveTutorial(list,content,code,preview,ob);
                    
                 });
                 
                  $('#btPre').click(function(e) {
                     $("#myModal").modal('show');
-                    //list = $("#myTab");
-                    //listActive = $("#myTab .active");
-                    //addNewElement(list,listActive,content,code,preview);
-                    //autoSaveTutorial(list,content,code,preview,ob);
                 });
                 
                 $('#bt_Html').click(function(e) {
                     $("#myModal").modal('hide');
                     list = $("#myTab");
                     listActive = $("#myTab .active");
-                    addNewElement(list,listActive,content,code,preview);
-                    autoSaveTutorial(list,content,code,preview,ob);
+                    currentWindow = $("a",listActive).attr('href');
+                    addNewElement(list,listActive,content,code,preview,currentWindow,"HTML");
+                    //autoSaveTutorial(list,content,code,preview,ob);
                 });
                
                $("#bt_Code").click(function(e){
                    $("#myModal").modal('hide');
+                   list = $("#myTab");
                    listActive = $("#myTab .active");
-                    addNewElement(list,listActive,content,code,preview);
+                   currentWindow = $("a",listActive).attr('href');
+                   addNewElement(list,listActive,content,code,preview,currentWindow,"CODE");
                     //autoSaveTutorial(list,content,code,preview,ob);
                });
                
@@ -463,7 +504,7 @@ and open the template in the editor.
                 $('#btPreDel').click(function(e) {
                     listActive = $("#myTab .active");
                     var id=listActive.attr("id");
-                    if(id == "cZero" || id == "cardCode"){
+                    if(id == "cZero"){
                          $(this).after(
                             '<div class="alert alert-danger alert-dismissable">'+
                                 '<button type="button" class="close" ' + 
