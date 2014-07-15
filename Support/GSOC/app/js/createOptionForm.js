@@ -58,12 +58,13 @@ function addNewElement(list,listActive,content,code,preview){
     }
     psize = psize.size()-1;
     var newLi='<li class="active" id='+psize+'>';
-    newLi=newLi+'<a href="#tab_preview" data-toggle="pill">';
+    newLi=newLi+'<a href="#tab_html" data-toggle="pill">';
     newLi=newLi+'<span  class="display edit_text">Card '+psize+'</span>';
     newLi=newLi+'<input type="text" class="edit" style="display:none"/></a></li>';
     list.append(newLi);
     $('.summernote').code("");
-    $('#myTab a[href="#tab_preview"]').tab('show');
+    $(".note-editor").css({"margin-top": "-6%"});
+    $('#myTab a[href="#tab_html"]').tab('show');
     
 }
 
@@ -117,12 +118,18 @@ function getpostion(list,id){
     return counter;
 }
 
-function changeElement(list,listActive,newIds,content,code,preview){
+function changeElementCode(list,listActive,newIds,content,code,preview,edit){
     var id=listActive.attr("id");
     saveInformation(id,content,code,preview);
     updateEditor(list,newIds,content,code,preview);
 }
 
+function changeElement(list,listActive,newIds,content,code,preview){
+    var id=listActive.attr("id");
+    saveInformation(id,content,code,preview);
+    updateEditor(list,newIds,content,code,preview);
+}
+    
 function changeElementothers(listActive,content,code,preview){
     var id=listActive.attr("id");
     saveInformation(id,content,code,preview);
@@ -620,46 +627,3 @@ function autoSaveTutorial(list,content,code,preview,ob){
    
 }
 
-/*
-function autoSaveTutorial(){
-    checkTab($("#listPreReq"), pagesPreReq, 1);
-    checkTab($("#listHDReq"), pagesHDReq, 2);
-    
-    var tutorialId=$.cookie('gistId');
-    files = create_Json(pagesPreReq, pagesHDReq);//createJson();
-    
-    if(tutorialId == undefined){
-        var url = "https://api.github.com/gists";
-        var mypost = {
-            type: "POST",
-            url: url,
-            data: JSON.stringify(files), //JSON.stringify(Jfile),
-            success: onsuccessAuto,
-            dataType: "json"
-        };
-        var token = $.cookie('githubToken');
-        mypost.headers = {
-            "Authorization": 'token ' + token
-        };
-        console.log("Doing post: " + JSON.stringify(mypost));
-        $.ajax(mypost).fail(onfail);
-    }
-    else{
-        var gisturl = "https://api.github.com/gists/" + tutorialId;
-        var gistupdate = {
-            type: "PATCH",
-            url: gisturl,
-            data: JSON.stringify(files), //JSON.stringify(Jfile),
-            success: onsuccessAuto,
-            dataType: "json"
-        };
-        var token = $.cookie('githubToken');
-        gistupdate.headers = {
-            "Authorization": 'token ' + token
-        };
-        
-        console.log('Doing patch: ' + JSON.stringify(gistupdate));
-        $.ajax(gistupdate).fail(onfail);
-        
-    }
-} */         

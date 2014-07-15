@@ -44,7 +44,7 @@ and open the template in the editor.
         <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/2.36.0/formatting.min.js"></script>
 
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
-  
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap-select.css">
         <!-- include summernote -->
         <link rel="stylesheet" href="../css/summernote.css">
         <script type="text/javascript" src="../js/summernote.js"></script>
@@ -54,7 +54,8 @@ and open the template in the editor.
         <script src="../js/createOptionForm.js"></script>
         <script src="../js/src/ace.js"></script>
         <script src="../js/jquery-ui.js"></script>
-         
+        <script type="text/javascript" src="../js/bootstrap-select.js"></script>
+    
         <style>
         .social{
             width:200px;
@@ -70,6 +71,18 @@ and open the template in the editor.
             width: 2em;
         }
 
+        .input,.select{
+            font: inherit;
+            margin: 0;
+        }
+        
+        .btn-group{
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: -7%;
+        }
+        
         .btnGroup{
             position: relative;
             display: inline-block;
@@ -117,8 +130,61 @@ and open the template in the editor.
             border-radius: 4px;
             -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
             box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
-        }            
-            
+        }
+        
+        div.bonecardSmall {
+            background-color: white;
+            margin: 10px;
+            width: 340px;
+            height: 210px;
+            border: 2px solid black;
+            border-left: 2px solid black;
+            padding: 10px;
+            -webkit-border-radius: 20px;
+            -webkit-border-top-right-radius: 50px;
+            -webkit-border-bottom-right-radius: 50px;
+            -moz-border-radius: 20px;
+            -moz-border-radius-topright: 50px;
+            -moz-border-radius-bottomright: 50px;
+            -webkit-box-sizing: content-box;
+            border-radius: 20px;
+            border-top-right-radius: 50px;
+            border-bottom-right-radius: 50px;
+            position: relative;
+            float: left;
+            -webkit-transition: color 0.5s ease;
+         }
+
+         div.bonecardSmall:after, div.bonecardSmall:before {
+            background-color: white;
+            position: absolute;
+            display: block;
+            content:"";
+            border: 2px solid black;
+            border-right: 2px solid white;
+            width: 6px;
+            left: -10px;
+         }
+
+         div.bonecardSmall:before {
+             top: 60px;
+             height: 60px;
+         }
+
+         div.bonecardSmall:after {
+             top: 180px;
+             height: 30px;
+         }
+
+         div.bonecardSmall img {
+             max-width: 45%;
+             -webkit-border-radius: 5px;
+             -moz-border-radius: 5px;
+             border-radius: 5px;
+             margin-left: 50px;
+             border:2px solid black
+         }
+ 
         div.bonecard {
             background-color: white;
             width: 850px;//80%;
@@ -161,7 +227,7 @@ and open the template in the editor.
             height: 45px;
         }
         .note-editor {
-            margin-top: -6%;
+            margin-top: -14%;
         }
         .note-editor .note-toolbar { }
         
@@ -235,41 +301,73 @@ and open the template in the editor.
                     <button type="button"  id="Bsubmit" class="btn btn-primary btn-sm">Save</button>
                 <ul class="nav nav-pills nav-stacked example" id="myTab" style="height: 200px; overflow: auto">
                     <li id="cZero" class="active">
-                            <a href="#tab_preview" data-toggle="pill">
+                            <a href="#tab_small" data-toggle="pill">
                             <span  class="display edit_text">Preview Card</span>
+                            <input type="text" class="edit" style="display:none"/>
+                        </a>
+                    </li>
+                    <li id="cOne">
+                            <a href="#tab_html" data-toggle="pill">
+                            <span  class="display edit_text">Card 1</span>
                             <input type="text" class="edit" style="display:none"/>
                         </a>
                     </li>
                     
                     <li id="cardCode">
                         <a href="#tab_Code" data-toggle="pill">
-                            <span class="display edit_text">Code</span>
+                            <span class="display edit_text">Code 1</span>
                             <input type="text" class="edit" style="display:none"/>
                         </a>
                     </li>
                     
                 </ul>
             </div>
-            <div class="col-md-9">
+             <div class="col-md-9">
                 <div class="tab-content">
-                    <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor1">
-                        <a class="btn btn-large" data-edit="bold"><i class="icon-bold"></i></a>
-                    </div>
-                    <div class="tab-pane bonecard active" id="tab_preview">
+                   <div class="tab-pane bonecardSmall active" id="tab_small">
+                        <div class="form-group">
+                            <div class="summernote_Small"></div>
+                        </div>
+                    </div>    
+                    <div class="tab-pane bonecard" id="tab_html">
                         <div class="form-group">
                             <div class="summernote"></div>
                         </div>
-                    </div>    
-                        
+                    </div>        
                    
                     <div class="tab-pane bonecard" id="tab_Code">
+                        <div class="btn-group">
+                            
+                            <select class="selectpicker" data-style="btn-primary">
+                              <option>Javascript</option>
+                              <option>Ruby</option>
+                              <option>Python</option>
+                              <option>Java</option>
+                            </select>
+                        </div>
                        <div id="editor"></div>
                     </div>
                    
                 </div>
             </div>
         </div>
-        
+        <div id="myModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Choose your card</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Do you want to choose a code card or a html card?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="bt_Html" class="btn btn-primary">Html Card</button>
+                        <button type="button" id="bt_Code" class="btn btn-primary">Code Card</button>
+                    </div>
+                </div>
+            </div>
+        </div>
       
         
         <script type="text/javascript">
@@ -285,6 +383,7 @@ and open the template in the editor.
             };
             var flag=false;
             $(document).ready(function() {
+                $('.selectpicker').selectpicker();
                 var token = $.cookie('githubToken');
                 var user = $.cookie('githubUser');
                 if (token != null) {
@@ -301,12 +400,18 @@ and open the template in the editor.
                     e.preventDefault();
                     list = $("#myTab");
                     nextTab=$(this).context.hash;
+                    if(nextTab == "#tab_html"){
+                        $(".note-editor").css({"margin-top": "-6%"});
+                    }
+                    else if (nextTab == "#tab_small"){
+                        $(".note-editor").css({"margin-top": "-14%"});
+                    }
                     if(nextTab == "#tab_Code"){
                         var editor = ace.edit("editor");
                         editor.setTheme("ace/theme/monokai");
                         editor.getSession().setMode("ace/mode/javascript");
                         listActive = $("#myTab .active");
-                        changeElement( list,listActive,'cardCode',content,code,preview);
+                        changeElementCode( list,listActive,'cardCode',content,code,preview,edit);
                          $(this).tab('show');
                     }
                     else{
@@ -324,13 +429,30 @@ and open the template in the editor.
                 });
                 
                  $('#btPre').click(function(e) {
+                    $("#myModal").modal('show');
+                    //list = $("#myTab");
+                    //listActive = $("#myTab .active");
+                    //addNewElement(list,listActive,content,code,preview);
+                    //autoSaveTutorial(list,content,code,preview,ob);
+                });
+                
+                $('#bt_Html').click(function(e) {
+                    $("#myModal").modal('hide');
                     list = $("#myTab");
                     listActive = $("#myTab .active");
                     addNewElement(list,listActive,content,code,preview);
                     autoSaveTutorial(list,content,code,preview,ob);
                 });
                
-                
+               $("#bt_Code").click(function(e){
+                   $("#myModal").modal('hide');
+                   listActive = $("#myTab .active");
+                    addNewElement(list,listActive,content,code,preview);
+                    //autoSaveTutorial(list,content,code,preview,ob);
+               });
+               
+               
+               
                 $(function() {
                     $( "#myTab" ).sortable({
                         items: "li:not(#cZero)"
@@ -389,6 +511,23 @@ and open the template in the editor.
                         ['color', ['color']],
                         ['para', ['ul', 'ol', 'paragraph']],
                         ['height', ['height']],
+                        ['misc', ['undo','redo','codeview']],
+                    ]
+                   
+                });
+               
+               $('.summernote_Small').summernote({
+                    height: 200,
+                    //minHeight: 475,
+                    maxHeight: 200,
+                    codemirror: {
+                        theme: 'cosmo'
+                    },
+                    toolbar: [
+                        ['insert', ['picture']],
+                        ['style', ['bold', 'italic']],
+                        ['height', ['height']],
+                        ['misc', ['undo','redo','codeview']],
                     ]
                    
                 });
