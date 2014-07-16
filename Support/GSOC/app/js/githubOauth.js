@@ -46,8 +46,55 @@ var start = function(){
     //};
 };
 
+function onsuccess(response){
+    var token =response.id;
+    $.cookie('gistSaveId', token,{ expires: 1, path: '/' });
+}
+
+function createJson(){
+    Jfile = {
+        "description": "BONELIST",
+        "public": true,
+        "files": {
+            "autosave.html": {
+                "content": "newid"
+            },
+            "save.html": {
+                "content": "newid"
+            }
+        }
+    };
+    console.log(JSON.stringify(Jfile));
+    return Jfile;
+}
+
 function gistsuccess(response){
      console.log('success: ' + JSON.stringify(response));
+     files = createJson();
+     
+     var newdata = response;
+     var available = _.find(newdata, { 'description': "BONELIST" });
+     if(available == undefined){
+        var url = "https://api.github.com/gists";
+        var mypost = {
+            type: "POST",
+            url: url,
+            data: JSON.stringify(files), 
+            success: onsuccess,
+            dataType: "json"
+        };
+        var token = $.cookie('githubToken');
+        mypost.headers = {
+            "Authorization": 'token ' + token
+        };
+        console.log("Doing post: " + JSON.stringify(mypost));
+        $.ajax(mypost).fail(gistfail);
+     }
+     else{
+         var token=available.id;
+         $.cookie('gistSaveId', token,{ expires: 1, path: '/' });
+     }
+
 }
 
 function gistfail(response) {
