@@ -23,10 +23,37 @@ var start = function(){
                 $("a#create").append("Create");
                 $("a#login").empty();
                 $("a#login").attr("href", "#");
+                
+                if($.cookie('githubToken')!=null){
+            var gisturl = "https://api.github.com/gists";
+            var gistrequest = {
+                type: "GET",
+                url: gisturl,
+                success: gistsuccess
+            };
+            var token = $.cookie('githubToken');
+            gistrequest.headers = {
+                "Authorization": 'token ' + token
+            };
+            console.log('request: ' + JSON.stringify(gistrequest));
+            $.ajax(gistrequest).fail(gistfail);
+        }
+                
             })
         });
+        
+        
     //};
 };
+
+function gistsuccess(response){
+     console.log('success: ' + JSON.stringify(response));
+}
+
+function gistfail(response) {
+    $.removeCookie('gistId', {path: '/'});
+    alert("Error creating the tutorial");
+}
 
 var logout = function(){
      $.removeCookie('githubUser', user,{ expires: 1, path: '/' });

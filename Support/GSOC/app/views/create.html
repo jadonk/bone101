@@ -25,16 +25,19 @@ and open the template in the editor.
                 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" />
         -->
 
-        <!-- include jquery -->
+        <!-- include jquery 
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        -->
         <script src="//code.jquery.com/jquery-1.9.1.min.js"></script> 
+        <script src="../js/jquery-ui.js"></script>
 
         <!-- include libs stylesheets -->
         <link href="../css/bootstrap.min.css" rel="stylesheet"> 
         
         <link href="../css/theme.css" rel="stylesheet">
-        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script> 
+         
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
-
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
         <!-- code mirror -->
         <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.min.css" />
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/blackboard.min.css">
@@ -53,7 +56,6 @@ and open the template in the editor.
         <script src="../js/githubOauth.js"></script>
         <script src="../js/createOptionForm.js"></script>
         <script src="../js/src/ace.js"></script>
-        <script src="../js/jquery-ui.js"></script>
         <script type="text/javascript" src="../js/bootstrap-select.js"></script>
         <script type="text/javascript" src="../js/jquery.contextmenu.r2.js"></script>
         <style>
@@ -71,10 +73,10 @@ and open the template in the editor.
             width: 2em;
         }
 
-        .input,.select{
+        /*.input,.select{
             font: inherit;
             margin: 0;
-        }
+        }*/
         
         .btn-group{
             position: relative;
@@ -306,14 +308,14 @@ and open the template in the editor.
                             <input type="text" class="edit" style="display:none"/>
                         </a>
                     </li>
-                    <li id="HTML_1">
+                    <li id="HTML_0">
                             <a href="#tab_html" data-toggle="pill">
                             <span  class="display edit_text">Card 2</span>
                             <input type="text" class="edit" style="display:none"/>
                         </a>
                     </li>
                     
-                    <li id="CODE_1">
+                    <li id="CODE_0">
                         <a href="#tab_Code" data-toggle="pill">
                             <span class="display edit_text">Card 3</span>
                             <input type="text" class="edit" style="display:none"/>
@@ -377,7 +379,10 @@ and open the template in the editor.
         
         <script type="text/javascript">
             var content=[];
+            content.push("");
             var code=[];
+            var obj = {value:'',language:''};
+            code[0]=obj;
             var preview={value:''};
             var ob={};
             Object.size = function(obj) {
@@ -456,17 +461,20 @@ and open the template in the editor.
                         listActive = $("#myTab .active");
                         changeElement( list,listActive,"CODE",content,code,preview);
                         $(this).tab('show');
+                        listActive = $("#myTab .active");
+                        var id=listActive.attr("id");
+                        updateEditor(list,id,content,code,preview);
                     }
                     else{
                         listActive = $("#myTab .active");
-                        changeElementothers( listActive,content,code,preview);
+                        changeElementothers( list,listActive,content,code,preview);
                         $(this).tab('show');
                         listActive = $("#myTab .active");
                         var id=listActive.attr("id");
                         updateEditor(list,id,content,code,preview);
                     }
                     
-                   //autoSaveTutorial(list,content,code,preview,ob);
+                   autoSaveTutorial(list,content,code,preview,ob);
                    
                 });
                 
@@ -480,7 +488,7 @@ and open the template in the editor.
                     listActive = $("#myTab .active");
                     currentWindow = $("a",listActive).attr('href');
                     addNewElement(list,listActive,content,code,preview,currentWindow,"HTML");
-                    //autoSaveTutorial(list,content,code,preview,ob);
+                    autoSaveTutorial(list,content,code,preview,ob);
                 });
                
                $("#bt_Code").click(function(e){
@@ -489,7 +497,7 @@ and open the template in the editor.
                    listActive = $("#myTab .active");
                    currentWindow = $("a",listActive).attr('href');
                    addNewElement(list,listActive,content,code,preview,currentWindow,"CODE");
-                    //autoSaveTutorial(list,content,code,preview,ob);
+                    autoSaveTutorial(list,content,code,preview,ob);
                });
                
                
@@ -523,7 +531,8 @@ and open the template in the editor.
                 
                $('#Bsubmit').click(function(e) {
                    listActive = $("#myTab .active");
-                   changeElementothers( listActive,content,code,preview);
+                   list = $("#myTab");
+                   changeElementothers( list,listActive,content,code,preview);
                    createtutorial(list,content,code,preview,ob); 
                });
                 
