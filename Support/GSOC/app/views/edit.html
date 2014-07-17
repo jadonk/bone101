@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>BeagleBoard.org</title>
+        <link rel="icon" href="../../../favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="../../../favicon.ico" type="image/x-icon">
+
+        <!-- Bootstrap core CSS -->
+
+        <!-- Bootstrap theme -->
+
+
+        <!-- Custom styles for this template
+        <link href="../css/bootstrap.min.css" rel="stylesheet"> 
+                <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" />
+        -->
+
+        <!-- include jquery 
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
+        -->
+        <script src="//code.jquery.com/jquery-1.9.1.min.js"></script> 
+        <script src="../js/jquery-ui.js"></script>
+         <link href="../css/bootstrap.min.css" rel="stylesheet"> 
+        
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+        <!-- include libs stylesheets -->
+       
+        
+        <link href="../css/theme.css" rel="stylesheet">
+         
+        
+        
+        <!-- code mirror -->
+        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.min.css" />
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/blackboard.min.css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/monokai.min.css">
+        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/xml/xml.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/2.36.0/formatting.min.js"></script>
+
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" type="text/css" href="../css/bootstrap-select.css">
+        <!-- include summernote -->
+        <link rel="stylesheet" href="../css/summernote.css">
+        <script type="text/javascript" src="../js/summernote.js"></script>
+        <script src="../js/jquery.cookie.js"></script>
+        <script src="../js/oauth.js"></script>
+        <script src="../js/githubOauth.js"></script>
+        <script src="../js/createOptionForm.js"></script>
+        <script src="../js/src/ace.js"></script>
+        <script type="text/javascript" src="../js/bootstrap-select.js"></script>
+        <script type="text/javascript" src="../js/jquery.contextmenu.r2.js"></script>
+        <script src="../js/lodash.min.js"></script>
+        <style>
+        .social{
+            width:200px;
+            float:right;
+            padding-top:15px;
+        }
+
+        body{
+            margin-top:20px;
+        }
+        
+        .fa-fw {
+            width: 2em;
+        }
+
+        /*.input,.select{
+            font: inherit;
+            margin: 0;
+        }*/
+        
+        .btn-group{
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: -7%;
+        }
+        
+        .btnGroup{
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            background-color: #f5f5f5;
+            border: 1px solid #e3e3e3;
+            border-radius: 4px;  
+            width: 40%;
+        };
+            
+        .btn-primary {
+            color: #fff;
+            background-color: #428bca;
+            border-color: #357ebd;
+        }
+            
+        .btn1 {
+            display: inline-block;
+            padding: 6px 12px;
+            margin-bottom: 0;
+            margin-left:80%;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1.428571429;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            background-image: none;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -o-user-select: none;
+            user-select: none;
+        };
+ 
+        .well {
+            min-height: 20px;
+            padding: 19px;
+            margin-bottom: 20px;
+            background-color: #f5f5f5;
+            border: 1px solid #e3e3e3;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+        }
+        
+        div.bonecardSmall {
+            background-color: white;
+            margin: 10px;
+            width: 340px;
+            height: 210px;
+            border: 2px solid black;
+            border-left: 2px solid black;
+            padding: 10px;
+            -webkit-border-radius: 20px;
+            -webkit-border-top-right-radius: 50px;
+            -webkit-border-bottom-right-radius: 50px;
+            -moz-border-radius: 20px;
+            -moz-border-radius-topright: 50px;
+            -moz-border-radius-bottomright: 50px;
+            -webkit-box-sizing: content-box;
+            border-radius: 20px;
+            border-top-right-radius: 50px;
+            border-bottom-right-radius: 50px;
+            position: relative;
+            float: left;
+            -webkit-transition: color 0.5s ease;
+         }
+
+         div.bonecardSmall:after, div.bonecardSmall:before {
+            background-color: white;
+            position: absolute;
+            display: block;
+            content:"";
+            border: 2px solid black;
+            border-right: 2px solid white;
+            width: 6px;
+            left: -10px;
+         }
+
+         div.bonecardSmall:before {
+             top: 60px;
+             height: 60px;
+         }
+
+         div.bonecardSmall:after {
+             top: 180px;
+             height: 30px;
+         }
+
+         div.bonecardSmall img {
+             max-width: 45%;
+             -webkit-border-radius: 5px;
+             -moz-border-radius: 5px;
+             border-radius: 5px;
+             margin-left: 50px;
+             border:2px solid black
+         }
+ 
+        div.bonecard {
+            background-color: white;
+            width: 850px;//80%;
+            height: 525px;//80%;
+            border: 2px solid black;
+            border-left: 2px solid black;
+            padding: 10px;
+            -webkit-border-radius: 20px;
+            -webkit-border-top-right-radius: 50px;
+            -webkit-border-bottom-right-radius: 50px;
+            -moz-border-radius: 20px;
+            -moz-border-radius-topright: 50px;
+            -moz-border-radius-bottomright: 50px;
+            border-radius: 20px;
+            border-top-right-radius: 50px;
+            border-bottom-right-radius: 50px;
+            position: absolute;
+            float: center;
+            -webkit-transition: color 0.5s ease;
+        }
+
+        div.bonecard:after, div.bonecard:before {
+            background-color: white;
+            position: absolute;
+            display: block;
+            content:"";
+            border: 2px solid black;
+            border-right: 2px solid white;
+            width: 6px;
+            left: -10px;
+        }
+
+        div.bonecard:before {
+            top: 150px;
+            height: 150px;
+        }
+
+        div.bonecard:after {
+            top: 460px;
+            height: 45px;
+        }
+        .note-editor {
+            margin-top: -14%;
+        }
+        .note-editor .note-toolbar { }
+        
+        .note-editor .note-editable {
+            padding: 10px;
+            overflow: auto;
+            outline: 0;
+            
+        }
+        #editor {
+            height: 470px;
+        }
+        body.dragging, body.dragging * {
+            cursor: move !important;
+        }
+
+        .dragged {
+            position: absolute;
+            opacity: 0.5;
+            z-index: 2000;
+        }
+
+        ul.example li.placeholder {
+            position: relative;
+            /** More li styles **/
+        }
+        ul.example li.placeholder:before {
+            position: absolute;
+            /** Define arrowhead **/
+        }
+        
+        </style>
+        
+        
+    </head>
+    <body role="document">
+        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li id="nav-login-btn" class=""><a id="user"><i class="icon-login"></i></a></li>
+                        <li id="nav-login-btn" class=""><a id="login" href="#"><i class="icon-login"></i>Login</a></li>
+                    </ul>
+                    <div class="social">
+                        <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src="../images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
+                        <span style="padding-left:8px"><a href="http://twitter.com/beagleboardorg" name="header_twitter_icon"><img src="../images/icon_twitter.png" width="27" height="28" border="0" alt="twitter"/></a></span>
+                        <span style="padding-left:8px"><a href="http://www.linkedin.com/groups/BeagleBoardorg-1474607?gid=1474607&mostPopular=&trk=tyah" name="header_linkedin_icon"><img src="../images/icon_linkedin.png" width="27" height="28" border="0" alt="linkedin" /></a></span>
+                        <span style="padding-left:8px"><a href="http://plus.google.com/+beagleboard" name="header_google+_icon"><img src="../images/icon_google.png" width="27" height="28" border="0" alt="google+"/></a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            
+             <div class="col-md-3 well">
+                 <button type="button" id="btPre" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span></button>
+                    <button type="button" id="btPreDel" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-minus"></span></button>
+                    <button type="button"  id="Bsubmit" class="btn btn-primary btn-sm">Save</button>
+                <ul class="nav nav-pills nav-stacked example" id="myTab" style="height: 200px; overflow: auto">
+                    <li id="cZero" class="active">
+                            <a href="#tab_small" data-toggle="pill">
+                            <span  class="display edit_text">Preview Card 1</span>
+                            <input type="text" class="edit" style="display:none"/>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+             <div class="col-md-9">
+                <div class="tab-content">
+                   <div class="tab-pane bonecardSmall active" id="tab_small">
+                        <div class="form-group">
+                            <div class="summernote_Small"></div>
+                        </div>
+                    </div>    
+                    <div class="tab-pane bonecard" id="tab_html">
+                        <div class="form-group">
+                            <div class="summernote"></div>
+                        </div>
+                    </div>        
+                   
+                    <div class="tab-pane bonecard" id="tab_Code">
+                        <div class="btn-group">
+                            
+                            <select id="comboLanguages" class="selectpicker" data-style="btn-primary">
+                              <option>Javascript</option>
+                              <option>Ruby</option>
+                              <option>Python</option>
+                              <option>Java</option>
+                            </select>
+                        </div>
+                       <div id="editor"></div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+        <div id="myModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Choose your card</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Do you want to choose a code card or a html card?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="bt_Html" class="btn btn-primary">Html Card</button>
+                        <button type="button" id="bt_Code" class="btn btn-primary">Code Card</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+         
+        
+        <script type="text/javascript">
+            var content=[];
+            content.push("");
+            var code=[];
+            var obj = {value:'',language:''};
+            code[0]=obj;
+            var preview={value:''};
+            var ob={};
+            Object.size = function(obj) {
+                var size = 0, key;
+                for (key in obj) {
+                    if (obj.hasOwnProperty(key)) size++;
+                }
+                return size;
+            };
+            
+            
+            
+            var flag=false;
+            $(document).ready(function() {
+                $('.selectpicker').selectpicker();
+                var token = $.cookie('githubToken');
+                var user = $.cookie('githubUser');
+                
+                loadTutorial();
+                
+                
+                $('.selectpicker').change(function(){
+                   var str="";
+                   $( "select option:selected" ).each(function() {
+                        str = $( this ).text();
+                    });
+                    var editor = ace.edit("editor");
+                    var code="";
+                    if(str == "Javascript" ){
+                         editor.getSession().setMode("ace/mode/javascript");
+                         code = editor.getSession().getValue();
+                         editor.getSession().setValue(code);
+                    }else if(str == "Ruby"){
+                         editor.getSession().setMode("ace/mode/ruby");
+                         code = editor.getSession().getValue();
+                         editor.getSession().setValue(code);
+                    }else if(str == "Python"){
+                         editor.getSession().setMode("ace/mode/python");
+                         code = editor.getSession().getValue();
+                         editor.getSession().setValue(code);
+                    }else if(str=="Java"){
+                         editor.getSession().setMode("ace/mode/java");
+                         code = editor.getSession().getValue();
+                         editor.getSession().setValue(code);
+                    }
+                });
+                
+                $("#myTab").on("click", "a", function(e){
+                    e.preventDefault();
+                    list = $("#myTab");
+                    nextTab=$(this).context.hash;
+                    if(nextTab == "#tab_html"){
+                        $(".note-editor").css({"margin-top": "-6%"});
+                    }
+                    else if (nextTab == "#tab_small"){
+                        $(".note-editor").css({"margin-top": "-14%"});
+                    }
+                    
+                    if(nextTab == "#tab_Code"){
+                        var editor = ace.edit("editor");
+                        editor.setTheme("ace/theme/monokai");
+                        editor.getSession().setMode("ace/mode/javascript");
+                        listActive = $("#myTab .active");
+                        changeElement( list,listActive,"CODE",content,code,preview);
+                        $(this).tab('show');
+                        listActive = $("#myTab .active");
+                        var id=listActive.attr("id");
+                        updateEditor(list,id,content,code,preview);
+                    }
+                    else{
+                        listActive = $("#myTab .active");
+                        changeElementothers( list,listActive,content,code,preview);
+                        $(this).tab('show');
+                        listActive = $("#myTab .active");
+                        var id=listActive.attr("id");
+                        updateEditor(list,id,content,code,preview);
+                    }
+                    
+                   autoSaveTutorial(list,content,code,preview,ob);
+                   
+                });
+                
+                 $('#btPre').click(function(e) {
+                    $("#myModal").modal('show');
+                });
+                
+                $('#bt_Html').click(function(e) {
+                    $("#myModal").modal('hide');
+                    list = $("#myTab");
+                    listActive = $("#myTab .active");
+                    currentWindow = $("a",listActive).attr('href');
+                    addNewElement(list,listActive,content,code,preview,currentWindow,"HTML");
+                    autoSaveTutorial(list,content,code,preview,ob);
+                });
+               
+               $("#bt_Code").click(function(e){
+                   $("#myModal").modal('hide');
+                   list = $("#myTab");
+                   listActive = $("#myTab .active");
+                   currentWindow = $("a",listActive).attr('href');
+                   addNewElement(list,listActive,content,code,preview,currentWindow,"CODE");
+                    autoSaveTutorial(list,content,code,preview,ob);
+               });
+               
+               
+               
+                $(function() {
+                    $( "#myTab" ).sortable({
+                        items: "li:not(#cZero)"
+                    });
+                    $( "#myTab" ).disableSelection();
+                });
+                
+                $('#btPreDel').click(function(e) {
+                    listActive = $("#myTab .active");
+                    var id=listActive.attr("id");
+                    if(id == "cZero"){
+                         $(this).after(
+                            '<div class="alert alert-danger alert-dismissable">'+
+                                '<button type="button" class="close" ' + 
+                                    'data-dismiss="alert" aria-hidden="true">' + 
+                                    '&times;' + 
+                                    '</button>' + 
+                                    'You can\'t delete the Preview or Code Card' + 
+                            '</div>');
+                    }else{
+                        list=$("#myTab");
+                        deleteUi(list,listActive,content,preview);
+                    }
+                    
+                    
+                });
+                
+               $('#Bsubmit').click(function(e) {
+                   listActive = $("#myTab .active");
+                   list = $("#myTab");
+                   changeElementothers( list,listActive,content,code,preview);
+                   createtutorial(list,content,code,preview,ob); 
+               });
+                
+               $(document).on('dblclick','.edit_text',function(event){
+                    event.preventDefault(event);
+                    $(this).hide().siblings(".edit").show().val($(this).text()).focus();
+                });
+
+               $(document).on('focusout','.edit',function(event){
+                    event.preventDefault(event);
+                    $(this).hide().siblings(".display").show().text($(this).val());
+                });
+               
+                $('.summernote').summernote({
+                    height: 500,
+                    //minHeight: 475,
+                    maxHeight: 500,
+                    codemirror: {
+                        theme: 'cosmo'
+                    },
+                    toolbar: [
+                        ['style', ['bold', 'italic', 'underline', 'clear']],
+                        ['font', ['strikethrough']],
+                        ['fontsize', ['fontsize']],
+                        ['table',['table']],
+                        ['insert', ['picture', 'video','link']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['height', ['height']],
+                        ['misc', ['undo','redo','codeview']],
+                    ]
+                   
+                });
+               
+               $('.summernote_Small').summernote({
+                    height: 200,
+                    //minHeight: 475,
+                    maxHeight: 200,
+                    codemirror: {
+                        theme: 'cosmo'
+                    },
+                    toolbar: [
+                        ['insert', ['picture']],
+                        ['style', ['bold', 'italic']],
+                        ['height', ['height']],
+                        ['misc', ['undo','redo','codeview']],
+                    ]
+                   
+                });
+               
+            });
+        </script>
+       
+    </body>
+    
+</html>

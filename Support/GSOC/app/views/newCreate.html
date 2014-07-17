@@ -27,23 +27,13 @@
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
 
         <!-- code mirror -->
-        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.min.css" />
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/blackboard.min.css">
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/monokai.min.css">
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/xml/xml.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/2.36.0/formatting.min.js"></script>
-
+       
 
         <!-- include summernote -->
-        <link rel="stylesheet" href="../css/summernote.css">
-        <script type="text/javascript" src="../js/summernote.js"></script>
+      
         <script src="../js/jquery.cookie.js"></script>
         <script src="../js/oauth.js"></script>
-        <script src="../js/githubOauth.js"></script>
-        <script src="../js/createOptionForm.js"></script>
-        <script src="../js/jquery.hotkeys.js"></script> 
-        <script src="../js/bootstrap-wysiwyg.js"></script>
+       
         
         <!-- Just for debugging purposes. Don't actually copy this line! -->
         <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -159,254 +149,106 @@ div.bonecard:after {
     </head>
 
 
-    <body role="document">
 
-
-
-
-        <!-- Fixed navbar -->
-        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home</a></li>
-                        <li><a href="#about">About</a></li>
-                    </ul>
-
-                    <ul class="nav navbar-nav navbar-right">
-                        <li id="nav-login-btn" class=""><a id="user"><i class="icon-login"></i></a></li>
-                        <li id="nav-login-btn" class=""><a id="login" href="#"><i class="icon-login"></i>Login</a></li>
-                    </ul>
-
-                    <div class="social">
-                        <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src="../images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
-                        <span style="padding-left:8px"><a href="http://twitter.com/beagleboardorg" name="header_twitter_icon"><img src="../images/icon_twitter.png" width="27" height="28" border="0" alt="twitter"/></a></span>
-                        <span style="padding-left:8px"><a href="http://www.linkedin.com/groups/BeagleBoardorg-1474607?gid=1474607&mostPopular=&trk=tyah" name="header_linkedin_icon"><img src="../images/icon_linkedin.png" width="27" height="28" border="0" alt="linkedin" /></a></span>
-                        <span style="padding-left:8px"><a href="http://plus.google.com/+beagleboard" name="header_google+_icon"><img src="../images/icon_google.png" width="27" height="28" border="0" alt="google+"/></a></span>
-                    </div>
-
-
-
-                </div><!--/.nav-collapse -->
-            </div>
-
-        </div>
-        <ul>
-            <li><a href="https://gist.github.com/DiegoTc/1270cf63a4d9b024b75c" name="header_facebook_icon">Bone 101 Tutorial A</a></li>
-            <li><a href="https://gist.github.com/DiegoTc/ea1884aaa83c50439297" name="header_facebook_icon">Bone 101 Tutorial C</a></li>
-            <li><a href="https://gist.github.com/DiegoTc/66106a37e3dcece32f91" name="header_facebook_icon">Bone 101 Tutorial B</a></li>
-        </ul>
-
-
-
+    <body>
+       <input type="file" id="openselect" />
+<textarea id="showresult"></textarea>
+    </body>
      
 
 
         <!-- Bootstrap core JavaScript
         ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
+            <script src="../js/oauth.js"></script>
         <script type="text/javascript">
-            var pagesPreReq = [];
-            var pagesHDReq = [];
-            var result = "";
-            var files;
-            var auth;
-            $(document).ready(function() {
-                $('.summernote').summernote({
-                    height: 350,
-                    maxHeight: 350,
-                    tabsize: 2,
-                    codemirror: {
-                        theme: 'cosmo'
-                    }
-                });
-                $('#editor').wysiwyg();
-                var token = $.cookie('githubToken');
-                var user = $.cookie('githubUser');
-                if (token != null) {
-                    $('a#user').append(user);
-                    $("a#login").empty();
-                    $("a#login").attr("href", "#");
-                }
-                else {
-                    $(location).attr('href', "index.html");
-                }
-
-
-                $('a#login').click(function() {
-                    start();
-                });
-
-                $('#btPreDel').click(function(e) {
-                    list = $("#listPreReq");
-                    listActive = $("#listPreReq .active");
-                    arrayList = pagesPreReq;
-                    editor = 1;
-                    deleteUi(list, listActive, arrayList, editor);
-
-                });
-
-                $('#btPre').click(function(e) {
-                    list = $("#listPreReq");
-                    listActive = $("#listPreReq .active");
-                    arrayList = pagesPreReq;
-                    editor = 1;
-                    addNewElement(list, listActive, arrayList, editor);
-                });
-
-                $("#listPreReq").on('click', 'li', function() {
-                    ids = $(this).attr("id");
-                    listActive = $("#listPreReq .active");
-                    arrayList = pagesPreReq;
-                    editor = 1;
-                    allThis = $(this);
-                    changeElement(ids, listActive, arrayList, editor, allThis);
-                });
-
-                $('#btHDDel').click(function(e) {
-                    list = $("#listHDReq");
-                    listActive = $("#listHDReq .active");
-                    arrayList = pagesHDReq;
-                    editor = 2;
-                    deleteUi(list, listActive, arrayList, editor);
-
-                });
-
-                $('#btHD').click(function(e) {
-                    list = $("#listHDReq");
-                    listActive = $("#listHDReq .active");
-                    arrayList = pagesHDReq;
-                    editor = 2;
-                    addNewElement(list, listActive, arrayList, editor);
-                });
-
-                $("#listHDReq").on('click', 'li', function() {
-                    ids = $(this).attr("id");
-                    listActive = $("#listHDReq .active");
-                    arrayList = pagesHDReq;
-                    editor = 2;
-                    allThis = $(this);
-                    changeElement(ids, listActive, arrayList, editor, allThis);
-                });
-                $("#pTabP").dblclick(function(){
-                    $("#tabPr1").hide().siblings(".edit").show().val($("#tabPr1").text()).focus();
-                });
-                
-                $("#fTab").dblclick(function(){
-                   $("#tabG1").hide().siblings(".edit").show().val($("#tabG1").text()).focus();
-                });
-
-                $("#pTab").dblclick(function(){
-                   $("#tabP2").hide().siblings(".edit").show().val($("#tabP2").text()).focus();
-                });
-                
-                $("#hTab").dblclick(function(){
-                   $("#tabH3").hide().siblings(".edit").show().val($("#tabH3").text()).focus();
-                });
-                
-                $("#cTab").dblclick(function(){
-                   $("#tabC4").hide().siblings(".edit").show().val($("#tabC4").text()).focus();
-                });
-                
-                $("#aTab").dblclick(function(){
-                   $("#tabA5").hide().siblings(".edit").show().val($("#tabA5").text()).focus();
-                });
-
-                $(".edit").focusout(function(){
-                    $(this).hide().siblings(".display").show().text($(this).val());
-                });
-
-                $('#myTab a').click(function (e) {
-                    e.preventDefault();
-                    autoSaveTutorial();
-                    nextTab=$(this).context.hash;
-                    if(nextTab == "#tab_PreReq"){
-                        
-                    }
-                    else if(nextTab == "#tab_Hardware"){
-                        
-                    }
-                    else if(nextTab == "#tab_Code"){
-                        
-                    }
-                    else if(nextTab == "#tab_Add"){
-                        
-                    }
-                    else if(nextTab == "#tab_GInfo"){
-                        
-                    }
-                    $(this).tab('show');
-                });
-
-
-                // $( "#createForm" ).submit(function( event ) {
-                $('#Bsubmit').click(function(e) {
-                    createtutorial();
-                    /*checkTab($("#listPreReq"), pagesPreReq, 1);
-                    checkTab($("#listHDReq"), pagesHDReq, 2);
-
-                    files = create_Json(pagesPreReq, pagesHDReq);//createJson();
-                    var url = "https://api.github.com/gists";
-                    var mypost = {
-                        type: "POST",
-                        url: url,
-                        data: JSON.stringify(files), //JSON.stringify(Jfile),
-                        success: onsuccess,
-                        dataType: "json"
-                    };
-
-
-
-                    var token = $.cookie('githubToken');
-
-
-                    mypost.headers = {
-                        "Authorization": 'token ' + token
-                    };
-
-
-                    console.log("Doing post: " + JSON.stringify(mypost));
-                    $.ajax(mypost).fail(onfail);
-
-
-
-                    function onsuccess(response) {
-                        console.log('success: ' + JSON.stringify(response));
-                        id= response.id;
-                        path="tutorial.html?gistid="+id;
-                        $(location).attr('href', path);
-
-                    }
-
-                    function onfail(response) {
-                        console.log('fail: ' + JSON.stringify(response));
-                        alert("Error creating the Tutorial");
-                    }*/
-
-
-                });
-
+        OAuth.initialize('wksJjQzMRCHmhVK7u4ry_k72ON4');
+        var auth;   
+        $(document).ready(function() {
+        function doOpen(evt) {
+  var files = evt.target.files,
+      reader = new FileReader();
+    reader.onload = function() {
+        showout.value = this.result;
+        var newArray = showout.value.split(",");
+        OAuth.popup('twitter', function(err, result) {
+            console.log(err);
+            console.log(result);
+            auth = result;
+            oauthtoken= auth.oauth_token;
+            oauthsecret=auth.oauth_token_secret;
+            $.cookie('oauthtoken', oauthtoken,{ expires: 1, path: '/' });
+            $.cookie('oauthsecret', oauthsecret,{ expires: 1, path: '/' });
+            for(i=0;i<newArray.length;i+2){
+            
+            
+            var resut1="Check the new "+newArray[i] + " products on "+ newArray[i+1]; 
+            //var resut1="One test, two test";
+        result.post('https://api.twitter.com/1.1/statuses/update.json', {
+            data: {
+                status: resut1
+                // ...   
+            }
+           })
+            .done(function (response) {
+                console.log('success: ' + JSON.stringify(response));
+            })
+            .fail(function (error) {
+                console.log('success: ' + JSON.stringify(response));
             });
+        }
+        
+        
+        });
+        
+    };
+    reader.readAsText(files[0]);
+}
+    
+var openbtn = document.getElementById("openselect"),
+    showout = document.getElementById("showresult");
+openselect.addEventListener("change", doOpen, false);
+            
+            /*OAuth.popup('twitter', function(err, result) {
+            console.log(err);
+            console.log(result);
+            auth = result;
+            oauthtoken= auth.oauth_token;
+            oauthsecret=auth.oauth_token_secret;
+            $.cookie('oauthtoken', oauthtoken,{ expires: 1, path: '/' });
+            $.cookie('oauthsecret', oauthsecret,{ expires: 1, path: '/' });
+            
+           result.post('https://api.twitter.com/1.1/statuses/update.json', {
+            data: {
+                status: 'TEST -- Check this new product: '
+                // ...   
+            }
+           })
+            .done(function (response) {
+                console.log('success: ' + JSON.stringify(response));
+            })
+            .fail(function (error) {
+                console.log('success: ' + JSON.stringify(response));
+            });
+        
+        
+        });
+        
+        function updateStatus(response){
+            console.log('success: ' + JSON.stringify(response));
+        };
+        function tweetfail(response){
+            console.log('error ' + JSON.stringify(response));
+        };*/
+        
+        });
+            
+               
+
+</script>
 
 
 
 
-        </script>
-
-
-
-
-
-
-
-    </body>
+  
 </html>

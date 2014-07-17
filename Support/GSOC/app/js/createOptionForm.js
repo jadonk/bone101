@@ -750,6 +750,39 @@ function autoSaveTutorial(list, content, code, preview, ob) {
         console.log('Doing patch: ' + JSON.stringify(gistupdate));
         $.ajax(gistupdate).fail(onfail);
     }
-
 };
 
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+    results = regex.exec(location.search);
+    return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+};
+            
+function loadTutorial(){
+    var gistid = getParameterByName('gistid');
+    if(gistid){
+        var gisturl = "https://api.github.com/gists/" + gistid;
+        var gistrequest = {
+            type: "GET",
+            url: gisturl,
+            success: edittutorial,
+            dataType: "json"
+        };
+        console.log('request: ' + JSON.stringify(gistrequest));
+        $.ajax(gistrequest).fail(failedit);
+        }
+};
+
+function edittutorial(response){
+    var id=response.id;
+    $.cookie('gistId', id, {expires: 1, path: '/'});
+    code;
+    preview;
+    content;
+    
+};
+
+function failedit(response){
+    
+};
