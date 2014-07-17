@@ -52,15 +52,17 @@ function onsuccess(response){
 }
 
 function createJson(){
+    var autoS=[{'id': 'THISISTHEFIRSTIDYOUWOULDNTUSE'}];
+    var save=[{'id': 'THISISTHEFIRSTIDYOUWOULDNTUSE'}];
     Jfile = {
         "description": "BONELIST",
         "public": true,
         "files": {
-            "autosave.html": {
-                "content": "newid"
+            "autosave.json": {
+                "content": '[{"id": "THISISTHEFIRSTIDYOUWOULDNTUSE"}]'
             },
-            "save.html": {
-                "content": "newid"
+            "save.json": {
+                "content": '[{"id": "THISISTHEFIRSTIDYOUWOULDNTUSE"}]'
             }
         }
     };
