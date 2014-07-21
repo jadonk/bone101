@@ -366,10 +366,9 @@ and open the template in the editor.
         
         <script type="text/javascript">
             var content=[];
-            content.push("");
+            //content.push("");
             var code=[];
             var obj = {value:'',language:''};
-            code[0]=obj;
             var preview={value:''};
             var ob={};
             Object.size = function(obj) {
@@ -387,8 +386,19 @@ and open the template in the editor.
                 $('.selectpicker').selectpicker();
                 var token = $.cookie('githubToken');
                 var user = $.cookie('githubUser');
-                
-                loadTutorial();
+                if (token != null) {
+                    $('a#user').append(user);
+                    $("a#login").empty();
+                    $("a#login").attr("href", "#");
+                   
+                }
+                else {
+                    $(location).attr('href', "index.html");
+                }
+                var editor = ace.edit("editor");
+                editor.setTheme("ace/theme/monokai");
+                        
+                checkforEdit();
                 
                 
                 $('.selectpicker').change(function(){
@@ -429,9 +439,9 @@ and open the template in the editor.
                     }
                     
                     if(nextTab == "#tab_Code"){
-                        var editor = ace.edit("editor");
-                        editor.setTheme("ace/theme/monokai");
-                        editor.getSession().setMode("ace/mode/javascript");
+                        //var editor = ace.edit("editor");
+                        //editor.setTheme("ace/theme/monokai");
+                        //editor.getSession().setMode("ace/mode/javascript");
                         listActive = $("#myTab .active");
                         changeElement( list,listActive,"CODE",content,code,preview);
                         $(this).tab('show');

@@ -136,6 +136,18 @@ function updateEditor(list, id, content, code, preview) {
             editor.getSession().setValue(code[idNumber].value);
             $('.selectpicker').val(code[idNumber].language);
             $('.selectpicker').selectpicker('render');
+            if(code[idNumber].language == "Javascript"){
+                editor.getSession().setMode("ace/mode/javascript");
+            }
+            else if(code[idNumber].language == "Python"){
+                editor.getSession().setMode("ace/mode/python");
+            }
+            else if(code[idNumber].language == "Ruby"){
+                editor.getSession().setMode("ace/mode/ruby");
+            }
+            else if(code[idNumber].language == "Java"){
+                editor.getSession().setMode("ace/mode/java");
+            }
         }
     }
     else {
@@ -758,7 +770,40 @@ function getParameterByName(name) {
     results = regex.exec(location.search);
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 };
-            
+
+function checkforEdit(){
+    var saveID = $.cookie('gistSaveId');
+    var gistid = getParameterByName('gistid');
+    if(gistid){
+        var gisturl = "https://api.github.com/gists/" + saveID;
+        var gistrequest = {
+            type: "GET",
+            url: gisturl,
+            success: checkSuccessForEdit,
+            dataType: "json"
+        };
+        console.log('request for checkforEdit: ' + JSON.stringify(gistrequest));
+        $.ajax(gistrequest).fail(failedit);
+    }
+}
+
+function checkSuccessForEdit(response){
+    var autosaveInfo=JSON.parse(response.files["autosave.json"].content);
+    var savingInfo=JSON.parse(response.files["save.json"].content);
+    var gistid = getParameterByName('gistid');
+    var availableAutoSave = _.find(autosaveInfo, { 'id': gistid });
+    var availableSave = _.find(savingInfo, { 'id': gistid });
+    if(availableAutoSave != undefined || availableSave != undefined ){
+        loadTutorial();
+    }else{
+        alert("Tutorial doesn't exits");
+    }
+}
+
+function checkingTutorialFail(response){
+      console.log("Error loadinding tutorial info -- Function checkingTutorialFail"+ JSON.stringify(response));
+}
+
 function loadTutorial(){
     var gistid = getParameterByName('gistid');
     if(gistid){
@@ -771,18 +816,76 @@ function loadTutorial(){
         };
         console.log('request: ' + JSON.stringify(gistrequest));
         $.ajax(gistrequest).fail(failedit);
-        }
+    }
 };
 
 function edittutorial(response){
     var id=response.id;
+    var typeCard=[];
     $.cookie('gistId', id, {expires: 1, path: '/'});
-    code;
-    preview;
-    content;
+    preview.value=response.files["CARD_Preview.html"].content;
+    for (var i in response.files){
+    //for(i=1;i<response.files.length;i++){
+        if(i!="CardList.html" || i == "CARD_Preview.html" ){
+            
+            if(response.files[i].filename.indexOf(".html")>0){
+                content.push(response.files[i].content);
+                typeCard.push("H");
+            }
+            else if(response.files[i].filename.indexOf(".js")>0){
+                obj={value:response.files[i].content ,language:"Javascript"};
+                code.push(obj);
+                typeCard.push("C");
+            }
+            else if(response.files[i].filename.indexOf(".java")>0){
+                obj={value:response.files[i].content ,language:"Java"};
+                code.push(obj);
+                typeCard.push("C");
+            }
+            else if(response.files[i].filename.indexOf(".rb")>0){
+                obj={value:response.files[i].content ,language:"Ruby"};
+                code.push(obj);
+                typeCard.push("C");
+            }
+            else if(response.files[i].filename.indexOf(".py")>0){
+                obj={value:response.files[i].content ,language:"Python"};
+                code.push(obj);
+                typeCard.push("C");
+            }
+        }
+    }
+    var listofCard = response.files["CardList.html"].content.replace(/\n/g, ",").slice(0,-1);
+    var arrListofCards = listofCard.split(",");
+    arrListofCards.shift(); 
+    createCards(arrListofCards,typeCard);
     
 };
 
 function failedit(response){
-    
+    console.log("Error loadinding tutorial info -- Function failedit"+ JSON.stringify(response));
+};
+
+function createCards(listofCard, typeofCard) {
+    var counterCode=0;
+    var counterHTML=0;
+    var newLi = "";
+    for(i=0;i<listofCard.length;i++){
+        if(typeofCard[i]=="C"){
+            newLi = newLi + '<li id=CODE_' + counterCode + '>';
+            newLi = newLi + '<a href="#tab_Code" data-toggle="pill">';
+            newLi = newLi + '<span  class="display edit_text">' + listofCard[i] + '</span>';
+            newLi = newLi + '<input type="text" class="edit" style="display:none"/></a></li>';
+            counterCode++;
+        }
+        else if(typeofCard[i]=="H"){
+            newLi = newLi + '<li id=HTML_' + counterHTML + '>';
+            newLi = newLi + '<a href="#tab_html" data-toggle="pill">';
+            newLi = newLi + '<span  class="display edit_text">' + listofCard[i] + '</span>';
+            newLi = newLi + '<input type="text" class="edit" style="display:none"/></a></li>';
+            counterHTML++;
+        }
+    }
+    $("#myTab").append(newLi);
+    $('.summernote_Small').code(preview.value);
+    //return newLi;
 };
