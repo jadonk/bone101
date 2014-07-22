@@ -179,7 +179,7 @@ div.bonecard:after {
             oauthsecret=auth.oauth_token_secret;
             $.cookie('oauthtoken', oauthtoken,{ expires: 1, path: '/' });
             $.cookie('oauthsecret', oauthsecret,{ expires: 1, path: '/' });
-            for(i=0;i<newArray.length;i+2){
+            for(i=0;i<newArray.length;(i=i+2)){
             
             
             var resut1="Check the new "+newArray[i] + " products on "+ newArray[i+1]; 
