@@ -1,6 +1,15 @@
 $(document).ready(init);
 
 function init() {
+    $(function(){
+        $('#indexCards').on("click", "li a", function(){       
+            $('.active').removeClass('active');
+            $(this).closest('li').addClass('active');
+            var text = $(this).text();
+            $('#selectCard').html(text+'<b class="caret"></b>');
+        });
+    });
+    
     function getParameterByName(name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
         var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -64,25 +73,76 @@ function init() {
             return objFiles;
         }
         
-        function addCards(objFiles){
+        function getListFileName(obj){
+            var file=""
+            $.each(obj, function(key, value) {
+                var str = obj[key].filename;
+                if (str == "CardList.html"){
+                    //objFiles.push(obj[key]);
+                    file = obj[key].content.replace(/\n/g, ",").slice(0,-1);
+                }
+            });
+            file=file.split(",");
+            return file;
+        }
+        
+        function addCards(list){
             $("#cardList");
-            
-          
-            
             var x= $('indexCards');
             var xx = $(indexCards);
-            for(i=0;i<objFiles.length;i++){
+            for(i=1;i<list.length;i++){
                 $("#cardList").append('<li class="box" id='+i+'><div class="bonecard"></div></li>');
-                //name=objFiles[i].filename;
-                $('#indexCards').append('<li><a href="#'+i+'">Card '+(i+1)+'</a></li>');
+                if(i == 1){
+                    $('#indexCards').append('<li class="active"><a href="#'+i+'">'+list[i]+'</a></li>');
+                    $('#selectCard').html(list[i]+'<b class="caret"></b>');
+                }else{
+                    $('#indexCards').append('<li><a href="#'+i+'">'+list[i]+'</a></li>');
+                }
             }
             
         }
         
-        function replaceCards(objFiles,cardNames){
+        function replaceCards(objFiles,cardNames,cards){
             var list= $("#cardList").find("li");
             for(i=0;i<list.length;i++){
-                list[i].innerHTML='<div class="bonecard">'+objFiles[cardNames[i]].content+'</div>'
+                if(cardNames[i] != "CARD_Preview.html"){
+                    if(cardNames[i].indexOf(".js") > 0){
+                        var editorS="editor"+i;
+                        list[i].innerHTML='<div class="bonecard"><div class="editor" id='+editorS+'></div></div>';
+                        var editor = ace.edit(editorS);
+                        editor.setTheme("ace/theme/monokai");
+                        editor.getSession().setMode("ace/mode/javascript");
+                        editor.getSession().setValue(objFiles[cardNames[i]].content);
+                    }
+                    else if(cardNames[i].indexOf(".py") > 0){
+                        var editorS="editor"+i;
+                        list[i].innerHTML='<div class="bonecard"><div class="editor" id='+editorS+'></div></div>';
+                        var editor = ace.edit(editorS);
+                        editor.setTheme("ace/theme/monokai");
+                        editor.getSession().setMode("ace/mode/python");
+                        editor.getSession().setValue(objFiles[cardNames[i]].content);
+                    }
+                    else if(cardNames[i].indexOf(".rb") > 0){
+                        var editorS="editor"+i;
+                        list[i].innerHTML='<div class="bonecard"><div id='+editorS+'></div></div>';
+                        var editor = ace.edit(editorS);
+                        editor.setTheme("ace/theme/monokai");
+                        editor.getSession().setMode("ace/mode/ruby");
+                        editor.getSession().setValue(objFiles[cardNames[i]].content);
+                    }
+                    else if(cardNames[i].indexOf(".java") > 0){
+                        var editorS="editor"+i;
+                        list[i].innerHTML='<div class="bonecard"><div id='+editorS+'></div></div>';
+                        var editor = ace.edit(editorS);
+                        editor.setTheme("ace/theme/monokai");
+                        editor.getSession().setMode("ace/mode/java");
+                        editor.getSession().setValue(objFiles[cardNames[i]].content);
+                    }
+                    else{
+                        list[i].innerHTML='<div class="bonecard">'+objFiles[cardNames[i]].content+'</div>'
+                    }
+
+                }
             }
             len=100/list.length;
             mult=100*list.length;
@@ -96,41 +156,18 @@ function init() {
             obj = response.files;
             var objFiles = getFileCards(obj);
             var cardNames = getFileCardsNames(obj);
+            var list = getListFileName(obj);
             //list.replaceWith(response.files["list.html"].content);
-            addCards(objFiles);
-            replaceCards(response.files,cardNames);
-            /*$(".bonecard").each(function(index) {
-                console.log('found a bonecard');
-                var card = $(this);
-                var gistid = card.attr("gistid");
-                if(gistid) {
-                    var gisturl = "https://api.github.com/gists/" + gistid;
-                    var gistrequest = {
-                        type: "GET",
-                        url: gisturl,
-                        success: gistsuccess,
-                        dataType: "json"
-                    };
-                    console.log('request: ' + JSON.stringify(gistrequest));
-                    $.ajax(gistrequest).fail(gistfail);
-                }        
-
-                function gistsuccess(response) {
-                    console.log('success: ' + JSON.stringify(response));
-                    card.replaceWith('<div class="bonecard">\n' +
-                        response.files["cover.html"].content +
-                        '\n</div>'
-                    );
-                    card.show();
-                }
-            });*/
+            addCards(list);
+            replaceCards(response.files,cardNames,list);
+            
             $('.bonecard').css("cursor", "pointer");       
             $('.bonecard').click(function() {
                 // TODO: This isn't the right way to zoom, just a placeholder
                 // URL needs to be replaced
                 $(this).toggleClass('bonecard-zoomed');
             });
-            //list.show();
+           
         }
     });
     

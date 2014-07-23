@@ -48,7 +48,7 @@ function init() {
                     console.log('success: ' + JSON.stringify(response));
                     console.log('Response id: '+ response.id);
                     link='<a href="tutorial.html?gistid='+response.id+'">';
-                    newDiv='<div class="bonecard">'+ response.files["CARD_1_IN_1.html"].content +'></div></a>';
+                    newDiv='<div class="bonecard">'+ response.files["CARD_Preview.html"].content +'></div></a>';
                     link=link+newDiv;
                     card.replaceWith(link);
                     card.show();
@@ -56,8 +56,7 @@ function init() {
             });
             $('.bonecard').css("cursor", "pointer");       
             $('.bonecard').click(function() {
-                // TODO: This isn't the right way to zoom, just a placeholder
-                // URL needs to be replaced
+
                 $(this).toggleClass('bonecard-zoomed');
             });
             list.show();

@@ -621,10 +621,11 @@ function onsuccessCreateGist(response){
 function gistsuccess(response) {
     console.log('success: ' + JSON.stringify(response));
     content = response.files["ToApprove.html"].content;
-    //content=content.replace("</div>",'');
     var tutorialId = $.cookie('gistId');
-    content = content + ' <a href="tutorial?gistid=' + tutorialId + '"><div class="bonecard" gistid="' + tutorialId + '"></div></a>'
-    //content= response.files.
+    if(content.indexOf(tutorialId)<0){
+    
+    content = content + '\n <a href="tutorial?gistid=' + tutorialId + '"><div class="bonecard" gistid="' + tutorialId + '"></div></a>'
+   
     var gisturl = "https://api.github.com/gists/" + "25aec40876dfb11f8d36";
     files = {
         "description": "Bone101 tutorials at beagleboard.org",
@@ -653,6 +654,7 @@ function gistsuccess(response) {
 
     console.log('request: ' + JSON.stringify(gistupdate));
     $.ajax(gistupdate).fail(gistfailUpdate);
+    }
 };
 
 function onsuccessUpdate(response) {
@@ -670,19 +672,21 @@ function onsuccessUpdate(response) {
 };
 
 function gistfailUpdate(response) {
-    $.removeCookie('gistId', {path: '/'});
-    alert("Error creating the tutorial --  Function gistfailUpdate");
+    console.log('gistfailUpdate: ' + JSON.stringify(response));
+//$.removeCookie('gistId', {path: '/'});
+    //alert("Error creating the tutorial --  Function gistfailUpdate");
 };
 
 function gistfail(response) {
-    $.removeCookie('gistId', {path: '/'});
-    alert("Error creating the tutorial -- Function gistFail");
+    console.log('gistfail: ' + JSON.stringify(response));
+    //$.removeCookie('gistId', {path: '/'});
+    //alert("Error creating the tutorial -- Function gistFail");
 };
 
 function onfail(response) {
-    $.removeCookie('gistId', {path: '/'});
-    console.log('fail: ' + JSON.stringify(response));
-    alert("Error creating the Tutorial -- Function onFail");
+    console.log('onfail: ' + JSON.stringify(response));
+   // $.removeCookie('gistId', {path: '/'});
+  //  alert("Error creating the Tutorial -- Function onFail");
 };
 
 function createtutorial(list, content, code, preview, ob) {
