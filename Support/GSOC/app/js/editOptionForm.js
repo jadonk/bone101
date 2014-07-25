@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+var jfileAutoSave = {};
 function deleteUi(list, listActive, content, preview, code) {
     sizeList = list.find("li").size();
     if (sizeList > 1) {
@@ -269,6 +269,13 @@ var create_Json = function create_Json(list, content, code, preview, ob, flag) {
 
             }
         }
+        var value = "";
+        for (i = 0; i < listLi.length; i++) {
+            value = value + listLi[i].children[0].children[0].innerHTML + "\n";
+        }
+        obj = {"content": value};
+        name = "CardList.html";
+        Jfile["files"][name] = obj;
         console.log(JSON.stringify(Jfile));
         return Jfile;
     } else {
@@ -704,7 +711,7 @@ function onfail(response) {
 };
 
 function createtutorial(list, content, code, preview, ob) {
-    var tutorialId = $.cookie('gistidEdit');
+    var tutorialId = getParameterByName('gistid');
 
     if (tutorialId == undefined) {
         files = create_JsonSave(list, content, code, preview, ob, true);
@@ -744,41 +751,47 @@ function createtutorial(list, content, code, preview, ob) {
 };
 
 function autoSaveTutorial(list, content, code, preview, ob) {
-    var tutorialId = $.cookie('gistidEdit');
+    var tutorialId = getParameterByName('gistid');
     if (tutorialId == undefined) {
         files = create_Json(list, content, code, preview, ob, true);
-        var url = "https://api.github.com/gists";
-        var mypost = {
-            type: "POST",
-            url: url,
-            data: JSON.stringify(files), //JSON.stringify(Jfile),
-            success: onsuccessAuto,
-            dataType: "json"
-        };
-        var token = $.cookie('githubToken');
-        mypost.headers = {
-            "Authorization": 'token ' + token
-        };
-        console.log("Doing post: " + JSON.stringify(mypost));
-        $.ajax(mypost).fail(onfail);
+        if(JSON.stringify(files) !== JSON.stringify(jfileAutoSave)){
+            jfileAutoSave = files;
+            var url = "https://api.github.com/gists";
+            var mypost = {
+                type: "POST",
+                url: url,
+                data: JSON.stringify(files), //JSON.stringify(Jfile),
+                success: onsuccessAuto,
+                dataType: "json"
+            };
+            var token = $.cookie('githubToken');
+            mypost.headers = {
+                "Authorization": 'token ' + token
+            };
+            console.log("Doing post: " + JSON.stringify(mypost));
+            $.ajax(mypost).fail(onfail);
+        }
+        
     }
     else {
         files = create_Json(list, content, code, preview, ob, false);
-        var gisturl = "https://api.github.com/gists/" + tutorialId;
-        var gistupdate = {
-            type: "PATCH",
-            url: gisturl,
-            data: JSON.stringify(files), //JSON.stringify(Jfile),
-            success: onsuccessAuto,
-            dataType: "json"
-        };
-        var token = $.cookie('githubToken');
-        gistupdate.headers = {
-            "Authorization": 'token ' + token
-        };
-
-        console.log('Doing patch: ' + JSON.stringify(gistupdate));
-        $.ajax(gistupdate).fail(onfail);
+        if(JSON.stringify(files) !== JSON.stringify(jfileAutoSave)){
+            jfileAutoSave = files;
+            var gisturl = "https://api.github.com/gists/" + tutorialId;
+            var gistupdate = {
+                type: "PATCH",
+                url: gisturl,
+                data: JSON.stringify(files), //JSON.stringify(Jfile),
+                success: onsuccessAuto,
+                dataType: "json"
+            };
+            var token = $.cookie('githubToken');
+            gistupdate.headers = {
+                "Authorization": 'token ' + token
+            };
+            console.log('Doing patch: ' + JSON.stringify(gistupdate));
+            $.ajax(gistupdate).fail(onfail);
+        }
     }
 };
 
@@ -806,7 +819,7 @@ function checktutorialFork(){
         gistrequest.headers = {
             "Authorization": 'token ' + token
         };
-        console.log('request for checkforEdit: ' + JSON.stringify(gistrequest));
+        console.log('request for checkforFork: ' + JSON.stringify(gistrequest));
         $.ajax(gistrequest).fail(forkFail);
     }
 }
@@ -893,7 +906,7 @@ function checktutorialEdit(){
             success: checkEditTutorial,
             dataType: "json"
         };
-        console.log('request for checkforEdit: ' + JSON.stringify(gistrequest));
+        console.log('request for checktutorialEdit: ' + JSON.stringify(gistrequest));
         $.ajax(gistrequest).fail(failedit);
     }
 }
@@ -965,10 +978,18 @@ function edittutorial(response){
     var typeCard=[];
     $.cookie('gistidEdit', id, {expires: 1, path: '/'});
     preview.value=response.files["CARD_Preview.html"].content;
+    var objfile={};
+    jfileAutoSave={description: response.description};
+    jfileAutoSave["public"] = response.public;
+    jfileAutoSave["files"]={};
+    var name=response.files["CARD_Preview.html"].filename;
+    objfile={"content": response.files["CARD_Preview.html"].content};
+    jfileAutoSave["files"][name]=objfile;
     for (var i in response.files){
-    //for(i=1;i<response.files.length;i++){
         if(i!="CardList.html" || i == "CARD_Preview.html" ){
-            
+            objfile={"content": response.files[i].content};
+            name=response.files[i].filename;
+            jfileAutoSave["files"][name]=objfile;
             if(response.files[i].filename.indexOf(".html")>0){
                 content.push(response.files[i].content);
                 typeCard.push("H");
@@ -995,9 +1016,11 @@ function edittutorial(response){
             }
         }
     }
+    objfile={"content": response.files["CardList.html"].content};
+    jfileAutoSave["files"]["CardList.html"]=objfile;
     var listofCard = response.files["CardList.html"].content.replace(/\n/g, ",").slice(0,-1);
     var arrListofCards = listofCard.split(",");
-    arrListofCards.shift(); 
+    arrListofCards.shift();
     createCards(arrListofCards,typeCard);
     
 };

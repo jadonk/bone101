@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+var jfileAutoSave = {};
 function deleteUi(list, listActive, content, preview, code) {
     sizeList = list.find("li").size();
     if (sizeList > 1) {
@@ -48,7 +48,7 @@ function addNewElement(list, listActive, content, code, preview, currentWindow, 
     var ps = list.find('li');
     psize = getSizeList(ps, cardType);
     var newLi = "";
-    listActive.removeClass('active');
+    //listActive.removeClass('active');
     if (currentWindow == "#tab_small") { //If the card is the preview card
         preview.value = $('.summernote_Small').code();
     } else if (currentWindow == "#tab_html") {//If the card is the html card
@@ -62,25 +62,25 @@ function addNewElement(list, listActive, content, code, preview, currentWindow, 
         newLi = addCardtoList("HTML", (ps.size() + 1), psize);
         list.append(newLi);
         $('.summernote').code("");
-        $(".note-editor").css({"margin-top": "-6%"});
-        $('#myTab a[href="#tab_html"]').tab('show');
+        //$(".note-editor").css({"margin-top": "-6%"});
+        //$('#myTab a[href="#tab_html"]').tab('show');
     } else if (cardType == "CODE") {
         newLi = addCardtoList("CODE", (ps.size() + 1), psize);
         list.append(newLi);
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/monokai");
         editor.getSession().setValue("");
-        $('#myTab a[href="#tab_Code"]').tab('show');
+        //$('#myTab a[href="#tab_Code"]').tab('show');
     }
 };
 
 function addCardtoList(card, psize, realSize) {
     var newLi = "";
     if (card == "HTML") {
-        newLi = '<li class="active" id=HTML_' + realSize + '>';
+        newLi = '<li id=HTML_' + realSize + '>';
         newLi = newLi + '<a href="#tab_html" data-toggle="pill">';
     } else if (card == "CODE") {
-        newLi = '<li class="active" id=CODE_' + realSize + '>';
+        newLi = '<li id=CODE_' + realSize + '>';
         newLi = newLi + '<a href="#tab_Code" data-toggle="pill">';
     }
     newLi = newLi + '<span  class="display edit_text">Card ' + psize + '</span>';
@@ -269,6 +269,13 @@ var create_Json = function create_Json(list, content, code, preview, ob, flag) {
 
             }
         }
+        var value = "";
+        for (i = 0; i < listLi.length; i++) {
+            value = value + listLi[i].children[0].children[0].innerHTML + "\n";
+        }
+        obj = {"content": value};
+        name = "CardList.html";
+        Jfile["files"][name] = obj;
         console.log(JSON.stringify(Jfile));
         return Jfile;
     } else {
@@ -733,38 +740,44 @@ function autoSaveTutorial(list, content, code, preview, ob) {
     var tutorialId = $.cookie('gistId');
     if (tutorialId == undefined) {
         files = create_Json(list, content, code, preview, ob, true);
-        var url = "https://api.github.com/gists";
-        var mypost = {
-            type: "POST",
-            url: url,
-            data: JSON.stringify(files), //JSON.stringify(Jfile),
-            success: onsuccessAuto,
-            dataType: "json"
-        };
-        var token = $.cookie('githubToken');
-        mypost.headers = {
-            "Authorization": 'token ' + token
-        };
-        console.log("Doing post: " + JSON.stringify(mypost));
-        $.ajax(mypost).fail(onfail);
+        if(JSON.stringify(files) !== JSON.stringify(jfileAutoSave)){
+            jfileAutoSave = files;
+            var url = "https://api.github.com/gists";
+            var mypost = {
+                type: "POST",
+                url: url,
+                data: JSON.stringify(files), //JSON.stringify(Jfile),
+                success: onsuccessAuto,
+                dataType: "json"
+            };
+            var token = $.cookie('githubToken');
+            mypost.headers = {
+                "Authorization": 'token ' + token
+            };
+            console.log("Doing post: " + JSON.stringify(mypost));
+            $.ajax(mypost).fail(onfail);
+        }
+        
     }
     else {
         files = create_Json(list, content, code, preview, ob, false);
-        var gisturl = "https://api.github.com/gists/" + tutorialId;
-        var gistupdate = {
-            type: "PATCH",
-            url: gisturl,
-            data: JSON.stringify(files), //JSON.stringify(Jfile),
-            success: onsuccessAuto,
-            dataType: "json"
-        };
-        var token = $.cookie('githubToken');
-        gistupdate.headers = {
-            "Authorization": 'token ' + token
-        };
-
-        console.log('Doing patch: ' + JSON.stringify(gistupdate));
-        $.ajax(gistupdate).fail(onfail);
+        if(JSON.stringify(files) !== JSON.stringify(jfileAutoSave)){
+            jfileAutoSave = files;
+            var gisturl = "https://api.github.com/gists/" + tutorialId;
+            var gistupdate = {
+                type: "PATCH",
+                url: gisturl,
+                data: JSON.stringify(files), //JSON.stringify(Jfile),
+                success: onsuccessAuto,
+                dataType: "json"
+            };
+            var token = $.cookie('githubToken');
+            gistupdate.headers = {
+                "Authorization": 'token ' + token
+            };
+            console.log('Doing patch: ' + JSON.stringify(gistupdate));
+            $.ajax(gistupdate).fail(onfail);
+        }
     }
 };
 
