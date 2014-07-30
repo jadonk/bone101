@@ -312,20 +312,6 @@ and open the template in the editor.
                             <input type="text" class="edit" style="display:none"/>
                         </a>
                     </li>
-                    <!--<li id="HTML_0">
-                            <a href="#tab_html" data-toggle="pill">
-                            <span  class="display edit_text">Card 2</span>
-                            <input type="text" class="edit" style="display:none"/>
-                        </a>
-                    </li>
-                    
-                    <li id="CODE_0">
-                        <a href="#tab_Code" data-toggle="pill">
-                            <span class="display edit_text">Card 3</span>
-                            <input type="text" class="edit" style="display:none"/>
-                        </a>
-                    </li>
-                    -->
                 </ul>
             </div>
              <div class="col-md-9">
@@ -337,7 +323,7 @@ and open the template in the editor.
                     </div>    
                     <div class="tab-pane bonecard" id="tab_html">
                         <div class="form-group">
-                            <div class="summernote"></div>
+                           <div class="summernote"></div>
                         </div>
                     </div>        
                    
@@ -479,8 +465,10 @@ and open the template in the editor.
                     list = $("#myTab");
                     listActive = $("#myTab .active");
                     currentWindow = $("a",listActive).attr('href');
+                   
                     addNewElement(list,listActive,content,code,preview,currentWindow,"HTML");
                     autoSaveTutorial(list,content,code,preview,ob);
+                   
                 });
                
                $("#bt_Code").click(function(e){
@@ -515,7 +503,7 @@ and open the template in the editor.
                             '</div>');
                     }else{
                         list=$("#myTab");
-                        deleteUi(list,listActive,content,preview);
+                        deleteUi(list,listActive,content,preview,code);
                     }
                     
                     
@@ -554,7 +542,7 @@ and open the template in the editor.
                         ['color', ['color']],
                         ['para', ['ul', 'ol', 'paragraph']],
                         ['height', ['height']],
-                        ['misc', ['undo','redo','codeview']],
+                        ['misc', ['undo','redo']],
                     ]
                    
                 });

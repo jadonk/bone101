@@ -16,7 +16,8 @@ function deleteUi(list, listActive, content, preview, code) {
             //content.splice(numId,1);
             content[id] = "DELETE";
         } else {
-            code.splice(numId, 1);
+            code[id] = "DELETE";
+            //code.splice(numId, 1);
         }
         $('.summernote_Small').code(preview.value);
         $(".note-editor").css({"margin-top": "-14%"});
@@ -77,10 +78,10 @@ function addNewElement(list, listActive, content, code, preview, currentWindow, 
 function addCardtoList(card, psize, realSize) {
     var newLi = "";
     if (card == "HTML") {
-        newLi = '<li class="active" id=HTML_' + realSize + '>';
+        newLi = '<li id=HTML_' + realSize+ '>';
         newLi = newLi + '<a href="#tab_html" data-toggle="pill">';
     } else if (card == "CODE") {
-        newLi = '<li class="active" id=CODE_' + realSize + '>';
+        newLi = '<li id=CODE_' + realSize + '>';
         newLi = newLi + '<a href="#tab_Code" data-toggle="pill">';
     }
     newLi = newLi + '<span  class="display edit_text">Card ' + psize + '</span>';

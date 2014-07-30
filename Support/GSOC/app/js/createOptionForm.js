@@ -16,7 +16,8 @@ function deleteUi(list, listActive, content, preview, code) {
             //content.splice(numId,1);
             content[id] = "DELETE";
         } else {
-            code.splice(numId, 1);
+            //code.splice(numId, 1);
+            code[id] = "DELETE";
         }
         $('.summernote_Small').code(preview.value);
         $(".note-editor").css({"margin-top": "-14%"});
@@ -48,7 +49,7 @@ function addNewElement(list, listActive, content, code, preview, currentWindow, 
     var ps = list.find('li');
     psize = getSizeList(ps, cardType);
     var newLi = "";
-    //listActive.removeClass('active');
+    listActive.removeClass('active');
     if (currentWindow == "#tab_small") { //If the card is the preview card
         preview.value = $('.summernote_Small').code();
     } else if (currentWindow == "#tab_html") {//If the card is the html card
@@ -62,22 +63,22 @@ function addNewElement(list, listActive, content, code, preview, currentWindow, 
         newLi = addCardtoList("HTML", (ps.size() + 1), psize);
         list.append(newLi);
         $('.summernote').code("");
-        //$(".note-editor").css({"margin-top": "-6%"});
-        //$('#myTab a[href="#tab_html"]').tab('show');
+        $(".note-editor").css({"margin-top": "-6%"});
+        $('#myTab a[href="#tab_html"]').tab('show');
     } else if (cardType == "CODE") {
         newLi = addCardtoList("CODE", (ps.size() + 1), psize);
         list.append(newLi);
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/monokai");
         editor.getSession().setValue("");
-        //$('#myTab a[href="#tab_Code"]').tab('show');
+        $('#myTab a[href="#tab_Code"]').tab('show');
     }
 };
 
 function addCardtoList(card, psize, realSize) {
     var newLi = "";
     if (card == "HTML") {
-        newLi = '<li id=HTML_' + realSize + '>';
+        newLi = '<li id=HTML_' + realSize+ '>';
         newLi = newLi + '<a href="#tab_html" data-toggle="pill">';
     } else if (card == "CODE") {
         newLi = '<li id=CODE_' + realSize + '>';
