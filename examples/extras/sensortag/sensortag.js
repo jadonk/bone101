@@ -40,7 +40,7 @@ function oniodisconnect() {
 }
 
 function ondiscover(sensorTag) {
-    winston.debug('Sensor Tag discovered');
+    winston.debug('SensorTag discovered');
 	sensorTag.on('disconnect', ondisconnect);
 	sensorTag.on('irTemperatureChange', ontemp);
 	sensorTag.on('accelerometerChange', onaccel);
@@ -52,7 +52,7 @@ function ondiscover(sensorTag) {
 	sensorTag.connect(onconnect);
 	
     function onconnect() {
-        winston.info('Sensor Tag connected');
+        winston.info('SensorTag connected');
         bonescript.digitalWrite(LED_ST, bonescript.HIGH);
         if(client) {
             client.emit('connect', {'connected': true});
@@ -184,7 +184,7 @@ function ondata(type, data) {
     bonescript.digitalWrite(LED_DATA, bonescript.HIGH, onledon);
     winston.debug('type = ' + type);
     winston.debug('data = ' + JSON.stringify(data));
-    if(client) client.emit(type, data);
+    if(client) client.emit('data', {'type': type, 'data': data});
 }
 
 function onledon() {
