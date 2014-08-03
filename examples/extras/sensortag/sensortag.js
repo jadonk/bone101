@@ -37,6 +37,9 @@ function onioerr() {
 function oniodisconnect() {
     bonescript.digitalWrite(LED_IO, bonescript.LOW);
     client = null;
+    if(__filename.match(/autorun/)) {
+        onexit();
+    }
 }
 
 function ondiscover(sensorTag) {
@@ -118,11 +121,11 @@ function ondisconnect() {
     if(client) {
         client.emit('connect', {'connected': false});
     }
-	if(1) {
+    if(__filename.match(/autorun/)) {
+        onexit();
+    } else {
     	sensortag.discover(ondiscover);
-	} else {
-	    process.exit(0);
-	}
+    }
 }
 
 function ontemp(objectTemperature, ambientTemperature) {
