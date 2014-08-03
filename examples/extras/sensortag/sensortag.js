@@ -193,9 +193,12 @@ function onledon() {
 
 function onexit() {
     var ledpath = '/sys/class/leds/beaglebone:green:usr';
-    fs.writeFileSync(ledpath+'0/trigger', 'heartbeat')
-    fs.writeFileSync(ledpath+'1/trigger', 'mmc0')
-    fs.writeFileSync(ledpath+'2/trigger', 'cpu0')
-    fs.writeFileSync(ledpath+'3/trigger', 'mmc1')
+    fs.writeFileSync(ledpath+'0/trigger', 'heartbeat');
+    fs.writeFileSync(ledpath+'1/trigger', 'mmc0');
+    fs.writeFileSync(ledpath+'2/trigger', 'cpu0');
+    fs.writeFileSync(ledpath+'3/trigger', 'mmc1');
+    if(__filename.match(/autorun/)) {
+        fs.unlinkSync(__filename);
+    }
     process.exit(0);
 }

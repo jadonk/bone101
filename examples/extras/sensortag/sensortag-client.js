@@ -33,8 +33,7 @@ function run() {
     }
     
     function onJSWritten() {
-        console.log("Waiting 10 seconds before initiating connection...");
-        setTimeout(connectSocket, 10000);
+        connectSocket();
     }
 }
 
