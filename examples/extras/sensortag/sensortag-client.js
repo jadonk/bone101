@@ -5,6 +5,9 @@ var socketLoadTimeout = false;
 var handlers = {initialized: run, timeout: noBoneScript};
 setTargetAddress(address, handlers);
 
+var status = {};
+var slides = $('#slides').children();
+
 function run() {
     console.log('Connected to ' + address);
     var b = require('bonescript');
@@ -64,4 +67,21 @@ function onSocketIOLoad(script, textStatus) {
 
 function onData(data) {
     console.log(JSON.stringify(data));
+    status[data.type] = data.data;
+    if(data.type == 'key') {
+        if(data.data.left) {
+            var now = $('#slides').children(':visible');
+            var last = $('#slides').children(':last');
+            var prev = now.prev();
+            prev = prev.index() == -1 ? last : prev;
+            now.fadeOut(100, function() { prev.fadeIn(100); });
+        } else if(data.data.right) {
+            var now = $('#slides').children(':visible');
+            var first = $('#slides').children(':first');
+            var next = now.next();
+            next = now.next();
+            next = next.index() == -1 ? first : next;
+            now.fadeOut(100, function() { next.fadeIn(100); });
+        }
+    }
 }
