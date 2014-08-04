@@ -5,7 +5,7 @@ var socketLoadTimeout = false;
 var handlers = {initialized: run, timeout: noBoneScript};
 setTargetAddress(address, handlers);
 
-var status = {};
+var sensors = {};
 var slides = $('#slides').children();
 
 function run() {
@@ -57,17 +57,22 @@ function onSocketFail(jqxhr, settings, exception) {
     setTimeout(connectSocket, 3000);
 }
 
-function onSocketIOLoad(script, textStatus) {
+function onSocketIOLoad(script, status) {
     connected = false;
     if(socketLoadTimeout) clearTimeout(socketLoadTimeout);
-    console.log("Load status: " + textStatus);
+    console.log("Load status: " + status);
     socket = new io.connect('http://' + address + ':' + port);
     socket.on('data', onData);
 }
 
 function onData(data) {
-    console.log(JSON.stringify(data));
-    status[data.type] = data.data;
+    //console.log(JSON.stringify(data));
+    if(typeof sensors[data.type] == 'undefined') {
+        sensors[data.type] = {};
+    } 
+    for(var attr in data.data) {
+        sensors[data.type][attr] = data.data[attr];
+    }
     if(data.type == 'key') {
         if(data.data.left) {
             var now = $('#slides').children(':visible');
