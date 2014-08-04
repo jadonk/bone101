@@ -89,4 +89,6 @@ function onData(data) {
             now.fadeOut(100, function() { next.fadeIn(100); });
         }
     }
+
+    $('#sensors').html(JSON.stringify(sensors, null, '\t'));
 }
