@@ -130,9 +130,12 @@ function testSlide() {
     }
 }
 
+var p = null;
 function startProc() {
     var canvas = document.getElementById("pc");
-    var p = new Processing(canvas, sketchProc);
+    if(!p) {
+        p = new Processing(canvas, sketchProc);
+    }
 }
 
 function sketchProc(pjs) {
@@ -140,9 +143,10 @@ function sketchProc(pjs) {
     var delay = 3;
     var X, Y;
     var nX, nY;
+    var size = $(window).height()*0.8;
 
     pjs.setup = function() {
-	    pjs.size(pjs.width, pjs.height-100);
+	    pjs.size(size, size);
 	    pjs.strokeWeight(10);
 	    pjs.frameRate(15);
         X = pjs.width / 2;
@@ -155,12 +159,12 @@ function sketchProc(pjs) {
         radius = 50.0 + 15*Math.sin(pjs.frameCount / 4);
         if(typeof sensors.accel == typeof{}) {
             nX = (pjs.width / 2) + (pjs.width * sensors.accel.x) / 4;
-            nY = (pjs.height / 2) + (pjs.height * sensors.accel.y) / 4;
+            nY = (pjs.height / 2) - (pjs.height * sensors.accel.y) / 4;
         }
         X += (nX-X)/delay;
         Y += (nY-Y)/delay;
         
-	    pjs.background(255, 200, 200);
+	    pjs.background(100, 200, 200);
   	    pjs.fill(0, 121, 184);
   	    pjs.stroke(255); 
   	    pjs.ellipse(X, Y, radius, radius); 

@@ -94,7 +94,7 @@ function ondiscover(sensorTag) {
 
     function onaccelen() {
         winston.debug('Enabled accelerometer')
-        sensorTag.setAccelerometerPeriod(1000);
+        sensorTag.setAccelerometerPeriod(1000/15);
         sensorTag.notifyAccelerometer(dummycb);
     }
 
