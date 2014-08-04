@@ -99,23 +99,32 @@ and open the template in the editor.
         </article>
         <br>
         
-        <article>
+        <Article>
              <div class="bonecardLightBox">
                         <div class="gist">
                             <button onclick="myRun()">Run</button>
                             <pre>
                     <code>
     var b = require('bonescript');
+    var led1 = "P8_11";
     var led2 = "P8_12";
-    var led1 = "P8_10";
+    var led3 = "P8_13";
+    var led4 = "P8_14";
     var state = 0;
 
     b.pinMode(led1, 'out');
     b.pinMode(led2, 'out');
+    b.pinMode(led3, 'out');
+    b.pinMode(led4, 'out');
     toggleLED = function() {
+        console.log("The state is: "+ state);
         state = state ? 0 : 1;
+        console.log("The state is: "+ state + "\n");
+        
         b.digitalWrite(led1, state);
         b.digitalWrite(led2, state);
+        b.digitalWrite(led3, state);
+        b.digitalWrite(led4, state);
     };
 
     timer = setInterval(toggleLED, 500);
@@ -130,6 +139,51 @@ and open the template in the editor.
                             </pre>
                         </div>
                     </div>
-            <article
+            </article>
+         <script src="/bone101/static/bonescript.js"></script>
+         <script>
+          function myRun() {
+
+                    setTargetAddress('beaglebone.local', {
+                        initialized: run
+                    });
+
+                    setTargetAddress('192.168.7.2', {
+                        initialized: run
+                    });
+
+                    function run() {
+                        var b = require('bonescript');
+    var led1 = "P8_11";
+    var led2 = "P8_12";
+    var led3 = "P8_13";
+    var led4 = "P8_14";
+    var state = 0;
+
+    b.pinMode(led1, 'out');
+    b.pinMode(led2, 'out');
+    b.pinMode(led3, 'out');
+    b.pinMode(led4, 'out');
+    toggleLED = function() {
+        console.log("The state is: "+ state);
+        state = state ? 0 : 1;
+        console.log("The state is: "+ state + "\n");
+        
+        b.digitalWrite(led1, state);
+        b.digitalWrite(led2, state);
+        b.digitalWrite(led3, state);
+        b.digitalWrite(led4, state);
+    };
+
+    timer = setInterval(toggleLED, 500);
+
+    stopTimer = function() {
+        clearInterval(timer);
+    };
+
+    setTimeout(stopTimer, 12000);
+                    }
+                }
+                </script>
     </body>   
 </html>

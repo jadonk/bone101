@@ -1,254 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
-        <meta name="description" content="">
-        <meta name="author" content="">
-
-        <title>BeagleBoard.org</title>
-        <link rel="icon" href="../../../favicon.ico" type="image/x-icon">
-        <link rel="shortcut icon" href="../../../favicon.ico" type="image/x-icon">
-
-        <!-- Bootstrap core CSS -->
-
-        <!-- Bootstrap theme -->
-
-
-        <!-- Custom styles for this template -->
-
-        <!-- include jquery -->
-        <script src="//code.jquery.com/jquery-1.9.1.min.js"></script> 
-
-        <!-- include libs stylesheets -->
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" />
-        <link href="../css/theme.css" rel="stylesheet">
-        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script> 
+<html>
+  <head>
+    <title>js.js Native Function demo</title>
+    <script src="//code.jquery.com/jquery-1.9.1.min.js"></script> 
+        <link href="../css/bootstrap.min.css" rel="stylesheet"> 
+        
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
+        <script type="text/javascript" src="../js/js-js/libjs.O2.min.js"></script>
 
-        <!-- code mirror -->
-       
-
-        <!-- include summernote -->
-      
-        <script src="../js/jquery.cookie.js"></script>
-        <script src="../js/oauth.js"></script>
-       
-        
-        <!-- Just for debugging purposes. Don't actually copy this line! -->
-        <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-
-        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-        <style>
-
-            .social{
-                width:200px;
-                float:right;
-                padding-top:15px;
-            }
-
-            body{margin-top:20px;}
-            .fa-fw {width: 2em;}
-
-            .btnGroup{
-                position: relative;
-                display: inline-block;
-                vertical-align: middle;
-                background-color: #f5f5f5;
-                border: 1px solid #e3e3e3;
-                border-radius: 4px;  
-                width: 40%;
-            };
-            
-            .btn-primary {
-color: #fff;
-background-color: #428bca;
-border-color: #357ebd;
-}
-            
-            
-            .btn1 {
-display: inline-block;
-padding: 6px 12px;
-margin-bottom: 0;
-margin-left:80%;
-font-size: 14px;
-font-weight: normal;
-line-height: 1.428571429;
-text-align: center;
-white-space: nowrap;
-vertical-align: middle;
-cursor: pointer;
-background-image: none;
-border: 1px solid transparent;
-border-radius: 4px;
--webkit-user-select: none;
--moz-user-select: none;
--ms-user-select: none;
--o-user-select: none;
-user-select: none;
-};
- 
-.well {
-    min-height: 20px;
-    padding: 19px;
-    margin-bottom: 20px;
-    background-color: #f5f5f5;
-    border: 1px solid #e3e3e3;
-    border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
-}            
-            
-div.bonecard {
-    background-color: white;
-    width: 850px;//80%;
-    height: 525px;//80%;
-    border: 2px solid black;
-    border-left: 2px solid black;
-    padding: 10px;
-    -webkit-border-radius: 20px;
-    -webkit-border-top-right-radius: 50px;
-    -webkit-border-bottom-right-radius: 50px;
-    -moz-border-radius: 20px;
-    -moz-border-radius-topright: 50px;
-    -moz-border-radius-bottomright: 50px;
-    border-radius: 20px;
-    border-top-right-radius: 50px;
-    border-bottom-right-radius: 50px;
-    position: absolute;
-    float: center;
-    -webkit-transition: color 0.5s ease;
-}
-
-div.bonecard:after, div.bonecard:before {
-    background-color: white;
-    position: absolute;
-    display: block;
-    content:"";
-    border: 2px solid black;
-    border-right: 2px solid white;
-    width: 6px;
-    left: -10px;
-}
-
-div.bonecard:before {
-    top: 150px;
-    height: 150px;
-}
-
-div.bonecard:after {
-    top: 460px;
-    height: 45px;
-}
-        </style>
-    </head>
-
-
-
-    <body>
-       <input type="file" id="openselect" />
-<textarea id="showresult"></textarea>
-    </body>
-     
-
-
-        <!-- Bootstrap core JavaScript
-        ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-            <script src="../js/oauth.js"></script>
-        <script type="text/javascript">
-        OAuth.initialize('wksJjQzMRCHmhVK7u4ry_k72ON4');
-        var auth;   
-        $(document).ready(function() {
-        function doOpen(evt) {
-  var files = evt.target.files,
-      reader = new FileReader();
-    reader.onload = function() {
-        showout.value = this.result;
-        var newArray = showout.value.split(",");
-        OAuth.popup('twitter', function(err, result) {
-            console.log(err);
-            console.log(result);
-            auth = result;
-            oauthtoken= auth.oauth_token;
-            oauthsecret=auth.oauth_token_secret;
-            $.cookie('oauthtoken', oauthtoken,{ expires: 1, path: '/' });
-            $.cookie('oauthsecret', oauthsecret,{ expires: 1, path: '/' });
-            for(i=0;i<newArray.length;(i=i+2)){
-            
-            
-            var resut1="Check the new "+newArray[i] + " products on "+ newArray[i+1]; 
-            //var resut1="One test, two test";
-        result.post('https://api.twitter.com/1.1/statuses/update.json', {
-            data: {
-                status: resut1
-                // ...   
-            }
-           })
-            .done(function (response) {
-                console.log('success: ' + JSON.stringify(response));
-            })
-            .fail(function (error) {
-                console.log('success: ' + JSON.stringify(response));
-            });
-        }
-        
-        
-        });
-        
-    };
-    reader.readAsText(files[0]);
-}
+        <script type="text/javascript" src="../js/js-js/common.js"></script>
+        <link rel="jsandbox" href="../js/js-js/jsandbox-worker.js" />
+        <script type="text/javascript" src="../js/js-js/jsandbox.js"></script>
     
-var openbtn = document.getElementById("openselect"),
-    showout = document.getElementById("showresult");
-openselect.addEventListener("change", doOpen, false);
-            
-            /*OAuth.popup('twitter', function(err, result) {
-            console.log(err);
-            console.log(result);
-            auth = result;
-            oauthtoken= auth.oauth_token;
-            oauthsecret=auth.oauth_token_secret;
-            $.cookie('oauthtoken', oauthtoken,{ expires: 1, path: '/' });
-            $.cookie('oauthsecret', oauthsecret,{ expires: 1, path: '/' });
-            
-           result.post('https://api.twitter.com/1.1/statuses/update.json', {
-            data: {
-                status: 'TEST -- Check this new product: '
-                // ...   
-            }
-           })
-            .done(function (response) {
-                console.log('success: ' + JSON.stringify(response));
-            })
-            .fail(function (error) {
-                console.log('success: ' + JSON.stringify(response));
-            });
-        
-        
-        });
-        
-        function updateStatus(response){
-            console.log('success: ' + JSON.stringify(response));
-        };
-        function tweetfail(response){
-            console.log('error ' + JSON.stringify(response));
-        };*/
-        
-        });
-            
-               
-
-</script>
-
-
-
-
+   
+  </head>
   
+  <body>
+      
+        <button onclick="sayHI()">Run</button>
+       
+        <output id="result"></output>
+    
+      <script>
+      // URL.createObjectURL
+      function sayHI() {
+        window.URL = window.URL || window.webkitURL;
+        var response = "self.onmessage=function(e){postMessage(e.data.msg);}";
+        
+        var blob;
+        try {
+            blob = new Blob([response], {type: 'application/javascript'});
+        } catch (e) { // Backwards-compatibility
+            window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder;
+            blob = new BlobBuilder();
+            blob.append(response);
+            blob = blob.getBlob();
+        }
+        var worker = new Worker(URL.createObjectURL(blob));
+
+worker.addEventListener('message', function(e) {
+    document.getElementById('result').textContent = e.data;
+  }, false);
+
+       
+       worker.postMessage({'cmd': 'start', 'msg': 5+5});
+          
+      }        
+      </script>
+      
+  </body>
 </html>

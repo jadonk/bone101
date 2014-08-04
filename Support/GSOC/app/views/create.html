@@ -286,8 +286,15 @@ and open the template in the editor.
                         <li><a href="#about">About</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li id="nav-login-btn" class=""><a id="user"><i class="icon-login"></i></a></li>
-                        <li id="nav-login-btn" class=""><a id="login" href="#"><i class="icon-login"></i>Login</a></li>
+                        <li><a id="create"><i class="icon-login"></i></a></li>
+                        <li  id="dropName" class="dropdown">
+                            <a id="user" href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="icon-login"></i>
+                            </a>
+                            <ul id="dropNameU" class="dropdown-menu" role="menu">
+                            </ul>
+                        </li>
+                        <li><a id="login" href="#"><i class="icon-login"></i>Login</a></li>
                     </ul>
                     <div class="social">
                         <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src="../images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
@@ -379,6 +386,16 @@ and open the template in the editor.
                 return size;
             };
             var flag=false;
+            
+            $(document).on('click','a#profile',function(event){
+                alert("Hola document");
+            });
+    
+            $(document).on('click','a#logout',function(event){
+                logout();
+                $(location).attr('href', "index.html");
+            });
+            
             $(document).ready(function() {
                  
                 $('.selectpicker').selectpicker();
@@ -387,6 +404,9 @@ and open the template in the editor.
                 var user = $.cookie('githubUser');
                 if (token != null) {
                     $('a#user').append(user);
+                    $('a#user').append('<span class="caret"></span>');
+                    $('ul#dropNameU').append('<li><a id="profile" href="#">Profile</a></li>');
+                    $('ul#dropNameU').append('<li><a id="logout" href="#"><i class="icon-login"></i>Logout</a></li>');
                     $("a#login").empty();
                     $("a#login").attr("href", "#");
                    

@@ -16,13 +16,20 @@ var start = function(){
             token= auth.access_token;
             $.cookie('githubToken', token,{ expires: 1, path: '/' });
             auth.me().done(function(me) {
-                $('a#user').append(me.name);
                 user=me.name;
                 $.cookie('githubUser', user,{ expires: 1, path: '/' });
+                $('a#user').append(user);
+                $('a#user').append('<span class="caret"></span>');
+                $('ul#dropNameU').append('<li><a id="profile" href="#">Profile</a></li>');
+                $('ul#dropNameU').append('<li><a id="logout" href="#"><i class="icon-login"></i>Logout</a></li>');
                 $("a#create").attr("href", "create.html");
                 $("a#create").append("Create");
                 $("a#login").empty();
                 $("a#login").attr("href", "#");
+                /*$("a#create").attr("href", "create.html");
+                $("a#create").append("Create");
+                $("a#login").empty();
+                $("a#login").attr("href", "#");*/
                 
                 if($.cookie('githubToken')!=null){
             var gisturl = "https://api.github.com/gists";
@@ -105,8 +112,9 @@ function gistfail(response) {
 }
 
 var logout = function(){
-     $.removeCookie('githubUser', user,{ expires: 1, path: '/' });
-     $.removeCookie('githubToken', token,{ expires: 1, path: '/' });
+     $.removeCookie('githubUser', { path: '/' });
+     $.removeCookie('githubToken',{  path: '/' });
+     $.removeCookie('gistSaveId',{  path: '/' });
 }
 
 var createLogin = function(){

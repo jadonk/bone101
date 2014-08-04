@@ -635,27 +635,16 @@ function onsuccessCreateGist(response){
 
 function gistsuccess(response) {
     console.log('success: ' + JSON.stringify(response));
-    content = response.files["ToApprove.html"].content;
+    var tutorialId = $.cookie('gistId');
+    content = '"tutorial?gistid=' + tutorialId +'"';
    
-    var tutorialId = $.cookie('gistidEdit');
-    if(content.indexOf(tutorialId)<0){
-    content = content + ' <a href="tutorial?gistid=' + tutorialId + '"><div class="bonecard" gistid="' + tutorialId + '"></div></a>'
-   
-    var gisturl = "https://api.github.com/gists/" + "25aec40876dfb11f8d36";
+    var gisturl = "https://api.github.com/gists/" + "25aec40876dfb11f8d36/comments";
     files = {
-        "description": "Bone101 tutorials at beagleboard.org",
-        "files": {
-            "Sitelist.html": {
-                "content": response.files["Sitelist.html"].content
-            },
-            "ToApprove.html": {
-                "content": content
-            }
-        }
+        "body": content,
     };
 
     var gistupdate = {
-        type: "PATCH",
+        type: "POST",
         url: gisturl,
         data: JSON.stringify(files), //JSON.stringify(Jfile),
         success: onsuccessUpdate,
@@ -669,13 +658,6 @@ function gistsuccess(response) {
 
     console.log('request: ' + JSON.stringify(gistupdate));
     $.ajax(gistupdate).fail(gistfailUpdate);
-    }
-    else{
-        var tutorialId = $.cookie('gistidEdit');
-        $.removeCookie('gistidEdit', {path: '/'});
-        path = "tutorial.html?gistid=" + tutorialId;
-        $(location).attr('href', path);
-    }
 
 };
 
