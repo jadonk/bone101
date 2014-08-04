@@ -9,9 +9,7 @@ var sensors = {};
 var slides = $('#slides').children();
 
 document.onkeydown = onkd;
-
-var canvas = document.getElementById("pjs");
-var p = new Processing(canvas, sketchProc);
+$('#processing').show(startProc);
 
 function run() {
     console.log('Connected to ' + address);
@@ -109,7 +107,9 @@ function slidePrev() {
     var last = $('#slides').children(':last');
     var prev = now.prev();
     prev = prev.index() == -1 ? last : prev;
-    now.fadeOut(100, function() { prev.fadeIn(100); });
+    now.fadeOut(100, function() {
+        prev.fadeIn(100, 'swing', testSlide);
+    });
 }
 
 function slideNext() {
@@ -118,7 +118,21 @@ function slideNext() {
     var next = now.next();
     next = now.next();
     next = next.index() == -1 ? first : next;
-    now.fadeOut(100, function() { next.fadeIn(100); });
+    now.fadeOut(100, function() {
+        next.fadeIn(100, 'swing', testSlide);
+    });
+}
+
+function testSlide() {
+    var now = $('#slides').children(':visible');
+    if(now.is($('#processing'))) {
+        startProc();
+    }
+}
+
+function startProc() {
+    var canvas = document.getElementById("pc");
+    var p = new Processing(canvas, sketchProc);
 }
 
 function sketchProc(pjs) {
@@ -128,19 +142,17 @@ function sketchProc(pjs) {
     var nX, nY;
 
     pjs.setup = function() {
-	    //pjs.size(pjs.width, pjs.height-100);
+	    pjs.size(pjs.width, pjs.height-100);
 	    pjs.strokeWeight(10);
 	    pjs.frameRate(15);
-        //X = pjs.width / 2;
-        //Y = pjs.height / 2;
-        X = 0;
-        Y = 0;
+        X = pjs.width / 2;
+        Y = pjs.height / 2;
         nX = X;
         nY = Y;  
     }
 
     pjs.draw = function() {
-        radius = 50.0 + 15*sin(pjs.frameCount / 4);
+        radius = 50.0 + 15*Math.sin(pjs.frameCount / 4);
         if(typeof sensors.accel == typeof{}) {
             nX = (pjs.width / 2) + (pjs.width * sensors.accel.x) / 4;
             nY = (pjs.height / 2) + (pjs.height * sensors.accel.y) / 4;
