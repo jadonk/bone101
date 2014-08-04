@@ -17,6 +17,10 @@ function init() {
                 success: gistsuccess,
                 dataType: "json"
             };
+            var token = $.cookie('githubToken');
+            gistrequest.headers = {
+                "Authorization": 'token ' + token
+            };
             console.log('request: ' + JSON.stringify(gistrequest));
             $.ajax(gistrequest).fail(gistfail);
         }
@@ -29,11 +33,22 @@ function init() {
             console.log('success: ' + JSON.stringify(response));
             var draft = JSON.parse(response.files["autosave.json"].content);
             var publish = JSON.parse(response.files["save.json"].content);
-            
+            var dpublish = document.getElementById("tab_publish");
+            var draftcontent;
             draft.forEach(function(index) {
+                if(index.id !== "THISISTHEFIRSTIDYOUWOULDNTUSE") {
+                    draftcontent=document.createElement("div");//"<div class='bonecardSmall'></div>";
+                    draftcontent.className = "bonecardSmall";
+                    draftcontent.id=index.id;
+                    dpublish.appendChild(draftcontent);
+                }
+            })
+            list.append(draft.content);
+            $(".bonecardSmall").each(function(index) {
+            //draft.forEach(function(index) {
                 console.log('found a bonecard');
-                //var card = $(this);
-                var gistid =index.id;
+                var card = $(this);
+                var gistid =card.attr("id");
                 if(gistid !== "THISISTHEFIRSTIDYOUWOULDNTUSE") {
                     var gisturl = "https://api.github.com/gists/" + gistid;
                     var gistrequest = {
@@ -41,6 +56,10 @@ function init() {
                         url: gisturl,
                         success: gistsuccess,
                         dataType: "json"
+                    };
+                    var token = $.cookie('githubToken');
+                        gistrequest.headers = {
+                        "Authorization": 'token ' + token
                     };
                     console.log('request: ' + JSON.stringify(gistrequest));
                     $.ajax(gistrequest).fail(gistfail);
@@ -50,7 +69,7 @@ function init() {
                     console.log('success: ' + JSON.stringify(response));
                     console.log('Response id: '+ response.id);
                     link='<a href="tutorial.html?gistid='+response.id+'">';
-                    newDiv='<div class="bonecard">'+ response.files["CARD_Preview.html"].content +'</div></a>';
+                    newDiv='<div class="bonecardSmall">'+ response.files["CARD_Preview.html"].content +'</div></a>';
                     link=link+newDiv;
                     card.replaceWith(link);
                     card.show();
