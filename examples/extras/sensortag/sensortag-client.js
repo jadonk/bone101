@@ -8,6 +8,11 @@ setTargetAddress(address, handlers);
 var sensors = {};
 var slides = $('#slides').children();
 
+document.onkeydown = onkd;
+
+var canvas = document.getElementById("pjs");
+var p = new Processing(canvas, sketchProc);
+
 function run() {
     console.log('Connected to ' + address);
     var b = require('bonescript');
@@ -75,20 +80,79 @@ function onData(data) {
     }
     if(data.type == 'key') {
         if(data.data.left) {
-            var now = $('#slides').children(':visible');
-            var last = $('#slides').children(':last');
-            var prev = now.prev();
-            prev = prev.index() == -1 ? last : prev;
-            now.fadeOut(100, function() { prev.fadeIn(100); });
+            slidePrev();
         } else if(data.data.right) {
-            var now = $('#slides').children(':visible');
-            var first = $('#slides').children(':first');
-            var next = now.next();
-            next = now.next();
-            next = next.index() == -1 ? first : next;
-            now.fadeOut(100, function() { next.fadeIn(100); });
+            slideNext();
         }
     }
 
     $('#sensors').html(JSON.stringify(sensors, null, '\t'));
+}
+
+function onkd(event) {
+    var e = event.keyCode;
+    
+    switch(e) {
+        case 37:
+            slidePrev();
+            break;
+        case 39:
+            slideNext();
+            break;
+        default:
+            break;
+    }
+}
+
+function slidePrev() {
+    var now = $('#slides').children(':visible');
+    var last = $('#slides').children(':last');
+    var prev = now.prev();
+    prev = prev.index() == -1 ? last : prev;
+    now.fadeOut(100, function() { prev.fadeIn(100); });
+}
+
+function slideNext() {
+    var now = $('#slides').children(':visible');
+    var first = $('#slides').children(':first');
+    var next = now.next();
+    next = now.next();
+    next = next.index() == -1 ? first : next;
+    now.fadeOut(100, function() { next.fadeIn(100); });
+}
+
+function sketchProc(pjs) {
+    var radius = 50.0;
+    var delay = 3;
+    var X, Y;
+    var nX, nY;
+
+    pjs.setup = function() {
+	    //pjs.size(pjs.width, pjs.height-100);
+	    pjs.strokeWeight(10);
+	    pjs.frameRate(15);
+        //X = pjs.width / 2;
+        //Y = pjs.height / 2;
+        X = 0;
+        Y = 0;
+        nX = X;
+        nY = Y;  
+    }
+
+    pjs.draw = function() {
+        radius = 50.0 + 15*sin(pjs.frameCount / 4);
+        if(typeof sensors.accel == typeof{}) {
+            nX = (pjs.width / 2) + (pjs.width * sensors.accel.x) / 4;
+            nY = (pjs.height / 2) + (pjs.height * sensors.accel.y) / 4;
+        }
+        X += (nX-X)/delay;
+        Y += (nY-Y)/delay;
+        
+	    pjs.background(255, 200, 200);
+  	    pjs.fill(0, 121, 184);
+  	    pjs.stroke(255); 
+  	    pjs.ellipse(X, Y, radius, radius); 
+    }
+    
+    pjs.setup();
 }
