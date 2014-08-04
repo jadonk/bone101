@@ -5,20 +5,29 @@
     <script src="/static/processing.js"></script>
     <script src="sensortag-client.js"></script>
     <style>
-        #slides div { display:none;width:100%;height:100%; }
+        #slides div {
+            display:none;
+            width:100%;
+            height:100%;
+            background-repeat:no-repeat;
+            background-size:100%;
+        }
         #slides div:first-child { display:block; }
     </style>
 </head><body><div id="slides">
-    <div><img src="IoTDetroit2014/Slide01.png" width="100%" height="100%" /></div>
-    <div><h1>Sensor status</h1><pre id="sensors"></pre></div>
-    <div id="processing"><h1>Processing.JS visualization</h1><canvas id="pc"></canvas></div>
-    <div><img src="IoTDetroit2014/Slide02.png" width="100%" height="100%" /></div>
-    <div><img src="IoTDetroit2014/Slide03.png" width="100%" height="100%" /></div>
-    <div><img src="IoTDetroit2014/Slide04.png" width="100%" height="100%" /></div>
-    <div><img src="IoTDetroit2014/Slide05.png" width="100%" height="100%" /></div>
-    <div><img src="IoTDetroit2014/Slide06.png" width="100%" height="100%" /></div>
-    <div><img src="IoTDetroit2014/Slide07.png" width="100%" height="100%" /></div>
-    <div><img src="IoTDetroit2014/Slide08.png" width="100%" height="100%" /></div>
-    <div><img src="IoTDetroit2014/Slide09.png" width="100%" height="100%" /></div>
-    <div><img src="IoTDetroit2014/Slide10.png" width="100%" height="100%" /></div>
+    <div style="background-image:url('IoTDetroit2014/Slide01.png');"></div>
+    <div style="background-image:url('IoTDetroit2014/Slide02.png');"></div>
+    <div style="background-image:url('IoTDetroit2014/Slide03.png');"></div>
+    <div style="background-image:url('IoTDetroit2014/Slide04.png');">
+        <pre id="sensors" style="padding-top:15%;padding-left:20%;font-size:150%;">
+            This will be replaced with sensor data
+        </pre>
+    </div>
+    <div style="background-image:url('IoTDetroit2014/Slide04.png');" id="processing">
+        <canvas id="pc" style="width:400px;height:400px"></canvas>
+    </div>
+    <div style="background-image:url('IoTDetroit2014/Slide05.png');"></div>
+    <div style="background-image:url('IoTDetroit2014/Slide06.png');"></div>
+    <div style="background-image:url('IoTDetroit2014/Slide07.png');"></div>
+    <div style="background-image:url('IoTDetroit2014/Slide08.png');"></div>
 </div></body></html>
