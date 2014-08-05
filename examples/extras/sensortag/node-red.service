@@ -1,0 +1,11 @@
+[Unit]
+Description=Node-RED
+ConditionPathExists=|/root/node_modules/node-red
+
+[Service]
+WorkingDirectory=/root/node_modules/node-red
+EnvironmentFile=/etc/default/node
+ExecStart=/usr/bin/node red.js
+
+[Install]
+WantedBy=multi-user.target
