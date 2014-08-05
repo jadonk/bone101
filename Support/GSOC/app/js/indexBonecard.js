@@ -114,7 +114,7 @@ function init() {
     
      function createPagination(names){
         var uiPaging=document.createElement("ul");
-        uiPaging.className="pagination";
+        uiPaging.className="pagination pagination-sm";
         uiPaging.id="ulindex";
         var liPaging=document.createElement("li");
         var aPaging=document.createElement("a");
