@@ -133,6 +133,59 @@ and open the template in the editor.
              margin-left: 50px;
              border:2px solid black
          }
+         
+         div.bonecardSmallP {
+            background-color: white;
+            margin: 10px;
+            width: 340px;
+            height: 210px;
+            border: 2px solid black;
+            border-left: 2px solid black;
+            padding: 10px;
+            -webkit-border-radius: 20px;
+            -webkit-border-top-right-radius: 50px;
+            -webkit-border-bottom-right-radius: 50px;
+            -moz-border-radius: 20px;
+            -moz-border-radius-topright: 50px;
+            -moz-border-radius-bottomright: 50px;
+            -webkit-box-sizing: content-box;
+            border-radius: 20px;
+            border-top-right-radius: 50px;
+            border-bottom-right-radius: 50px;
+            position: relative;
+            float: left;
+            -webkit-transition: color 0.5s ease;
+         }
+
+         div.bonecardSmallP:after, div.bonecardSmallP:before {
+            background-color: white;
+            position: absolute;
+            display: block;
+            content:"";
+            border: 2px solid black;
+            border-right: 2px solid white;
+            width: 6px;
+            left: -10px;
+         }
+
+         div.bonecardSmallP:before {
+             top: 60px;
+             height: 60px;
+         }
+
+         div.bonecardSmallP:after {
+             top: 180px;
+             height: 30px;
+         }
+
+         div.bonecardSmallP img {
+             max-width: 45%;
+             -webkit-border-radius: 5px;
+             -moz-border-radius: 5px;
+             border-radius: 5px;
+             margin-left: 50px;
+             border:2px solid black
+         }
  
         
         
@@ -196,7 +249,7 @@ and open the template in the editor.
                        
                     </div>    
                     <div class="tab-pane bonecard-listDraft" id="tab_draft">
-                        <div class="bonecardSmall"></div>
+                      
                     </div>   
                    
                     
@@ -214,6 +267,29 @@ and open the template in the editor.
             $(document).on('click','a#logout',function(event){
                 logout();
                 $(location).attr('href', "index.html");
+            });
+            
+            $(document).on('click','#ulpublish > li > a',function(event){
+                var link= $(this).context.hash;
+                var current = $("#ulpublish .active");
+                current.removeClass('active');
+                var curDiv =$(current).children().attr("href");
+                $(curDiv).hide();
+                var linkparent = $(this).parent();
+                linkparent.addClass("active");
+                $(link).show();
+            });
+            
+            
+            $(document).on('click','#uldraft > li > a',function(event){
+                var link= $(this).context.hash;
+                var current = $("#uldraft .active");
+                current.removeClass('active');
+                var curDiv =$(current).children().attr("href");
+                $(curDiv).hide();
+                var linkparent = $(this).parent();
+                linkparent.addClass("active");
+                $(link).show();
             });
             
             $(document).ready(function() {

@@ -201,12 +201,23 @@ p {font-size: 0.85em;line-height:1.3em; }
 
     });
     
+    $(document).on('click','#ulindex > li > a',function(event){
+                var link= $(this).context.hash;
+                var current = $("#ulindex .active");
+                current.removeClass('active');
+                var curDiv =$(current).children().attr("href");
+                $(curDiv).hide();
+                var linkparent = $(this).parent();
+                linkparent.addClass("active");
+                $(link).show();
+    });
+    
     $('a#login').click(function() {
         start();
      }); 
     
     $(document).on('click','a#profile',function(event){
-        alert("Hola document");
+        $(location).attr('href', "profile.html");
     });
     
     $(document).on('click','a#logout',function(event){

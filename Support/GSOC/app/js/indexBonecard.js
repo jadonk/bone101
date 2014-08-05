@@ -60,8 +60,93 @@ function init() {
                 $(this).toggleClass('bonecard-zoomed');
             });
             list.show();
+            getPaging();
         }
     });
+    
+    
+    function getPaging(){
+        var con=document.getElementById("c1");
+        var size=con.children.length;
+        var amount=Math.ceil(size/6);
+        var arrayNames=[];
+        var arryDiv=[];
+        for(var i =0; i<amount;i++){
+            var div1=document.createElement("div");
+            var name="Pg"+i;
+            div1.id=name;
+            arrayNames.push(name);
+            arryDiv.push(div1);
+        }
+        var x=0;
+        for(var i=0;i<arryDiv.length;i++){
+            for(var j = 0; j< size;j++){
+                if(con.children.length >0 ){
+                    if(j>0){
+                        if (j%6 == 0){
+                            break;
+                        }
+                        else{
+                            $(con.children[x]).appendTo($(arryDiv[i]));
+                            x=x-1;
+                        }
+                    }
+                    else{
+                        $(con.children[x]).appendTo($(arryDiv[i]));
+                        x=x-1;
+                    }
+                }
+                x=x+1;
+            }
+            size=con.children.length;
+        }
+        
+        for(var i=0;i<arryDiv.length;i++){
+            if(i>=1){
+               arryDiv[i].setAttribute("style", "display: none;"); 
+            }
+            $(arryDiv[i]).appendTo($(con));
+        }
+        
+        var paging=createPagination(arrayNames);
+        $(paging).appendTo($(con));
+    }
+    
+     function createPagination(names){
+        var uiPaging=document.createElement("ul");
+        uiPaging.className="pagination";
+        uiPaging.id="ulindex";
+        var liPaging=document.createElement("li");
+        var aPaging=document.createElement("a");
+        aPaging.innerHTML="&laquo;";
+        aPaging.href="#"+names[0];
+        liPaging.appendChild(aPaging);
+        uiPaging.appendChild(liPaging);
+        
+        for(i=0;i<names.length;i++){
+            var liPaging=document.createElement("li");
+            if(i==0){
+                liPaging.className="active";
+            }
+            var aPaging=document.createElement("a");
+            aPaging.innerHTML=i+1;
+            aPaging.href="#"+names[i];
+            liPaging.appendChild(aPaging);
+            uiPaging.appendChild(liPaging);
+        }
+        var liPaging=document.createElement("li");
+        var aPaging=document.createElement("a");
+        aPaging.innerHTML="&raquo;";
+        aPaging.href="#"+names[names.length-1];
+        liPaging.appendChild(aPaging);
+        uiPaging.appendChild(liPaging);
+        
+        var centerdiv=document.createElement("div");
+        centerdiv.className="text-center";
+        centerdiv.appendChild(uiPaging);
+        return centerdiv;
+        
+    }
     
     
 }

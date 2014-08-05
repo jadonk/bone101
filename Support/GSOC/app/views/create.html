@@ -388,7 +388,7 @@ and open the template in the editor.
             var flag=false;
             
             $(document).on('click','a#profile',function(event){
-                alert("Hola document");
+                $(location).attr('href', "profile.html");
             });
     
             $(document).on('click','a#logout',function(event){
