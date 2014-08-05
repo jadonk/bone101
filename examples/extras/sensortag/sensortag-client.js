@@ -143,7 +143,7 @@ function sketchProc(pjs) {
     var delay = 3;
     var X, Y;
     var nX, nY;
-    var size = $(window).height()*0.8;
+    var size = $(window).height()*0.7;
 
     pjs.setup = function() {
 	    pjs.size(size, size);
