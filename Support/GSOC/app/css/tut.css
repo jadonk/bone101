@@ -8,13 +8,6 @@ and open the template in the editor.
     Author     : diego
 */
 /*** Style Definitions ***/
-//html			{ background:#67b2ff; font-family:Arial, Helvetica, sans-serif; }
-
-/*** Clouds ***/
-.clouds					{ width:100%; height:262px; overflow:hidden; }
-#clouds-small			{ width:3000px; height:100%; background:url(../images/bg-clouds-small.png) repeat-x;}
-#cloud2					{ position:relative; top:-262px; }
-#clouds-big				{ width:4000px; height:100%; background:url(../images/bg-clouds-big.png) repeat-x;}
 
 /*** Header ***/
 h1#logo				{ background:url(../images/Logo.png) top left no-repeat; height:62px; width:481px;
@@ -60,8 +53,8 @@ h1#logo				{ background:url(../images/Logo.png) top left no-repeat; height:62px;
 
 div.bonecard {
                 background-color: white;
-                margin-left: 11%;
-                margin-top: 7%;
+                margin-left: 18%;
+                margin-top: 5%;
                 width: 850px;
                 height: 525px;
                 border: 2px solid black;

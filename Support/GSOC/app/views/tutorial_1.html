@@ -30,7 +30,7 @@
  
     
     <script type="text/javascript" src="../js/jquery.scrollTo-1.4.2-min.js"></script>
-    <script src="../js/bonecard.js"></script>
+    <script src="../js/bonecard_11.js"></script>
     <script src="../js/src/ace.js"></script>
     <script src="../js/lodash.min.js"></script>
     <script src="../js/jquery.cookie.js"></script>
@@ -106,8 +106,7 @@ pre {
   white-space: nowrap;
   position: absolute;
   left: -50px;
-  top: 20px;
-  z-index: 9999;
+  top: 40px;
   -webkit-transform: rotate(-45deg);
      -moz-transform: rotate(-45deg);
       -ms-transform: rotate(-45deg);
@@ -131,9 +130,8 @@ pre {
   overflow: hidden;
   white-space: nowrap;
   position: absolute;
-  left: 88%;
+  left: 85%;
   top: 40px;
-  z-index: 9999;
   -webkit-transform: rotate(45deg);
      -moz-transform: rotate(45deg);
       -ms-transform: rotate(45deg);
@@ -150,23 +148,6 @@ pre {
   text-align: center;
   text-decoration: none;
   text-shadow: 0 0 5px #444;
-}
-
-browser-connect {
-width: 600px;
-padding: 10px;
-border-radius: 5px 5px 5px 5px;
--moz-border-radius: 5px 5px 5px 5px;
--webkit-border-radius: 5px 5px 5px 5px;
-color: #fff;
-background: #de7224;
-border: 1px solid #803709;
-}
-
-#browser-content {
-padding-top: 8px;
-float: right;
-width: 500px;
 }
             
     </style>
@@ -185,11 +166,11 @@ width: 500px;
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
           <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#"></a>
                 <a class="navbar-brand" href="index.html">Home</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-left" id="indexCardsOrig">
+                
+                 <ul class="nav navbar-nav navbar-left" id="indexCardsOrig">
                                 <li class="dropdown">
                                     <a href="#" id="selectCard" class="dropdown-toggle" data-toggle="dropdown">Select Card <b class="caret"></b></a>
                                         <ul class="dropdown-menu" id="indexCards">
@@ -197,7 +178,7 @@ width: 500px;
                                         </ul>
                               </li>
                             </ul>
-
+                
                 <div class="social">
                     <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src="../images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
                     <span style="padding-left:8px"><a href="http://twitter.com/beagleboardorg" name="header_twitter_icon"><img src="../images/icon_twitter.png" width="27" height="28" border="0" alt="twitter"/></a></span>
@@ -209,72 +190,92 @@ width: 500px;
             </div><!--/.nav-collapse -->
           </div><!-- /.container-fluid -->
         </nav>
-        
-          
-
+        <div class="divide-nav">
+            <div class="container">
+                 
+                            
+                          
+                       
+               <!--<nav class="navbar navbar-default navbar-lower" role="navigation">!-->
                     <div class="container">
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                           <div class="ribbon">
-                                <a href="javascript:checktutorialEdit()">Edit on Bone101</a>
-                            </div>
+                            <!--<img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github-camo.global.ssl.fastly.net/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png">
+                            !-->
                             <div class="ribbonFork">
                                 <a href="javascript:checktutorialFork();">Fork me on Bone101</a>
                             </div>
+                            <div class="ribbon">
+                                <a href="javascript:checktutorialEdit()">Edit on Bone101</a>
+                            </div>
                            
                             
-                            
                         </div>
+                      
+                       
+                           <div class="bonecard-list">
+                            
+                              <div class="bonecard" style="cursor: pointer;"><p>
+</p>
+<table class="table table-bordered">
+  <tbody>
+    <tr>
+      <td><span style="font-family: Arial;">
+        Beagle Bone Black
+      </span></td>
+      <td>
+        <img src="https://learn.adafruit.com/system/assets/assets/000/009/103/medium800/beaglebone_BBB.jpg?1396883195" style="width: 119.25px; height: 72.546875px;">
+          <br>
+          </td>
+        </tr>
+        <tr>
+          <td><span style="font-family: Arial;">
+            Leds
+          </span></td>
+          <td>
+            <img src="https://learn.adafruit.com/system/assets/assets/000/009/104/medium800/beaglebone_LEDs_5mm_assorted_colors.jpg?1396883218" style="width: 131.5px;">
+              <br>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span style="font-family: Arial;">
+                  470Ω Resistor
+                </span>
+                <br>
+                </td>
+                <td>
+                  <img src="https://learn.adafruit.com/system/assets/assets/000/009/105/medium800/beaglebone_R-470-level.jpg?1396883232" style="width: 131.5px;">
+                    <br>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><span style="font-family: Arial;">
+                      Half-size solderless breadboard</span><br>
+                      </td>
+                      <td>
+                        <img src="https://learn.adafruit.com/system/assets/assets/000/009/106/medium800/beaglebone_breadboard_half_web.jpg?1396883242" style="width: 125.25px; height: 63.546875px;"><br>
+                        </td>
+                      </tr>
+                      <tr>
+                    <td>
+                      <span style="font-family: Arial;">Wires</span>
+                      </td>
+                      <td>
+                        <img src="https://learn.adafruit.com/system/assets/assets/000/009/107/medium800/beaglebone_jumpers_web.jpg?1396883256" style="width: 118.25px; height: 60.546875px;"><br>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <br>
+                    <p>
+                    </p></div>
+                        </div>
+                      
+                    
                     </div>
                 <!--</nav>!-->
-         
-       
-        
-        
-        <div id="wrapper">
-            <ul class="bonecard-list" id="cardList">
-              
-            </ul>   
-        </div>
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <div id="connect-status">    
-                            <div class="browser-connect">        
-                                <img alt="Not Connected" src="../images/usb.png" border="0">        
-                                    <div id="browser-content">
-                                        <strong>Did you know?</strong>  This page can interact with your BeagleBone<br>Type in your BeagleBone's IP address here:<input id="connect-ip">        
-                                    </div>    
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
-                </div>
             </div>
-        </div> 
-        <script type="text/javascript" src="../js/bonescript.js"></script>
-        <script type="text/javascript" src="../js/beagle-ui.js"></script>
-        <script type="text/javascript" src="../js/bonescript-demo.js"></script>
-        <script>
-            $(document).on('click','.btn',function(event){
-               //var customModal = $('<div id="myModal" class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">Choose your card</h4></div><div class="modal-body"><p>Do you want to choose a code card or a html card?</p></div><div class="modal-footer"><button type="button" id="bt_Html" class="btn btn-primary">Html Card</button><button type="button" id="bt_Code" class="btn btn-primary">Code Card</button></div></div></div></div>');
-               //var customModal = $('<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;</button><h4 class="modal-title" id="myModalLabel">Modal title</h4></div><div class="modal-body"><h3>Modal Body</h3></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary">Save changes</button></div></div></div></div>'); 
-                //$('body').append(customModal);
-                //$(".modal").modal('show');
-                $("#myModal").modal('show');
-            });
-            
-          
-            
-           
-        </script>
+        </div>
   </body>
     
 </html>
