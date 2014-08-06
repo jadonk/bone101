@@ -250,11 +250,11 @@ width: 500px;
                         </div>
                     </div>
                     <div class="modal-body">
-                        ...
+                        <textarea id="console-output"></textarea>
                     </div>
                     <div class="modal-footer">
                         
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" id="run" class="btn-primary">Save changes</button>
                     </div>
                 </div>
             </div>
@@ -263,15 +263,35 @@ width: 500px;
         <script type="text/javascript" src="../js/beagle-ui.js"></script>
         <script type="text/javascript" src="../js/bonescript-demo.js"></script>
         <script>
+            var editor;
+            var editorid;
             $(document).on('click','.btn',function(event){
                //var customModal = $('<div id="myModal" class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">Choose your card</h4></div><div class="modal-body"><p>Do you want to choose a code card or a html card?</p></div><div class="modal-footer"><button type="button" id="bt_Html" class="btn btn-primary">Html Card</button><button type="button" id="bt_Code" class="btn btn-primary">Code Card</button></div></div></div></div>');
                //var customModal = $('<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;</button><h4 class="modal-title" id="myModalLabel">Modal title</h4></div><div class="modal-body"><h3>Modal Body</h3></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary">Save changes</button></div></div></div></div>'); 
                 //$('body').append(customModal);
                 //$(".modal").modal('show');
+                var bu=this;
+                var parent=bu.parentElement;
+                parent=parent.children[1];
+                editorid=parent.getAttribute("id");
+                editor= ace.edit(editorid);
                 $("#myModal").modal('show');
             });
             
+            $(document).on('click','#run',function(event){
+               var code=editor.getSession().getValue();
+               var oldLog = console.log;
+                console.log = mylog;
+
+               demoRun(code);
+               //alert("Hola"); 
+            });
           
+            $(document).on('hidden.bs.modal', ".modal", function (e) {
+    //var name = "#" + $(this).find("button.btn-primary").attr("id");
+    //$("body").off("click", name);
+    //$(this).remove();
+});
             
            
         </script>

@@ -18,12 +18,12 @@ function init() {
     }
     
     if(location.hash) {
-        console.log(location.hash);
+        //console.log(location.hash);
         var gistid = location.hash.substring(1);
         $(".bonecard-list").each(function(index) {
             var list = $(this);
-            console.log("Replacing gistid " + list.attr("gistid") +
-                        "with " + gistid);
+            //console.log("Replacing gistid " + list.attr("gistid") +
+                   //     "with " + gistid);
             list.attr("gistid", gistid);
         });
     }
@@ -43,7 +43,7 @@ function init() {
                 success: gistsuccess,
                 dataType: "json"
             };
-            console.log('request: ' + JSON.stringify(gistrequest));
+            //console.log('request: ' + JSON.stringify(gistrequest));
             $.ajax(gistrequest).fail(gistfail);
         }
 
@@ -156,7 +156,7 @@ function init() {
         }
         
         function gistsuccess(response) {
-            console.log('success: ' + JSON.stringify(response));
+            //console.log('success: ' + JSON.stringify(response));
             obj = response.files;
             var objFiles = getFileCards(obj);
             var cardNames = getFileCardsNames(obj);

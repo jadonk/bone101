@@ -1,16 +1,4 @@
-serverBasePath = typeof serverBasePath == 'undefined' ? '/' : serverBasePath;
-var name = "#floatMenu";  
-var menuYloc = null;  
-  
 
-
-$(function() {
-    if($('#accordian').length) {
-        $("#accordion").accordion({
-            collapsible: true
-        });
-    }
-});
 
 
 $(document).ready(function(){
@@ -19,7 +7,7 @@ $(document).ready(function(){
         var statusDisconnected = '' +
             '<div id="connect-status">' +
             '    <div class="browser-connect">' +
-            '        <img alt="Not Connected" src="' + serverBasePath + '../images/usb.png" border="0">' +
+            '        <img alt="Not Connected" src="/bone101/static/images/usb.png" border="0">' +
             '        <div id="browser-content"><strong>Did you know?</strong>  This page can interact with your BeagleBone<br />' +
             'Type in your BeagleBone&#39;s IP address here:<input id="connect-ip"></input>' +
             '        </div>' +
@@ -28,7 +16,7 @@ $(document).ready(function(){
         var statusConnected = '' +
             '<div id="connect-status">' +
             '    <div class="browser-connected">' +
-            '        <img alt="Connected" src="' + serverBasePath + '../images/green_check.png" border="0">' +
+            '        <img alt="Connected" src="/bone101/static/images/green_check.png" border="0">' +
             '        <div id="browser-content"><strong>Your board is connected!</strong><br>' +
             '            <div id="board-info"></div>' +
             '        </div>' +
@@ -183,10 +171,11 @@ function _onSocketIOLoaded_workaround() {
             }
         }
 
-	// Work-around to add shell command
-	_bonescript.modules[m.module]["shell"] = function(command) {
-	    socket.emit('shell', command);
-	}
+        // Work-around to add shell command
+        _bonescript.modules[m.module]["socket"] = socket;
+        _bonescript.modules[m.module]["shell"] = function(command) {
+            socket.emit('shell', command);
+        }
         
 	// Call-back initialized function
 	_bonescript.on.initialized();
