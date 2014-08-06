@@ -102,7 +102,7 @@ function init() {
                     console.log('success: ' + JSON.stringify(response));
                     console.log('Response id: '+ response.id);
                     link='<a href="tutorial.html?gistid='+response.id+'">';
-                    newDiv='<div class="bonecardSmall">'+ response.files["CARD_Preview.html"].content +'</div></a>';
+                    newDiv='<div class="bonecardSmall"><a class="boxclose" id="boxclose"></a>'+ response.files["CARD_Preview.html"].content +'</div></a>';
                     link=link+newDiv;
                     card.replaceWith(link);
                     card.show();
@@ -212,7 +212,7 @@ function init() {
                     console.log('success: ' + JSON.stringify(response));
                     console.log('Response id: '+ response.id);
                     link='<a href="tutorial.html?gistid='+response.id+'">';
-                    newDiv='<div class="bonecardSmallP">'+ response.files["CARD_Preview.html"].content +'</div></a>';
+                    newDiv='<div class="bonecardSmallP"><a class="boxclose" id="boxclose"></a>'+ response.files["CARD_Preview.html"].content +'</div></a>';
                     link=link+newDiv;
                     card.replaceWith(link);
                     card.show();
