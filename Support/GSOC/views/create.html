@@ -536,6 +536,13 @@ and open the template in the editor.
                    createtutorial(list,content,code,preview,ob); 
                });
                 
+                $(document).on('keyup','.edit_text',function(event){
+                     if(event.keyCode == 13) { 
+                         event.preventDefault(event);
+                        $(this).hide().siblings(".display").show().text($(this).val());
+                     }
+                });
+                
                $(document).on('dblclick','.edit_text',function(event){
                     event.preventDefault(event);
                     $(this).hide().siblings(".edit").show().val($(this).text()).focus();

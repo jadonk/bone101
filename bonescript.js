@@ -1,3 +1,4 @@
+var scripUrl;
 function require(file) {
     throw 'Please perform setTargetAddress on a valid target';
 }
@@ -11,6 +12,7 @@ function setTargetAddress(address, handlers) {
     function loadScript(url, onload) {
         var head = document.getElementsByTagName('head')[0];
         var script = document.createElement('script');
+        scripUrl=url;
         script.type = 'text/javascript';
         script.src = url;
         script.charset = 'UTF-8';
