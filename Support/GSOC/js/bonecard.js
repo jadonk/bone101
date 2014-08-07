@@ -164,8 +164,7 @@ function init() {
             //list.replaceWith(response.files["list.html"].content);
             addCards(list);
             replaceCards(response.files,cardNames,list);
-            
-            $('.bonecard').css("cursor", "pointer");       
+                  
             $('.bonecard').click(function() {
                 // TODO: This isn't the right way to zoom, just a placeholder
                 // URL needs to be replaced

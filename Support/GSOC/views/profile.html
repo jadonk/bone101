@@ -288,6 +288,11 @@ and open the template in the editor.
                 $(location).attr('href', "index.html");
             });
             
+            $(document).on('click','.boxclose',function(event){
+                var parent = $(this).parent().attr("id");
+                alert(parent);
+            });
+            
             $(document).on('click','#ulpublish > li > a',function(event){
                 var link= $(this).context.hash;
                 var current = $("#ulpublish .active");

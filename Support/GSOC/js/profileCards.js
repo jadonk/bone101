@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 $(document).ready(init);
-
+var idtoDelete;
 function init() {
     $(".bonecard-listDraft").each(function(index) {
         var list = $(this);
@@ -296,6 +296,31 @@ function init() {
         return centerdiv;
         
     }
+}
+
+function getSavingGist(){
+    var savingGist = $.cookie('gistSaveId');
+    if(savingGist) {
+        var gisturl = "https://api.github.com/gists/" + savingGist;
+        var gistrequest = {
+            type: "GET",
+            url: gisturl,
+            success: createNewSavingFile,
+            dataType: "json"
+        };
+        var token = $.cookie('githubToken');
+        gistrequest.headers = {
+            "Authorization": 'token ' + token
+        };
+        console.log('request: ' + JSON.stringify(gistrequest));
+        $.ajax(gistrequest).fail(gistfail);
+    }
+}
+
+function createNewSavingFile(response){
+    var jsonSave = JSON.parse(response.files["save.json"].content);
+    var jsonAutosave = JSON.parse(response.files["autosave.json"].content);
+
 }
 
 

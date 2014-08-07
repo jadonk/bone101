@@ -1,99 +1,4 @@
-
-
-
-$(document).ready(function(){
-    /*if($('#connect-status').length) {
-        var connectState = 'init';
-        var statusDisconnected = '' +
-            '<div id="connect-status">' +
-            '    <div class="browser-connect">' +
-            '        <img alt="Not Connected" src="/bone101/static/images/usb.png" border="0">' +
-            '        <div id="browser-content"><strong>Did you know?</strong>  This page can interact with your BeagleBone<br />' +
-            'Type in your BeagleBone&#39;s IP address here:<input id="connect-ip"></input>' +
-            '        </div>' +
-            '    </div>' +
-            '</div>';
-        var statusConnected = '' +
-            '<div id="connect-status">' +
-            '    <div class="browser-connected">' +
-            '        <img alt="Connected" src="/bone101/static/images/green_check.png" border="0">' +
-            '        <div id="browser-content"><strong>Your board is connected!</strong><br>' +
-            '            <div id="board-info"></div>' +
-            '        </div>' +
-            '    </div>' +
-            '</div>';
-        var i = 0;
-        var serversToTry = [
-            window.location.host,
-            '192.168.7.2',
-            'beaglebone.local',
-            'beaglebone-2.local'
-        ];
-        $('#connect-status').replaceWith(statusDisconnected);
-
-	// note, due to a bug in Firefox, the call is moved below
-
-        function testForConnection() {
-            var handlers = {};
-            handlers.callback = callback;
-            handlers.initialized = initialized;
-            handlers.connecting = disconnected;
-            handlers.connect_failed = connect_failed;
-            handlers.reconnect_failed = disconnected;
-            handlers.disconnect = disconnected;
-            handlers.connect = connected;
-            handlers.reconnect = connected;
-            handlers.reconnecting = connected;
-            $('#connect-ip').keypress(oninput);
-            setTargetAddress(serversToTry[i], handlers);
-            i++;
-            if(i >= serversToTry.length) i = 0;
-
-            function oninput(e) {
-                if(e.which == 10 || e.which == 13) {
-                    var givenAddress = $('#connect-ip').val();
-                    setTargetAddress(givenAddress, handlers);
-                    serversToTry = [ givenAddress ];
-                }
-            }
-
-            function callback() {
-                if(typeof _bonescript == 'undefined') {
-                    setTimeout(testForConnection, 1000);
-                }
-            }
-            function connected() {
-                if(connectState == 'disconnected') {
-                    console.log('Bonescript: connected');
-                    connectState = 'reconnecting';
-                }
-            }
-            function initialized() {
-                console.log('Bonescript: initialized');
-                $('#connect-status').replaceWith(statusConnected);
-                updateBoardInfo();
-                if(typeof onbonescriptinit == 'function') onbonescriptinit();
-                connectState = 'connected';
-            }
-            function disconnected() {
-                if(connectState == 'connected') {
-                    console.log('Bonescript: disconnected');
-                    $('#connect-status').replaceWith(statusDisconnected);
-                    connectState = 'disconnected';
-                }
-            }
-            function connect_failed() {
-                if(connectState == 'init') {
-                    _onSocketIOLoaded_workaround();
-                } else {
-                    disconnected();
-                }
-            }
-        }
-
-        testForConnection();
-    }*/
-});
+var conennectStatus=false;
 
 function testConectivity(){
     if($('#connect-status').length) {
@@ -165,6 +70,7 @@ function testConectivity(){
             function initialized() {
                 console.log('Bonescript: initialized');
                 $('#connect-status').replaceWith(statusConnected);
+				conennectStatus=true;
                 updateBoardInfo();
                 if(typeof onbonescriptinit == 'function') onbonescriptinit();
                 connectState = 'connected';
@@ -173,6 +79,7 @@ function testConectivity(){
                 if(connectState == 'connected') {
                     console.log('Bonescript: disconnected');
                     $('#connect-status').replaceWith(statusDisconnected);
+					conennectStatus=false;
                     connectState = 'disconnected';
                 }
             }
@@ -184,8 +91,9 @@ function testConectivity(){
                 }
             }
         }
-
-        testForConnection();
+		if (conennectStatus == false){
+			testForConnection();
+		}
     }
 }
 
