@@ -102,7 +102,7 @@ function init() {
                     console.log('success: ' + JSON.stringify(response));
                     console.log('Response id: '+ response.id);
                     link='<a href="tutorial.html?gistid='+response.id+'">';
-                    newDiv='<div class="bonecardSmall"><a class="boxclose" id="boxclose"></a>'+ response.files["CARD_Preview.html"].content +'</div></a>';
+                    newDiv='<div class="bonecardSmall" id="'+response.id+'"><a class="boxclose" id="boxclose"></a>'+ response.files["CARD_Preview.html"].content +'</div></a>';
                     link=link+newDiv;
                     card.replaceWith(link);
                     card.show();
@@ -212,7 +212,7 @@ function init() {
                     console.log('success: ' + JSON.stringify(response));
                     console.log('Response id: '+ response.id);
                     link='<a href="tutorial.html?gistid='+response.id+'">';
-                    newDiv='<div class="bonecardSmallP"><a class="boxclose" id="boxclose"></a>'+ response.files["CARD_Preview.html"].content +'</div></a>';
+                    newDiv='<div class="bonecardSmallP" id="'+response.id+'"><a class="boxclose" id="boxclose"></a>'+ response.files["CARD_Preview.html"].content +'</div></a>';
                     link=link+newDiv;
                     card.replaceWith(link);
                     card.show();
@@ -320,8 +320,41 @@ function getSavingGist(){
 function createNewSavingFile(response){
     var jsonSave = JSON.parse(response.files["save.json"].content);
     var jsonAutosave = JSON.parse(response.files["autosave.json"].content);
-
+    var savingGist = idtoDelete;
+    jsonAutosave = _.omit(jsonAutosave, savingGist);
+    jsonSave = _.omit(jsonSave, savingGist);
+    var files = {
+            "description": "BONELIST",
+            "public": true,
+            "files": {
+                "autosave.json": {
+                    "content": JSON.stringify(jsonAutosave)
+                },
+                "save.json": {
+                    "content": JSON.stringify(jsonSave)
+                }
+            }
+        };
+    var savingGist = $.cookie('gistSaveId');   
+    var gisturl = "https://api.github.com/gists/" + savingGist;
+    var gistupdate = {
+           type: "PATCH",
+           url: gisturl,
+           data: JSON.stringify(files), //JSON.stringify(Jfile),
+           success: updategistSaving,
+           dataType: "json"
+       };
+    
+        var token = $.cookie('githubToken');
+        gistupdate.headers = {
+            "Authorization": 'token ' + token
+        };   
+        console.log('request: ' + JSON.stringify(gistupdate));
+        $.ajax(gistupdate).fail(gistfail);
 }
 
+function updategistSaving(response){
+    init();
+}
 
 

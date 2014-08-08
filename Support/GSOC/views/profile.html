@@ -15,33 +15,16 @@ and open the template in the editor.
         <link rel="icon" href="../../../favicon.ico" type="image/x-icon">
         <link rel="shortcut icon" href="../../../favicon.ico" type="image/x-icon">
 
-        <!-- Bootstrap core CSS -->
-
-        <!-- Bootstrap theme -->
-
-
-        <!-- Custom styles for this template
-        <link href="../css/bootstrap.min.css" rel="stylesheet"> 
-                <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" />
-        -->
-
-        <!-- include jquery 
-        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
-        -->
         <script src="//code.jquery.com/jquery-1.9.1.min.js"></script> 
         <script src="../js/jquery-ui.js"></script>
         <link href="../css/bootstrap.min.css" rel="stylesheet"> 
         
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.1/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
-        <!-- include libs stylesheets -->
+        <script src="../js/lodash.min.js"></script>
        
         
         <link href="../css/theme.css" rel="stylesheet">
-         
-        
-      
-
         <script src="../js/jquery.cookie.js"></script>
         <script src="../js/oauth.js"></script>
         <script src="../js/githubOauth.js"></script>
@@ -290,7 +273,8 @@ and open the template in the editor.
             
             $(document).on('click','.boxclose',function(event){
                 var parent = $(this).parent().attr("id");
-                alert(parent);
+                idtoDelete=parent;
+                getSavingGist();
             });
             
             $(document).on('click','#ulpublish > li > a',function(event){
