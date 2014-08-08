@@ -1,4 +1,7 @@
-bonescriptStaticPath = typeof bonescriptStaticPath == 'undefined' ? '/static/' : bonescriptStaticPath;
+---
+layout: bare
+---
+bonescriptStaticPath = typeof bonescriptStaticPath == 'undefined' ? '{{site.baseurl}}/static/' : bonescriptStaticPath;
 
 var cssUrls = [
     'jquery.terminal.css',         // http://terminal.jcubic.pl/js/jquery.terminal.css
