@@ -109,7 +109,7 @@ function init() {
                     if(cardNames[i].indexOf(".js") > 0){
                         var editorS="editor"+i;
                         var editorB="button"+i;
-                        list[i].innerHTML='<div class="bonecard"><button type="button" id=' + editorB + ' class="btn btn-primary">Run</button><div class="editor" id='+editorS+'></div></div>';
+                        list[i].innerHTML='<div class="bonecard"><button type="button" id=' + editorB + ' class="btn btn-primary">Connect</button><div class="editor" id='+editorS+'></div></div>';
                         var editor = ace.edit(editorS);
                         editor.setTheme("ace/theme/monokai");
                         editor.getSession().setMode("ace/mode/javascript");
@@ -168,7 +168,7 @@ function init() {
             $('.bonecard').click(function() {
                 // TODO: This isn't the right way to zoom, just a placeholder
                 // URL needs to be replaced
-                $(this).toggleClass('bonecard-zoomed');
+                //$(this).toggleClass('bonecard-zoomed');
             });
            
         }

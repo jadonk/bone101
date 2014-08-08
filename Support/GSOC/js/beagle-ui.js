@@ -28,8 +28,15 @@ function testConectivity(){
             'beaglebone.local',
             'beaglebone-2.local'
         ];
-        $('#connect-status').replaceWith(statusDisconnected);
-
+        if(conennectStatus==false){
+            $('#connect-status').replaceWith(statusDisconnected);
+        }
+        else{
+            $('#connect-status').replaceWith(statusConnected);
+            updateBoardInfo();
+            if(typeof onbonescriptinit == 'function') onbonescriptinit();
+            connectState = 'connected';
+        }
 	// note, due to a bug in Firefox, the call is moved below
 
         function testForConnection() {
@@ -70,7 +77,7 @@ function testConectivity(){
             function initialized() {
                 console.log('Bonescript: initialized');
                 $('#connect-status').replaceWith(statusConnected);
-				conennectStatus=true;
+		conennectStatus=true;
                 updateBoardInfo();
                 if(typeof onbonescriptinit == 'function') onbonescriptinit();
                 connectState = 'connected';
