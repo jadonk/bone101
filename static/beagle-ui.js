@@ -1,4 +1,7 @@
-serverBasePath = typeof serverBasePath == 'undefined' ? '/' : serverBasePath;
+---
+layout: bare
+---
+serverBasePath = typeof serverBasePath == 'undefined' ? '{{site.baseurl}}/' : serverBasePath;
 var name = "#floatMenu";  
 var menuYloc = null;  
   
