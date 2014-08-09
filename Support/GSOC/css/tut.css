@@ -10,21 +10,6 @@ and open the template in the editor.
 /*** Style Definitions ***/
 
 /*** Header ***/
-h1#logo				{ background:url(../images/Logo.png) top left no-repeat; height:62px; width:481px;
-						text-indent:-9999px; position:absolute; top:10px; left:10px; }
-
-#menu				{ float:right; position:absolute; top:20px; right:10px; z-index:10; }
-
-#menu a				{ background:#FFF; color:#67b2ff; border:#AAA 3px solid;  text-decoration:none; padding:10px;
-						margin-right:10px; border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px;}
-
-#menu a:hover		{ background:#67b2ff; color:#FFF; border:#FFF 3px solid; text-decoration:none; padding:10px;
-						margin-right:10px; border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px;}
-
-#menu a.selected	{ background:#AAA; color:#FFF; border:#67b2ff 3px solid; text-decoration:none; padding:10px;
-						margin-right:10px; border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px;}
-
-#menu li			{ float:left; }
 
 /*** Body Content ***/
 #wrapper	{ width:100%; height:100%; position:absolute; top:0; left:0; overflow:hidden; }
@@ -72,6 +57,7 @@ div.bonecard {
                 position: absolute;
                 float: center;
                 -webkit-transition: color 0.5s ease;
+                box-sizing:content-box;
             }
 
             div.bonecard:after, div.bonecard:before {
@@ -83,6 +69,7 @@ div.bonecard {
                 border-right: 2px solid white;
                 width: 6px;
                 left: -10px;
+                box-sizing:content-box;
             }
 
             div.bonecard:before {
@@ -98,4 +85,132 @@ div.bonecard {
   position: fixed;
   bottom: 0;
   left: 0;
+}
+
+  .social{
+            width:200px;
+            float:right;
+            padding-top:15px;
+        }
+        
+        body{
+            margin-top: 50px;
+        }
+        
+        p{
+           margin-top: 0%;
+        }
+
+        .divide-nav{
+            height: 50px;
+            position: relative;
+            z-index: 999;
+        }
+
+        .divide-text{
+            color:#fff;
+            line-height: 20px;
+            font-size:20px;
+            padding: 15px 0;
+        }
+
+        .affix {
+          top: 50px;
+          width:100%;
+        }
+
+        .filler{
+          min-height: 2000px;
+        }
+
+        .navbar-form {
+           padding-left: 0;
+        }
+
+        .navbar-collapse{
+           padding-left:0; 
+        }
+        
+        .navbar-left {
+            float: left!important;
+            margin-left: 40%;
+        }
+      
+       
+pre {
+    white-space: pre-wrap;
+    background: #a8e
+}
+
+
+ .editor {
+            height: 470px;
+            }
+.ribbon {
+  background-color: #F38419;
+  overflow: hidden;
+  white-space: nowrap;
+  position: absolute;
+  left: -50px;
+  top: 20px;
+  z-index: 9999;
+  -webkit-transform: rotate(-45deg);
+     -moz-transform: rotate(-45deg);
+      -ms-transform: rotate(-45deg);
+       -o-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+.ribbon a {
+  border: 1px solid #faa;
+  color: #fff;
+  display: block;
+  font: bold 81.25% 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin: 1px 0;
+  padding: 10px 50px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 0 5px #444;
+}
+
+.ribbonFork {
+  background-color: #F38419;
+  overflow: hidden;
+  white-space: nowrap;
+  position: absolute;
+  left: 88%;
+  top: 40px;
+  z-index: 9999;
+  -webkit-transform: rotate(45deg);
+     -moz-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+       -o-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+.ribbonFork a {
+  border: 1px solid #faa;
+  color: #fff;
+  display: block;
+  font: bold 81.25% 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin: 1px 0;
+  padding: 10px 50px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 0 5px #444;
+}
+
+browser-connect {
+width: 600px;
+padding: 10px;
+border-radius: 5px 5px 5px 5px;
+-moz-border-radius: 5px 5px 5px 5px;
+-webkit-border-radius: 5px 5px 5px 5px;
+color: #fff;
+background: #de7224;
+border: 1px solid #803709;
+}
+
+#browser-content {
+padding-top: 8px;
+float: right;
+width: 500px;
 }
