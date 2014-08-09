@@ -207,10 +207,11 @@ function _onSocketIOLoaded_workaround() {
             }
         }
 
-	// Work-around to add shell command
-	_bonescript.modules[m.module]["shell"] = function(command) {
-	    socket.emit('shell', command);
-	}
+        // Work-around to add shell command
+        _bonescript.modules[m.module]["socket"] = socket;
+        _bonescript.modules[m.module]["shell"] = function(command) {
+            socket.emit('shell', command);
+        }
         
 	// Call-back initialized function
 	_bonescript.on.initialized();
