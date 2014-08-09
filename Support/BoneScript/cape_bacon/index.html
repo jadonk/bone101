@@ -1,82 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
- <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>BeagleBoard.org - cape_bacon</title>
-  <meta name="keywords" content="Beagle Board, BeagleBoard, beagleboard.org, BeagleBone, BeagleBoard-xM, bealgeboard, open hardware, open source, Linux, computer" />
-  <link href="http://feeds.feedburner.com/BeagleBoard" rel="alternate" title="Beagle Board news feed" type="application/atom+xml" />
-  <link rel="icon" href="/static/beagle.ico" type="image/x-icon" />
-  <link rel="shortcut icon" href="/static/beagle.ico" type="image/x-icon" />
-  <link rel="publisher" href="https://plus.google.com/109587204186717390991" />
-  <style type="text/css" media="screen">@import "/static/common.css";</style>
-  <style type="text/css" media="screen">@import "/static/login.css";</style>
-  <style type="text/css" media="screen">@import "/static/beagle.css";</style>
-  <script type="text/javascript" src="/static/jquery.js"></script>
-  <script type="text/javascript" src="/static/jquery.ui.core.js"></script>
-  <script type="text/javascript" src="/static/jquery.ui.widget.js"></script>
-  <!--
-  <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
-   {"parsetags": "explicit"}
-  </script>
-  -->
-  <script type="text/javascript">
-  (function() {
-    var po = document.createElement("script"); po.type = "text/javascript"; po.async = true;
-    po.src = "https://apis.google.com/js/plusone.js?publisherid=109587204186717390991";
-    var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(po, s);
-  })();
-  </script>
-  <script language="javascript" src="/static/jquery.js"></script>  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-3429714-1']);
-    _gaq.push(['_setDomainName', 'beagleboard.org']);
-    _gaq.push(['_trackPageview']);
+---
+layout: index
+title: cape_bacon
+scripts: [ '/static/bonescript-demo.js', '/static/jquery-ui.min.js' ]
+---
+{{ include side_menu.html title="BoneScript" }}
 
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
- 
- </head>
- <body>
- <div class="top">
-  <div class="top-header"><a href="/"><img src="/static/images/beagle_logo_hdr.gif" alt="Beagle Board - beagleboard.org" border="0" width="326" height="60" /></a>
-  
-  <div class="social">
-    <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src=  "/static/images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
-    <span style="padding-left:8px"><a href="http://twitter.com/beagleboardorg" name="header_twitter_icon"><img src="/static/images/icon_twitter.png" width="27" height="28" border="0" alt="twitter"/></a></span>
-    <span style="padding-left:8px"><a href="https://www.youtube.com/user/jadonk"><img src="/static/images/youTube-icon.png" width="27" height="28" border="0" alt="YouTube" /></a></span>
-    <span style="padding-left:8px"><a href="http://plus.google.com/+beagleboard" name="header_google+_icon"><img src="/static/images/icon_google+.png" width="27" height="28" border="0" alt="google+"/></a></span>
-  </div> 
-</div>
-   </div>
-  <a name="top" id="top"></a>
-  <!-- DIV that centers page - START -->
-  <div id="wrapper">
-  <!--start menu bar-->
-  <div id='cssmenu'>
-  </div>
-  <!--end menu bar-->
-
-   <!-- Content Area - START -->
-    <div id="content">
-     <div id="contentbuffer">
-     <div id="page">
-      <script src="/static/bonescript-demo.js"></script>
-      <script src="/static/jquery-ui.min.js"></script>
-      <h2>BoneScript</h2>
-      <div id='side-menu' class="t3_sidebar">
-       <ul class="left-menu">
-        <strong>Navigation</strong>
-        <li><a href="/Support/BoneScript/menu/">Menu contents</a></li>
-       </ul>
-      </div>
-      <div class="t3_content_1">
-       <div id='connect-status'></div>
-       <div id="content_child">
+<div class="t3_content_1">
+<div id='connect-status'></div>
+<div id="content_child">
 
 <h1>Bacon Cape</h1>
 <p>The Bacon Cape is an add-on board meant to give you access to some
@@ -130,7 +61,7 @@
   </ul>
  </li>
  <li><em>U1</em>: shift register feeding a 7 segment display
-  <img src="/static/images/cape-bacon-seg7.png" align="right" />
+  <img src="{{site.baseurl}}/static/images/cape-bacon-seg7.png" align="right" />
   <ul>
    <li><em>P9_22</em>: CLOCK</li>
    <li><em>P9_17</em>: LATCH</li>
@@ -322,73 +253,20 @@ function restore() {
 </ul>
 <h3>Topics</h3>
 <ul>
- <li><a href="/Support/bone101/#headers">BeagleBone expansion headers</a></li>
- <li><a href="/Support/BoneScript/#analogio">Analog I/O</a></li>
+ <li><a href="{{site.baseurl}}/Support/bone101/#headers">BeagleBone expansion headers</a></li>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/#analogio">Analog I/O</a></li>
 </ul>
 <h3>Related functions</h3>
 <ul>
- <li><a href="/Support/BoneScript/#require">require</a></li>
- <li><a href="/Support/BoneScript/pinMode/">pinMode</a></li>
- <li><a href="/Support/BoneScript/analogWrite/">analogWrite</a></li>
- <li><a href="/Support/BoneScript/analogRead/">analogRead</a></li>
- <li><a href="/Support/BoneScript/digitalWrite/">digitalWrite</a></li>
- <li><a href="/Support/BoneScript/digitalRead/">digitalRead</a></li>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/#require">require</a></li>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/pinMode/">pinMode</a></li>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/analogWrite/">analogWrite</a></li>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/analogRead/">analogRead</a></li>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/digitalWrite/">digitalWrite</a></li>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/digitalRead/">digitalRead</a></li>
 </ul>
+
 </div></div>
 <div style="clear:both;"></div>
-</div>
-<div id="list">
-
-</div>
 <br/>
 <div id="createtime">Last updated by jkridner on Mon Aug 19 2013 11:54:35 GMT-0500 (CDT).</div>
-
-</div>
-   <!-- Content Area - END -->
-
-  <!-- Footer - START -->
-  
-  <!--start footer-->       
-<div class="footer">
-<div class="social">
-     <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src=  "/static/images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
-    <span style="padding-left:8px"><a href="http://twitter.com/beagleboardorg" name="header_twitter_icon"><img src="/static/images/icon_twitter.png" width="27" height="28" border="0" alt="twitter"/></a></span>
-	    <span style="padding-left:8px"><a href="https://www.youtube.com/user/jadonk"><img src="/static/images/youTube-icon.png" width="27" height="28" border="0" alt="YouTube" /></a></span>
-    <span style="padding-left:8px"><a href="http://plus.google.com/+beagleboard" name="header_google+_icon"><img src="/static/images/icon_google+.png" width="27" height="28" border="0" alt="google+"/></a></span>
-  </div> 
-<div id="login">
-<div class="login"> <div id="prompt_form"> | </div> <a href="/register">Register</a>
-</div><br /><!--registrant=-->
-</div>
-
-<div id="footer-col1">
-<ul>
-<li><a href="/Products">Products</a></li>
-<li><a href="/Getting Started">Getting Started</a></li>
-<li><a href="/support">Support</a></li>
-
-</ul>
-</div>
-<div id="footer-col2">
-<ul>
-<li><a href="/Community">Community</a></li>
-<li><a href="/project">Projects</a></li>
-<li><a href="/Videos">Videos</a></li>
-</ul>
-</div>
-<div id="footer-col3">
-<ul>
-<li><a href="/about">About Us</a></li>
-<li><a href="/privacy">Privacy policy</a></li>
-<li><a href="/terms">Terms of Use</a></li>
-</ul>
-</div>
-<div id="cc"><a href="http://creativecommons.org/about/license/" target="_blank"><img src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" alt="Creative Commons - Conditions - Attribution and Share Alike" border="0" width="88" height="31" /></a><span style="padding-left:8px">Except where otherwise noted, content on this site is licensed under a Creative Commons Attribution-Share Alike 3.0 license </span></div>
-
-</div>
-  <!-- Footer - END -->
-  </div>
-  <!-- DIV that centers page - END -->
- <div id="fb-root"></div>
- </body>
-</html>
