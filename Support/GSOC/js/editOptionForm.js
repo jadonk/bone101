@@ -888,7 +888,21 @@ function gistForkRequest(response){
 function onsuccessForkGist(response){
     console.log('onsuccessForkGist: ' + JSON.stringify(response));
     path = "tutorial.html?gistid=" + forkID.value;
-    $(location).attr('href', path);
+    var $modal = $('.js-loading-bar'),
+    $bar = $modal.find('.progress-bar');
+  
+    $modal.modal('show');
+    $bar.addClass('animate');
+    setTimeout(function() {
+        $bar.removeClass('animate');
+        $modal.modal('hide');
+    }, 1500);
+    setTimeout(function(){
+       // $(location).attr('href', path)
+       alert("BONE101 Tutorial -- Currently this tutorial is being fork. Please wait some seconds (20-45) for editing it.")
+       window.location.replace(path);
+    },1000)
+    //$(location).attr('href', path);
     
 }
 
