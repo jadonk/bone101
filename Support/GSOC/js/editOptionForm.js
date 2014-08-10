@@ -598,8 +598,9 @@ function deleteRecordByFileName (myArr, fileName,size) {
             break;
         }   
     }
+    if(index !== null){
     var newArr={};
-    for (var i =0; i < size-1; i++) {
+    for (var i =0; i < size; i++) {
         if(index !== i){
             newArr[a]=myArr[i];
             a++;
@@ -607,6 +608,10 @@ function deleteRecordByFileName (myArr, fileName,size) {
     }
     
     return newArr;
+    }
+    else{
+        return myArr
+    }
 };
 
 function gistAutoSaveCreate(response){
@@ -620,12 +625,16 @@ function gistAutoSaveCreate(response){
     var availableAuto = _.find(autoJ, { 'id': tutorial });
     if(availableSave == undefined ){
         var size=0;
+        var sizej=0;
         $.each(newC,function(index,value){
             size=size+1;
         });
+        $.each(autoJ,function(index,value){
+            sizej=sizej+1;
+        });
         newC[size]={"id": tutorial};
         newC = JSON.stringify(newC);
-        autoJ=deleteRecordByFileName(autoJ,tutorial,size);
+        autoJ=deleteRecordByFileName(autoJ,tutorial,sizej);
         autoJ = JSON.stringify(autoJ);
         files = {
             "description": "BONELIST",
@@ -669,14 +678,7 @@ function onsuccessUpdateGist(response){
 
 function onsuccessCreateGist(response){
     console.log('success: ' + JSON.stringify(response));
-    $bar = $modal.find('.progress-bar');
-  
-    $modal.modal('show');
-    $bar.addClass('animate');
-    setTimeout(function() {
-        $bar.removeClass('animate');
-        $modal.modal('hide');
-    }, 1500);
+    
     var tutorialId = $.cookie('gistidEdit');
     $.removeCookie('gistidEdit', {path: '/'});
     var path1 = "tutorial.html?gistid=" + tutorialId;

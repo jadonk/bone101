@@ -578,8 +578,9 @@ function deleteRecordByFileName (myArr, fileName,size) {
             break;
         }   
     }
+    if(index !== null){
     var newArr={};
-    for (var i =0; i < size-1; i++) {
+    for (var i =0; i < size; i++) {
         if(index !== i){
             newArr[a]=myArr[i];
             a++;
@@ -587,6 +588,10 @@ function deleteRecordByFileName (myArr, fileName,size) {
     }
     
     return newArr;
+    }
+    else{
+        return myArr
+    }
 };
 
 function gistAutoSaveCreate(response){
@@ -598,14 +603,21 @@ function gistAutoSaveCreate(response){
     var autoJ=JSON.parse(response.files["autosave.json"].content);
     var available = _.find(newC, { 'id': tutorial });
     if(available == undefined){
-        var size=newC.length;
-        newC[size]={"id": tutorial};
-        newC = JSON.stringify(newC);
+        
         var size=0;
-        $.each(autoJ,function(index,value){
+        var sizej=0;
+        $.each(newC,function(index,value){
             size=size+1;
         });
-        autoJ=deleteRecordByFileName(autoJ,tutorial,size);
+        
+        $.each(autoJ,function(index,value){
+            sizej=sizej+1;
+        });
+        
+        newC[size]={"id": tutorial};
+        newC = JSON.stringify(newC);
+        
+        autoJ=deleteRecordByFileName(autoJ,tutorial,sizej);
         autoJ = JSON.stringify(autoJ);
         files = {
             "description": "BONELIST",
@@ -643,14 +655,7 @@ function onsuccessUpdateGist(response){
 
 function onsuccessCreateGist(response){
     console.log('success: ' + JSON.stringify(response));
-    $bar = $modal.find('.progress-bar');
-  
-    $modal.modal('show');
-    $bar.addClass('animate');
-    setTimeout(function() {
-        $bar.removeClass('animate');
-        $modal.modal('hide');
-    }, 1500);
+    
     var tutorialId = $.cookie('gistId');
     $.removeCookie('gistId', {path: '/'});
     path = "tutorial.html?gistid=" + tutorialId;
@@ -693,6 +698,10 @@ function onsuccessUpdate(response) {
         url: gisturl,
         success: gistAutoSaveCreate,
         dataType: "json"
+    };
+    var token = $.cookie('githubToken');
+    gistrequest.headers = {
+        "Authorization": 'token ' + token
     };
     console.log('request: ' + JSON.stringify(gistrequest));
     $.ajax(gistrequest).fail(gistfail);
