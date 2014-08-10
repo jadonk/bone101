@@ -58,6 +58,9 @@ and open the template in the editor.
         <script type="text/javascript" src="../js/jquery.contextmenu.r2.js"></script>
         <script src="../js/lodash.min.js"></script>
         <style>
+               .progress-bar.animate {
+   width: 100%;
+}
         .social{
             width:200px;
             float:right;
@@ -368,7 +371,17 @@ and open the template in the editor.
             </div>
         </div>
       
-         
+         <div class="modal js-loading-bar">
+ <div class="modal-dialog">
+   <div class="modal-content">
+     <div class="modal-body">
+       <div class="progress progress-popup">
+        <div class="progress-bar"></div>
+       </div>
+     </div>
+   </div>
+ </div>
+</div>      
         
         <script type="text/javascript">
             var content=[];
@@ -564,7 +577,7 @@ and open the template in the editor.
                         ['color', ['color']],
                         ['para', ['ul', 'ol', 'paragraph']],
                         ['height', ['height']],
-                        ['misc', ['undo','redo','codeview']],
+                        ['misc', ['undo','redo']],
                     ]
                    
                 });

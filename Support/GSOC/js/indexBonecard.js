@@ -17,6 +17,7 @@ function init() {
                 success: gistsuccess,
                 dataType: "json"
             };
+            
             console.log('request: ' + JSON.stringify(gistrequest));
             $.ajax(gistrequest).fail(gistfail);
         }
@@ -40,6 +41,10 @@ function init() {
                         success: gistsuccess,
                         dataType: "json"
                     };
+                    //var token = $.cookie('githubToken');
+                    //gistrequest.headers = {
+                      //  "Authorization": 'token ' + token
+                    //};
                     console.log('request: ' + JSON.stringify(gistrequest));
                     $.ajax(gistrequest).fail(gistfail);
                 }        

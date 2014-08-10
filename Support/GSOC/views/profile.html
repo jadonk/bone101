@@ -29,7 +29,7 @@ and open the template in the editor.
         <script src="../js/oauth.js"></script>
         <script src="../js/githubOauth.js"></script>
         <script src="../js/profileCards.js"></script>
-        
+        <script src="../js/deleteprofile.js"></script>
         <style>
         .social{
             width:200px;
@@ -140,6 +140,7 @@ and open the template in the editor.
             position: relative;
             float: left;
             -webkit-transition: color 0.5s ease;
+            box-sizing:content-box;
          }
 
          div.bonecardSmallP:after, div.bonecardSmallP:before {
@@ -151,6 +152,7 @@ and open the template in the editor.
             border-right: 2px solid white;
             width: 6px;
             left: -10px;
+            box-sizing:content-box;
          }
 
          div.bonecardSmallP:before {
@@ -172,7 +174,7 @@ and open the template in the editor.
              border:2px solid black
          }
          
-         div.boxclose{
+         a.boxclose{
             float:right;
             margin-top:-20px;
             margin-right:-20px;
@@ -283,9 +285,21 @@ and open the template in the editor.
             });
             
             $(document).on('click','.boxclose',function(event){
-                var parent = $(this).parent().attr("id");
-                idtoDelete=parent;
+                var par = $(this).parent().attr("id");
+                idtoDelete=par;
                 getSavingGist();
+            });
+            
+            /*$(document).on('click','.bonecardSmallP',function(event){
+                var par = $(this).attr("id");
+                var link="tutorial.html?gistid=="+par;
+                $(location).attr('href', link);
+            });*/
+            
+            $(document).on('click','.bonecardSmall',function(event){
+                var par = $(this).attr("id");
+                var link="tutorial.html?gistid=="+par;
+                $(location).attr('href', link);
             });
             
             $(document).on('click','#ulpublish > li > a',function(event){
@@ -314,7 +328,6 @@ and open the template in the editor.
             $(document).ready(function() {
                  
                 
-                
                 var token = $.cookie('githubToken');
                 var user = $.cookie('githubUser');
                 if (token != null) {
@@ -326,12 +339,19 @@ and open the template in the editor.
                     $("a#login").attr("href", "#");
                     $("a#create").attr("href", "create.html");
                     $("a#create").append("Create");
-                   
+                    //getpublicProfile()
+
                 }
                 else {
                     var id = getParameterByName("profileId");
-                    var link="publicProfile.html?profileId="+id;
-                    $(location).attr('href', link);
+                    if(id !== undefined || id !=="" ){
+                        var link="publicProfile.html?profileId="+id;
+                        $(location).attr('href', link);
+                    }
+                    else{
+                        var link="index.html";
+                        $(location).attr('href', link);
+                    }
                 }
                 
                 

@@ -6,6 +6,9 @@
 $(document).ready(init);
 var idtoDelete;
 function init() {
+    var idsave =$.cookie('gistSaveId');
+    var param= getParameterByName("profileId");
+    if (idsave === param){
     $(".bonecard-listDraft").each(function(index) {
         var list = $(this);
         var savingGist = $.cookie('gistSaveId');
@@ -105,10 +108,10 @@ function init() {
                 function gistsuccess(response) {
                     console.log('success: ' + JSON.stringify(response));
                     console.log('Response id: '+ response.id);
-                    link='<a href="tutorial.html?gistid='+response.id+'">';
-                    newDiv='<div class="bonecardSmall" id="'+response.id+'"><div class="boxclose" id="boxclose"></div>'+ response.files["CARD_Preview.html"].content +'</div></a>';
+                    link='<a href="tutorial.html?gistid='+response.id+'"></a>';
+                    var newDiv='<div class="bonecardSmall" id="'+response.id+'"><a class="boxclose" id="boxclose"></a>'+ response.files["CARD_Preview.html"].content +'</div></a>';
                     link=link+newDiv;
-                    card.replaceWith(link);
+                    card.replaceWith(newDiv);
                     card.show();
                 }
             });
@@ -213,13 +216,13 @@ function init() {
                 }        
 
                 function gistsuccess(response) {
-                    link="",newDiv="";
+                    var link="";newDiv="";
                     console.log('success: ' + JSON.stringify(response));
                     console.log('Response id: '+ response.id);
                     link='<a href="tutorial.html?gistid='+response.id+'">';
-                    newDiv='<div class="bonecardSmallP" id="'+response.id+'"><div class="boxclose" id="boxclose"></div>'+ response.files["CARD_Preview.html"].content +'</div></a>';
+                    newDiv='<div class="bonecardSmallP" id="'+response.id+'"><a class="boxclose" id="boxclose"></a>'+'<a href="'+ 'tutorial.html?gistid='+response.id+'">'+response.files["CARD_Preview.html"].content +'</div></a>';
                     link=link+newDiv;
-                    card.replaceWith(link);
+                    card.replaceWith(newDiv);
                     card.show();
                 }
             });
@@ -265,8 +268,6 @@ function init() {
         
     }
     
-    
-    
     function createPaginationDr(names){
         var uiPaging=document.createElement("ul");
         uiPaging.id="uldraft";
@@ -303,254 +304,21 @@ function init() {
         return centerdiv;
         
     }
-}
-
-function getSavingGist(){
-    var savingGist = $.cookie('gistSaveId');
-    if(savingGist) {
-        var gisturl = "https://api.github.com/gists/" + savingGist;
-        var gistrequest = {
-            type: "GET",
-            url: gisturl,
-            success: createNewSavingFile,
-            dataType: "json"
-        };
-        var token = $.cookie('githubToken');
-        gistrequest.headers = {
-            "Authorization": 'token ' + token
-        };
-        console.log('request: ' + JSON.stringify(gistrequest));
-        $.ajax(gistrequest).fail(gistfail);
-    }
-}
-
-function createNewSavingFile(response){
-    var jsonSave = JSON.parse(response.files["save.json"].content);
-    var jsonAutosave = JSON.parse(response.files["autosave.json"].content);
-    var sizeSave=0;
-    $.each(jsonSave,function(index,value){
-        sizeSave=sizeSave+1;
-    });
     
-    var sizeAuto=0;
-    $.each(jsonAutosave,function(index,value){
-        sizeAuto=sizeAuto+1;
-    });
-    var savingGist = idtoDelete;
-    jsonAutosave = deleteRecordByFileName(jsonAutosave, savingGist,sizeAuto);
-    jsonSave = deleteRecordByFileName(jsonSave, savingGist,sizeSave);
-    var files = {
-            "description": "BONELIST",
-            "public": true,
-            "files": {
-                "autosave.json": {
-                    "content": JSON.stringify(jsonAutosave)
-                },
-                "save.json": {
-                    "content": JSON.stringify(jsonSave)
-                }
-            }
-        };
-    var savingGist = $.cookie('gistSaveId');   
-    var gisturl = "https://api.github.com/gists/" + savingGist;
-    var gistupdate = {
-           type: "PATCH",
-           url: gisturl,
-           data: JSON.stringify(files), //JSON.stringify(Jfile),
-           success: updategistSaving,
-           dataType: "json"
-       };
-    
-        var token = $.cookie('githubToken');
-        gistupdate.headers = {
-            "Authorization": 'token ' + token
-        };   
-        console.log('request: ' + JSON.stringify(gistupdate));
-        $.ajax(gistupdate).fail(gistfail);
-}
-
-function updategistSaving(response){
-    var id = $.cookie("gistSaveId");
-    var link="profile.html?profileId="+id;
-    $(location).attr('href', link);
-    
-}
-
-function deleteRecordByFileName (myArr, fileName,size) {
-    var index = null;
-    var a=0;
-    for (var i =0; i < size; i++) {
-        if (myArr[i].id === fileName) {
-            index = i;
-            break;
-        }   
-    }
-    var newArr={};
-    for (var i =0; i < size-1; i++) {
-        if(index !== i){
-            newArr[a]=myArr[i];
-            a++;
-        }   
-    }
-    
-    return newArr;
-};
-
-function getParameterByName(name) {
+    function getParameterByName(name) {
         name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
         var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
         results = regex.exec(location.search);
         return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-}
-
-
-function getpublicProfile() {
-    $(".bonecard-listPublish").each(function(index) {
-        var list1 = $(this);
-        var gistid = getParameterByName("profileId");
-        if(gistid) {
-            var gisturl = "https://api.github.com/gists/" + gistid;
-            var gistrequest = {
-                type: "GET",
-                url: gisturl,
-                success: gistsuccess,
-                dataType: "json"
-            };
-            var token = $.cookie('githubToken');
-            //gistrequest.headers = {
-              //  "Authorization": 'token ' + token
-            //};
-            console.log('request: ' + JSON.stringify(gistrequest));
-            $.ajax(gistrequest).fail(gistfail);
-        }
-
-        function gistfail(response) {
-            console.log('fail: ' + JSON.stringify(response));
-        }
-        
-        function createPaginationPublic(names){
-        var uiPaging=document.createElement("ul");
-        uiPaging.className="pagination pagination-sm";
-        uiPaging.id="ulpublish";
-        var liPaging=document.createElement("li");
-        var aPaging=document.createElement("a");
-        aPaging.innerHTML="&laquo;";
-        aPaging.href="#"+names[0];
-        liPaging.appendChild(aPaging);
-        uiPaging.appendChild(liPaging);
-        
-        for(i=0;i<names.length;i++){
-            var liPaging=document.createElement("li");
-            if(i==0){
-                liPaging.className="active";
-            }
-            var aPaging=document.createElement("a");
-            aPaging.innerHTML=i+1;
-            aPaging.href="#"+names[i];
-            liPaging.appendChild(aPaging);
-            uiPaging.appendChild(liPaging);
-        }
-        var liPaging=document.createElement("li");
-        var aPaging=document.createElement("a");
-        aPaging.innerHTML="&raquo;";
-        aPaging.href="#"+names[names.length-1];
-        liPaging.appendChild(aPaging);
-        uiPaging.appendChild(liPaging);
-        
-        var centerdiv=document.createElement("div");
-        centerdiv.className="text-center";
-        centerdiv.appendChild(uiPaging);
-        return centerdiv;
-        
+    };
+    
     }
-        
-        function gistsuccess(response) {
-            console.log('success: ' + JSON.stringify(response));
-            var publish = JSON.parse(response.files["save.json"].content);
-            var dpublish = document.getElementById("tab_publish");
-            var publishcontent,publishpaging;
-            var counter = 0, counterName=0;
-            var arrayNames=[];
-            $.each(publish,function(index,value){
-            //publish.forEach(function(index) {
-                if(value.id !== "THISISTHEFIRSTIDYOUWOULDNTUSE") {
-                    if(counter == 0){
-                        publishpaging=document.createElement("div");
-                        var name="pf"+counterName;
-                        publishpaging.id=name;
-                        counterName=counterName+1;
-                        arrayNames.push(name);
-                        counter++;
-                        publishcontent=document.createElement("div");//"<div class='bonecardSmall'></div>";
-                        publishcontent.className = "bonecardSmallP";
-                        publishcontent.id=value.id;
-                        if(arrayNames.length > 1){
-                            //publishcontent.style.display="";
-                            publishpaging.setAttribute("style", "display: none;");
-                        }
-                        publishpaging.appendChild(publishcontent);
-                    }
-                    else if(counter == 5){
-                        counter = 0;
-                        publishcontent=document.createElement("div");//"<div class='bonecardSmall'></div>";
-                        publishcontent.className = "bonecardSmallP";
-                        publishcontent.id=value.id;
-                        publishpaging.appendChild(publishcontent);
-                        dpublish.appendChild(publishpaging);
-                    }
-                    else{
-                        counter++;
-                        publishcontent=document.createElement("div");//"<div class='bonecardSmall'></div>";
-                        publishcontent.className = "bonecardSmallP";
-                        publishcontent.id=value.id;
-                        publishpaging.appendChild(publishcontent);
-                    }   
-                }
-            })
-            if(counter !== 0){
-                dpublish.appendChild(publishpaging);
-            }
-            
-            var ulpagination=createPaginationPublic(arrayNames);
-            dpublish.appendChild(ulpagination);
-            
-            $(".bonecardSmallP").each(function(index) {
-            //draft.forEach(function(index) {
-                console.log('found a bonecard');
-                var card = $(this);
-                var gistid =card.attr("id");
-                if(gistid !== "THISISTHEFIRSTIDYOUWOULDNTUSE") {
-                    var gisturl = "https://api.github.com/gists/" + gistid;
-                    var gistrequest = {
-                        type: "GET",
-                        url: gisturl,
-                        success: gistsuccess,
-                        dataType: "json"
-                    };
-                    //var token = $.cookie('githubToken');
-                    //gistrequest.headers = {
-                      //  "Authorization": 'token ' + token
-                    //};
-                    console.log('request: ' + JSON.stringify(gistrequest));
-                    $.ajax(gistrequest).fail(gistfail);
-                }        
-
-                function gistsuccess(response) {
-                    link="",newDiv="";
-                    console.log('success: ' + JSON.stringify(response));
-                    console.log('Response id: '+ response.id);
-                    link='<a href="tutorial.html?gistid='+response.id+'">';
-                    newDiv='<div class="bonecardSmallP" id="'+response.id+'"><div class="boxclose" id="boxclose"></div>'+ response.files["CARD_Preview.html"].content +'</div></a>';
-                    link=link+newDiv;
-                    card.replaceWith(link);
-                    card.show();
-                }
-            });
-           
-           
-            list1.show();
-            
-        }
-    });
+    else{
+        var link="publicProfile.html?profileId="+param;
+        $(location).attr('href', link);
+    }
+    
     
 }
+
+

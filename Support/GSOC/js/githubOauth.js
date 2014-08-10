@@ -145,7 +145,7 @@ function gistsuccess(response){
 
 function gistfail(response) {
     $.removeCookie('gistId', {path: '/'});
-    alert("Error creating the tutorial");
+    //alert("Error creating the tutorial");
 }
 
 var logout = function(){

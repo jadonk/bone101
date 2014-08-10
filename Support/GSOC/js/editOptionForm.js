@@ -658,8 +658,8 @@ function gistAutoSaveCreate(response){
     else{
         var tutorialId = $.cookie('gistidEdit');
         $.removeCookie('gistidEdit', {path: '/'});
-        path = "tutorial.html?gistid=" + tutorialId;
-        $(location).attr('href', path);
+        var paths = "tutorial.html?gistid=" + tutorialId;
+        $(location).attr('href', paths);
     }
 };
 
@@ -669,10 +669,18 @@ function onsuccessUpdateGist(response){
 
 function onsuccessCreateGist(response){
     console.log('success: ' + JSON.stringify(response));
+    $bar = $modal.find('.progress-bar');
+  
+    $modal.modal('show');
+    $bar.addClass('animate');
+    setTimeout(function() {
+        $bar.removeClass('animate');
+        $modal.modal('hide');
+    }, 1500);
     var tutorialId = $.cookie('gistidEdit');
     $.removeCookie('gistidEdit', {path: '/'});
-    path = "tutorial.html?gistid=" + tutorialId;
-    $(location).attr('href', path);
+    var path1 = "tutorial.html?gistid=" + tutorialId;
+    $(location).attr('href', path1);
 };
 
 
@@ -836,6 +844,10 @@ function forkTutorial(response){
         success: gistForkRequest,
         dataType: "json"
     };
+    var token = $.cookie('githubToken');
+        gistrequest.headers = {
+        "Authorization": 'token ' + token
+    };
     console.log('request: ' + JSON.stringify(gistrequest));
     $.ajax(gistrequest).fail(gistfail);
 }
@@ -887,7 +899,7 @@ function gistForkRequest(response){
 
 function onsuccessForkGist(response){
     console.log('onsuccessForkGist: ' + JSON.stringify(response));
-    path = "tutorial.html?gistid=" + forkID.value;
+    var path2 = "tutorial.html?gistid=" + forkID.value;
     var $modal = $('.js-loading-bar'),
     $bar = $modal.find('.progress-bar');
   
@@ -898,11 +910,12 @@ function onsuccessForkGist(response){
         $modal.modal('hide');
     }, 1500);
     setTimeout(function(){
-       // $(location).attr('href', path)
-       alert("BONE101 Tutorial -- Currently this tutorial is being fork. Please wait some seconds (20-45) for editing it.")
-       window.location.replace(path);
+        
+       alert("BONE101 Tutorial -- Currently this tutorial is being fork. Please wait some seconds (20-45) for editing it");
+      $(location).attr('href', path2)
+        //window.location.replace(path);
     },1000)
-    //$(location).attr('href', path);
+   
     
 }
 
@@ -925,6 +938,10 @@ function checktutorialEdit(){
             success: checkEditTutorial,
             dataType: "json"
         };
+        var token = $.cookie('githubToken');
+        gistrequest.headers = {
+        "Authorization": 'token ' + token
+         };
         console.log('request for checktutorialEdit: ' + JSON.stringify(gistrequest));
         $.ajax(gistrequest).fail(failedit);
     }
@@ -955,6 +972,10 @@ function checkforEdit(){
             success: checkSuccessForEdit,
             dataType: "json"
         };
+        var token = $.cookie('githubToken');
+        gistrequest.headers = {
+        "Authorization": 'token ' + token
+         };
         console.log('request for checkforEdit: ' + JSON.stringify(gistrequest));
         $.ajax(gistrequest).fail(failedit);
     }
