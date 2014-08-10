@@ -392,7 +392,9 @@ and open the template in the editor.
             var flag=false;
             
             $(document).on('click','a#profile',function(event){
-                $(location).attr('href', "profile.html");
+                var id = $.cookie("gistSaveId");
+                var link="profile.html?profileId="+id;
+                $(location).attr('href', link);
             });
     
             $(document).on('click','a#logout',function(event){

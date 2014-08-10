@@ -8,7 +8,7 @@ function testConectivity(){
             '    <div class="browser-connect">' +
             '        <img alt="Not Connected" src="/bone101/static/images/usb.png" border="0">' +
             '        <div id="browser-content"><strong>Did you know?</strong>  This page can interact with your BeagleBone<br />' +
-            'Type in your BeagleBone&#39;s IP address here:<input id="connect-ip"></input>' +
+            'Type in your BeagleBone&#39;s IP address here:<input id="connect-ip"></input>&nbsp;&nbsp;&nbsp;<button type="button"  id="modalConnect" class="btn btn-primary btn-xs">Connect</button>' +
             '        </div>' +
             '    </div>' +
             '</div>';

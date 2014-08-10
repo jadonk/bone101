@@ -28,7 +28,8 @@
     
     <link rel="stylesheet" type="text/css" media="screen" href="../css/tut.css" />
  
-    
+    <script src="../js/oauth.js"></script>
+    <script src="../js/githubOauth.js"></script>
     <script type="text/javascript" src="../js/jquery.scrollTo-1.4.2-min.js"></script>
     <script src="../js/bonecard.js"></script>
     <script src="../js/src/ace.js"></script>
@@ -107,13 +108,16 @@
               
             </ul>   
         </div>
-          <!--
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <!--
+       <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <div id="connect-status">    
+                        
+                    </div>
+                    <div class="modal-body">
+												<div id="connect-status">    
                             <div class="browser-connect">        
                                 <img alt="Not Connected" src="../images/usb.png" border="0">        
                                     <div id="browser-content">
@@ -121,8 +125,6 @@
                                     </div>    
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-body">
                         <textarea id="console-output"></textarea>
                     </div>
                     <div class="modal-footer">
@@ -132,6 +134,7 @@
                 </div>
             </div>
         </div> 
+       
                 -->
         
         <script>
@@ -139,9 +142,10 @@
             var editorid;
             $(document).on('click','.btn',function(event){
                //var customModal = $('<div id="myModal" class="modal fade"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title">Choose your card</h4></div><div class="modal-body"><p>Do you want to choose a code card or a html card?</p></div><div class="modal-footer"><button type="button" id="bt_Html" class="btn btn-primary">Html Card</button><button type="button" id="bt_Code" class="btn btn-primary">Code Card</button></div></div></div></div>');
-               var customModal = $('<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button><div id="connect-status"><div class="browser-connect"><img alt="Not Connected" src="../images/usb.png" border="0"><div id="browser-content"><strong>Did you know?</strong>  This page can interact with your BeagleBone<br>Type in your BeagleBone\'s IP address here:<input id="connect-ip"></div></div></div></div><div class="modal-body"><textarea readonly id="console-output" style="width: 520px; height: 150px;"></textarea></div><div class="modal-footer"><button type="button" id="run" class="btn-primary">Run</button></div></div></div></div>'); 
+               var customModal = $('<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></div><div class="modal-body"><div id="connect-status"><div class="browser-connect"><div id="browser-content"></div></div></div><textarea readonly="" id="console-output" style="width: 529px; height: 150px;"></textarea></div><div class="modal-footer"><button type="button" id="run" class="btn-primary">Run</button></div></div></div></div>'); 
+                
                 $('body').append(customModal);
-                //$(".modal").modal('show');
+                
                 var oldLog = console.log;
                 console.log = mylog;
                 testConectivity();
@@ -161,7 +165,13 @@
                demoRun(code);
                //alert("Hola"); 
             });
-          
+            
+            $(document).on('click','#modalConnect',function(event){
+                var givenAddress = $('#connect-ip').val();
+                setTargetAddress(givenAddress, handlers);
+                serversToTry = [ givenAddress ];
+            });
+            
             $(document).on('hidden.bs.modal', ".modal", function (e) {
               var name = "#" + $(this).find("button.btn-primary").attr("id");
               var s1="script[src='http://192.168.7.2/bonescript.js']";

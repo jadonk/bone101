@@ -490,8 +490,8 @@ var create_JsonSave = function create_JsonSave(list, content, code, preview, ob,
 
 function onsuccess(response) {
     console.log('success: ' + JSON.stringify(response));
-    id = response.id;
-    $.cookie('gistidEdit', id, {expires: 1, path: '/'});
+    //id = response.id;
+    //$.cookie('gistidEdit', id, {expires: 1, path: '/'});
 
 /*
     var gisturl = "https://api.github.com/gists/" + "25aec40876dfb11f8d36";
@@ -589,17 +589,24 @@ function gistAutoSave(response){
     }
 };
 
-function deleteRecordByFileName (myArr, fileName) {
+function deleteRecordByFileName (myArr, fileName,size) {
     var index = null;
-    for (var i =0; i < myArr.length; i++) {
+    var a=0;
+    for (var i =0; i < size; i++) {
         if (myArr[i].id === fileName) {
             index = i;
             break;
-        }
+        }   
     }
-    if (index !== null) {
-        myArr.splice(index, 1);
+    var newArr={};
+    for (var i =0; i < size-1; i++) {
+        if(index !== i){
+            newArr[a]=myArr[i];
+            a++;
+        }   
     }
+    
+    return newArr;
 };
 
 function gistAutoSaveCreate(response){
@@ -612,10 +619,13 @@ function gistAutoSaveCreate(response){
     var availableSave = _.find(newC, { 'id': tutorial });
     var availableAuto = _.find(autoJ, { 'id': tutorial });
     if(availableSave == undefined ){
-        var size=newC.length;
+        var size=0;
+        $.each(newC,function(index,value){
+            size=size+1;
+        });
         newC[size]={"id": tutorial};
         newC = JSON.stringify(newC);
-        deleteRecordByFileName(autoJ,tutorial);
+        autoJ=deleteRecordByFileName(autoJ,tutorial,size);
         autoJ = JSON.stringify(autoJ);
         files = {
             "description": "BONELIST",
@@ -794,7 +804,8 @@ function getParameterByName(name) {
 function checktutorialFork(){
     var saveID = $.cookie('gistSaveId');
     if(saveID == undefined){
-        alert("You need to login for forking this tutorial");
+        //alert("You need to login for forking this tutorial");
+        startTutorial();
     }
     var gistid = getParameterByName('gistid');
     if(gistid){
@@ -837,7 +848,11 @@ function gistForkRequest(response){
     var newC=JSON.parse(response.files["autosave.json"].content);
     //var available = _.find(newC, { 'id': tutorial });
     //if(available == undefined){
-        var size=newC.length;
+        var size=0;
+        $.each(newC,function(index,value){
+            size=size+1;
+        });
+       
         newC[size]={"id": forkID.value};
         newC = JSON.stringify(newC);
         files = {
@@ -872,7 +887,7 @@ function gistForkRequest(response){
 
 function onsuccessForkGist(response){
     console.log('onsuccessForkGist: ' + JSON.stringify(response));
-    path = "edit.html?gistid=" + forkID.value;
+    path = "tutorial.html?gistid=" + forkID.value;
     $(location).attr('href', path);
     
 }
@@ -884,7 +899,8 @@ function forkFail(response){
 function checktutorialEdit(){
     var saveID = $.cookie('gistSaveId');
     if(saveID == undefined){
-        alert("You need to login for editing this tutorial");
+        //alert("You need to login for editing this tutorial");
+        startTutorial();
     }
     var gistid = getParameterByName('gistid');
     if(gistid){

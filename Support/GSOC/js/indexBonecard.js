@@ -146,9 +146,7 @@ function init() {
         centerdiv.appendChild(uiPaging);
         return centerdiv;
         
-    }
-    
-    
+    } 
 }
 
 

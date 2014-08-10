@@ -32,18 +32,55 @@ var start = function(){
                 $("a#login").attr("href", "#");*/
                 
                 if($.cookie('githubToken')!=null){
-            var gisturl = "https://api.github.com/gists";
-            var gistrequest = {
-                type: "GET",
-                url: gisturl,
-                success: gistsuccess
-            };
-            var token = $.cookie('githubToken');
-            gistrequest.headers = {
-                "Authorization": 'token ' + token
-            };
-            console.log('request: ' + JSON.stringify(gistrequest));
-            $.ajax(gistrequest).fail(gistfail);
+                var username=me.alias;    
+                var gisturl = "https://api.github.com/users/"+username+"/gists";
+                var gistrequest = {
+                    type: "GET",
+                    url: gisturl,
+                    success: gistsuccess
+                };
+                var token = $.cookie('githubToken');
+                gistrequest.headers = {
+                    "Authorization": 'token ' + token
+                };
+                console.log('request: ' + JSON.stringify(gistrequest));
+                $.ajax(gistrequest).fail(gistfail);
+        }
+                
+            })
+        });
+        
+        
+    //};
+};
+
+var startTutorial = function(){
+  
+    //var login = function login(){ 
+        OAuth.popup('github', function(err, result) {
+            console.log(err);
+            auth = result;
+            token= auth.access_token;
+            $.cookie('githubToken', token,{ expires: 1, path: '/' });
+            auth.me().done(function(me) {
+                user=me.name;
+                $.cookie('githubUser', user,{ expires: 1, path: '/' });
+                
+                
+                if($.cookie('githubToken')!=null){
+                var username=me.alias;    
+                var gisturl = "https://api.github.com/users/"+username+"/gists/per_page=100&page=1";;
+                var gistrequest = {
+                    type: "GET",
+                    url: gisturl,
+                    success: gistsuccess
+                };
+                var token = $.cookie('githubToken');
+                gistrequest.headers = {
+                    "Authorization": 'token ' + token
+                };
+                console.log('request: ' + JSON.stringify(gistrequest));
+                $.ajax(gistrequest).fail(gistfail);
         }
                 
             })

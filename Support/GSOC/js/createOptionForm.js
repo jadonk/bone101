@@ -561,17 +561,24 @@ function gistAutoSave(response){
     }
 };
 
-function deleteRecordByFileName (myArr, fileName) {
+function deleteRecordByFileName (myArr, fileName,size) {
     var index = null;
-    for (var i =0; i < myArr.length; i++) {
+    var a=0;
+    for (var i =0; i < size; i++) {
         if (myArr[i].id === fileName) {
             index = i;
             break;
-        }
+        }   
     }
-    if (index !== null) {
-        myArr.splice(index, 1);
+    var newArr={};
+    for (var i =0; i < size-1; i++) {
+        if(index !== i){
+            newArr[a]=myArr[i];
+            a++;
+        }   
     }
+    
+    return newArr;
 };
 
 function gistAutoSaveCreate(response){
@@ -586,7 +593,11 @@ function gistAutoSaveCreate(response){
         var size=newC.length;
         newC[size]={"id": tutorial};
         newC = JSON.stringify(newC);
-        deleteRecordByFileName(autoJ,tutorial);
+        var size=0;
+        $.each(autoJ,function(index,value){
+            size=size+1;
+        });
+        autoJ=deleteRecordByFileName(autoJ,tutorial,size);
         autoJ = JSON.stringify(autoJ);
         files = {
             "description": "BONELIST",

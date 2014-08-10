@@ -46,11 +46,9 @@ and open the template in the editor.
         }
         
         div.bonecard-listPublish {
-            
-        }
-        
-        div.bonecard-listDraft {
-            
+            width: 100%;
+            overflow: hidden;
+            margin-left: 25px;
         }
 
         .well {
@@ -63,62 +61,7 @@ and open the template in the editor.
             -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
             box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
         }
-        
-        div.bonecardSmall {
-            background-color: white;
-            margin: 10px;
-            width: 340px;
-            height: 210px;
-            border: 2px solid black;
-            border-left: 2px solid black;
-            padding: 10px;
-            -webkit-border-radius: 20px;
-            -webkit-border-top-right-radius: 50px;
-            -webkit-border-bottom-right-radius: 50px;
-            -moz-border-radius: 20px;
-            -moz-border-radius-topright: 50px;
-            -moz-border-radius-bottomright: 50px;
-            -webkit-box-sizing: content-box;
-            border-radius: 20px;
-            border-top-right-radius: 50px;
-            border-bottom-right-radius: 50px;
-            position: relative;
-            float: left;
-            -webkit-transition: color 0.5s ease;
-            box-sizing:content-box;
-         }
-
-         div.bonecardSmall:after, div.bonecardSmall:before {
-            background-color: white;
-            position: absolute;
-            display: block;
-            content:"";
-            border: 2px solid black;
-            border-right: 2px solid white;
-            width: 6px;
-            left: -10px;
-            box-sizing:content-box;
-         }
-
-         div.bonecardSmall:before {
-             top: 60px;
-             height: 60px;
-         }
-
-         div.bonecardSmall:after {
-             top: 180px;
-             height: 30px;
-         }
-
-         div.bonecardSmall img {
-             max-width: 45%;
-             -webkit-border-radius: 5px;
-             -moz-border-radius: 5px;
-             border-radius: 5px;
-             margin-left: 50px;
-             border:2px solid black
-         }
-         
+ 
          div.bonecardSmallP {
             background-color: white;
             margin: 10px;
@@ -172,33 +115,6 @@ and open the template in the editor.
              border:2px solid black
          }
          
-         div.boxclose{
-            float:right;
-            margin-top:-20px;
-            margin-right:-20px;
-            cursor:pointer;
-            color: #fff;
-            border: 1px solid #AEAEAE;
-            border-radius: 30px;
-            background: #605F61;
-            font-size: 31px;
-            font-weight: bold;
-            display: inline-block;
-            line-height: 0px;
-            padding: 11px 3px;       
-        }
-
-        .boxclose:before {
-            content: "×";
-        }
-        
-        .text-center {
-            text-align: center;
-            position: fixed;
-            bottom: -20px;
-            width: 100%;
-            margin-left: -20%;
-        }
         
         </style>
         
@@ -241,52 +157,8 @@ and open the template in the editor.
             </div>
         </div>
         
-        <div class="row">
-            
-             <div class="col-md-3 well">
-        
-                <ul class="nav nav-pills nav-stacked example" id="myTab" style="height: 200px; overflow: auto">
-                    <li id="cZero" class="active">
-                        <a href="#tab_publish" data-toggle="pill">Published</a>
-                    </li>
-                    <li id="cOne" >
-                        <a href="#tab_draft" data-toggle="pill">Drafts</a>
-                    </li>
-                </ul>
-            </div>
-             <div class="col-md-9">
-                <div class="tab-content">
-                   <div class="tab-pane bonecard-listPublish active" id="tab_publish">
-                       
-                    </div>    
-                    <div class="tab-pane bonecard-listDraft" id="tab_draft">
-                      
-                    </div>   
-                   
-                    
-                   
-                </div>
-            </div>
-        </div>  
+        <div class="bonecard-listPublish" id="tab_publish"></div>
         <script type="text/javascript">
-            
-            
-            $(document).on('click','a#profile',function(event){
-                var id = $.cookie("gistSaveId");
-                var link="profile.html?profileId="+id;
-                $(location).attr('href', link);
-            });
-    
-            $(document).on('click','a#logout',function(event){
-                logout();
-                $(location).attr('href', "index.html");
-            });
-            
-            $(document).on('click','.boxclose',function(event){
-                var parent = $(this).parent().attr("id");
-                idtoDelete=parent;
-                getSavingGist();
-            });
             
             $(document).on('click','#ulpublish > li > a',function(event){
                 var link= $(this).context.hash;
@@ -298,50 +170,37 @@ and open the template in the editor.
                 linkparent.addClass("active");
                 $(link).show();
             });
-            
-            
-            $(document).on('click','#uldraft > li > a',function(event){
-                var link= $(this).context.hash;
-                var current = $("#uldraft .active");
-                current.removeClass('active');
-                var curDiv =$(current).children().attr("href");
-                $(curDiv).hide();
-                var linkparent = $(this).parent();
-                linkparent.addClass("active");
-                $(link).show();
+           
+            $(document).on('click','a#profile',function(event){
+                var id = $.cookie("gistSaveId");
+                var link="profile.html?profileId="+id;
+                $(location).attr('href', link);
             });
+    
+            $(document).on('click','a#logout',function(event){
+                logout();
+                $(location).attr('href', "index.html");
+            });
+           
+            $('a#login').click(function() {
+                start();
+            }); 
             
             $(document).ready(function() {
-                 
+                getpublicProfile();
                 
-                
-                var token = $.cookie('githubToken');
-                var user = $.cookie('githubUser');
-                if (token != null) {
+            var token=$.cookie('githubToken');
+            var user=$.cookie('githubUser');
+                if(token != null){
                     $('a#user').append(user);
                     $('a#user').append('<span class="caret"></span>');
                     $('ul#dropNameU').append('<li><a id="profile" href="#">Profile</a></li>');
                     $('ul#dropNameU').append('<li><a id="logout" href="#"><i class="icon-login"></i>Logout</a></li>');
-                    $("a#login").empty();
-                    $("a#login").attr("href", "#");
                     $("a#create").attr("href", "create.html");
                     $("a#create").append("Create");
-                   
+                    $("a#login").empty();
+                    $("a#login").attr("href", "#");
                 }
-                else {
-                    var id = getParameterByName("profileId");
-                    var link="publicProfile.html?profileId="+id;
-                    $(location).attr('href', link);
-                }
-                
-                
-                
-                $("#myTab").on("click", "a", function(e){
-                    e.preventDefault();
-                    
-                   
-                });
-  
             });
         </script>
        
