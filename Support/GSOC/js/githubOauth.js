@@ -28,8 +28,9 @@ var start = function(){
                 $("a#login").attr("href", "#");
              
                 if($.cookie('githubToken')!=null){
-                var username=me.alias;    
-                var gisturl = "https://api.github.com/users/"+username+"/gists";
+                var username=me.alias;
+                $.cookie('githubUserName', username,{ expires: 1, path: '/' });
+                var gisturl = "https://api.github.com/users/"+username+"/gists?per_page=100&page=1";
                 var gistrequest = {
                     type: "GET",
                     url: gisturl,
@@ -64,8 +65,9 @@ var startTutorial = function(){
                 
                 
                 if($.cookie('githubToken')!=null){
-                var username=me.alias;    
-                var gisturl = "https://api.github.com/users/"+username+"/gists/per_page=100&page=1";;
+                var username=me.alias;  
+                $.cookie('githubUserName', username,{ expires: 1, path: '/' });
+                var gisturl = "https://api.github.com/users/"+username+"/gists?per_page=100&page=1";
                 var gistrequest = {
                     type: "GET",
                     url: gisturl,
@@ -148,6 +150,7 @@ var logout = function(){
      $.removeCookie('githubUser', { path: '/' });
      $.removeCookie('githubToken',{  path: '/' });
      $.removeCookie('gistSaveId',{  path: '/' });
+     $.removeCookie('githubUserName',{  path: '/' });
 }
 
 var createLogin = function(){

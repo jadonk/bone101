@@ -3,9 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-$(document).ready(init);
+$(document).ready(initStart);
+
 var idtoDelete;
-function init() {
+var allFiles;
+
+function initStart(){
+    var username = $.cookie("githubUserName");
+                  //"https://api.github.com/users/"+username+"/gists/per_page=100&page=1";
+    var gisturl = "https://api.github.com/users/"+username+"/gists?per_page=100&page=1";
+    var gistrequest = {
+        type: "GET",
+        url: gisturl,
+        success: getAllGist
+    };
+    var token = $.cookie('githubToken');
+     gistrequest.headers = {
+        "Authorization": 'token ' + token
+     };
+     $.ajax(gistrequest).fail(gistfail);
+     
+     function getAllGist(response){
+         allFiles = response;
+         init();
+     }
+     
+     
+   function init() {
     var idsave =$.cookie('gistSaveId');
     var param= getParameterByName("profileId");
     if (idsave === param){
@@ -33,7 +57,7 @@ function init() {
         }
         
         function gistsuccess(response) {
-            console.log('success: ' + JSON.stringify(response));
+            //console.log('success: ' + JSON.stringify(response));
             var draft = JSON.parse(response.files["autosave.json"].content);
             var ddraft = document.getElementById("tab_draft");
             var draftcontent,draftpaging;
@@ -46,35 +70,44 @@ function init() {
             //draft.forEach(function(index) {
                 if(value.id !== "THISISTHEFIRSTIDYOUWOULDNTUSE") {
                     if(counter == 0){
-                        draftpaging=document.createElement("div");
-                        var name="df"+counterName;
-                        draftpaging.id=name;
-                        counterName=counterName+1;
-                        arrayNames.push(name);
-                        counter++;
-                        draftcontent=document.createElement("div");//"<div class='bonecardSmall'></div>";
-                        draftcontent.className = "bonecardSmall";
-                        draftcontent.id=value.id;
-                        if(arrayNames.length > 1){
-                            //publishcontent.style.display="";
-                            draftpaging.setAttribute("style", "display: none;");
+                        var available = _.find(allFiles, { 'id': value.id });
+                        if(available !== undefined){
+                            draftpaging=document.createElement("div");
+                            var name="df"+counterName;
+                            draftpaging.id=name;
+                            counterName=counterName+1;
+                            arrayNames.push(name);
+                            counter++;
+                            draftcontent=document.createElement("div");//"<div class='bonecardSmall'></div>";
+                            draftcontent.className = "bonecardSmall";
+                            draftcontent.id=value.id;
+                            if(arrayNames.length > 1){
+                                //publishcontent.style.display="";
+                                draftpaging.setAttribute("style", "display: none;");
+                            }
+                            draftpaging.appendChild(draftcontent);
                         }
-                        draftpaging.appendChild(draftcontent);
                     }
                     else if(counter == 3){
-                        counter = 0;
-                        draftcontent=document.createElement("div");//"<div class='bonecardSmall'></div>";
-                        draftcontent.className = "bonecardSmall";
-                        draftcontent.id=value.id;
-                        draftpaging.appendChild(draftcontent);
-                        ddraft.appendChild(draftpaging);
+                        var available = _.find(allFiles, { 'id': value.id });
+                        if(available !== undefined){
+                            counter = 0;
+                            draftcontent=document.createElement("div");//"<div class='bonecardSmall'></div>";
+                            draftcontent.className = "bonecardSmall";
+                            draftcontent.id=value.id;
+                            draftpaging.appendChild(draftcontent);
+                            ddraft.appendChild(draftpaging);
+                        }
                     }
                     else{
-                        counter++;
-                        draftcontent=document.createElement("div");//"<div class='bonecardSmall'></div>";
-                        draftcontent.className = "bonecardSmall";
-                        draftcontent.id=value.id;
-                        draftpaging.appendChild(draftcontent);
+                        var available = _.find(allFiles, { 'id': value.id });
+                        if(available !== undefined){
+                            counter++;
+                            draftcontent=document.createElement("div");//"<div class='bonecardSmall'></div>";
+                            draftcontent.className = "bonecardSmall";
+                            draftcontent.id=value.id;
+                            draftpaging.appendChild(draftcontent);
+                        }
                     }   
                 }
             })
@@ -86,7 +119,7 @@ function init() {
 
             $(".bonecardSmall").each(function(index) {
             //draft.forEach(function(index) {
-                console.log('found a bonecard');
+                //console.log('found a bonecard');
                 var card = $(this);
                 var gistid =card.attr("id");
                 if(gistid !== "THISISTHEFIRSTIDYOUWOULDNTUSE") {
@@ -106,10 +139,10 @@ function init() {
                 }        
 
                 function gistsuccess(response) {
-                    console.log('success: ' + JSON.stringify(response));
-                    console.log('Response id: '+ response.id);
-                    link='<a href="tutorial.html?gistid='+response.id+'"></a>';
-                    var newDiv='<div class="bonecardSmall" id="'+response.id+'"><a class="boxclose" id="boxclose"></a>'+ '<a href="tutorial.html?gistid='+response.id+'">'+response.files["CARD_Preview.html"].content +'</div></a>';
+                    //console.log('success: ' + JSON.stringify(response));
+                   // console.log('Response id: '+ response.id);
+                    link='<a href="edit.html?gistid='+response.id+'"></a>';
+                    var newDiv='<div class="bonecardSmall" id="'+response.id+'"><a class="boxclose" id="boxclose"></a>'+ '<a href="edit.html?gistid='+response.id+'">'+response.files["CARD_Preview.html"].content +'</div></a>';
                     link=link+newDiv;
                     card.replaceWith(newDiv);
                     card.show();
@@ -155,35 +188,44 @@ function init() {
             //publish.forEach(function(index) {
                 if(value.id !== "THISISTHEFIRSTIDYOUWOULDNTUSE") {
                     if(counter == 0){
-                        publishpaging=document.createElement("div");
-                        var name="pf"+counterName;
-                        publishpaging.id=name;
-                        counterName=counterName+1;
-                        arrayNames.push(name);
-                        counter++;
-                        publishcontent=document.createElement("div");//"<div class='bonecardSmall'></div>";
-                        publishcontent.className = "bonecardSmallP";
-                        publishcontent.id=value.id;
-                        if(arrayNames.length > 1){
-                            //publishcontent.style.display="";
-                            publishpaging.setAttribute("style", "display: none;");
+                        var available = _.find(allFiles, { 'id': value.id });
+                        if(available !== undefined){
+                            publishpaging=document.createElement("div");
+                            var name="pf"+counterName;
+                            publishpaging.id=name;
+                            counterName=counterName+1;
+                            arrayNames.push(name);
+                            counter++;
+                            publishcontent=document.createElement("div");//"<div class='bonecardSmall'></div>";
+                            publishcontent.className = "bonecardSmallP";
+                            publishcontent.id=value.id;
+                            if(arrayNames.length > 1){
+                                //publishcontent.style.display="";
+                                publishpaging.setAttribute("style", "display: none;");
+                            }
+                            publishpaging.appendChild(publishcontent);
                         }
-                        publishpaging.appendChild(publishcontent);
                     }
                     else if(counter == 3){
-                        counter = 0;
-                        publishcontent=document.createElement("div");//"<div class='bonecardSmall'></div>";
-                        publishcontent.className = "bonecardSmallP";
-                        publishcontent.id=value.id;
-                        publishpaging.appendChild(publishcontent);
-                        dpublish.appendChild(publishpaging);
+                        var available = _.find(allFiles, { 'id': value.id });
+                        if(available !== undefined){
+                            counter = 0;
+                            publishcontent=document.createElement("div");//"<div class='bonecardSmall'></div>";
+                            publishcontent.className = "bonecardSmallP";
+                            publishcontent.id=value.id;
+                            publishpaging.appendChild(publishcontent);
+                            dpublish.appendChild(publishpaging);
+                        }
                     }
                     else{
-                        counter++;
-                        publishcontent=document.createElement("div");//"<div class='bonecardSmall'></div>";
-                        publishcontent.className = "bonecardSmallP";
-                        publishcontent.id=value.id;
-                        publishpaging.appendChild(publishcontent);
+                        var available = _.find(allFiles, { 'id': value.id });
+                        if(available !== undefined){
+                            counter++;
+                            publishcontent=document.createElement("div");//"<div class='bonecardSmall'></div>";
+                            publishcontent.className = "bonecardSmallP";
+                            publishcontent.id=value.id;
+                            publishpaging.appendChild(publishcontent);
+                        }
                     }   
                 }
             })
@@ -217,8 +259,8 @@ function init() {
 
                 function gistsuccess(response) {
                     var link="";newDiv="";
-                    console.log('success: ' + JSON.stringify(response));
-                    console.log('Response id: '+ response.id);
+                    //console.log('success: ' + JSON.stringify(response));
+                    //('Response id: '+ response.id);
                     link='<a href="tutorial.html?gistid='+response.id+'">';
                     newDiv='<div class="bonecardSmallP" id="'+response.id+'"><a class="boxclose" id="boxclose"></a>'+'<a href="'+ 'tutorial.html?gistid='+response.id+'">'+response.files["CARD_Preview.html"].content +'</div></a>';
                     link=link+newDiv;
@@ -320,5 +362,8 @@ function init() {
     
     
 }
+}
+
+
 
 
