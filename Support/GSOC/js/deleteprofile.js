@@ -19,7 +19,7 @@ function getSavingGist(){
         gistrequest.headers = {
            "Authorization": 'token ' + token
         };
-        console.log('request: ' + JSON.stringify(gistrequest));
+        //console.log('request: ' + JSON.stringify(gistrequest));
         $.ajax(gistrequest).fail(errorNewSavingFile);
     }
 }
@@ -69,7 +69,7 @@ function createNewSavingFile(response){
         gistupdate.headers = {
             "Authorization": 'token ' + token
         };   
-        console.log('request: ' + JSON.stringify(gistupdate));
+        //console.log('request: ' + JSON.stringify(gistupdate));
         $.ajax(gistupdate).fail(errorNewSavingFile);
 }
 
@@ -228,7 +228,7 @@ function getpublicProfile() {
                         dataType: "json"
                     };
                     
-                    console.log('request: ' + JSON.stringify(gistrequest));
+                   // console.log('request: ' + JSON.stringify(gistrequest));
                     $.ajax(gistrequest).fail(gistfailProSuc);
                 }        
                 

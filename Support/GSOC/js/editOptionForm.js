@@ -277,7 +277,7 @@ var create_Json = function create_Json(list, content, code, preview, ob, flag) {
         obj = {"content": value};
         name = "CardList.html";
         Jfile["files"][name] = obj;
-        console.log(JSON.stringify(Jfile));
+       // console.log(JSON.stringify(Jfile));
         return Jfile;
     } else {
         var listLi = list.find('li');
@@ -354,7 +354,7 @@ var create_Json = function create_Json(list, content, code, preview, ob, flag) {
         name = "CardList.html";
         Jfile["files"][name] = obj;
 
-        console.log(JSON.stringify(Jfile));
+        //console.log(JSON.stringify(Jfile));
         return Jfile;
     }
 
@@ -404,7 +404,7 @@ var create_JsonSave = function create_JsonSave(list, content, code, preview, ob,
 
             }
         }
-        console.log(JSON.stringify(Jfile));
+       // console.log(JSON.stringify(Jfile));
 
     } else {
         var listLi = list.find('li');
@@ -471,7 +471,7 @@ var create_JsonSave = function create_JsonSave(list, content, code, preview, ob,
 
             }
         }
-        console.log(JSON.stringify(Jfile));
+        //console.log(JSON.stringify(Jfile));
 
     }
 
@@ -484,27 +484,12 @@ var create_JsonSave = function create_JsonSave(list, content, code, preview, ob,
     name = "CardList.html";
     Jfile["files"][name] = obj;
 
-    console.log(JSON.stringify(Jfile));
+    //console.log(JSON.stringify(Jfile));
     return Jfile;
 };
 
 function onsuccess(response) {
-    console.log('success: ' + JSON.stringify(response));
-    //id = response.id;
-    //$.cookie('gistidEdit', id, {expires: 1, path: '/'});
-
-/*
-    var gisturl = "https://api.github.com/gists/" + "25aec40876dfb11f8d36";
-    var gistrequest = {
-        type: "GET",
-        url: gisturl,
-        success: gistsuccess,
-        dataType: "json"
-    };
-    console.log('request: ' + JSON.stringify(gistrequest));
-    $.ajax(gistrequest).fail(gistfail);*/
-    
-    console.log('success: ' + JSON.stringify(response));
+    //console.log('success: ' + JSON.stringify(response));
     var tutorialId = getParameterByName('gistid') 
     content = '"tutorial?gistid=' + tutorialId +'"';
    
@@ -526,14 +511,14 @@ function onsuccess(response) {
         "Authorization": 'token ' + token
     };
 
-    console.log('request: ' + JSON.stringify(gistupdate));
+    //console.log('request: ' + JSON.stringify(gistupdate));
     $.ajax(gistupdate).fail(gistfailUpdate);
 
     
 };
 
 function onsuccessAuto(response) {
-    console.log('success: ' + JSON.stringify(response));
+   // console.log('success: ' + JSON.stringify(response));
     id = response.id;
     $.cookie('gistidEdit', id, {expires: 1, path: '/'});
     var savingGist = $.cookie('gistSaveId');
@@ -544,21 +529,40 @@ function onsuccessAuto(response) {
         success: gistAutoSave,
         dataType: "json"
     };
-    console.log('request: ' + JSON.stringify(gistrequest));
+    var token = $.cookie('githubToken');
+    gistrequest.headers = {
+        "Authorization": 'token ' + token
+    };
+    //console.log('request: ' + JSON.stringify(gistrequest));
     $.ajax(gistrequest).fail(gistfail);
 };
 
 function gistAutoSave(response){
-    console.log('success: ' + JSON.stringify(response));
+    //console.log('success: ' + JSON.stringify(response));
      var savingGist = $.cookie('gistSaveId');
     var gisturl = "https://api.github.com/gists/" +savingGist;
     var tutorial = $.cookie('gistidEdit');
     var newC=JSON.parse(response.files["autosave.json"].content);
+    var autoJ=JSON.parse(response.files["save.json"].content);
     var available = _.find(newC, { 'id': tutorial });
-    if(available == undefined){
-        var size=newC.length;
+    var avaiJ = _.find(autoJ, { 'id': tutorial });
+    if(available === undefined && avaiJ === undefined){
+        
+        var size=0;
+        var sizej=0;
+        $.each(newC,function(index,value){
+            size=size+1;
+        });
+        
+        $.each(autoJ,function(index,value){
+            sizej=sizej+1;
+        });
+        
         newC[size]={"id": tutorial};
         newC = JSON.stringify(newC);
+        
+        autoJ[sizej]={"id": tutorial};
+        autoJ = JSON.stringify(newC);
         files = {
             "description": "BONELIST",
             "public": true,
@@ -584,7 +588,7 @@ function gistAutoSave(response){
             "Authorization": 'token ' + token
         };
 
-        console.log('request: ' + JSON.stringify(gistupdate));
+       // console.log('request: ' + JSON.stringify(gistupdate));
         $.ajax(gistupdate).fail(gistfailUpdate);
     }
 };
@@ -615,7 +619,7 @@ function deleteRecordByFileName (myArr, fileName,size) {
 };
 
 function gistAutoSaveCreate(response){
-    console.log('success: ' + JSON.stringify(response));
+    //console.log('success: ' + JSON.stringify(response));
     var savingGist = $.cookie('gistSaveId');
     var gisturl = "https://api.github.com/gists/" +savingGist;
     var tutorial = $.cookie('gistidEdit');
@@ -661,7 +665,7 @@ function gistAutoSaveCreate(response){
             "Authorization": 'token ' + token
         };
 
-        console.log('request: ' + JSON.stringify(gistupdate));
+        //console.log('request: ' + JSON.stringify(gistupdate));
         $.ajax(gistupdate).fail(gistfailUpdate);
     }
     else{
@@ -673,11 +677,11 @@ function gistAutoSaveCreate(response){
 };
 
 function onsuccessUpdateGist(response){
-    console.log('success: ' + JSON.stringify(response));
+    //console.log('success: ' + JSON.stringify(response));
 };
 
 function onsuccessCreateGist(response){
-    console.log('success: ' + JSON.stringify(response));
+    //console.log('success: ' + JSON.stringify(response));
     
     var tutorialId = $.cookie('gistidEdit');
     $.removeCookie('gistidEdit', {path: '/'});
@@ -696,7 +700,11 @@ function onsuccessUpdate(response) {
         success: gistAutoSaveCreate,
         dataType: "json"
     };
-    console.log('request: ' + JSON.stringify(gistrequest));
+    var token = $.cookie('githubToken');
+    gistrequest.headers = {
+            "Authorization": 'token ' + token
+    };
+    //console.log('request: ' + JSON.stringify(gistrequest));
     $.ajax(gistrequest).fail(gistfail);
     
 };
@@ -724,20 +732,29 @@ function createtutorial(list, content, code, preview, ob) {
 
     if (tutorialId == undefined) {
         files = create_JsonSave(list, content, code, preview, ob, true);
-        var url = "https://api.github.com/gists";
-        var mypost = {
-            type: "POST",
-            url: url,
-            data: JSON.stringify(files), //JSON.stringify(Jfile),
-            success: onsuccessUpdate,
-            dataType: "json"
-        };
-        var token = $.cookie('githubToken');
-        mypost.headers = {
-            "Authorization": 'token ' + token
-        };
-        console.log("Doing post: " + JSON.stringify(mypost));
-        $.ajax(mypost).fail(onfail);
+        var fsize=0;
+        $.each(files.files,function(index,value){
+            fsize=fsize+1;
+        });
+        if(fsize > 2){
+            var url = "https://api.github.com/gists";
+            var mypost = {
+                type: "POST",
+                url: url,
+                data: JSON.stringify(files), //JSON.stringify(Jfile),
+                success: onsuccessUpdate,
+                dataType: "json"
+            };
+            var token = $.cookie('githubToken');
+            mypost.headers = {
+                "Authorization": 'token ' + token
+            };
+            console.log("Doing post: " + JSON.stringify(mypost));
+            $.ajax(mypost).fail(onfail);
+        }
+        else{
+             alert("Please add one more card for saving this tutorial");
+        }
     }
     else {
         files = create_JsonSave(list, content, code, preview, ob, false);
@@ -754,7 +771,7 @@ function createtutorial(list, content, code, preview, ob) {
             "Authorization": 'token ' + token
         };
 
-        console.log('Doing patch: ' + JSON.stringify(gistupdate));
+        //console.log('Doing patch: ' + JSON.stringify(gistupdate));
         $.ajax(gistupdate).fail(onfail);
     }
 };
@@ -777,7 +794,7 @@ function autoSaveTutorial(list, content, code, preview, ob) {
             mypost.headers = {
                 "Authorization": 'token ' + token
             };
-            console.log("Doing post: " + JSON.stringify(mypost));
+            //console.log("Doing post: " + JSON.stringify(mypost));
             $.ajax(mypost).fail(onfail);
         }
         
@@ -798,7 +815,7 @@ function autoSaveTutorial(list, content, code, preview, ob) {
             gistupdate.headers = {
                 "Authorization": 'token ' + token
             };
-            console.log('Doing patch: ' + JSON.stringify(gistupdate));
+            //console.log('Doing patch: ' + JSON.stringify(gistupdate));
             $.ajax(gistupdate).fail(onfail);
         }
     }
@@ -829,14 +846,14 @@ function checktutorialFork(){
         gistrequest.headers = {
             "Authorization": 'token ' + token
         };
-        console.log('request for checkforFork: ' + JSON.stringify(gistrequest));
+       // console.log('request for checkforFork: ' + JSON.stringify(gistrequest));
         $.ajax(gistrequest).fail(forkFail);
     }
 }
 var forkID={value:''};
 
 function forkTutorial(response){    
-    console.log("Forking Detail: "+ JSON.stringify(response));
+    //console.log("Forking Detail: "+ JSON.stringify(response));
     forkID.value=response.id;
     var savingGist = $.cookie('gistSaveId');
     var gisturl = "https://api.github.com/gists/" +savingGist ;
@@ -850,16 +867,16 @@ function forkTutorial(response){
         gistrequest.headers = {
         "Authorization": 'token ' + token
     };
-    console.log('request: ' + JSON.stringify(gistrequest));
+    //console.log('request: ' + JSON.stringify(gistrequest));
     $.ajax(gistrequest).fail(gistfail);
 }
 
 function gistForkRequest(response){
-    console.log('gistForkRequest: ' + JSON.stringify(response));
+   // console.log('gistForkRequest: ' + JSON.stringify(response));
      var savingGist = $.cookie('gistSaveId');
     var gisturl = "https://api.github.com/gists/" +savingGist;
     //.var tutorial = $.cookie('gistidEdit');
-    var newC=JSON.parse(response.files["autosave.json"].content);
+    var newC=JSON.parse(response.files["save.json"].content);
     //var available = _.find(newC, { 'id': tutorial });
     //if(available == undefined){
         var size=0;
@@ -874,10 +891,10 @@ function gistForkRequest(response){
             "public": true,
             "files": {
                 "autosave.json": {
-                    "content": newC
+                    "content": response.files["autosave.json"].content
                 },
                 "save.json": {
-                    "content": response.files["save.json"].content
+                    "content": newC
                 }
             }
         };
@@ -894,9 +911,9 @@ function gistForkRequest(response){
             "Authorization": 'token ' + token
         };
 
-        console.log('request: ' + JSON.stringify(gistupdate));
+        //console.log('request: ' + JSON.stringify(gistupdate));
         $.ajax(gistupdate).fail(gistfailUpdate);
-    //}
+
 }
 
 function onsuccessForkGist(response){
@@ -913,9 +930,9 @@ function onsuccessForkGist(response){
     }, 1500);
     setTimeout(function(){
         
-       alert("BONE101 Tutorial -- Currently this tutorial is being fork. Please wait some seconds (20-45) for editing it");
-      $(location).attr('href', path2)
-        //window.location.replace(path);
+      alert("BONE101 Tutorial -- Currently this tutorial is being fork. Please wait some minutes (1-2) for editing it");
+      $(location).attr('href', path2);
+        
     },1000)
    
     
@@ -944,7 +961,7 @@ function checktutorialEdit(){
         gistrequest.headers = {
         "Authorization": 'token ' + token
          };
-        console.log('request for checktutorialEdit: ' + JSON.stringify(gistrequest));
+        //console.log('request for checktutorialEdit: ' + JSON.stringify(gistrequest));
         $.ajax(gistrequest).fail(failedit);
     }
 }
@@ -978,7 +995,7 @@ function checkforEdit(){
         gistrequest.headers = {
         "Authorization": 'token ' + token
          };
-        console.log('request for checkforEdit: ' + JSON.stringify(gistrequest));
+        //console.log('request for checkforEdit: ' + JSON.stringify(gistrequest));
         $.ajax(gistrequest).fail(failedit);
     }
 }
@@ -1010,7 +1027,12 @@ function loadTutorial(){
             success: edittutorial,
             dataType: "json"
         };
-        console.log('request: ' + JSON.stringify(gistrequest));
+        var token = $.cookie('githubToken');
+            gistrequest.headers = {
+            "Authorization": 'token ' + token
+         };
+        
+       /// console.log('request: ' + JSON.stringify(gistrequest));
         $.ajax(gistrequest).fail(failedit);
     }
 };

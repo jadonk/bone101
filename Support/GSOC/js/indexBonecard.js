@@ -18,7 +18,7 @@ function init() {
                 dataType: "json"
             };
             
-            console.log('request: ' + JSON.stringify(gistrequest));
+            //console.log('request: ' + JSON.stringify(gistrequest));
             $.ajax(gistrequest).fail(gistfail);
         }
 
@@ -27,10 +27,10 @@ function init() {
         }
         
         function gistsuccess(response) {
-            console.log('success: ' + JSON.stringify(response));
+            //console.log('success: ' + JSON.stringify(response));
             list.replaceWith(response.files["Sitelist.html"].content);
             $(".bonecard").each(function(index) {
-                console.log('found a bonecard');
+                //console.log('found a bonecard');
                 var card = $(this);
                 var gistid = card.attr("gistid");
                 if(gistid) {
@@ -45,13 +45,13 @@ function init() {
                     //gistrequest.headers = {
                       //  "Authorization": 'token ' + token
                     //};
-                    console.log('request: ' + JSON.stringify(gistrequest));
+                   // console.log('request: ' + JSON.stringify(gistrequest));
                     $.ajax(gistrequest).fail(gistfail);
                 }        
 
                 function gistsuccess(response) {
-                    console.log('success: ' + JSON.stringify(response));
-                    console.log('Response id: '+ response.id);
+                    //console.log('success: ' + JSON.stringify(response));
+                    //console.log('Response id: '+ response.id);
                     link='<a href="tutorial.html?gistid='+response.id+'">';
                     newDiv='<div class="bonecard">'+ response.files["CARD_Preview.html"].content +'</div></a>';
                     link=link+newDiv;
@@ -59,11 +59,7 @@ function init() {
                     card.show();
                 }
             });
-            $('.bonecard').css("cursor", "pointer");       
-            $('.bonecard').click(function() {
-
-                $(this).toggleClass('bonecard-zoomed');
-            });
+           
             list.show();
             getPaging();
         }

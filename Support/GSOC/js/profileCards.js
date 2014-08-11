@@ -24,7 +24,7 @@ function init() {
             gistrequest.headers = {
                 "Authorization": 'token ' + token
             };
-            console.log('request: ' + JSON.stringify(gistrequest));
+            //console.log('request: ' + JSON.stringify(gistrequest));
             $.ajax(gistrequest).fail(gistfail);
         }
 
@@ -101,7 +101,7 @@ function init() {
                         gistrequest.headers = {
                         "Authorization": 'token ' + token
                     };
-                    console.log('request: ' + JSON.stringify(gistrequest));
+                    //console.log('request: ' + JSON.stringify(gistrequest));
                     $.ajax(gistrequest).fail(gistfail);
                 }        
 
@@ -109,7 +109,7 @@ function init() {
                     console.log('success: ' + JSON.stringify(response));
                     console.log('Response id: '+ response.id);
                     link='<a href="tutorial.html?gistid='+response.id+'"></a>';
-                    var newDiv='<div class="bonecardSmall" id="'+response.id+'"><a class="boxclose" id="boxclose"></a>'+ response.files["CARD_Preview.html"].content +'</div></a>';
+                    var newDiv='<div class="bonecardSmall" id="'+response.id+'"><a class="boxclose" id="boxclose"></a>'+ '<a href="tutorial.html?gistid='+response.id+'">'+response.files["CARD_Preview.html"].content +'</div></a>';
                     link=link+newDiv;
                     card.replaceWith(newDiv);
                     card.show();
@@ -136,7 +136,7 @@ function init() {
             gistrequest.headers = {
                 "Authorization": 'token ' + token
             };
-            console.log('request: ' + JSON.stringify(gistrequest));
+            //console.log('request: ' + JSON.stringify(gistrequest));
             $.ajax(gistrequest).fail(gistfail);
         }
 
@@ -145,7 +145,7 @@ function init() {
         }
         
         function gistsuccess(response) {
-            console.log('success: ' + JSON.stringify(response));
+            //console.log('success: ' + JSON.stringify(response));
             var publish = JSON.parse(response.files["save.json"].content);
             var dpublish = document.getElementById("tab_publish");
             var publishcontent,publishpaging;
@@ -196,7 +196,7 @@ function init() {
             
             $(".bonecardSmallP").each(function(index) {
             //draft.forEach(function(index) {
-                console.log('found a bonecard');
+                //console.log('found a bonecard');
                 var card = $(this);
                 var gistid =card.attr("id");
                 if(gistid !== "THISISTHEFIRSTIDYOUWOULDNTUSE") {
@@ -211,7 +211,7 @@ function init() {
                         gistrequest.headers = {
                         "Authorization": 'token ' + token
                     };
-                    console.log('request: ' + JSON.stringify(gistrequest));
+                   // console.log('request: ' + JSON.stringify(gistrequest));
                     $.ajax(gistrequest).fail(gistfail);
                 }        
 

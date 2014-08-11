@@ -26,11 +26,7 @@ var start = function(){
                 $("a#create").append("Create");
                 $("a#login").empty();
                 $("a#login").attr("href", "#");
-                /*$("a#create").attr("href", "create.html");
-                $("a#create").append("Create");
-                $("a#login").empty();
-                $("a#login").attr("href", "#");*/
-                
+             
                 if($.cookie('githubToken')!=null){
                 var username=me.alias;    
                 var gisturl = "https://api.github.com/users/"+username+"/gists";
@@ -43,7 +39,7 @@ var start = function(){
                 gistrequest.headers = {
                     "Authorization": 'token ' + token
                 };
-                console.log('request: ' + JSON.stringify(gistrequest));
+               // console.log('request: ' + JSON.stringify(gistrequest));
                 $.ajax(gistrequest).fail(gistfail);
         }
                 
@@ -58,7 +54,7 @@ var startTutorial = function(){
   
     //var login = function login(){ 
         OAuth.popup('github', function(err, result) {
-            console.log(err);
+            //console.log(err);
             auth = result;
             token= auth.access_token;
             $.cookie('githubToken', token,{ expires: 1, path: '/' });
@@ -79,7 +75,7 @@ var startTutorial = function(){
                 gistrequest.headers = {
                     "Authorization": 'token ' + token
                 };
-                console.log('request: ' + JSON.stringify(gistrequest));
+               // console.log('request: ' + JSON.stringify(gistrequest));
                 $.ajax(gistrequest).fail(gistfail);
         }
                 
@@ -110,12 +106,12 @@ function createJson(){
             }
         }
     };
-    console.log(JSON.stringify(Jfile));
+    //console.log(JSON.stringify(Jfile));
     return Jfile;
 }
 
 function gistsuccess(response){
-     console.log('success: ' + JSON.stringify(response));
+    // console.log('success: ' + JSON.stringify(response));
      files = createJson();
      
      var newdata = response;
@@ -133,7 +129,7 @@ function gistsuccess(response){
         mypost.headers = {
             "Authorization": 'token ' + token
         };
-        console.log("Doing post: " + JSON.stringify(mypost));
+        //console.log("Doing post: " + JSON.stringify(mypost));
         $.ajax(mypost).fail(gistfail);
      }
      else{
