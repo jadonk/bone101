@@ -2449,13 +2449,18 @@
       // else insert Image as dataURL
       } else {
         $.each(files, function (idx, file) {
-          async.readFileAsDataURL(file).then(function (sDataURL) {
-            editor.insertImage($editable, sDataURL);
-          }).fail(function () {
-            if (callbacks.onImageUploadError) {
-              callbacks.onImageUploadError();
+            if(file.size > 90000){
+                alert("Please upload an image below 90kb");
             }
-          });
+            else{
+                async.readFileAsDataURL(file).then(function (sDataURL) {
+                  editor.insertImage($editable, sDataURL);
+                }).fail(function () {
+                  if (callbacks.onImageUploadError) {
+                    callbacks.onImageUploadError();
+                  }
+                });
+            }
         });
       }
     };
