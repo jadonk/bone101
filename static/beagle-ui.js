@@ -70,6 +70,7 @@ $(document).ready(function(){
 	// note, due to a bug in Firefox, the call is moved below
 
         function testForConnection() {
+            var connectTimeout = setTimeout(testForConnection, 1000);
             var handlers = {};
             handlers.callback = callback;
             handlers.initialized = initialized;
@@ -94,8 +95,8 @@ $(document).ready(function(){
             }
 
             function callback() {
-                if(typeof _bonescript == 'undefined') {
-                    setTimeout(testForConnection, 1000);
+                if(typeof _bonescript != 'undefined') {
+                    if(connectTimeout) clearTimeout(connectTimeout);
                 }
             }
             function connected() {
