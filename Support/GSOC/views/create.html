@@ -405,7 +405,12 @@ and open the template in the editor.
             });
             
             $(document).ready(function() {
-                 
+                
+                 var deletecookie=$.cookie('gistId');
+                 if (deletecookie !== undefined){
+                    $.removeCookie('gistId', {path: '/'});
+                }
+        
                 $('.selectpicker').selectpicker();
                 
                 var token = $.cookie('githubToken');
