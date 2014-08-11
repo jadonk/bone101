@@ -76,7 +76,8 @@ function createNewSavingFile(response){
 function updategistSaving(response){
     var id = $.cookie("gistSaveId");
     var link1="profile.html?profileId="+id;
-    $(location).attr('href', link1);
+    window.location.replace(link1);
+    //$(location).attr('href', link1);
     
 }
 
