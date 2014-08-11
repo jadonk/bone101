@@ -8,13 +8,22 @@ function setTargetAddress(address, handlers) {
     url = url.replace(/(\/)*$/, '/bonescript.js');
     loadScript(url, addHandlers);
     function loadScript(url, onload) {
-        var head = document.getElementsByTagName('head')[0];
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = url;
-        script.charset = 'UTF-8';
-        var scriptObj = head.appendChild(script);
-        scriptObj.onload = onload;
+        try {
+            var head = document.getElementsByTagName('head')[0];
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = url;
+            script.charset = 'UTF-8';
+            var scriptObj = head.appendChild(script);
+            scriptObj.addEventListener('error', onerror);
+            scriptObj.onload = onload;
+        } catch(ex) {
+            onerror(ex);
+        }
+
+        function onerror(err) {
+            console.log('Unable to load: ' + url);
+        }
     }
     function addHandlers() {
         if(typeof handlers == 'function') {
