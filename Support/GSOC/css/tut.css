@@ -12,14 +12,11 @@ and open the template in the editor.
 /*** Header ***/
 
 /*** Body Content ***/
-#wrapper	{ width:100%; height:100%; position:absolute; top:0; left:0; overflow:hidden; }
+#wrapper	{ width: 90%; height:100%; position:absolute; top:0; left: 0; overflow:hidden; }
 
-//#mask		{ width:600%; height:100%; }
+
 
 .box		{ width: 20%; height:100%; float:left; }
-
-.content	{ width:960px; height:400px; top:20%; margin: 0 auto; position:relative; background:rgba(255,255,255, 0.3);
-				border-radius:35px; -moz-border-radius:35px; -webkit-border-radius:35px; }
 
 .inner		{ width:920px; height:360px; background:rgba(255, 255, 255, 0.3); border-radius:30px; -moz-border-radius:30px;
 					-webkit-border-radius:30px; margin:5px; padding:15px; top:5px; position:relative; }
@@ -30,16 +27,16 @@ and open the template in the editor.
             }
 
 .bonecard-list {
-	width:100%; 
-	height:100%;
-	float:left;
+	//width:100%; 
+	//height:100%;
+	//float:left;
 }            
 
 
 div.bonecard {
                 background-color: white;
                 margin-left: 18%;
-                margin-top: 5%;
+                margin-top: 4%;
                 width: 850px;
                 height: 525px;
                 border: 2px solid black;
@@ -95,6 +92,7 @@ div.bonecard {
         
         body{
             margin-top: 50px;
+            overflow: hidden;
         }
         
         p{
