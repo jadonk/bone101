@@ -38,7 +38,7 @@ function init() {
                     var gistrequest = {
                         type: "GET",
                         url: gisturl,
-                        success: gistsuccess,
+                        success: gistsuccessAfterLoad,
                         dataType: "json"
                     };
                     //var token = $.cookie('githubToken');
@@ -49,11 +49,9 @@ function init() {
                     $.ajax(gistrequest).fail(gistfail);
                 }        
 
-                function gistsuccess(response) {
-                    //console.log('success: ' + JSON.stringify(response));
-                    //console.log('Response id: '+ response.id);
-                    link='<a href="tutorial.html?gistid='+response.id+'">';
-                    newDiv='<div class="bonecard">'+ response.files["CARD_Preview.html"].content +'</div></a>';
+                function gistsuccessAfterLoad(response) {
+                    var link='<a href="tutorial.html?gistid='+response.id+'">';
+                    var newDiv='<div class="bonecard">'+ response.files["CARD_Preview.html"].content +'</div></a>';
                     link=link+newDiv;
                     card.replaceWith(link);
                     card.show();

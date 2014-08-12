@@ -180,9 +180,7 @@
             });
             
             $(document).on('click','#modalConnect',function(event){
-                var givenAddress = $('#connect-ip').val();
-                setTargetAddress(givenAddress, handlers);
-                serversToTry = [ givenAddress ];
+               testForConnectionButton();
             });
             
             $(document).on('hidden.bs.modal', ".modal", function (e) {

@@ -38,7 +38,7 @@ function testConectivity(){
             connectState = 'connected';
         }
 	// note, due to a bug in Firefox, the call is moved below
-
+        
         function testForConnection() {
             var handlers = {};
             handlers.callback = callback;
@@ -98,9 +98,31 @@ function testConectivity(){
                 }
             }
         }
-		if (conennectStatus == false){
-			testForConnection();
-		}
+
+            function testForConnectionButton() {
+                var handlers = {};
+                handlers.callback = callback;
+                handlers.initialized = initialized;
+                handlers.connecting = disconnected;
+                handlers.connect_failed = connect_failed;
+                handlers.reconnect_failed = disconnected;
+                handlers.disconnect = disconnected;
+                handlers.connect = connected;
+                handlers.reconnect = connected;
+                handlers.reconnecting = connected;
+                $('#connect-ip').keypress(oninput);
+                setTargetAddress(serversToTry[i], handlers);
+                i++;
+                if(i >= serversToTry.length) i = 0;
+                
+                var givenAddress = $('#connect-ip').val();
+                setTargetAddress(givenAddress, handlers);
+                serversToTry = [ givenAddress ];
+
+            }
+            if (conennectStatus == false){
+                testForConnection();
+            }
     }
 }
 

@@ -142,7 +142,8 @@ function gistsuccess(response){
 }
 
 function gistfail(response) {
-    $.removeCookie('gistId', {path: '/'});
+    Console.log(JSON.stringify(response));
+//$.removeCookie('gistId', {path: '/'});
     //alert("Error creating the tutorial");
 }
 
@@ -152,9 +153,3 @@ var logout = function(){
      $.removeCookie('gistSaveId',{  path: '/' });
      $.removeCookie('githubUserName',{  path: '/' });
 }
-
-var createLogin = function(){
-    auth.me().done(function(me) {
-                $('a#user').append(me.name);
-            })
-};
