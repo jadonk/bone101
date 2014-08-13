@@ -92,7 +92,7 @@ function deleteRecordByFileName (myArr, fileName,size) {
     }
     if(index !==null){
         var newArr={};
-        for (var i =0; i < size-1; i++) {
+        for (var i =0; i < size; i++) {
             if(index !== i){
                 newArr[a]=myArr[i];
                 a++;
