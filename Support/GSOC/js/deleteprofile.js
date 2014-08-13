@@ -12,6 +12,7 @@ function getSavingGist(){
         var gistrequest = {
             type: "GET",
             url: gisturl,
+            cache: false,
             success: createNewSavingFile,
             dataType: "json"
         };
@@ -19,7 +20,7 @@ function getSavingGist(){
         gistrequest.headers = {
            "Authorization": 'token ' + token
         };
-        console.log('request: ' + JSON.stringify(gistrequest));
+        //console.log('request: ' + JSON.stringify(gistrequest));
         $.ajax(gistrequest).fail(errorNewSavingFile);
     }
 }
@@ -69,16 +70,15 @@ function createNewSavingFile(response){
         gistupdate.headers = {
             "Authorization": 'token ' + token
         };   
-            console.log('request: ' + JSON.stringify(gistupdate));
+        //console.log('Request: createNewSavingFile() ' + JSON.stringify(gistupdate));
         $.ajax(gistupdate).fail(errorNewSavingFile);
 }
 
 function updategistSaving(response){
+    //console.log('Response: createNewSavingFile() updategistSaving ' + JSON.stringify(response.files["autosave.json"].content));
     var id = $.cookie("gistSaveId");
     var link1="profile.html?profileId="+id;
     window.location.replace(link1);
-    //$(location).attr('href', link1);
-    
 }
 
 function deleteRecordByFileName (myArr, fileName,size) {
@@ -244,8 +244,8 @@ function getpublicProfile() {
                 
                 function gistsuccessProSuc(response) {
                     var links="";var newDiv="";
-                    console.log('success: ' + JSON.stringify(response));
-                    console.log('Response id: '+ response.id);
+                    //console.log('success: ' + JSON.stringify(response));
+                    //console.log('Response id: '+ response.id);
                     links='<a href="tutorial.html?gistid='+response.id+'">';
                     newDiv='<div class="bonecardSmallP" id="'+response.id+'"><div class="boxclose" id="boxclose"></div>'+ response.files["CARD_Preview.html"].content +'</div></a>';
                     links=links+newDiv;

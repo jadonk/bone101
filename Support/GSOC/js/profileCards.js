@@ -15,6 +15,7 @@ function initStart(){
     var gistrequest = {
         type: "GET",
         url: gisturl,
+        cache: false,
         success: getAllGist
     };
     var token = $.cookie('githubToken');
@@ -42,13 +43,14 @@ function initStart(){
                 type: "GET",
                 url: gisturl,
                 success: gistsuccess,
+                cache: false,
                 dataType: "json"
             };
             var token = $.cookie('githubToken');
             gistrequest.headers = {
                 "Authorization": 'token ' + token
             };
-            //console.log('request: ' + JSON.stringify(gistrequest));
+            //console.log('request: init getting cards ' + JSON.stringify(gistrequest));
             $.ajax(gistrequest).fail(gistfail);
         }
 
@@ -57,7 +59,7 @@ function initStart(){
         }
         
         function gistsuccess(response) {
-            //console.log('success: ' + JSON.stringify(response));
+            //console.log('success: autosave.json ' + JSON.stringify(response.files["autosave.json"].content));
             var draft = JSON.parse(response.files["autosave.json"].content);
             var ddraft = document.getElementById("tab_draft");
             var draftcontent,draftpaging;
