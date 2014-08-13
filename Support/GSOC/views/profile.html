@@ -291,17 +291,7 @@ and open the template in the editor.
                 getSavingGist();
             });
             
-            /*$(document).on('click','.bonecardSmallP',function(event){
-                var par = $(this).attr("id");
-                var link="tutorial.html?gistid=="+par;
-                $(location).attr('href', link);
-            });*/
-            
-            $(document).on('click','.bonecardSmall',function(event){
-                var par = $(this).attr("id");
-                var link="tutorial.html?gistid=="+par;
-                $(location).attr('href', link);
-            });
+           
             
             $(document).on('click','#ulpublish > li > a',function(event){
                 var link= $(this).context.hash;

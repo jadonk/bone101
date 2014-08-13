@@ -15,19 +15,8 @@ and open the template in the editor.
         <link rel="icon" href="../../../favicon.ico" type="image/x-icon">
         <link rel="shortcut icon" href="../../../favicon.ico" type="image/x-icon">
 
-        <!-- Bootstrap core CSS -->
-
-        <!-- Bootstrap theme -->
-
-
-        <!-- Custom styles for this template
-        <link href="../css/bootstrap.min.css" rel="stylesheet"> 
-                <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" />
-        -->
-
-        <!-- include jquery 
-        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
-        -->
+      
+        
         <script src="//code.jquery.com/jquery-1.9.1.min.js"></script> 
         <script src="../js/jquery-ui.js"></script>
         <link href="../css/bootstrap.min.css" rel="stylesheet"> 
@@ -38,18 +27,7 @@ and open the template in the editor.
        
         
         <link href="../css/theme.css" rel="stylesheet">
-         
-        
-        
-        <!-- code mirror -->
-        <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.min.css" />
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/blackboard.min.css">
-        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/theme/monokai.min.css">
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/codemirror.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.20.0/mode/xml/xml.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/2.36.0/formatting.min.js"></script>
 
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
         <link rel="stylesheet" type="text/css" href="../css/bootstrap-select.css">
         <!-- include summernote -->
         <link rel="stylesheet" href="../css/summernote.css">
@@ -79,12 +57,7 @@ and open the template in the editor.
         .fa-fw {
             width: 2em;
         }
-
-        /*.input,.select{
-            font: inherit;
-            margin: 0;
-        }*/
-        
+ 
         .btn-group{
             position: relative;
             display: inline-block;
@@ -550,10 +523,10 @@ and open the template in the editor.
                    createtutorial(list,content,code,preview,ob); 
                });
                 
-                $(document).on('keyup','.edit_text',function(event){
+                $(document).on('keyup','.edit',function(event){
                      if(event.keyCode == 13) { 
                          event.preventDefault(event);
-                        $(this).hide().siblings(".display").show().text($(this).val());
+                         $(this).hide().siblings(".display").show().text($(this).val());
                      }
                 });
                 
@@ -566,9 +539,32 @@ and open the template in the editor.
                     event.preventDefault(event);
                     $(this).hide().siblings(".display").show().text($(this).val());
                 });
+                /*
+                $('textarea.note-codable').on('keydown', function(event) {
+                    if (this.clientHeight < this.scrollHeight) {
+                        alert("Please add a new card for having a better format. Remember this is a WYSIWYG");
+                    }
+                });
                 
-           
+                $('textarea.note-codable').on('keydown', function(event) {
+                     if (this.clientHeight < this.scrollHeight) {
+                        alert("Please add a new card for having a better format. Remember this is a WYSIWYG");
+                    }
+                });
                 
+                $.fn.hasVerticalScrollBar = function() {
+  if (this[0].clientHeight < this[0].scrollHeight) {
+    return true
+  } else {
+    return false
+  }
+};
+$(document).on('keydown','.note-codable',function(event){
+  if(event.keyCode == 13) { }
+  if ($(this).hasVerticalScrollBar()) {
+    alert("Please Something");
+  }
+});*/
                
                 $('.summernote').summernote({
                     height: 500,

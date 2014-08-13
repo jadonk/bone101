@@ -1,4 +1,4 @@
-/* 
+    /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -19,7 +19,7 @@ function getSavingGist(){
         gistrequest.headers = {
            "Authorization": 'token ' + token
         };
-        //console.log('request: ' + JSON.stringify(gistrequest));
+        console.log('request: ' + JSON.stringify(gistrequest));
         $.ajax(gistrequest).fail(errorNewSavingFile);
     }
 }
@@ -69,7 +69,7 @@ function createNewSavingFile(response){
         gistupdate.headers = {
             "Authorization": 'token ' + token
         };   
-        //console.log('request: ' + JSON.stringify(gistupdate));
+            console.log('request: ' + JSON.stringify(gistupdate));
         $.ajax(gistupdate).fail(errorNewSavingFile);
 }
 
@@ -90,15 +90,20 @@ function deleteRecordByFileName (myArr, fileName,size) {
             break;
         }   
     }
-    var newArr={};
-    for (var i =0; i < size-1; i++) {
-        if(index !== i){
-            newArr[a]=myArr[i];
-            a++;
-        }   
+    if(index !==null){
+        var newArr={};
+        for (var i =0; i < size-1; i++) {
+            if(index !== i){
+                newArr[a]=myArr[i];
+                a++;
+            }   
+        }
+
+        return newArr;
     }
-    
-    return newArr;
+    else{
+        return myArr;
+    }
 };
 
 function getParameterByName(name) {

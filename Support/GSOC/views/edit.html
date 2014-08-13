@@ -562,6 +562,13 @@ and open the template in the editor.
                     $(this).hide().siblings(".display").show().text($(this).val());
                 });
                
+               $(document).on('keyup','.edit',function(event){
+                     if(event.keyCode == 13) { 
+                         event.preventDefault(event);
+                         $(this).hide().siblings(".display").show().text($(this).val());
+                     }
+                });
+               
                 $('.summernote').summernote({
                     height: 500,
                     //minHeight: 475,

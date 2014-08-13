@@ -139,11 +139,8 @@ function initStart(){
                 }        
 
                 function gistsuccess(response) {
-                    //console.log('success: ' + JSON.stringify(response));
-                   // console.log('Response id: '+ response.id);
-                    link='<a href="edit.html?gistid='+response.id+'"></a>';
+
                     var newDiv='<div class="bonecardSmall" id="'+response.id+'"><a class="boxclose" id="boxclose"></a>'+ '<a href="edit.html?gistid='+response.id+'">'+response.files["CARD_Preview.html"].content +'</div></a>';
-                    link=link+newDiv;
                     card.replaceWith(newDiv);
                     card.show();
                 }
@@ -258,12 +255,8 @@ function initStart(){
                 }        
 
                 function gistsuccess(response) {
-                    var link="";newDiv="";
-                    //console.log('success: ' + JSON.stringify(response));
-                    //('Response id: '+ response.id);
-                    link='<a href="tutorial.html?gistid='+response.id+'">';
+                    var newDiv="";
                     newDiv='<div class="bonecardSmallP" id="'+response.id+'"><a class="boxclose" id="boxclose"></a>'+'<a href="'+ 'tutorial.html?gistid='+response.id+'">'+response.files["CARD_Preview.html"].content +'</div></a>';
-                    link=link+newDiv;
                     card.replaceWith(newDiv);
                     card.show();
                 }

@@ -152,4 +152,5 @@ var logout = function(){
      $.removeCookie('githubToken',{  path: '/' });
      $.removeCookie('gistSaveId',{  path: '/' });
      $.removeCookie('githubUserName',{  path: '/' });
+     $.removeCookie('gistId', {path: '/'});
 }

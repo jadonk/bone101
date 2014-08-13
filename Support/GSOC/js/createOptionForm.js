@@ -21,7 +21,9 @@ function deleteUi(list, listActive, content, preview, code) {
         }
         $('.summernote_Small').code(preview.value);
         $(".note-editor").css({"margin-top": "-14%"});
-        $('#myTab a:first').tab('show');
+        $("#myTab").scrollTop($("#myTab")[0].scrollHeight);
+        $('#myTab a:last').tab('show') 
+        //$('#myTab a:first').tab('show');
 
     }
 };
@@ -64,6 +66,7 @@ function addNewElement(list, listActive, content, code, preview, currentWindow, 
         list.append(newLi);
         $('.summernote').code("");
         $(".note-editor").css({"margin-top": "-6%"});
+        $("#myTab").scrollTop($("#myTab")[0].scrollHeight);
         $('#myTab a[href="#tab_html"]').tab('show');
     } else if (cardType == "CODE") {
         newLi = addCardtoList("CODE", (ps.size() + 1), psize);
@@ -71,6 +74,7 @@ function addNewElement(list, listActive, content, code, preview, currentWindow, 
         var editor = ace.edit("editor");
         editor.setTheme("ace/theme/monokai");
         editor.getSession().setValue("");
+        $("#myTab").scrollTop($("#myTab")[0].scrollHeight);
         $('#myTab a[href="#tab_Code"]').tab('show');
     }
 };
