@@ -531,6 +531,7 @@ function onsuccessAuto(response) {
         type: "GET",
         url: gisturl,
         success: gistAutoSave,
+        cache:false,
         dataType: "json"
     };
     var token = $.cookie('githubToken');
@@ -702,6 +703,7 @@ function onsuccessUpdate(response) {
         type: "GET",
         url: gisturl,
         success: gistAutoSaveCreate,
+        cache: false,
         dataType: "json"
     };
     var token = $.cookie('githubToken');
@@ -865,6 +867,7 @@ function forkTutorial(response){
         type: "GET",
         url: gisturl,
         success: gistForkRequest,
+        cache: false,
         dataType: "json"
     };
     var token = $.cookie('githubToken');
@@ -959,6 +962,7 @@ function checktutorialEdit(){
             type: "GET",
             url: gisturl,
             success: checkEditTutorial,
+            cache: false,
             dataType: "json"
         };
         var token = $.cookie('githubToken');
@@ -993,6 +997,7 @@ function checkforEdit(){
             type: "GET",
             url: gisturl,
             success: checkSuccessForEdit,
+            cache: false,
             dataType: "json"
         };
         var token = $.cookie('githubToken');
@@ -1029,6 +1034,7 @@ function loadTutorial(){
             type: "GET",
             url: gisturl,
             success: edittutorial,
+            cache: false,
             dataType: "json"
         };
         var token = $.cookie('githubToken');
