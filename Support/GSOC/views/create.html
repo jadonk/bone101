@@ -541,37 +541,11 @@ and open the template in the editor.
                     event.preventDefault(event);
                     $(this).hide().siblings(".display").show().text($(this).val());
                 });
-                /*
-                $('textarea.note-codable').on('keydown', function(event) {
-                    if (this.clientHeight < this.scrollHeight) {
-                        alert("Please add a new card for having a better format. Remember this is a WYSIWYG");
-                    }
-                });
-                
-                $('textarea.note-codable').on('keydown', function(event) {
-                     if (this.clientHeight < this.scrollHeight) {
-                        alert("Please add a new card for having a better format. Remember this is a WYSIWYG");
-                    }
-                });
-                
-                $.fn.hasVerticalScrollBar = function() {
-  if (this[0].clientHeight < this[0].scrollHeight) {
-    return true
-  } else {
-    return false
-  }
-};
-$(document).on('keydown','.note-codable',function(event){
-  if(event.keyCode == 13) { }
-  if ($(this).hasVerticalScrollBar()) {
-    alert("Please Something");
-  }
-});*/
                
                 $('.summernote').summernote({
-                    height: 500,
+                    height: 560,
                     //minHeight: 475,
-                    maxHeight: 500,
+                    maxHeight: 560,
                     codemirror: {
                         theme: 'cosmo'
                     },
@@ -585,14 +559,22 @@ $(document).on('keydown','.note-codable',function(event){
                         ['para', ['ul', 'ol', 'paragraph']],
                         ['height', ['height']],
                         ['misc', ['undo','redo']],
-                    ]
+                    ],
+                    onChange: function(contents, $editable) {
+                        var id = document.getElementById("tab_html");
+                        var txtId= id.children[0].children[1].children[6];
+                        
+                         if (txtId.clientHeight < txtId.scrollHeight) {
+                        alert("Please add a new card for having a better format. Remember this is a WYSIWYG");
+                        }
+                    }
                    
                 });
                
                $('.summernote_Small').summernote({
-                    height: 200,
+                    height: 255,
                     //minHeight: 475,
-                    maxHeight: 200,
+                    maxHeight: 255,
                     codemirror: {
                         theme: 'cosmo'
                     },
@@ -601,7 +583,15 @@ $(document).on('keydown','.note-codable',function(event){
                         ['style', ['bold', 'italic']],
                         ['height', ['height']],
                         ['misc', ['undo','redo','codeview']],
-                    ]
+                    ],
+                    onChange: function(contents, $editable) {
+                        var id = document.getElementById("tab_small");
+                        var txtId= id.children[0].children[1].children[6];
+                        
+                         if (txtId.clientHeight < txtId.scrollHeight) {
+                        alert("Please add a new card for having a better format. Remember this is a WYSIWYG");
+                        }
+                    }
                    
                 });
                
