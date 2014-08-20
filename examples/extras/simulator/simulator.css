@@ -1,0 +1,97 @@
+div.bonecard {
+    background-color: black;
+    margin: 20px;
+    width: 340px;
+    height: 210px;
+    border: 2px solid black;
+    border-left: 2px solid black;
+    padding: 10px;
+    -webkit-border-radius: 20px;
+    -webkit-border-top-right-radius: 50px;
+    -webkit-border-bottom-right-radius: 50px;
+    -moz-border-radius: 20px;
+    -moz-border-radius-topright: 50px;
+    -moz-border-radius-bottomright: 50px;
+    border-radius: 20px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    position: relative;
+}
+div.bonecard:after, div.bonecard:before {
+    background-color: black;
+    position: absolute;
+    display: block;
+    content:"";
+    border: 2px solid black;
+    width: 6px;
+    left: -10px;
+}
+div.bonecard:before {
+    top: 60px;
+    height: 60px;
+}
+div.bonecard:after {
+    top: 180px;
+    height: 30px;
+}
+div.zoomed {
+    width: 850px;
+    height: 525px;
+    -webkit-border-radius: 50px;
+    -webkit-border-top-right-radius: 125px;
+    -webkit-border-bottom-right-radius: 125px;
+    -moz-border-radius: 50px;
+    -moz-border-radius-topright: 125px;
+    -moz-border-radius-bottomright: 125px;
+    border-radius: 50px;
+    border-top-right-radius: 125px;
+    border-bottom-right-radius: 125px;
+}
+div.zoomed:before {
+    top: 150px;
+    height: 150px;
+}
+div.zoomed:after {
+    top: 450px;
+    height: 45px;
+}
+div.led {
+    position: absolute;
+    background-color: blue;
+    border: 1px solid gray;
+    border-left: 2px solid gray;
+    border-right: 2px solid gray;
+    left: 10px;
+    width: 20px;
+    height: 10px;
+}
+div#USR0 {
+    top: 60px;
+}
+div#USR1 {
+    top: 80px;
+}
+div#USR2 {
+    top: 100px;
+}
+div#USR3 {
+    top: 120px;
+}
+div#POWER {
+    top: 430px;
+}
+div.pin {
+    position: absolute;
+    border: 5px solid #3e3e3e;
+    background-color: #272727;
+    width: 15px;
+    height: 15px;
+}
+div.malepin {
+    position: absolute;
+    border: 4px solid transparent;
+    background-color: gray;
+    left: 0px;
+    width: 6px;
+    height: 6px;
+}

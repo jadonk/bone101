@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>BotSpeak Chrome Extension</title>
+	<script type="text/javascript" src="jquery.min.js"></script>
+	<script type="text/javascript" src="jquery.terminal-0.7.7.js"></script>
+	<script type="text/javascript" src="botspeak.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="css/terminal.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+	<div id="headers">
+		<a href="http://www.botspeak.org"><img src="images/botspeak_logo.png" style="float:left;"></a>
+		<a href="http://ceeo.tufts.edu"><img src="images/ceeo-logo.png" style="float:right;"></a>
+	</div>
+
+    <section id="error_msg_container" style="position: relative; border: 1px solid red; background: pink;">
+        <div id="error_msg"></div>
+        <div style="position: absolute; top:0; right: 0;"><img src="images/no.png" /></div>
+    </section>
+	<section id="select_device">
+		<h1> Step 1: Select a device: </h1>
+		<select id="device_selection">
+		</select>
+
+		<div id="device_image"><img src="images/beaglebone.jpg" /></div>
+		
+		<div id="connect_device">
+			<h1> Step 2: Connect to the device </h1>
+			<div id="socketio_devices">Type in device IP address: <input id="device_ip" type="text" /><br /><button id="test_socketio_button">Test Socket.IO Connection</button></div>
+			<div id="tcp_devices" style="display: none;">Type in device IP address: <input id="device_ip" type="text" /><br /><button id="test_tcp_button">Test TCP Connection</button></div>
+			<div id="serial_devices" style="display: none;">USB Serial: <select id="serial_ports"></select><br /><button id="get_ports">Get Ports</button><button id="test_serial_button">Test Serial Connection</button></div>
+			<div id="connection_status"></div>
+		</div>
+
+	</section>
+
+	<section id="botspeak_cmd">
+		<h1> Step 3: Code </h1>
+		<div id="terminal"></div>
+	</section>
+<!--
+	<section id="code_samples">
+		<h1> Sample Code: </h1>
+		<p>The below sample code will blink digital pin 13 three times:</p>
+		<textarea id="botspeak_blink">
+SET DIO[13], 1
+WAIT 1.2
+SET DIO[13], 0
+WAIT 1.2
+SET DIO[13], 1
+WAIT 1.2
+SET DIO[13], 0
+WAIT 1.2
+SET DIO[13], 1
+WAIT 1.2
+SET DIO[13], 0
+        </textarea>
+		<br />
+		<button id="run_sample">Run Sample</button>
+	</section>
+-->
+
+</body>

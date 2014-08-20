@@ -1,0 +1,55 @@
+.bonecard-list {
+	width: 100%;
+	overflow: hidden;
+}
+.bonecard {
+    background-color: white;
+    margin: 10px;
+    width: 340px;
+    height: 210px;
+    border: 2px solid black;
+    border-left: 2px solid black;
+    padding: 10px;
+    -webkit-border-radius: 20px;
+    -webkit-border-top-right-radius: 50px;
+    -webkit-border-bottom-right-radius: 50px;
+    -moz-border-radius: 20px;
+    -moz-border-radius-topright: 50px;
+    -moz-border-radius-bottomright: 50px;
+    border-radius: 20px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    position: relative;
+    float: left;
+    -webkit-transition: color 0.5s ease;
+}
+.bonecard:after, div.bonecard:before {
+    background-color: white;
+    position: absolute;
+    display: block;
+    content:"";
+    border: 2px solid black;
+    border-right: 2px solid white;
+    width: 6px;
+    left: -10px;
+}
+.bonecard:before {
+    top: 60px;
+    height: 60px;
+}
+.bonecard:after {
+    top: 180px;
+    height: 30px;
+}
+.bonecard-zoomed {
+    width: 850px;
+    height: 525px;
+}
+.bonecard-zoomed:before {
+    top: 150px;
+    height: 150px;
+}
+.bonecard-zoomed:after {
+    top: 460px;
+    height: 45px;
+}

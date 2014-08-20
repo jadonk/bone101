@@ -1,0 +1,118 @@
+---
+layout: index
+title: shiftOut
+scripts: [ '/static/bonescript-demo.js' ]
+---
+{% include side_menu.html title="BoneScript" %}
+<div class="t3_content_1"><div id='connect-status'></div><div id="content_child">
+<h1>shiftOut(dataPin, clockPin, bitOrder, val, [callback])</h1>
+<p><b><em>Note</em>: This doesn't work until BoneScript version 0.2.3</b></p>
+<p>Shift a byte out to a digital I/O pin clocking it with another digital
+I/O pin.</p>
+<h2>Arguments</h2>
+<ul>
+ <li><em>dataPin</em>: the pin for the serial data</li>
+ <li><em>clockPin</em>: the pin for the clock</li>
+ <li><em>bitOrder</em>: b.MSBFIRST or b.LSBFIRST</li>
+ <li><em>val</em>: the byte to be written</li>
+ <li><em>callback</em>: called upon completion</li>
+</ul>
+<h2>Return value</h2>
+<ul>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/#true">true</a> if successful</li>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/#false">false</a> on failure</li>
+</ul>
+<h2>callback(x)</h2>
+<ul>
+ <li><em>x.err</em>: error status message</li>
+</ul>
+<h2>Example
+ <button class="dynlink" onclick="demoRun('code')">run</button>
+ <button class="dynlink" onclick="demoRestore('code')">restore</button>
+</h2>
+<pre id="code" class="use-editor" style="height:900px;">
+//
+// Demonstrate shiftOut with a 7 segment display
+//
+
+// read in the BoneScript library
+var b = require('bonescript');
+
+// define used pins
+var sData  = "P9_18";
+var sClock = "P9_22";
+var sLatch = "P9_17";
+var sClear = "P9_15";
+
+// define other global variables
+var digit = 0;
+var segments = [ 0xC0, 0xF9, 0xA4, 0xB0, 0x99,
+                 0x92, 0x82, 0xF8, 0x80, 0x90 ];
+
+// configure pins as outputs
+b.pinMode(sData,  b.OUTPUT);
+b.pinMode(sClock, b.OUTPUT);
+b.pinMode(sLatch, b.OUTPUT);
+b.pinMode(sClear, b.OUTPUT);
+
+// initial states
+b.digitalWrite(sData,  b.LOW);
+b.digitalWrite(sClock, b.LOW);
+b.digitalWrite(sLatch, b.LOW);
+b.digitalWrite(sClear, b.HIGH);
+
+// call function to start updating the LED shift register
+doUpdate();
+
+// function to update the LED shift register
+function doUpdate() {
+    // shift out the character LED pattern
+    b.shiftOut(sData, sClock, b.MSBFIRST, 
+        segments[digit], doLatch);
+
+    // update the digit for next time
+    digit = (digit + 1) % 10;
+}
+
+function doLatch() {
+    // latch in the value
+    b.digitalWrite(sLatch, b.HIGH, doLatchLow);
+}
+
+function doLatchLow() {
+    b.digitalWrite(sLatch, b.LOW, scheduleUpdate);
+}
+
+function scheduleUpdate() {
+    // update again in another 25ms
+    setTimeout(doUpdate, 25);
+}
+</pre>
+<div readonly id='console-output' style="height:80px;"></div>
+<h2>Build and execute instructions</h2>
+<img align="right" src="{{site.baseurl}}/static/images/shiftout_bb.png" width="60%" />
+<ul>
+    <li>TBD</li>
+</ul>
+<h2>See also</h2>
+<h3>Topics</h3>
+<ul>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/#headers">BeagleBone expansion headers</a></li>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/#digitalio">Digital I/O</a></li>
+</ul>
+<h3>Related functions</h3>
+<ul>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/#require">require</a></li>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/pinMode">pinMode</a></li>
+</ul>
+</div></div><div style="clear: both;"></div>
+
+</div>
+<div id="list">
+
+</div>
+<br/>
+<div id="createtime">Last updated by jkridner on Mon Aug 19 2013 04:22:44 GMT-0000 (UTC).</div>
+
+     <div style="display:none;">67</div>
+</div>
