@@ -1,0 +1,214 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 05-20-2014, 09:47:43 PM
+    Author     : diego
+*/
+/*** Style Definitions ***/
+
+/*** Header ***/
+
+/*** Body Content ***/
+#wrapper	{ width: 90%; height:100%; position:absolute; top:0; left: 0; overflow:hidden; }
+
+
+
+.box		{ width: 20%; height:100%; float:left; }
+
+.inner		{ width:920px; height:360px; background:rgba(255, 255, 255, 0.3); border-radius:30px; -moz-border-radius:30px;
+					-webkit-border-radius:30px; margin:5px; padding:15px; top:5px; position:relative; }
+
+.gist{
+                margin-left:2em;
+                margin-right:2em
+            }
+
+.bonecard-list {
+	//width:100%; 
+	//height:100%;
+	//float:left;
+}            
+
+
+div.bonecard {
+                background-color: white;
+                margin-left: 18%;
+                margin-top: 4%;
+                width: 850px;
+                height: 525px;
+                border: 2px solid black;
+                border-left: 2px solid black;
+                padding: 10px;
+                -webkit-border-radius: 20px;
+                -webkit-border-top-right-radius: 50px;
+                -webkit-border-bottom-right-radius: 50px;
+                -moz-border-radius: 20px;
+                -moz-border-radius-topright: 50px;
+                -moz-border-radius-bottomright: 50px;
+                border-radius: 20px;
+                border-top-right-radius: 50px;
+                border-bottom-right-radius: 50px;
+                position: absolute;
+                float: center;
+                -webkit-transition: color 0.5s ease;
+                box-sizing:content-box;
+            }
+
+            div.bonecard:after, div.bonecard:before {
+                background-color: white;
+                position: absolute;
+                display: block;
+                content:"";
+                border: 2px solid black;
+                border-right: 2px solid white;
+                width: 6px;
+                left: -10px;
+                box-sizing:content-box;
+            }
+
+            div.bonecard:before {
+                top: 150px;
+                height: 150px;
+            }
+            div.bonecard:after {
+                top: 460px;
+                height: 45px;
+            }
+.scroll
+{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+  .social{
+            width:200px;
+            float:right;
+            padding-top:15px;
+        }
+        
+        body{
+            margin-top: 50px;
+            overflow: hidden;
+        }
+        
+        p{
+           margin-top: 0%;
+        }
+
+        .divide-nav{
+            height: 50px;
+            position: relative;
+            z-index: 999;
+        }
+
+        .divide-text{
+            color:#fff;
+            line-height: 20px;
+            font-size:20px;
+            padding: 15px 0;
+        }
+
+        .affix {
+          top: 50px;
+          width:100%;
+        }
+
+        .filler{
+          min-height: 2000px;
+        }
+
+        .navbar-form {
+           padding-left: 0;
+        }
+
+        .navbar-collapse{
+           padding-left:0; 
+        }
+        
+        .navbar-left {
+            float: left!important;
+            margin-left: 40%;
+        }
+      
+       
+pre {
+    white-space: pre-wrap;
+    background: #a8e
+}
+
+
+ .editor {
+            height: 470px;
+            }
+.ribbon {
+  background-color: #F38419;
+  overflow: hidden;
+  white-space: nowrap;
+  position: absolute;
+  left: -50px;
+  top: 20px;
+  z-index: 9999;
+  -webkit-transform: rotate(-45deg);
+     -moz-transform: rotate(-45deg);
+      -ms-transform: rotate(-45deg);
+       -o-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+}
+.ribbon a {
+  border: 1px solid #faa;
+  color: #fff;
+  display: block;
+  font: bold 81.25% 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin: 1px 0;
+  padding: 10px 50px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 0 5px #444;
+}
+
+.ribbonFork {
+  background-color: #F38419;
+  overflow: hidden;
+  white-space: nowrap;
+  position: absolute;
+  left: 88%;
+  top: 40px;
+  z-index: 9999;
+  -webkit-transform: rotate(45deg);
+     -moz-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+       -o-transform: rotate(45deg);
+          transform: rotate(45deg);
+}
+.ribbonFork a {
+  border: 1px solid #faa;
+  color: #fff;
+  display: block;
+  font: bold 81.25% 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  margin: 1px 0;
+  padding: 10px 50px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 0 5px #444;
+}
+
+browser-connect {
+width: 600px;
+padding: 10px;
+border-radius: 5px 5px 5px 5px;
+-moz-border-radius: 5px 5px 5px 5px;
+-webkit-border-radius: 5px 5px 5px 5px;
+color: #fff;
+background: #de7224;
+border: 1px solid #803709;
+}
+
+#browser-content {
+padding-top: px;
+float: right;
+width: 530px;
+}
