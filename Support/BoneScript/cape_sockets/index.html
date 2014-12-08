@@ -42,16 +42,46 @@ s.sockets = [
 ];
 
 s.pin = function(socketNumber, pinNumber) {
-    if (socketNumber < 1 || socketNumber > f.sockets.length) throw "socketNumber is invalid.";
+    if (socketNumber < 1 || socketNumber > s.sockets.length) throw "socketNumber is invalid.";
     if (pinNumber < 1 || pinNumber > 10) throw "pinNumber is invalid.";
-    return f.sockets[socketNumber - 1].pins[pinNumber - 1];
+    return s.sockets[socketNumber - 1].pins[pinNumber - 1];
 };
 
 function ledTest(event) {
     event.preventDefault();
-    var b = require('bonescript');
     var selected = $('#socketSelect option:selected').attr("value");
-    console.log("Testing LED on socket " + selected);
+    console.log("Testing LEDs on socket " + selected);
+    var b = require('bonescript');
+    for(var i = 0; i < 7; i++) {
+        var pin = s.pin(selected, i+3);
+        test(i, pin);
+    }
+
+    function test(i, pin) {
+        if((typeof pin == typeof "a") && (pin.charAt(0) == "P")) {
+            console.log("Setting GPIO mode on pin " + pin);
+            b.pinMode(pin, b.OUTPUT, 7, 'disabled', 'fast', setOn);
+        } else {
+            console.log("Skipping LED " + (i+1) + " on pin " + pin);
+        }
+
+        function setOn(x) {
+            if(x.err) {
+                console.log("Error enabing GPIO on pin " + pin + ": " + x.err);
+                return;
+            }
+            console.log("Turning on LED " + (i+1) + " on pin " + pin);
+            b.digitalWrite(pin, b.HIGH, doDelay);
+        }
+
+        function doDelay(x) {
+            setTimeout(setOff, 3000);
+        }
+
+        function setOff() {
+            b.digitalWrite(pin, b.LOW);
+        }
+    }
 }
 </script>
 <h2>BoneScript</h2>
@@ -70,7 +100,7 @@ function ledTest(event) {
 <div style="clear:both;"></div>
 <br />
 <br />
-<div readonly id='console-output' style='height: 200px;'></div>
+<div readonly id='console-output' style='height: 1000px;'></div>
 <script>
 for(socket in s.sockets) {
     var n = parseInt(socket) + 1;
