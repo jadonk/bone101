@@ -1,6 +1,6 @@
 ---
 layout: index
-title: getPlatform
+title: Sockets Cape
 scripts: [ /static/bonescript-demo.js ]
 style: |
    #code {
@@ -23,66 +23,26 @@ style: |
     resize: vertical;
    }
 ---
-    <!-- NEED TITLE HERE -->
-    <h2>Bonescript</h2>
-
-    <div id='side-menu' class="t3_sidebar">
-     <ul class="left-menu">
-      <strong>Navigation</strong>
-      <li><a href="{{site.baseurl}}/Support/BoneScript/menu/">Menu contents</a></li>
-     </ul>
-    </div>
-    <div class="t3_content_1">
-     <div id='connect-status'></div>
-     <div id="content_child">
-     <!--- START CONTENT -->
-
-<p>You might be able to see a newer version of this on <a href="http://beagleboard.org/support/bonescript/getPlatform">beagleboard.org/support/bonescript/getPlatform</a></p>
-<h1>getPlatform([callback])</h1>
-<h2>Arguments</h2>
-<ul>
- <li><em>callback</em>: called upon completion</li>
-</ul>
-<h2>Return value</h2>
-<ul>
- <li><em>name</em>: name of the board</li>
- <li><em>serialNumber</em>: serial number of the board</li>
- <li><em>version</em>: revision of the board</li>
- <li><em>bonescript</em>: verison of bonescript</li>
-</ul>
-<h2>callback(x)</h2>
-<ul>
- <li><em>x</em>: same as the return value.</li>
-</ul>
+<h2>BoneScript</h2>
+<div id='side-menu' class="t3_sidebar">
+ <ul class="left-menu">
+  <strong>Navigation</strong>
+  <li><a href="{{site.baseurl}}/Support/BoneScript/menu/">Menu contents</a></li>
+ </ul>
+</div>
+<div class="t3_content_1"><div id='connect-status'></div><div id="content_child">
+<h1>Sockets Cape</h1>
 <h2>Example
  <button class="dynlink" onclick="demoRun('code')">run</button>
  <button class="dynlink" onclick="demoRestore('code')">restore</button>
 </h2>
 <pre id="code" class="use-editor" style="height: 150px;">
 var b = require('bonescript');
-b.getPlatform(printData);
-function printData(x) {
- console.log('name = ' + x.name);
- console.log('version = ' + x.version);
- console.log('serialNumber = ' + x.serialNumber);
- console.log('bonescript = ' + x.bonescript);
-}</pre>
+</pre>
 <div readonly id='console-output' style='height: 200px;'></div>
 <h2>Build and execute instructions</h2>
-<p>Simply plug the board in or point to it on the network.</p>
 <h2>See also</h2>
-<!--
 <h3>Topics</h3>
--->
 <h3>Related functions</h3>
-<ul>
- <li><a href="{{site.baseurl}}/Support/BoneScript/#require">require</a></li>
-</ul>
-<!--
 <h3>Examples</h3>
-<ul>
- <li><a href="demo_attachedCapes">Show attached capes</a></li>
-</ul>
--->
-     </div>
-    </div>
+</div></div>
