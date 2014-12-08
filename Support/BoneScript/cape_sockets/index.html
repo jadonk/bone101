@@ -46,6 +46,12 @@ s.pin = function(socketNumber, pinNumber) {
     if (pinNumber < 1 || pinNumber > 10) throw "pinNumber is invalid.";
     return f.sockets[socketNumber - 1].pins[pinNumber - 1];
 };
+
+function ledTest(event) {
+    event.preventDefault();
+    var b = require('bonescript');
+    //$('#socketSelect')
+}
 </script>
 <h2>BoneScript</h2>
 <div id='side-menu' class="t3_sidebar">
@@ -56,17 +62,22 @@ s.pin = function(socketNumber, pinNumber) {
 </div>
 <div class="t3_content_1"><div id='connect-status'></div><div id="content_child">
 <h1>Sockets Cape</h1>
-<h2>Example
- <button class="dynlink" onclick="demoRun('code')">run</button>
- <button class="dynlink" onclick="demoRestore('code')">restore</button>
-</h2>
-<pre id="code" class="use-editor" style="height: 150px;">
-var b = require('bonescript');
-</pre>
+<select name="socket" id="socketSelect">
+</select>
+<h2>LED Test</h2>
+<button id="led">RUN</button>
+<div style="clear:both;"></div>
+<br />
+<br />
 <div readonly id='console-output' style='height: 200px;'></div>
-<h2>Build and execute instructions</h2>
-<h2>See also</h2>
-<h3>Topics</h3>
-<h3>Related functions</h3>
-<h3>Examples</h3>
+<script>
+for(socket in s.sockets) {
+     $('#socketSelect')
+          .append(
+              $('<option>', { value: (socket+1) })
+              .text("" + socket + ": " + s.sockets[socket].types.join(''))
+          ); 
+}
+$("button#led").click(ledTest);
+</script>
 </div></div>
