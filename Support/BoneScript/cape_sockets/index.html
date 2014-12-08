@@ -23,6 +23,30 @@ style: |
     resize: vertical;
    }
 ---
+<script>
+var s = {};
+
+s.sockets = [
+    { types: ['T'], pins: ['3.3V', '5V', 'NC', 'SP', 'SP', 'SP', 'SP', 'NC', 'NC', 'GND'], touch: ['P9_37', 'P9_38', 'P9_39', 'P9_40'] },
+    { types: ['R', 'Y'], pins: ['3.3V', '5V', 'P8_34', 'P8_35', 'P8_33', 'P8_31', 'P8_32', 'P8_27', 'P8_29', 'GND'] },
+    { types: ['G', 'Y'], pins: ['3.3V', '5V', 'P8_42', 'P8_39', 'P8_40', 'P8_37', 'P8_38', 'P8_36', 'P8_26', 'GND'] },
+    { types: ['B', 'Y'], pins: ['3.3V', '5V', 'P8_45', 'P8_46', 'P8_43', 'P8_44', 'P8_41', 'P8_30', 'P8_28', 'GND'] },
+    { types: ['F', 'Y'], pins: ['3.3V', '5V', 'P8_14', 'P8_25', 'P8_24', 'P8_20', 'P8_5', 'P8_6', 'P8_21', 'GND'] },
+    { types: ['P', 'Y'], pins: ['3.3V', '5V', 'P8_10', 'P8_11', 'P8_12', 'P8_15', 'P9_14', 'P9_16', 'P9_42', 'GND'] },
+    { types: ['I', 'Y'], pins: ['3.3V', '5V', 'P8_19', 'P8_22', 'P8_23', 'P8_16', 'P8_18', 'P9_20', 'P9_19', 'GND'] },
+    { types: ['A'], pins: ['3.3V', '5V', 'P9_15', 'P9_23', 'SP', 'P8_3', 'NC', 'NC', 'NC', 'GND'], analog: ['P9_33', 'P9_35', 'P9_36'] },
+    { types: ['U', 'X'], pins: ['3.3V', '5V', 'P8_13', 'P9_13', 'P9_11', 'P9_12', 'NC', 'NC', 'NC', 'GND'] },
+    { types: ['S', 'Y'], pins: ['3.3V', '5V', 'P8_17', 'P8_8', 'P8_9', 'P9_17', 'P9_18', 'P9_21', 'P9_22', 'GND'] },
+    { types: ['Y'], pins: ['3.3V', '5V', 'P9_31', 'P9_29', 'P9_30', 'P9_28', 'P9_27', 'P9_41', 'P9_25', 'GND'] },
+    { types: ['C', 'X'], pins: ['3.3V', '5V', 'P8_4', 'P9_26', 'P9_24', 'P8_7', 'NC', 'NC', 'NC', 'GND'] }
+];
+
+s.pin = function(socketNumber, pinNumber) {
+    if (socketNumber < 1 || socketNumber > f.sockets.length) throw "socketNumber is invalid.";
+    if (pinNumber < 1 || pinNumber > 10) throw "pinNumber is invalid.";
+    return f.sockets[socketNumber - 1].pins[pinNumber - 1];
+};
+</script>
 <h2>BoneScript</h2>
 <div id='side-menu' class="t3_sidebar">
  <ul class="left-menu">
