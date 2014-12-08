@@ -1,0 +1,272 @@
+---
+layout: index
+title: cape_bacon
+scripts: [ '/static/bonescript-demo.js', '/static/jquery-ui.min.js' ]
+---
+{{ include side_menu.html title="BoneScript" }}
+
+<div class="t3_content_1">
+<div id='connect-status'></div>
+<div id="content_child">
+
+<h1>Bacon Cape</h1>
+<p>The Bacon Cape is an add-on board meant to give you access to some
+ hardware to help build your understanding of doing basic embedded I/O on
+ BeagleBone.
+</p>
+<h2>Board activity</h2>
+<p>When you click the "run" button below, this display will dyanmically update
+    to reflect the board status. The box color should reflect the color of the
+    RGB LED. The top slider should reflect the status of the push button and
+    turn on the blue LED. The middle slider should reflect the status of the
+    slide potentiometer and adjust the brightness of the green LED. The bottom
+    slider should be adjustable on the page and adjust the brightness of the red
+    LED.
+</p>
+<p>More information about the cape can be found at <a href="http://elinux.org/Bacon_Cape">
+    the eLinux.org Bacon Cape page.
+</a></p>
+<div style="display: table;">
+ <div style="display: table-row; width=500px;">
+  <div id="led1" style="display: table-cell; height:50px;"></div>
+  <div style="display: table-cell; height:50px">
+   <div id="slider1" style="width:400px; vertical-align:center;"></div>
+   <div id="slider2" style="width:400px; vertical-align:center;"></div>
+   <div id="slider3" style="width:400px; vertical-align:center;"></div>
+  </div>
+ </div>
+</div>
+<h2>Components</h2>
+<p>
+    These are the major components of the Bacon Cape.
+</p>
+<ul>
+ <li><em>S1</em>: a simple push button provides a digital input
+  <ul>
+   <li><em>P8_19</em>: digital I/O connection to BeagleBone</li>
+   <li>Configured as active-low (low when pressed) and uses and external pull-up</li>
+  </ul>
+ </li>
+ <li><em>D1</em>: an RGB LED provides an indicator for digital output
+  <ul>
+   <li><em>P9_16</em>: digital I/O connection for <em><font color="blue">BLUE</font></em></li>
+   <li><em>P9_14</em>: digital I/O connection for <em><font color="green">GREEN</font></em></li>
+   <li><em>P9_42</em>: digital I/O connection for <em><font color="red">RED</font></em></li>
+   <li>Configured as active-high (lit when high)</li>
+  </ul>
+ </li>
+ <li><em>R10</em>: a slide potentiometer provides an analog input
+  <ul>
+   <li><em>P9_36</em>: analog input connection to BeagleBone</li>
+  </ul>
+ </li>
+ <li><em>U1</em>: shift register feeding a 7 segment display
+  <img src="{{site.baseurl}}/static/images/cape-bacon-seg7.png" align="right" />
+  <ul>
+   <li><em>P9_22</em>: CLOCK</li>
+   <li><em>P9_17</em>: LATCH</li>
+   <li><em>P9_18</em>: DATA</li>
+   <li><em>P9_15</em>: CLEAR</li>
+   <li><em>LED1</em>: connected to shift register output in common anode (active-low) configuration</li>
+   <li><em>a</em>: last bit shifted out</li>
+   <li><em>h</em>: first bit shifted out</li>
+  </ul>
+ <li><em>U2</em>: I2C EEPROM connected to I2C2</li>
+</ul>
+<!--
+<h2>Currently running code example</h2>
+<script>
+    onbonescriptinit = function() {
+        $(document).ready(function(){demoRun('code');});
+    };
+</script>
+-->
+<h2>Demo
+ <button class="dynlink" onclick="demoRun('code')">run</button>
+ <button class="dynlink" onclick="demoRestore('code')">restore</button>
+</h2>
+<pre id="code" class="use-editor" style="height:1500px;">
+console.log('Starting Bacon Cape demo');
+
+// read in BoneScript library
+var b = require('bonescript');
+
+// define used pins
+var LED_RED = 'P9_42';
+var LED_GREEN = 'P9_14';
+var LED_BLUE = 'P9_16';
+var BUTTON = 'P8_19';
+var POT = 'P9_36';
+var S_DATA  = 'P9_18';
+var S_CLOCK = 'P9_22';
+var S_LATCH = 'P9_17';
+var S_CLEAR = 'P9_15';
+
+// define other global variables
+var s = b.LOW;
+var digit = 0;
+var segments = [ 0xC0, 0xF9, 0xA4, 0xB0, 0x99,
+                 0x92, 0x82, 0xF8, 0x80, 0x90 ];
+
+// attach jQuery elements
+try {
+    $('#slider1').slider();
+    $('#slider2').slider();
+    $('#slider3').slider();
+    $('#led1').css('width', '50px');
+    $('#led1').css('height', '50px');
+    $('#led1').css('background-color', 'rgb(0,0,0)');
+    $("#slider3").bind("slidechange", function(event, ui) {
+        updateRed({value:(ui.value/100.0)});
+    });
+} catch(ex) {}
+
+// configure pins as inputs/outputs
+b.pinMode(S_DATA,  b.OUTPUT);
+b.pinMode(S_CLOCK, b.OUTPUT);
+b.pinMode(S_LATCH, b.OUTPUT);
+b.pinMode(S_CLEAR, b.OUTPUT);
+b.pinMode('USR0', b.OUTPUT);
+b.pinMode('USR1', b.OUTPUT);
+b.pinMode('USR2', b.OUTPUT);
+b.pinMode('USR3', b.OUTPUT);
+b.pinMode(LED_RED, b.OUTPUT);
+b.pinMode(LED_GREEN, b.OUTPUT);
+b.pinMode(LED_BLUE, b.OUTPUT);
+b.pinMode(BUTTON, b.INPUT);
+
+// initial states
+b.digitalWrite('USR0', b.LOW);
+b.digitalWrite('USR1', b.LOW);
+b.digitalWrite('USR2', b.LOW);
+b.digitalWrite('USR3', b.LOW);
+b.analogWrite(LED_RED, 0);
+b.analogWrite(LED_GREEN, 0);
+b.analogWrite(LED_BLUE, 0);
+b.digitalWrite(S_DATA,  b.LOW);
+b.digitalWrite(S_CLOCK, b.LOW);
+b.digitalWrite(S_LATCH, b.LOW);
+b.digitalWrite(S_CLEAR, b.HIGH);
+//b.attachInterrupt(BUTTON, true, b.CHANGE, handleButton);
+
+// call function to read status and perform updates
+update();
+
+function update() {
+    // toggle USR0 LED
+    s = (s == b.LOW) ? b.HIGH : b.LOW;
+    b.digitalWrite('USR0', s, do7SegUpdate);
+}
+
+function scheduleUpdate() {
+    // update again in another 100ms
+    setTimeout(update, 100);
+}
+
+function do7SegUpdate(x) {
+    // update 7segment LED
+    digit = (digit + 1) % 10;
+    
+    // shift out the character LED pattern
+    b.shiftOut(S_DATA, S_CLOCK, b.MSBFIRST, 
+        segments[digit], doLatch);
+}
+
+function doLatch() {
+    // latch in the value
+    b.digitalWrite(S_LATCH, b.HIGH, doLatchLow);
+}
+
+function doLatchLow() {
+    b.digitalWrite(S_LATCH, b.LOW, doAnalogRead);
+}
+
+function doAnalogRead() {
+    b.analogRead(POT, updateGreen);
+}
+
+function updateGreen(x) {
+    if(typeof x.value == 'undefined') return;
+    updateLED({green:1-x.value});
+    b.digitalRead(BUTTON, updateBlue);
+}
+
+function updateBlue(x) {
+    if(typeof x.value == 'undefined') return;
+    updateLED({blue:1-x.value});
+    scheduleUpdate();
+}
+
+function updateRed(x) {
+    if(typeof x.value == 'undefined') return;
+    updateLED({red:x.value});
+}
+
+function updateLED(led) {
+    if(typeof led.red == 'number') {
+        b.analogWrite(LED_RED, led.red);
+        this.red = led.red;
+    }
+    if(typeof led.green == 'number') {
+        b.analogWrite(LED_GREEN, led.green);
+        this.green = led.green;
+    }
+    if(typeof led.blue == 'number') {
+        b.analogWrite(LED_BLUE, led.blue);
+        this.blue = led.blue;
+    }
+    try {
+        if(typeof this.red == 'undefined') this.red = 0;
+        if(typeof this.green == 'undefined') this.green = 0;
+        if(typeof this.blue == 'undefined') this.blue = 0;
+        var rgb = 'rgb(' + Math.round(this.red*255) + ',' + 
+            Math.round(this.green*255) + ',' +
+            Math.round(this.blue*255) + ')';
+        $('#led1').css('background-color', rgb);
+        $("#slider1").slider("option", "value", this.blue*100);
+        $("#slider2").slider("option", "value", this.green*100);
+    } catch(ex) {}
+}</pre>
+<div readonly id='console-output' style='height: 80px;'></div>
+<script>
+window.onbeforeunload = restore;
+function restore() {
+    var b = require('bonescript');
+    var p = '/sys/class/leds/beaglebone:green:usr';
+    b.digitalWrite('USR0', b.LOW);
+    b.digitalWrite('USR1', b.LOW);
+    b.digitalWrite('USR2', b.LOW);
+    b.digitalWrite('USR3', b.LOW);
+    b.writeTextFile(p+'0/trigger', 'heartbeat');
+    b.writeTextFile(p+'1/trigger', 'mmc0');
+    b.writeTextFile(p+'2/trigger', 'cpu0');
+    b.writeTextFile(p+'3/trigger', 'mmc1');
+    b.detachInterrupt('P8_19');
+}
+</script>
+<h2>See also</h2>
+<h3>Reference</h3>
+<ul>
+    <li><a href="http://elinux.org/Bacon_Cape" class="external">Bacon Cape
+        page on eLinux.org
+    </a></li>
+</ul>
+<h3>Topics</h3>
+<ul>
+ <li><a href="{{site.baseurl}}/Support/bone101/#headers">BeagleBone expansion headers</a></li>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/#analogio">Analog I/O</a></li>
+</ul>
+<h3>Related functions</h3>
+<ul>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/#require">require</a></li>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/pinMode/">pinMode</a></li>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/analogWrite/">analogWrite</a></li>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/analogRead/">analogRead</a></li>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/digitalWrite/">digitalWrite</a></li>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/digitalRead/">digitalRead</a></li>
+</ul>
+
+</div></div>
+<div style="clear:both;"></div>
+<br/>
+<div id="createtime">Last updated by jkridner on Mon Aug 19 2013 11:54:35 GMT-0500 (CDT).</div>
