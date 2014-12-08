@@ -50,7 +50,8 @@ s.pin = function(socketNumber, pinNumber) {
 function ledTest(event) {
     event.preventDefault();
     var b = require('bonescript');
-    //$('#socketSelect')
+    var selected = $('#socketSelect option:selected').attr("value");
+    console.log("Testing LED on socket " + selected);
 }
 </script>
 <h2>BoneScript</h2>
@@ -72,11 +73,11 @@ function ledTest(event) {
 <div readonly id='console-output' style='height: 200px;'></div>
 <script>
 for(socket in s.sockets) {
-     $('#socketSelect')
-          .append(
-              $('<option>', { value: (socket+1) })
-              .text("" + socket + ": " + s.sockets[socket].types.join(''))
-          ); 
+    var n = parseInt(socket) + 1;
+    $('#socketSelect').append(
+        $('<option>', { value: n })
+            .text("" + n + ": " + s.sockets[socket].types.join(''))
+    ); 
 }
 $("button#led").click(ledTest);
 </script>
