@@ -13,7 +13,11 @@ layout: bare
 
     <title>Bone101</title>
     <script>
-      window.location="{{site.baseurl}}/Support/bone101/";
+      if("{{site.baseurl}}".indexOf("site.baseurl") > 0) {
+        window.location="/bone101/Support/bone101/";
+      } else {
+        window.location="{{site.baseurl}}/Support/bone101/";
+      }
     </script>
   </head>
 
