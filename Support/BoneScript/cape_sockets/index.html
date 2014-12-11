@@ -62,23 +62,32 @@ function ledTest(event) {
             console.log("Setting GPIO mode on pin " + pin);
             b.pinMode(pin, b.OUTPUT, 7, 'disabled', 'fast', setOn);
         } else {
-            console.log("Skipping LED " + (i+1) + " on pin " + pin);
+            console.log("Skipping LED " + i + " on pin " + pin);
         }
 
         function setOn(x) {
             if(x.err) {
                 console.log("Error enabing GPIO on pin " + pin + ": " + x.err);
+                b.getPinMode(pin, pinError);
                 return;
             }
-            console.log("Turning on LED " + (i+1) + " on pin " + pin);
+            console.log("Turning on LED " + i + " on pin " + pin);
             b.digitalWrite(pin, b.HIGH, doDelay);
+        }
+        
+        function pinError(mode) {
+            if((typeof mode.mux == typeof 1) && (typeof mode.options == typeof [])) {
+                console.log("Pin " + pin + " in mode " + mode.options[mode.mux]);
+            }
         }
 
         function doDelay(x) {
+            console.log("Leaving LED " + i + " on for 3 seconds");
             setTimeout(setOff, 3000);
         }
 
         function setOff() {
+            console.log("Turning off LED " + i + " on pin " + pin);
             b.digitalWrite(pin, b.LOW);
         }
     }
