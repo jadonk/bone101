@@ -68,10 +68,15 @@ function ledTest(event) {
         function setOn(x) {
             if(x.err) {
                 console.log("Error enabing GPIO on pin " + pin + ": " + x.err);
+                b.getPinMode(pin, onError);
                 return;
             }
             console.log("Turning on LED " + (i+1) + " on pin " + pin);
             b.digitalWrite(pin, b.HIGH, doDelay);
+        }
+
+        function onError(x) {
+            console.log("pinMode for " + pin + ": " + JSON.stringify(x));
         }
 
         function doDelay(x) {
