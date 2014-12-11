@@ -62,17 +62,23 @@ function ledTest(event) {
             console.log("Setting GPIO mode on pin " + pin);
             b.pinMode(pin, b.OUTPUT, 7, 'disabled', 'fast', setOn);
         } else {
-            console.log("Skipping LED " + (i+1) + " on pin " + pin);
+            console.log("Skipping LED " + i + " on pin " + pin);
         }
 
         function setOn(x) {
             if(x.err) {
                 console.log("Error enabing GPIO on pin " + pin + ": " + x.err);
-                b.getPinMode(pin, onError);
+                b.getPinMode(pin, pinError);
                 return;
             }
-            console.log("Turning on LED " + (i+1) + " on pin " + pin);
+            console.log("Turning on LED " + i + " on pin " + pin);
             b.digitalWrite(pin, b.HIGH, doDelay);
+        }
+
+        function pinError(mode) {
+            if((typeof mode.mux == typeof 1) && (typeof mode.options == typeof [])) {
+                console.log("Pin " + pin + " in mode " + mode.options[mode.mux]);
+            }
         }
 
         function onError(x) {
@@ -80,10 +86,12 @@ function ledTest(event) {
         }
 
         function doDelay(x) {
+            console.log("Leaving LED " + i + " on for 3 seconds");
             setTimeout(setOff, 3000);
         }
 
         function setOff() {
+            console.log("Turning off LED " + i + " on pin " + pin);
             b.digitalWrite(pin, b.LOW);
         }
     }
@@ -98,6 +106,10 @@ function ledTest(event) {
 </div>
 <div class="t3_content_1"><div id='connect-status'></div><div id="content_child">
 <h1>Sockets Cape</h1>
+<p>It is recommended you update to the latest version of BoneScript
+    for this demo to work. See <a href="https://gist.github.com/jadonk/bc9a814b0f14d21a0dc3">this
+        gist</a> for helpful hints on updating.
+</p>
 <select name="socket" id="socketSelect">
 </select>
 <h2>LED Test</h2>
@@ -105,7 +117,7 @@ function ledTest(event) {
 <div style="clear:both;"></div>
 <br />
 <br />
-<div readonly id='console-output' style='height: 600px;'></div>
+<div readonly id='console-output' style='height: 400px;'></div>
 <script>
 for(socket in s.sockets) {
     var n = parseInt(socket) + 1;
