@@ -1,8 +1,20 @@
+---
+layout: bare
+---
+<!DOCTYPE html>
 <html><head>
-    <title>Internet of Things with BeagleBoard.org</title>
+    <title>Introduction to BeagleBoard.org</title>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Bone101 : Presentation web server written in BoneScript" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
     <script src="/static/jquery.js"></script>
     <script src="/static/bonescript.js"></script>
     <script src="index.js"></script>
+    <script>
+      //window.location="{{site.baseurl}}/Support/bone101/";
+    </script>
     <style>
         #slides div {
             display:none;
@@ -13,24 +25,39 @@
         }
         #slides div:first-child { display:block; }
     </style>
-</head><body><div id="slides">
-    <div duration="2" style="background-image:url('/examples/extras/sensortag/IoTDetroit2014/Slide10.png');"></div>
-    <div duration="2" style="background-image:url('/examples/extras/sensortag/IoTDetroit2014/Slide11.png');"></div>
-    <div duration="2" style="background-image:url('/examples/extras/sensortag/IoTDetroit2014/Slide12.png');"></div>
-    <div duration="2" style="background-image:url('/examples/extras/sensortag/IoTDetroit2014/Slide13.png');"></div>
-    <div duration="2" style="background-image:url('/examples/extras/sensortag/IoTDetroit2014/Slide15.png');"></div>
-    <div duration="10" style="background-image:url('/examples/extras/sensortag/IoTDetroit2014/Slide18.png');">
+</head><body>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/beagleboard/bone101">View on GitHub</a>
+
+          <h1 id="project_title">Bone101</h1>
+          <h2 id="project_tagline">Presentation web server written in BoneScript</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/beagleboard/bone101/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/beagleboard/bone101/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+    <div id="slides">
+    <div duration="2" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide10.png');"></div>
+    <div duration="2" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide11.png');"></div>
+    <div duration="2" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide12.png');"></div>
+    <div duration="2" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide13.png');"></div>
+    <div duration="2" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide15.png');"></div>
+    <div duration="10" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide18.png');">
         <iframe src="http://192.168.7.2:3000/ide.html" style="margin-top:15%;height:70%;width:100%;"></iframe>
     </div>
-    <div duration="2" style="background-image:url('/examples/extras/sensortag/IoTDetroit2014/Slide19.png');"></div>
-    <div duration="5" style="background-image:url('/examples/extras/sensortag/IoTDetroit2014/Slide20.png');">
+    <div duration="2" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide19.png');"></div>
+    <div duration="5" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide20.png');">
         <iframe src="http://192.168.7.2/Support/BoneScript" style="margin-top:15%;height:70%;width:100%;"></iframe>
     </div>
-    <div duration="10" style="background-image:url('/examples/extras/sensortag/IoTDetroit2014/Slide21.png');">
+    <div duration="10" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide21.png');">
         <iframe src="http://192.168.7.2:1880/" style="margin-top:15%;height:70%;width:100%;"></iframe>
     </div>
-    <div duration="2" style="background-image:url('/examples/extras/sensortag/IoTDetroit2014/Slide24.png');"></div>
-    <div duration="2" style="background-image:url('/examples/extras/sensortag/IoTDetroit2014/Slide25.png');"></div>
-    <div duration="2" style="background-image:url('/examples/extras/sensortag/IoTDetroit2014/Slide26.png');"></div>
-    <div duration="2" style="background-image:url('/examples/extras/sensortag/IoTDetroit2014/Slide27.png');"></div>
+    <div duration="2" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide24.png');"></div>
+    <div duration="2" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide25.png');"></div>
+    <div duration="2" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide26.png');"></div>
+    <div duration="2" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide27.png');"></div>
 </div></body></html>
