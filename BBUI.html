@@ -4,7 +4,32 @@
 
 
 <script src="{{site.baseurl}}/static/bonescript.js"></script>
+        <style>
+			canvas {
+			position: absolute;
+			left:0px;
+			top:0px;
+			bottom:0px;
+			right: 0px;
+			margin: auto;
+			}
+		</style>	
+    </head>
+    <body> 
+    <div>
+        <canvas id="layer1" style="z-index: 1; "height="600" width="1224"></canvas>
+        <canvas id="layer2" style="z-index: 2;" height="600" width="1224"></canvas>
+		<canvas id="layer3" style="z-index: 10;" height="600" width="1224"></canvas>
+		<canvas id="layer4" style="z-index: 11; "height="600" width="1224"></canvas>
+        <canvas id="layer5" style="z-index: 12;" height="600" width="1224"></canvas>
+		<canvas id="layer6" style="z-index: 13;" height="600" width="1224"></canvas>
+		<canvas id="layer7" style="z-index: 14;" height="600" width="1224"></canvas>
+		<canvas id="layer8" style="z-index: 8;" height="600" width="1224"></canvas>
+		<canvas id="layer9" style="z-index: 9;" height="600" width="1224"></canvas>
+	</div>
+    
 <script>
+// Interface declarations and functions
 setTargetAddress(192.168.7.2, { initialized: ledsOff } );
 
 var pinBlink = []; var inputRead = [];
@@ -91,33 +116,9 @@ function checkInput(data){
     outputPin = data.output;
     b.digitalRead(data.id, checkPin); 
 }
-</script> 
 
-        <style>
-			canvas {
-			position: absolute;
-			left:0px;
-			top:0px;
-			bottom:0px;
-			right: 0px;
-			margin: auto;
-			}
-		</style>	
-    </head>
-    <body> 
-    <div>
-        <canvas id="layer1" style="z-index: 1; "height="600" width="1224"></canvas>
-        <canvas id="layer2" style="z-index: 2;" height="600" width="1224"></canvas>
-		<canvas id="layer3" style="z-index: 10;" height="600" width="1224"></canvas>
-		<canvas id="layer4" style="z-index: 11; "height="600" width="1224"></canvas>
-        <canvas id="layer5" style="z-index: 12;" height="600" width="1224"></canvas>
-		<canvas id="layer6" style="z-index: 13;" height="600" width="1224"></canvas>
-		<canvas id="layer7" style="z-index: 14;" height="600" width="1224"></canvas>
-		<canvas id="layer8" style="z-index: 8;" height="600" width="1224"></canvas>
-		<canvas id="layer9" style="z-index: 9;" height="600" width="1224"></canvas>
-	</div>
-    
-<script>
+
+
 // ****************************************
 // * INITIALIZATION/CREATION OF VARIABLES *
 // ****************************************
