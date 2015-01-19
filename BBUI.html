@@ -67,10 +67,11 @@ function pinChange(data){
         }
     }
     else if (data.subType === "pwm"){
-            if (data.power === "on"){
-                b.analogWrite(data.id, data.freq);  
-            } 
-            else {b.analogWrite(data.id, 0);}
+        if (data.power === "on"){
+            b.analogWrite(data.id, data.freq);  
+        } 
+        else {
+            b.analogWrite(data.id, 0);
         }
     }
 }
