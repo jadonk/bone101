@@ -3,26 +3,95 @@
     <title>Beaglebone - UI</title> 
 
 
- <script src="/socket.io/socket.io.js"></script>
-    <script>
-    // toggle pin on/off or blink
-    function pinChange(data){
-            socket.emit('pin', data);
-        };
-    // turn leds off once html loaded
-    function ledsOff(data){
- 	      socket.emit('ledOff', data); // initialize lights turning off
-	};
-    // get analog values once pin connected
-	function start(data){
-	 	socket.emit('getValue', data);
-	};
-    // check to see if input on
-    function checkInput(data){
-        socket.emit('getInput', data);
-    };
-	
-	</script> 
+<script src="{{site.baseurl}}/static/bonescript.js"></script>
+<script>
+setTargetAddress(192.168.7.2, { initialized: ledsOff } );
+
+var pinBlink = []; var inputRead = [];
+var usrText = ['USR0','USR1','USR2','USR3']; var analog = [];
+var outputPin; var activePins = [];
+
+// toggle pin on/off or blink
+function pinChange(data){
+    var b = require('bonescript');
+    if(!b) return;
+    var len = activePins.length; var duplicate;
+    for (var i=0; i<len; i++){
+        if (data.id === activePins[i].id){
+            duplicate = true;
+        }
+    }
+    if (duplicate !== true){
+        activePins[len] = {id: data.id, type: data.type, subType: data.subType,
+        num: data.num}; 
+    }
+    if (data.type === 'usr leds' || data.subType != "input" &&
+        data.subType != "pwm"){ 
+        b.pinMode(data.id,b.OUTPUT);
+        if (data.power === "on"){
+              if (data.freq !== 0){
+                  data.state = data.state ? 0 : 1;
+                  b.digitalWrite(data.id, data.state);
+              } 
+              else{
+                  b.digitalWrite(data.id, 1);
+              }
+        }
+        else{
+              b.digitalWrite(data.id, 0);
+        }
+    }
+    else if (data.subType === "pwm"){
+            if (data.power === "on"){
+                b.analogWrite(data.id, data.freq);  
+            } 
+            else {b.analogWrite(data.id, 0);}
+        }
+    }
+}
+
+// turn leds off once html loaded
+function ledsOff(data) {
+    var b = require('bonescript');
+    if(!b) return;
+    b.pinMode('USR0', b.OUTPUT);
+    b.pinMode('USR1', b.OUTPUT);
+    b.pinMode('USR2', b.OUTPUT);
+    b.pinMode('USR3', b.OUTPUT);
+    b.digitalWrite('USR0', 0);
+    b.digitalWrite('USR1', 0);
+    b.digitalWrite('USR2', 0);
+    b.digitalWrite('USR3', 0);
+}
+
+// get analog values once pin connected
+function start(data){
+    var b = require('bonescript');
+    if(!b) return;
+    analog[0] = data.num;
+    if (data.power === "on"){
+        b.analogRead(data.id,analogValue);}
+    }
+}
+
+// retrieve the analog value and send it back
+function analogValue(x){
+    var currentValue = x.value*1.8;
+    analog[1] = currentValue;
+    voltageValue(analog);
+}
+
+
+// check to see if input on
+function checkInput(data){
+    var b = require('bonescript');
+    if(!b) return;
+    b.pinMode(data.id, b.INPUT);
+    b.pinMode(data.output, b.OUTPUT);
+    outputPin = data.output;
+    b.digitalRead(data.id, checkPin); 
+}
+</script> 
 
         <style>
 			canvas {
@@ -53,7 +122,6 @@
 // * INITIALIZATION/CREATION OF VARIABLES *
 // ****************************************
 
- var socket = io.connect();
 // canvas with bb and other unchanging elements
 var canvasBase = document.getElementById('layer1');
 var ctxBase = canvasBase.getContext("2d");
@@ -238,7 +306,6 @@ ctxBase.lineWidth = 3;
 ctxBase.strokeRect(rect.x + 20,rect.y + 15,420,510);
 drawButtons();
 welcomeMessage('white');
-ledsOff();
 
 // **************************************
 // * EVENTS AND CORRESPONDING FUNCTIONS *
@@ -247,10 +314,10 @@ ledsOff();
 // event listeners
 
 // receive analog voltage from server
- socket.on('voltageValue', function (pinData){
+function voltageValue(pinData){
     var len = pin[pinData[0]].volt.length;
- 	pin[pinData[0]].volt[len] = pinData[1];
- });
+    pin[pinData[0]].volt[len] = pinData[1];
+}
  
  // eventually draw led next to output when input on
 // socket.on('outputStatus', function (output){
