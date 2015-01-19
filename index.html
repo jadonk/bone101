@@ -2,27 +2,30 @@
 layout: bare
 ---
 <!DOCTYPE html>
-<html>
-
-  <head>
+<html><head>
+    <title>Introduction to BeagleBoard.org</title>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
     <meta name="description" content="Bone101 : Presentation web server written in BoneScript" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Bone101</title>
+    <script src="/static/jquery.js"></script>
+    <script src="/static/bonescript.js"></script>
+    <script src="index.js"></script>
     <script>
-      if("{{site.baseurl}}".indexOf("site.baseurl") > 0) {
-        window.location="/bone101/Support/bone101/";
-      } else {
-        window.location="{{site.baseurl}}/Support/bone101/";
-      }
+      //window.location="{{site.baseurl}}/Support/bone101/";
     </script>
-  </head>
-
-  <body>
-
+    <style>
+        #slides div {
+            display:none;
+            width:100%;
+            height:100%;
+            background-repeat:no-repeat;
+            background-size:100%;
+        }
+        #slides div:first-child { display:block; }
+    </style>
+</head><body>
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
         <header class="inner">
@@ -37,30 +40,24 @@ layout: bare
             </section>
         </header>
     </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h1>
-<a name="bone101" class="anchor" href="#bone101"><span class="octicon octicon-link"></span></a>bone101</h1>
-
-<p>Getting started information for <a href="http://beagleboard.org">BeagleBone and BeagleBone Black</a> written in <a href="http://github.com/beagleboard/bonescript">BoneScript</a></p>
-
-<p>The content here is presented by the default web server running with the demonstration Linux distributions provided on BeagleBone and BeagleBone Black. It is written in HTML and makes use of the BoneScript server running on the board and BoneScript JavaScript library running in these HTML pages.</p>
-
-<p>You can also explore the content at <a href="http://beagleboard.github.io/bone101/Support/bone101">beagleboard.github.io/bone101</a></p>
-      </section>
+    <div id="slides">
+    <div duration="2" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide10.png');"></div>
+    <div duration="2" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide11.png');"></div>
+    <div duration="2" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide12.png');"></div>
+    <div duration="2" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide13.png');"></div>
+    <div duration="2" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide15.png');"></div>
+    <div duration="10" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide18.png');">
+        <iframe src="http://192.168.7.2:3000/ide.html" style="margin-top:15%;height:70%;width:100%;"></iframe>
     </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Bone101 maintained by <a href="https://github.com/beagleboard">beagleboard</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
+    <div duration="2" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide19.png');"></div>
+    <div duration="5" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide20.png');">
+        <iframe src="http://192.168.7.2/Support/BoneScript" style="margin-top:15%;height:70%;width:100%;"></iframe>
     </div>
-
-    
-
-  </body>
-</html>
+    <div duration="10" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide21.png');">
+        <iframe src="http://192.168.7.2:1880/" style="margin-top:15%;height:70%;width:100%;"></iframe>
+    </div>
+    <div duration="2" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide24.png');"></div>
+    <div duration="2" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide25.png');"></div>
+    <div duration="2" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide26.png');"></div>
+    <div duration="2" style="background-image:url('{{site.baseurl}}/examples/extras/sensortag/IoTDetroit2014/Slide27.png');"></div>
+</div></body></html>
