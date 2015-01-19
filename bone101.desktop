@@ -1,1 +1,6 @@
-/home/debian/.config/autostart/bone101.desktop
+[Desktop Entry]
+Version=1.0
+Name=Chromium Web Browser viewing BONE101
+Exec=/usr/bin/env GOOGLE_API_KEY="no" GOOGLE_DEFAULT_CLIENT_ID="no" GOOGLE_DEFAULT_CLIENT_SECRET="no" /usr/bin/chromium --start-maximized http://localhost/ 
+Terminal=false
+Type=Application
