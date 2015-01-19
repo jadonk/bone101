@@ -936,8 +936,10 @@ function createOutput(){
 
 // draw LEDs		
 function drawLED(led){
-// clear canvas
-console.log('drawing led')
+    function doInputRead(){inputRead(led);});
+
+    // clear canvas
+    console.log('drawing led')
     var data = {freq: led.freq, power: led.power, 
   		id: led.id, num: led.num, state: led.HIGH,
   		output: led.output, type: led.type, subType: led.subType};
@@ -953,7 +955,7 @@ console.log('drawing led')
         console.log(led.input + ' ' + led.output);
         if (led.power === 'on'){
             ledLight(btn[led.btn].ledX,btn[led.btn].ledY,led.ctx)
-            led.check = setInterval(function(){inputRead(led);},100);
+            led.check = setInterval(doInputRead, 100);
             led.voltCurrent = 5;
         }
         else{clearInterval(led.check); led.voltCurrent = 0;}
