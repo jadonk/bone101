@@ -25,6 +25,7 @@ style: |
     margin:auto;
   }
 ---
+<div id='connect-status'></div>
 <div id="canvasdiv">
   <canvas id="layer1" style="z-index: 1;" height="600" width="1224"></canvas>
   <canvas id="layer2" style="z-index: 2;" height="600" width="1224"></canvas>
@@ -37,8 +38,10 @@ style: |
   <canvas id="layer9" style="z-index: 9;" height="600" width="1224"></canvas>
 </div>
 <script>
+//<![CDATA[
+
 // Interface declarations and functions
-setTargetAddress('192.168.7.2', { initialized: ledsOff } );
+//setTargetAddress('192.168.7.2', { initialized: ledsOff } );
 
 var pinBlink = []; var inputRead = [];
 var usrText = ['USR0','USR1','USR2','USR3']; var analog = [];
@@ -232,21 +235,22 @@ var timer; var timeCount = 0; var voltage = []; var voltCount = 0; var pinNum = 
 var interval = 0; var status; var timeValues = []; var btnCheck = false; var voltagePin = [];
 
 //initialize coordinate positions for LEDs
-    var USRY = BBposY + 27;
-    var USRX = [230.5, 241.75, 253, 264.25]; 
-      for (var i = 0; i<4; i++){
-			   USRX[3-i] += BBposX;
-			};
+var USRY = BBposY + 27;
+var USRX = [230.5, 241.75, 253, 264.25]; 
+for (var i = 0; i<4; i++) {
+    USRX[3-i] += BBposX;
+}
+
 //create USR LEDs
-   	var USR = [];
-    	for (var i = 0; i<4; i++){
-        	num = i;
-        	name = USRtext[i];
-        	USR[i] = new createUSR(USRX[3-i],USRY, num, name);  	
-        	USR[i].state = 0;
-        	};
- 
-// pin positions        	
+var USR = [];
+for (var i = 0; i<4; i++){
+    num = i;
+    name = USRtext[i];
+    USR[i] = new createUSR(USRX[3-i],USRY, num, name);
+    USR[i].state = 0;
+}
+
+// pin positions
 for (var i = 0; i < 46; i++){
 //	 if even
 	var x; var y;
@@ -1773,7 +1777,5 @@ for (var i=0;i<pinlen;i++){
 	drawAxis();
 //console.timeEnd("draw graph");
 };
-
-		</script>
-    </body>
-</html>
+//]]>
+</script>
