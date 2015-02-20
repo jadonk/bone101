@@ -3,27 +3,39 @@ layout: index
 title: BeagleBone UI
 scripts: [ '/static/bonescript-demo.js' ]
 style: |
+  div#wrapper {
+    width:1224px;
+  }
+  div#cssmenu {
+    width:1224px;
+  }
+  div.footer {
+    width:1224px;
+  }
+  div#contentbuffer {
+    margin:0;
+  }
+  div#canvasdiv {
+    height:600px;
+  }
   canvas {
     position:absolute;
-    left:0px;
-    top:0px;
-    bottom:0px;
-    right: 0px;
-    margin: auto;
+    width:1224px;
+    height:600px;
+    margin:auto;
   }
 ---
-    <div>
-        <canvas id="layer1" style="z-index: 1; "height="600" width="1224"></canvas>
-        <canvas id="layer2" style="z-index: 2;" height="600" width="1224"></canvas>
-		<canvas id="layer3" style="z-index: 10;" height="600" width="1224"></canvas>
-		<canvas id="layer4" style="z-index: 11; "height="600" width="1224"></canvas>
-        <canvas id="layer5" style="z-index: 12;" height="600" width="1224"></canvas>
-		<canvas id="layer6" style="z-index: 13;" height="600" width="1224"></canvas>
-		<canvas id="layer7" style="z-index: 14;" height="600" width="1224"></canvas>
-		<canvas id="layer8" style="z-index: 8;" height="600" width="1224"></canvas>
-		<canvas id="layer9" style="z-index: 9;" height="600" width="1224"></canvas>
-	</div>
-    
+<div id="canvasdiv">
+  <canvas id="layer1" style="z-index: 1;" height="600" width="1224"></canvas>
+  <canvas id="layer2" style="z-index: 2;" height="600" width="1224"></canvas>
+  <canvas id="layer3" style="z-index: 10;" height="600" width="1224"></canvas>
+  <canvas id="layer4" style="z-index: 11;" height="600" width="1224"></canvas>
+  <canvas id="layer5" style="z-index: 12;" height="600" width="1224"></canvas>
+  <canvas id="layer6" style="z-index: 13;" height="600" width="1224"></canvas>
+  <canvas id="layer7" style="z-index: 14;" height="600" width="1224"></canvas>
+  <canvas id="layer8" style="z-index: 8;" height="600" width="1224"></canvas>
+  <canvas id="layer9" style="z-index: 9;" height="600" width="1224"></canvas>
+</div>
 <script>
 // Interface declarations and functions
 setTargetAddress('192.168.7.2', { initialized: ledsOff } );
