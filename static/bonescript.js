@@ -22,7 +22,7 @@ function setTargetAddress(address, handlers) {
         }
 
         function onerror(err) {
-            console.log('Unable to load: ' + url);
+            //console.log('Unable to load: ' + url);
         }
     }
     function addHandlers() {
