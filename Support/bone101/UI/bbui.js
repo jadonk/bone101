@@ -516,38 +516,6 @@ function bbui() {
         return coord;
     }
     
-    // event listeners for welcome message
-    function exitHover(event) {
-        var canvas = Canvas.get();
-        var coord = Position(event);
-        var x = coord[0];
-        var y = coord[1];
-        canvas.ctxActive.clearRect(0, 0, canvas.Active.width, canvas.Active.height);
-        if (x < canvas.Base.width * 6 / 8 && x > canvas.Base.width * 6 / 8 - 20 && y < canvas.Base.height / 4 + 20 && y > canvas.Base.height / 4) {
-            welcomeMessage('black');
-        }
-        else {
-            welcomeMessage('white');
-        }
-    }
-    
-    // if click on exit, remove welcome message and reinstate all other listeners
-    function exit(event) {
-        var canvas = Canvas.get();
-        var coord = Position(event);
-        var x = coord[0];
-        var y = coord[1];
-        if (x < canvas.Base.width * 6 / 8 && x > canvas.Base.width * 6 / 8 - 20 && y < canvas.Base.height / 4 + 20 && y > canvas.Base.height / 4) {
-            canvas.ctxActive.clearRect(0, 0, canvas.Active.width, canvas.Active.height);
-            document.removeEventListener('click', exit, false);
-            document.removeEventListener('mousemove', exitHover, false);
-            document.addEventListener('mousedown', clickDown, false);
-            document.addEventListener('mouseup', release, false);
-            document.addEventListener('click', clicked, false);
-            document.addEventListener('mousemove', btnInfo, false);
-        }
-    }
-    
     // on mousemove, if over button, display associated pins
     function btnInfo(event) {
         var canvas = Canvas.get();
@@ -1551,6 +1519,38 @@ function bbui() {
         canvas.ctxActive.fillText('stop to stop recording voltages, and play again to reset. Enjoy!', canvas.Base.width / 4 + 25, canvas.Base.height / 4 + 160);
         document.addEventListener('click', exit, false);
         document.addEventListener('mousemove', exitHover, false);
+        
+        // event listeners for welcome message
+        function exitHover(event) {
+            var canvas = Canvas.get();
+            var coord = Position(event);
+            var x = coord[0];
+            var y = coord[1];
+            canvas.ctxActive.clearRect(0, 0, canvas.Active.width, canvas.Active.height);
+            if (x < canvas.Base.width * 6 / 8 && x > canvas.Base.width * 6 / 8 - 20 && y < canvas.Base.height / 4 + 20 && y > canvas.Base.height / 4) {
+                welcomeMessage('black');
+            }
+            else {
+                welcomeMessage('white');
+            }
+        }
+        
+        // if click on exit, remove welcome message and reinstate all other listeners
+        function exit(event) {
+            var canvas = Canvas.get();
+            var coord = Position(event);
+            var x = coord[0];
+            var y = coord[1];
+            if (x < canvas.Base.width * 6 / 8 && x > canvas.Base.width * 6 / 8 - 20 && y < canvas.Base.height / 4 + 20 && y > canvas.Base.height / 4) {
+                canvas.ctxActive.clearRect(0, 0, canvas.Active.width, canvas.Active.height);
+                document.removeEventListener('click', exit, false);
+                document.removeEventListener('mousemove', exitHover, false);
+                document.addEventListener('mousedown', clickDown, false);
+                document.addEventListener('mouseup', release, false);
+                document.addEventListener('click', clicked, false);
+                document.addEventListener('mousemove', btnInfo, false);
+            }
+        }
     }
     
     // initial drawing buttons at top
