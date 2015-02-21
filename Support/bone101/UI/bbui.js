@@ -4,22 +4,14 @@
 //var inputRead = [];
 var analog = [];
 var outputPin;
-var activePins = [];
+var activePins = {};
 
 // toggle pin on/off or blink
 function pinChange(data) {
     var b = require('bonescript');
     if (!b) return;
-    var len = activePins.length;
-    var duplicate;
-    for (var i = 0; i < len; i++) {
-        if (data.id === activePins[i].id) {
-            duplicate = true;
-        }
-    }
-    if (duplicate !== true) {
-        activePins[len] = {
-            id: data.id,
+    if(!(data.id in activePins)) {
+        activePins[data.id] = {
             type: data.type,
             subType: data.subType,
             num: data.num
@@ -50,7 +42,7 @@ function pinChange(data) {
     }
 }
 
-// turn leds off once html loaded
+// turn leds off
 function ledsOff(data) {
     var b = require('bonescript');
     if (!b) return;
