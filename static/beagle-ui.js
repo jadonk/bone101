@@ -58,19 +58,11 @@ $(document).ready(function(){
             '        </div>' +
             '    </div>' +
             '</div>';
-        var i = 0;
-        var serversToTry = [
-            window.location.host,
-            '192.168.7.2',
-            'beaglebone.local',
-            'beaglebone-2.local'
-        ];
         $('#connect-status').replaceWith(statusDisconnected);
 
 	// note, due to a bug in Firefox, the call is moved below
 
         function testForConnection() {
-            var connectTimeout = setTimeout(testForConnection, 1000);
             var handlers = {};
             handlers.callback = callback;
             handlers.initialized = initialized;
@@ -82,9 +74,20 @@ $(document).ready(function(){
             handlers.reconnect = connected;
             handlers.reconnecting = connected;
             $('#connect-ip').keypress(oninput);
-            setTargetAddress(serversToTry[i], handlers);
-            i++;
-            if(i >= serversToTry.length) i = 0;
+            
+            setTimeout(tryWindowHost, 5);
+            setTimeout(try192, 5);
+            setTimeout(tryLocal, 5);
+            
+            function tryWindowHost() {
+                setTargetAddress(window.location.host, handlers);
+            }
+            function try192() {
+                setTargetAddress('192.168.7.2', handlers);
+            }
+            function tryLocal() {
+                setTargetAddress('beaglebone.local', handlers);
+            }
 
             function oninput(e) {
                 if(e.which == 10 || e.which == 13) {
@@ -95,10 +98,8 @@ $(document).ready(function(){
             }
 
             function callback() {
-                if(typeof _bonescript != 'undefined') {
-                    if(connectTimeout) clearTimeout(connectTimeout);
-                }
             }
+            
             function connected() {
                 if(connectState == 'disconnected') {
                     console.log('Bonescript: connected');
