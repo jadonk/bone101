@@ -195,9 +195,9 @@ var UI = (function() {
                 },
                 exit: {
                     x: canvas.Base.e.width * 6 / 8 - 20,
-                    y: canvas.Base.e.height / 4,
+                    y: canvas.Base.e.height / 4 - 20,
                     endX: canvas.Base.e.width * 6 / 8,
-                    endY: canvas.Base.e.height / 4 + 20
+                    endY: canvas.Base.e.height / 4
                 }
             };
             
@@ -449,8 +449,10 @@ var Events = (function() {
         e.ui = UI.get();
         e.hw = Hardware.get();
         e.listeners = {};
-        listen(true, 'exit');
-        listen(true, 'exitHover');
+        e.start = function() {
+            listen(true, 'exit');
+            listen(true, 'exitHover');
+        };
         return e;
     }
 
@@ -469,11 +471,14 @@ var Events = (function() {
             'zooming': { event: 'mouseup', func: zooming },
             'stop': { event: 'mouseup', func: stop },
             'record': { event: 'mouseup', func: record },
-            'pinSelected': { event: 'click', func: pinSelected }
+            'pinSelected': { event: 'click', func: pinSelected },
+            'release': { event: 'mouseup', func: release }
         };
         console.log((enable?"Enabling listener ":"Disabling listener ")+description);
+        
         if(!(description in events)) {
             console.log("Listener for " + description + " doesn't exist");
+            return;
         }
         if((description in e.listeners) && enable) {
             console.log("Listener " + description + " already enabled");
@@ -483,6 +488,9 @@ var Events = (function() {
             console.log("Listener " + description + " was not previously enabled");
             return;
         }
+        if(enable) e.listeners[description] = true;
+        else delete e.listeners[description];
+        
         var ev = events[description].event;
         var func = events[description].func;
         if(enable) document.addEventListener(ev, func, false);
@@ -627,6 +635,10 @@ var Events = (function() {
         
     }
     
+    function release(event) {
+        
+    }
+    
     return {
         'get': function () {
             if (!e) {
@@ -638,5 +650,6 @@ var Events = (function() {
 })();
 
 function bbui() {
-    Events.get();
+    var e = Events.get();
+    e.start();
 }
