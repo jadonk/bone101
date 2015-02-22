@@ -26,8 +26,8 @@ var Canvas = (function() {
         
         for(var layer in layers) {
             canvas[layer] = {};
-            canvas[layer].e = document.getElementById('layer1');
-            canvas[layer].ctx = canvas[layer].element.getContext("2d");
+            canvas[layer].e = document.getElementById(layers[layer]);
+            canvas[layer].ctx = canvas[layer].e.getContext("2d");
         }
         
         return(canvas);
@@ -44,18 +44,18 @@ var Canvas = (function() {
 })();
 
 /* 
- * UIElements provides the user interface element drawing and interaction logic.
- * The events are registered and removed by UIEvents to help make it clear what
- * events are currently registered and active.
+ * UI provides the user interface drawing and interaction logic.
+ * The events are registered, removed and transitioned by Events to help
+ * make it clear what events are currently registered and active.
  *
- * Use 'var uie = UIElements.get();' to fetch the user interface elements.
+ * Use 'var ui = UI.get();' to fetch the user interface object.
  */
-var UIElements = (function() {
-    var uie;
-    var canvas = Canvas.get();
+var UI = (function() {
+    var ui;
 
     function init() {
-        uie = {};
+        ui = {};
+        var canvas = Canvas.get();
 
         // initialize global positions of some elements, all other elements based on these 
         // positions
@@ -65,7 +65,7 @@ var UIElements = (function() {
         var axisStartX = BBposX + 375;
         
         // major buttons
-        uie.button = (function() {
+        ui.button = (function() {
             var button = {};
             
             // global buttons
@@ -199,11 +199,11 @@ var UIElements = (function() {
                 var coord = Position(event);
                 var x = coord[0];
                 var y = coord[1];
-                for(var button in uie.buttons) {
-                    var minX = uie.buttons[button].x;
-                    var minY = uie.buttons[button].y;
-                    var maxX = uie.buttons[button].endX;
-                    var maxY = uie.buttons[button].endY;
+                for(var button in ui.buttons) {
+                    var minX = ui.buttons[button].x;
+                    var minY = ui.buttons[button].y;
+                    var maxX = ui.buttons[button].endX;
+                    var maxY = ui.buttons[button].endY;
                     if(x >= minX && x <= maxX && y >= minY && y <= maxY) {
                         return(button);
                     }
@@ -262,7 +262,7 @@ var UIElements = (function() {
         })();
 
         // each inserted element is a 'probe'
-        uie.probe = (function() {
+        ui.probe = (function() {
             var probe = {};
             probe.n = [];
             
@@ -288,17 +288,17 @@ var UIElements = (function() {
             return probe;
         })();
     
-        uie.ActiveClear = function() {
+        ui.ActiveClear = function() {
             canvas.Active.ctx.clearRect(0, 0, canvas.Active.e.width, canvas.Active.e.height);
         };
     
-        uie.highlightPins = function(button) {
+        ui.highlightPins = function(button) {
             if (button == "none") return;
             for (var i = 0; i < 96; i++) {
             }
         };
     
-        uie.welcomeMessage = function(button) {
+        ui.welcomeMessage = function(button) {
             var color = (button=='exit') ? 'black' : 'white';
             var ctx = canvas.Active.ctx;
             var width = canvas.Active.e.width;
@@ -323,7 +323,7 @@ var UIElements = (function() {
             ctx.fillText('of the corresponding pin. Use the zoom in or zoom out to alter the graph,', width / 4 + 25, height / 4 + 145);
             ctx.fillText('stop to stop recording voltages, and play again to reset. Enjoy!', width / 4 + 25, height / 4 + 160);
         };
-    } // end of uie's init()
+    } // end of ui's init()
 
     // find position of mouse
     function Position(event) {
@@ -391,38 +391,38 @@ var UIElements = (function() {
 
     return {
         get: function () {
-            if (!uie) {
-                uie = init();
+            if (!ui) {
+                ui = init();
             }
-            return uie;
+            return ui;
         }
     };
 })();
 
 var Hardware = (function() {
-    var hardware;
+    var hw;
 
     function init() {
     }
 
     return {
         get: function () {
-            if (!hardware) {
-                hardware = init();
+            if (!hw) {
+                hw = init();
             }
-            return hardware;
+            return hw;
         }
     };
 })();
 
-var UIEvents = (function() {
-    var uiEvents;
-    var uie = UIElements.get();
-    var hw = Hardware.get();
+var Events = (function() {
+    var e;
 
     function init() {
-        uiEvents = {};
-        uiEvents.listeners = {};
+        e = {};
+        e.ui = UI.get();
+        e.hw = Hardware.get();
+        e.listeners = {};
         listen(true, 'exit');
         listen(true, 'exitHover');
     }
@@ -448,11 +448,11 @@ var UIEvents = (function() {
         if(!(description in events)) {
             console.log("Listener for " + description + " doesn't exist");
         }
-        if((description in uiEvents.listeners) && enable) {
+        if((description in e.listeners) && enable) {
             console.log("Listener " + description + " already enabled");
             return;
         }
-        if(!(description in uiEvents.listeners) && !enable) {
+        if(!(description in e.listeners) && !enable) {
             console.log("Listener " + description + " was not previously enabled");
             return;
         }
@@ -463,9 +463,9 @@ var UIEvents = (function() {
     }
 
     function exit(event) {
-        var button = uie.button.test(event);
+        var button = e.ui.button.test(event);
         if(button == "exit") {
-            uie.ActiveClear();
+            e.ui.ActiveClear();
             listen(false, 'exit');
             listen(false, 'exitHover');
             listen(true, 'clickDown');
@@ -476,16 +476,16 @@ var UIEvents = (function() {
     }
     
     function exitHover(event) {
-        var button = uie.button.test(event);
-        uie.ActiveClear();
-        uie.welcomeMessage(button);
+        var button = e.ui.button.test(event);
+        e.ui.ActiveClear();
+        e.ui.welcomeMessage(button);
     }
     
     function btnInfo(event) {
-        uie.ActiveClear();
-        var button = uie.button.test(event);
-        uie.pins.highlight(button);
-        uie.button.highlight(button);
+        e.ui.ActiveClear();
+        var button = e.ui.button.test(event);
+        e.ui.pins.highlight(button);
+        e.ui.button.highlight(button);
         switch(button) {
             case "digital":
                 listen(true, 'digitalMenu');
@@ -496,8 +496,8 @@ var UIEvents = (function() {
     }
     
     function digitalMenu(event) {
-        var button = uie.button.test(event);
-        uie.button.highlightDigital(button);
+        var button = e.ui.button.test(event);
+        e.ui.button.highlightDigital(button);
         switch(button) {
             case "digital":
             case "input":
@@ -514,38 +514,38 @@ var UIEvents = (function() {
     
     // if click on/off button or pin while active
     function clicked(event) {
-        uie.probe.addTest(event);
-        uie.probe.onOffTest(event);
+        e.ui.probe.addTest(event);
+        e.ui.probe.onOffTest(event);
     }
 
     // if clicked on global button, slider, or graph button    
     function clickDown(event) {
-        var button = uie.button.test(event);
-        if(button == "none") button = uie.probe.sliderTest(event);
-        if(button == "none") button = uie.graph.test(event);
+        var button = e.ui.button.test(event);
+        if(button == "none") button = e.ui.probe.sliderTest(event);
+        if(button == "none") button = e.ui.graph.test(event);
         switch(button) {
             case "analog":
             case "led":
-                uie.probe.addStart(button);
+                e.ui.probe.addStart(button);
                 listen(true, 'activateBtn');
                 break;
             case "plus":
                 listen(true, 'zooming');
-                uie.graph.zoomChange("in");
-                uie.button.highlightPlus();
+                e.ui.graph.zoomChange("in");
+                e.ui.button.highlightPlus();
                 break;
             case "minus":
                 listen(true, 'zooming');
-                uie.graph.zoomChange("out");
-                uie.button.highlightMinus();
+                e.ui.graph.zoomChange("out");
+                e.ui.button.highlightMinus();
                 break;
             case "stop":
                 listen(true, 'stop');
-                uie.button.highlightStop();
+                e.ui.button.highlightStop();
                 break;
             case "play":
                 listen(true, 'record');
-                uie.button.highlightPlay();
+                e.ui.button.highlightPlay();
                 break;
             case "slider":
                 listen(true, 'slideBar');
@@ -556,12 +556,12 @@ var UIEvents = (function() {
     }
     
     function clickDownDigital(event) {
-        var button = uie.button.test(event);
+        var button = e.ui.button.test(event);
         switch(button) {
             case "input":
             case "output":
             case "pwm":
-                uie.probe.addStart(button);
+                e.ui.probe.addStart(button);
                 listen(true, 'activateBtn');
                 break;
             default:
@@ -602,14 +602,14 @@ var UIEvents = (function() {
     
     return {
         'get': function () {
-            if (!uiEvents) {
-                uiEvents = init();
+            if (!e) {
+                e = init();
             }
-            return uiEvents;
+            return e;
         }
     };
 })();
 
 function bbui() {
-    UIEvents.get();
+    Events.get();
 }
