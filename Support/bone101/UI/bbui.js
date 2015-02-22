@@ -1,22 +1,11 @@
-// Interface declarations and functions
-//setTargetAddress('192.168.7.2', { initialized: ledsOff } );
-
 //var inputRead = [];
 var analog = [];
 var outputPin;
-var activePins = {};
 
 // toggle pin on/off or blink
 function pinChange(data) {
     var b = require('bonescript');
     if (!b) return;
-    if(!(data.id in activePins)) {
-        activePins[data.id] = {
-            type: data.type,
-            subType: data.subType,
-            num: data.num
-        };
-    }
     if (data.type === 'usr leds' || data.subType != "input" && data.subType != "pwm") {
         b.pinMode(data.id, b.OUTPUT);
         if (data.power === "on") {
@@ -43,7 +32,7 @@ function pinChange(data) {
 }
 
 // turn leds off
-function ledsOff(data) {
+function ledsOff() {
     var b = require('bonescript');
     if (!b) return;
     b.pinMode('USR0', b.OUTPUT);
@@ -130,297 +119,357 @@ var Canvas = (function() {
     };
 })();
 
-function bbui() {
-    // initialize global positions of some elements, all other elements based on these 
-    // positions
-    var BBposX = 460;
-    var BBposY = 60;
-    var btnWidth = 100;
-    var btnHeight = 15;
-    var btn = [];
-    var btnStatus = "none";
-    var btnType = "none";
-    var newPin = "unactive";
-    var bar = [];
-    var pinType = "none";
-    var currentPin = "none";
-    var USRtext = ['USR0', 'USR1', 'USR2', 'USR3'];
-    var rect = {
-        x: 0,
-        y: BBposY - 20,
-        w: Canvas.get().Base.width,
-        h: 540
-    };
-    var rectInner = {
-        x: rect.x + 20,
-        y: rect.y + 15,
-        w: 420,
-        h: 510
-    };
-    var snapPosPin = {
-        x: rect.x + 35,
-        y: rect.y + 25
-    };
-    var USRcontext = [Canvas.get().ctxLED0, Canvas.get().ctxLED1, Canvas.get().ctxLED2, Canvas.get().ctxLED3];
-    var USRcanvas = [Canvas.get().LED0, Canvas.get().LED1, Canvas.get().LED2, Canvas.get().LED3];
-    var pin = [];
-    var pinPosX = [];
-    var pinPosY = [];
-    var P8 = ['GND', 'GND', 'P8_3', 'P8_4', 'P8_5', 'P8_6', 'P8_7', 'P8_8', 'P8_9', 'P8_10', 'P8_11', 'P8_12', 'P8_13', 'P8_14', 'P8_15', 'P8_16', 'P8_17', 'P8_18', 'P8_19', 'P8_20', 'P8_21', 'P8_22', 'P8_23', 'P8_24', 'P8_25', 'P8_26', 'P8_27', 'P8_28', 'P8_29', 'P8_30', 'P8_31', 'P8_32', 'P8_33', 'P8_34', 'P8_35', 'P8_36', 'P8_37', 'P8_38', 'P8_39', 'P8_40', 'P8_41', 'P8_42', 'P8_43', 'P8_44', 'P8_45', 'P8_46'];
-    var P9 = ['GND', 'GND', 'VDD 3.3V', 'VDD 3.3V', 'VDD 5V', 'VDD 5V', 'SYS 5V', 'SYS 5V', 'PWR_BUT', 'SYS_RESETn', 'P9_11', 'P9_12', 'P9_13', 'P9_14', 'P9_15', 'P9_16', 'P9_17', 'P9_18', 'P9_19', 'P9_20', 'P9_21', 'P9_22', 'P9_23', 'P9_24', 'P9_25', 'P9_26', 'P9_27', 'P9_28', 'P9_29', 'P9_30', 'P9_31', 'P9_32', 'P9_33', 'P9_34', 'P9_35', 'P9_36', 'P9_37', 'P9_38', 'P9_39', 'P9_40', 'P9_41', 'P9_42', 'GND', 'GND', 'GND', 'GND'];
-    
-    // global buttons
-    var btnX = BBposX - 425;
-    var btnY = BBposY - 40;
-    var analogBTN = {
-        x: btnX,
-        y: btnY,
-        endX: btnX + 75,
-        endY: btnY + 15,
-        color: 'rgb(51,153,255)',
-        text: "analog",
-        s: 13,
-        offColor: 'rgb(0,51,102)',
-        article: "an analog pin"
-    };
-    var digitalBTN = {
-        x: btnX + 78,
-        y: btnY,
-        endX: btnX + 153,
-        endY: btnY + 15,
-        color: 'rgb(102,204,51)',
-        text: "digital",
-        s: 10
-    };
-    var gndBTN = {
-        x: btnX + 156,
-        y: btnY,
-        endX: btnX + 231,
-        endY: btnY + 15,
-        color: 'rgb(64,64,64)',
-        text: "ground",
-        s: 12
-    };
-    var powerBTN = {
-        x: btnX + 234,
-        y: btnY,
-        endX: btnX + 309,
-        endY: btnY + 15,
-        color: 'rgb(255,51,51)',
-        text: "power",
-        s: 17
-    };
-    var ledBTN = {
-        x: btnX + 312,
-        y: btnY,
-        endX: btnX + 387,
-        endY: btnY + 15,
-        color: 'rgb(255,153,51)',
-        text: "usr leds",
-        s: 7,
-        offColor: 'rgb(102,0,0)',
-        barColor: 'rgb(255,204,153)',
-        article: "a user led"
-    };
-    var inputBTN = {
-        x: btnX + 78,
-        y: btnY + 20,
-        endX: btnX + 153,
-        endY: btnY + 35,
-        color: 'rgb(0,153,0)',
-        text: "input",
-        s: 17,
-        offColor: 'rgb(0,81,36)',
-        article: "a digital pin"
-    };
-    var outputBTN = {
-        x: btnX + 78,
-        y: btnY + 40,
-        endX: btnX + 153,
-        endY: btnY + 55,
-        color: 'rgb(0,153,153)',
-        text: "output",
-        s: 13,
-        offColor: 'rgb(0,85,85)',
-        barColor: 'rgb(153,255,255)',
-        article: "a digital pin"
-    };
-    var pwmBTN = {
-        x: btnX + 78,
-        y: btnY + 60,
-        endX: btnX + 153,
-        endY: btnY + 75,
-        color: 'rgb(153,0,153)',
-        text: "pwm",
-        s: 25,
-        offColor: 'rgb(51,0,102)',
-        barColor: 'rgb(229,204,255)',
-        article: "a pwm pin"
-    };
-    
-    // colors for graph
-    var analogColor = ['rgb(0,0,255)', 'rgb(0,01,53)', 'rgb(0,102,204)', 'rgb(0,51,102)'];
-    var inputColor = ['rgb(0,51,0)', 'rgb(0,204,0)', 'rgb(51,102,0)', 'rgb(0,255,0)', 'rgb(128,255,0)'];
-    var outputColor = ['rgb(60,179,113)', 'rgb(0,153,153)', 'rgb(0,255,255)', 'rgb(0,102,102)'];
-    var pwmColor = ['rgb(102,0,102)', 'rgb(204,0,204)', 'rgb(255,102,255)', 'rgb(51,0,51)'];
-    var ledColor = ['rgb(255,128,0)', 'rgb(164,60,0)', 'rgb(255,99,71)', 'rgb(255,69,0)'];
-    var graphLinePos = BBposY + 40;
-    
-    // all graph global variables
-    var axisStartY = BBposY + 40;
-    var axisStartX = BBposX + 375;
-    var xWidth = 375;
-    var yWidth = 400;
-    var zeroX = axisStartX;
-    var zeroY = axisStartY + yWidth / 2;
-    var zoomVal = [0.125, 0.25, 0.5, 1];
-    var zoomIndex = 3;
-    var zoom = zoomVal[zoomIndex];
-    var xScale = 100;
-    var yScale = 40;
-    var prevPoint = [];
-    var plus = {
-        x: axisStartX + 10,
-        y: axisStartY + 451,
-        endX: axisStartX + 25,
-        endY: axisStartY + 451
-    };
-    var minus = {
-        x: plus.x - 20,
-        y: plus.y + 2,
-        endX: plus.endX - 20,
-        endY: plus.endY
-    };
-    var stopBtn = {
-        x: minus.x - 19,
-        y: minus.y - 16,
-        endX: minus.endX - 22,
-        endY: minus.endY
-    };
-    var playBtn = {
-        x: minus.x - 38,
-        y: minus.y - 17,
-        endX: minus.endX - 39,
-        endY: minus.endY
-    };
-    var timer;
-    var timeCount = 0;
-    var interval = 0;
-    var UIstatus;
-    var timeValues = [];
-    var btnCheck = false;
-    var voltagePin = [];
-    
-    //initialize coordinate positions for LEDs
-    var USRY = BBposY + 27;
-    var USRX = [230.5, 241.75, 253, 264.25];
-    for (var i = 0; i < 4; i++) {
-        USRX[3 - i] += BBposX;
-    }
-    
-    //create USR LEDs
-    var USR = [];
-    (function() {
+var UIElements = (function() {
+    var uie;
+    var canvas = Canvas.get();
+
+    function init() {
+        uie = {};
+
+        // initialize global positions of some elements, all other elements based on these 
+        // positions
+        uie.BBposX = 460;
+        uie.BBposY = 60;
+        uie.btnStatus = "none";
+
+        var btnWidth = 100;
+        var btnHeight = 15;
+        var btn = [];
+        var btnType = "none";
+        var newPin = "unactive";
+        var bar = [];
+        var pinType = "none";
+        var currentPin = "none";
+        var USRtext = ['USR0', 'USR1', 'USR2', 'USR3'];
+        var rect = {
+            x: 0,
+            y: uie.BBposY - 20,
+            w: canvas.Base.width,
+            h: 540
+        };
+        var rectInner = {
+            x: rect.x + 20,
+            y: rect.y + 15,
+            w: 420,
+            h: 510
+        };
+        var snapPosPin = {
+            x: rect.x + 35,
+            y: rect.y + 25
+        };
+        var USRcontext = [canvas.ctxLED0, canvas.ctxLED1, canvas.ctxLED2, canvas.ctxLED3];
+        var USRcanvas = [canvas.LED0, canvas.LED1, canvas.LED2, canvas.LED3];
+        var pin = [];
+        var pinPosX = [];
+        var pinPosY = [];
+        var P8 = ['GND', 'GND', 'P8_3', 'P8_4', 'P8_5', 'P8_6', 'P8_7', 'P8_8', 'P8_9', 'P8_10', 'P8_11', 'P8_12', 'P8_13', 'P8_14', 'P8_15', 'P8_16', 'P8_17', 'P8_18', 'P8_19', 'P8_20', 'P8_21', 'P8_22', 'P8_23', 'P8_24', 'P8_25', 'P8_26', 'P8_27', 'P8_28', 'P8_29', 'P8_30', 'P8_31', 'P8_32', 'P8_33', 'P8_34', 'P8_35', 'P8_36', 'P8_37', 'P8_38', 'P8_39', 'P8_40', 'P8_41', 'P8_42', 'P8_43', 'P8_44', 'P8_45', 'P8_46'];
+        var P9 = ['GND', 'GND', 'VDD 3.3V', 'VDD 3.3V', 'VDD 5V', 'VDD 5V', 'SYS 5V', 'SYS 5V', 'PWR_BUT', 'SYS_RESETn', 'P9_11', 'P9_12', 'P9_13', 'P9_14', 'P9_15', 'P9_16', 'P9_17', 'P9_18', 'P9_19', 'P9_20', 'P9_21', 'P9_22', 'P9_23', 'P9_24', 'P9_25', 'P9_26', 'P9_27', 'P9_28', 'P9_29', 'P9_30', 'P9_31', 'P9_32', 'P9_33', 'P9_34', 'P9_35', 'P9_36', 'P9_37', 'P9_38', 'P9_39', 'P9_40', 'P9_41', 'P9_42', 'GND', 'GND', 'GND', 'GND'];
+
+        // all graph global variables
+        var graphLinePos = uie.BBposY + 40;
+        var axisStartY = uie.BBposY + 40;
+        var axisStartX = uie.BBposX + 375;
+        var xWidth = 375;
+        var yWidth = 400;
+        var zeroX = axisStartX;
+        var zeroY = axisStartY + yWidth / 2;
+        var zoomVal = [0.125, 0.25, 0.5, 1];
+        var zoomIndex = 3;
+        var zoom = zoomVal[zoomIndex];
+        var xScale = 100;
+        var yScale = 40;
+        var prevPoint = [];
+        var timer;
+        var timeCount = 0;
+        var interval = 0;
+        var UIstatus;
+        var timeValues = [];
+        var btnCheck = false;
+        var voltagePin = [];
+        
+        //initialize coordinate positions for LEDs
+        var USRY = uie.BBposY + 27;
+        var USRX = [230.5, 241.75, 253, 264.25];
+        for (var i = 0; i < 4; i++) {
+            USRX[3 - i] += uie.BBposX;
+        }
+        
+        //create USR LEDs
+        uie.USR = [];
         for (var i = 0; i < 4; i++) {
             var num = i;
             var name = USRtext[i];
-            USR[i] = new createUSR(USRX[3 - i], USRY, num, name);
-            USR[i].state = 0;
+            uie.USR[i] = new createUSR(USRX[3 - i], USRY, num, name);
+            uie.USR[i].state = 0;
         }
-    })();
+
+        // pin positions
+        (function() {
+            for (var i = 0; i < 46; i++) {
+                // if even
+                var x;
+                var y;
+                if ((i % 2) === 0) {
+                    x = uie.BBposX + 7;
+                    y = uie.BBposY + 129 + 14.05 * (i / 2);
+                }
+                // if odd
+                else {
+                    x = uie.BBposX + 22;
+                }
+                pinPosY[i] = y;
+                pinPosX[i] = x;
+                pinPosX[i + 46] = x + 273;
+                pinPosY[i + 46] = y;
+            }
+        })();
+        
+        // initialize all pins with corresponding properties
+        (function(){
+            var i, j, matrix;
+            for (i = 0; i < 96; i++) {
+                if (i < 46) {
+                    matrix = P9;
+                    j = i;
+                }
+                else {
+                    matrix = P8;
+                    j = i - 46;
+                }
+                if ((0 <= i && i < 10) || (31 === i || i === 33) || (42 <= i && i <= 47)) {
+                    if ((0 <= i && i < 2) || (i === 33) || (42 <= i && i <= 47)) {
+                        pin[i] = new createPin(pinPosX[i], pinPosY[i], matrix[j], "gnd", i);
+                    }
+                    else if ((2 <= i && i < 8) || (i === 31)) {
+                        pin[i] = new createPin(pinPosX[i], pinPosY[i], matrix[j], "power", i);
+                    }
+                    else {
+                        pin[i] = new createPin(pinPosX[i], pinPosY[i], matrix[j], "reset", i);
+                    }
+                }
+                else if ((10 <= i && i <= 17) || (20 <= i && i <= 30) || (40 <= i && i <= 42) || (48 <= i && i <= 91)) {
+                    if (i == 13 || i == 15 || i == 20 || i == 21 || i == 41 || i == 58 || i == 64) {
+                        pin[i] = new createPin(pinPosX[i], pinPosY[i], matrix[j], "digital", i);
+                        pin[i].subType = "none";
+                        pin[i].PWM = "yes";
+                    }
+                    else {
+                        pin[i] = new createPin(pinPosX[i], pinPosY[i], matrix[j], "digital", i);
+                        pin[i].subType = "none";
+                        pin[i].PWM = "no";
+                    }
+                    if (48 <= i && i <= 54) {
+                        pin[i].s = 22;
+                    }
+                }
+                else if (i === 32 || (34 <= i && i <= 39)) {
+                    pin[i] = new createPin(pinPosX[i], pinPosY[i], matrix[j], "analog", i);
+                }
+                else if (i >= 92) {
+                    pin[i] = USR[i - 92];
+                    pin[i].num = i;
+                }
+                else {
+                    pin[i] = new createPin(pinPosX[i], pinPosY[i], matrix[j], "Shared I2C Bus", i);
+                }
+            }
+        })();
     
-    // pin positions
-    (function() {
-        for (var i = 0; i < 46; i++) {
-            // if even
-            var x;
-            var y;
-            if ((i % 2) === 0) {
-                x = BBposX + 7;
-                y = BBposY + 129 + 14.05 * (i / 2);
+        // global buttons
+        var btnX = uie.BBposX - 425;
+        var btnY = uie.BBposY - 40;
+
+        uie.buttons = {
+            analog: {
+                x: btnX,
+                y: btnY,
+                endX: btnX + 75,
+                endY: btnY + 15,
+                color: 'rgb(51,153,255)',
+                text: "analog",
+                s: 13,
+                offColor: 'rgb(0,51,102)',
+                article: "an analog pin",
+                graphColors: ['rgb(0,0,255)', 'rgb(0,01,53)', 'rgb(0,102,204)', 'rgb(0,51,102)']
+            },
+            digital: {
+                x: btnX + 78,
+                y: btnY,
+                endX: btnX + 153,
+                endY: btnY + 15,
+                color: 'rgb(102,204,51)',
+                text: "digital",
+                s: 10 
+            },
+            ground: {
+                x: btnX + 156,
+                y: btnY,
+                endX: btnX + 231,
+                endY: btnY + 15,
+                color: 'rgb(64,64,64)',
+                text: "ground",
+                s: 12
+            },
+            power: {
+                x: btnX + 234,
+                y: btnY,
+                endX: btnX + 309,
+                endY: btnY + 15,
+                color: 'rgb(255,51,51)',
+                text: "power",
+                s: 17
+            },
+            led: {
+                x: btnX + 312,
+                y: btnY,
+                endX: btnX + 387,
+                endY: btnY + 15,
+                color: 'rgb(255,153,51)',
+                text: "usr leds",
+                s: 7,
+                offColor: 'rgb(102,0,0)',
+                barColor: 'rgb(255,204,153)',
+                article: "a user led",
+                graphColors: ['rgb(255,128,0)', 'rgb(164,60,0)', 'rgb(255,99,71)', 'rgb(255,69,0)']
+            },
+            input: {
+                x: btnX + 78,
+                y: btnY + 20,
+                endX: btnX + 153,
+                endY: btnY + 35,
+                color: 'rgb(0,153,0)',
+                text: "input",
+                s: 17,
+                offColor: 'rgb(0,81,36)',
+                article: "a digital pin",
+                graphColors: ['rgb(0,51,0)', 'rgb(0,204,0)', 'rgb(51,102,0)', 'rgb(0,255,0)', 'rgb(128,255,0)']
+            },
+            output: {
+                x: btnX + 78,
+                y: btnY + 40,
+                endX: btnX + 153,
+                endY: btnY + 55,
+                color: 'rgb(0,153,153)',
+                text: "output",
+                s: 13,
+                offColor: 'rgb(0,85,85)',
+                barColor: 'rgb(153,255,255)',
+                article: "a digital pin",
+                graphColors: ['rgb(60,179,113)', 'rgb(0,153,153)', 'rgb(0,255,255)', 'rgb(0,102,102)']
+            },
+            pwm: {
+                x: btnX + 78,
+                y: btnY + 60,
+                endX: btnX + 153,
+                endY: btnY + 75,
+                color: 'rgb(153,0,153)',
+                text: "pwm",
+                s: 25,
+                offColor: 'rgb(51,0,102)',
+                barColor: 'rgb(229,204,255)',
+                article: "a pwm pin",
+                graphColors: ['rgb(102,0,102)', 'rgb(204,0,204)', 'rgb(255,102,255)', 'rgb(51,0,51)']
+            },
+            plus: {
+                x: axisStartX + 10,
+                y: axisStartY + 451,
+                endX: axisStartX + 25,
+                endY: axisStartY + 451
+            },
+            minus: {
+                x: axisStartX - 10,
+                y: axisStartY + 453,
+                endX: axisStartX + 5,
+                endY: axisStartY + 451
+            },
+            stopBtn: {
+                x: axisStartX - 29,
+                y: axisStartY + 437,
+                endX: axisStartX - 17,
+                endY: axisStartY + 451
+            },
+            playBtn: {
+                x: axisStartX - 48,
+                y: axisStartY + 436,
+                endX: axisStartX - 34,
+                endY: axisStartY + 451
             }
-            // if odd
-            else {
-                x = BBposX + 22;
+        };
+    }
+        
+    uie.btnTest = function(event) {
+        var coord = Position(event);
+        var x = coord[0];
+        var y = coord[1];
+        for(var button in uie.buttons) {
+            var minX = uie.buttons[button].x;
+            var minY = uie.buttons[button].y;
+            var maxX = uie.buttons[button].endX;
+            var maxY = uie.buttons[button].endY;
+            if(x >= minX && x <= maxX && y >= minY && y <= maxY) {
+                return(button);
             }
-            pinPosY[i] = y;
-            pinPosX[i] = x;
-            pinPosX[i + 46] = x + 273;
-            pinPosY[i + 46] = y;
         }
-    })();
+    };
     
-    // initialize all pins with corresponding properties
-    (function(){
-        var i, j, matrix;
+    uie.ActiveClear = function() {
+        canvas.ctxActive.clearRect(0, 0, canvas.Active.width, canvas.Active.height);
+    };
+
+    uie.highlightPins = function(button) {
         for (i = 0; i < 96; i++) {
-            if (i < 46) {
-                matrix = P9;
-                j = i;
-            }
-            else {
-                matrix = P8;
-                j = i - 46;
-            }
-            if ((0 <= i && i < 10) || (31 === i || i === 33) || (42 <= i && i <= 47)) {
-                if ((0 <= i && i < 2) || (i === 33) || (42 <= i && i <= 47)) {
-                    pin[i] = new createPin(pinPosX[i], pinPosY[i], matrix[j], "GND", i);
-                }
-                else if ((2 <= i && i < 8) || (i === 31)) {
-                    pin[i] = new createPin(pinPosX[i], pinPosY[i], matrix[j], "power", i);
-                }
-                else {
-                    pin[i] = new createPin(pinPosX[i], pinPosY[i], matrix[j], "reset", i);
-                }
-            }
-            else if ((10 <= i && i <= 17) || (20 <= i && i <= 30) || (40 <= i && i <= 42) || (48 <= i && i <= 91)) {
-                if (i == 13 || i == 15 || i == 20 || i == 21 || i == 41 || i == 58 || i == 64) {
-                    pin[i] = new createPin(pinPosX[i], pinPosY[i], matrix[j], "digital", i);
-                    pin[i].subType = "none";
-                    pin[i].PWM = "yes";
-                }
-                else {
-                    pin[i] = new createPin(pinPosX[i], pinPosY[i], matrix[j], "digital", i);
-                    pin[i].subType = "none";
-                    pin[i].PWM = "no";
-                }
-                if (48 <= i && i <= 54) {
-                    pin[i].s = 22;
-                }
-            }
-            else if (i === 32 || (34 <= i && i <= 39)) {
-                pin[i] = new createPin(pinPosX[i], pinPosY[i], matrix[j], "analog", i);
-            }
-            else if (i >= 92) {
-                pin[i] = USR[i - 92];
-                pin[i].num = i;
-            }
-            else {
-                pin[i] = new createPin(pinPosX[i], pinPosY[i], matrix[j], "Shared 12C Bus", i);
+            if (pin[i].type == button) {
+                hover(pin[i].x, pin[i].y, pin[i].w, pin[i].h);
             }
         }
-    })();
+    };
     
+    uie.highlightButton = function(button) {
+        canvas.ctxActive.fillStyle = 'rgba(255,255,255,0.7)';
+        for (var b in uie.buttons) {
+            var BTN = uie.buttons[b];
+            roundRect(BTN, 75, 15, 1, canvas.ctxActive, (button == b));
+        }
+    };
+    
+    uie.clickDown = function(button) {
+        uie.btnType = uie.buttons[button].BTN;
+        uie.btnStatus = "active";
+    }
+
+    return {
+        get: function () {
+            if (!uie) {
+                uie = init();
+            }
+            return uie;
+        }
+    };
+})();
+
+
+function bbui() {
     drawStartupScreen();
 
     function drawStartupScreen() {
         var canvas = Canvas.get();
+        var uiElements = UIElements.get();
         
         // draw beagleboard		
         var beagleBone = new Image();
         beagleBone.src = 'beaglebone.png';
         beagleBone.onload = function() {
-            canvas.ctxBase.drawImage(beagleBone, BBposX, BBposY);
+            canvas.ctxBase.drawImage(beagleBone, uiElements.BBposX, uiElements.BBposY);
         };
         
         //// draw gray background, buttons, and graph
-        drawGraph();
+        drawGraph(canvas, uiElements);
         canvas.ctxBase.fillStyle = 'rgb(225,225,225)';
         canvas.ctxBase.fillRect(rect.x, rect.y, rect.w, rect.h);
         canvas.ctxBase.strokeStyle = 'rgb(255,255,255)';
         canvas.ctxBase.lineWidth = 3;
         canvas.ctxBase.strokeRect(rect.x + 20, rect.y + 15, 420, 510);
-        drawButtons();
+        drawButtons(canvas, uiElements);
         welcomeMessage('white');
     }
 
@@ -486,163 +535,71 @@ function bbui() {
     
     // TODO: eventually draw led next to output when input on
 
-    // find position of mouse
-    function Position(event) {
-        var canvas = Canvas.get();
-        var x;
-        var y;
-    
-        if (event.x !== undefined && event.y !== undefined) {
-            x = event.x;
-            y = event.y;
-        }
-        else // Firefox method to get the position
-        {
-            x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-            y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-        }
-    
-        x -= canvas.Base.offsetLeft;
-        y -= canvas.Base.offsetTop;
-        var coord = [x, y];
-        return coord;
-    }
     
     // on mousemove, if over button, display associated pins
     function btnInfo(event) {
-        var canvas = Canvas.get();
-        var coord = Position(event);
-        var x = coord[0];
-        var y = coord[1];
-        canvas.ctxActive.clearRect(0, 0, canvas.Active.width, canvas.Active.height);
-        if (x >= analogBTN.x && x <= analogBTN.endX && y >= analogBTN.y && y <= analogBTN.endY) {
-            roundRect(analogBTN, 75, 15, 1, canvas.ctxActive, true);
-            for (i = 32; i < 40; i++) {
-                if (pin[i].type === "analog") {
-                    hover(pin[i].x, pin[i].y, pin[i].w, pin[i].h);
-                }
-            }
-        }
-        else if (x >= digitalBTN.x && x <= digitalBTN.endX && y >= digitalBTN.y && y < digitalBTN.endY) {
-            document.addEventListener('mousemove', digitalMenu, false);
-            canvas.ctxActive.fillStyle = 'rgba(255,255,255,.7)';
-            canvas.ctxActive.fillRect(digitalBTN.x - 2, digitalBTN.y, pwmBTN.endX - digitalBTN.x + 4,
-            pwmBTN.endY - digitalBTN.y + 2);
-            roundRect(digitalBTN, 75, 15, 1, canvas.ctxActive, true);
-            roundRect(inputBTN, 75, 15, 1, canvas.ctxActive, false);
-            roundRect(outputBTN, 75, 15, 1, canvas.ctxActive, false);
-            roundRect(pwmBTN, 75, 15, 1, canvas.ctxActive, false);
-            for (i = 0; i < 92; i++) {
-                if (pin[i].type === "digital") {
-                    hover(pin[i].x, pin[i].y, pin[i].w, pin[i].h);
-                }
-            }
-        }
-        else if (x >= gndBTN.x && x <= gndBTN.endX && y >= gndBTN.y && y <= gndBTN.endY) {
-            roundRect(gndBTN, 75, 15, 1, canvas.ctxActive, true);
-            for (i = 0; i < 50; i++) {
-                if (pin[i].type === "GND") {
-                    hover(pin[i].x, pin[i].y, pin[i].w, pin[i].h);
-                }
-            }
-        }
-        else if (x >= powerBTN.x && x <= powerBTN.endX && y >= powerBTN.y && y <= powerBTN.endY) {
-            roundRect(powerBTN, 75, 15, 1, canvas.ctxActive, true);
-            for (i = 0; i < 32; i++) {
-                if (pin[i].type === "power") {
-                    hover(pin[i].x, pin[i].y, pin[i].w, pin[i].h);
-                }
-            }
-        }
-        else if (x >= ledBTN.x && x <= ledBTN.endX && y >= ledBTN.y && y <= ledBTN.endY) {
-            roundRect(ledBTN, 75, 15, 1, canvas.ctxActive, true);
-            for (i = 92; i < 96; i++) {
-                if (pin[i].type === "usr leds" && pin[i].select === "off") {
-                    hover(pin[i].x, pin[i].y, pin[i].w, pin[i].h);
-                }
-            }
+        var uie = UIElements.get();
+        var uiEvents = UIEvents.get();
+        uie.ActiveClear();
+        var button = uie.btnTest(event);
+        uie.highlightPins(button);
+        uie.highlightButton(button);
+        switch(button) {
+            case "analog":
+                uie.analogBtnInfo();
+                break;
+            case "digital":
+                uiEvents.listen(true, 'digitalMenu');
+                break;
+            default:
+                break;
         }
     }
     
     // if over digital button, show types
     function digitalMenu(event) {
-        var canvas = Canvas.get();
-        var coord = Position(event);
-        var x = coord[0];
-        var y = coord[1];
-        document.addEventListener('mousedown', clickDownDigital, false);
-        if (x >= digitalBTN.x && x <= digitalBTN.endX && y >= digitalBTN.y && y < digitalBTN.endY) {
-            // already called on btninfo, but needed to ensure event listener on
-        }
-        else if (x >= inputBTN.x && x <= inputBTN.endX && y >= inputBTN.y - 5 && y <= inputBTN.endY) {
-            canvas.ctxActive.fillStyle = 'rgba(255,255,255,.7)';
-            canvas.ctxActive.fillRect(digitalBTN.x - 2, inputBTN.y - 5, pwmBTN.endX - digitalBTN.x + 4,
-            pwmBTN.endY - inputBTN.y + 7);
-            roundRect(outputBTN, 75, 15, 1, canvas.ctxActive, false);
-            roundRect(inputBTN, 75, 15, 1, canvas.ctxActive, true);
-            roundRect(pwmBTN, 75, 15, 1, canvas.ctxActive, false);
-            for (i = 0; i < 92; i++) {
-                if (pin[i].type === "digital") {
-                    hover(pin[i].x, pin[i].y, pin[i].w, pin[i].h);
-                }
-            }
-        }
-        else if (x >= outputBTN.x && x <= outputBTN.endX && y >= outputBTN.y - 5 && y <= outputBTN.endY) {
-            canvas.ctxActive.fillStyle = 'rgba(255,255,255,.7)';
-            canvas.ctxActive.fillRect(digitalBTN.x - 2, inputBTN.y - 5, pwmBTN.endX - digitalBTN.x + 4,
-            pwmBTN.endY - inputBTN.y + 7);
-            roundRect(outputBTN, 75, 15, 1, canvas.ctxActive, true);
-            roundRect(inputBTN, 75, 15, 1, canvas.ctxActive, false);
-            roundRect(pwmBTN, 75, 15, 1, canvas.ctxActive, false);
-            for (i = 0; i < 92; i++) {
-                if (pin[i].type === "digital") {
-                    hover(pin[i].x, pin[i].y, pin[i].w, pin[i].h);
-                }
-            }
-        }
-        else if (x >= pwmBTN.x && x <= pwmBTN.endX && y >= pwmBTN.y - 5 && y <= pwmBTN.endY) {
-            canvas.ctxActive.fillStyle = 'rgba(255,255,255,.7)';
-            canvas.ctxActive.fillRect(digitalBTN.x - 2, inputBTN.y - 5, pwmBTN.endX - digitalBTN.x + 4,
-            pwmBTN.endY - inputBTN.y + 7);
-            roundRect(outputBTN, 75, 15, 1, canvas.ctxActive, false);
-            roundRect(inputBTN, 75, 15, 1, canvas.ctxActive, false);
-            roundRect(pwmBTN, 75, 15, 1, canvas.ctxActive, true);
-            for (i = 0; i < 92; i++) {
-                if (pin[i].PWM === "yes") {
-                    hover(pin[i].x, pin[i].y, pin[i].w, pin[i].h);
-                }
-            }
-        }
-        else {
-            document.removeEventListener('mousemove', digitalMenu, false);
-            document.removeEventListener('mousedown', clickDownDigital, false);
+        var uie = UIElements.get();
+        var uiEvents = UIEvents.get();
+        var button = uie.btnTest(event);
+        uie.highlightPins(button);
+        uie.highlightDigitalButton(button);
+        uiEvents.eventListen(true, 'clickDownDigital');
+        switch(button) {
+            case "digital":
+            case "input":
+            case "output":
+            case "pwm":
+                break;
+            default:
+                uiEvents.eventListen(false, 'digitalMenu');
+                uiEvents.eventListen(false, 'clickDownDigital');
+                break;
         }
     }
     
     // if clicked on global button, slider, or graph button
     function clickDown(event) {
-        var canvas = Canvas.get();
-        var coord = Position(event);
-        var x = coord[0];
-        var y = coord[1];
+        var uie = UIElements.get();
+        var uiEvents = UIEvents.get();
+        var button = uie.btnTest(event);
         var barlen = bar.length;
-        // if on analog button
-        if (x >= analogBTN.x && x <= analogBTN.endX && y >= analogBTN.y && y <= analogBTN.endY) {
-            btnType = analogBTN;
-            btnStatus = "active";
-            document.addEventListener('mousemove', activateBtn, false);
-        }
-        // if on led button
-        else if (x >= ledBTN.x && x <= ledBTN.endX && y >= ledBTN.y && y <= ledBTN.endY) {
-            btnType = ledBTN;
-            btnStatus = "active";
-            document.addEventListener('mousemove', activateBtn, false);
+        uie.clickDown(button);
+        uiEvents.clickDown(button);
+        switch(button) {
+            case "analog":
+                eventListen(true, 'activateBtn');
+                break;
+            case "led":
+                eventListen(true, 'activateBtn');
+                break;
+            default:
+                break;
         }
         // if on a slider	
         for (var i = 0; i < barlen; i++) {
             if (x <= (bar[i].sliderX + 10) && x >= bar[i].sliderX && y >= bar[i].sliderY && y <= (bar[i].sliderY + 10.5)) {
                 bar[i].move = 'on';
-                document.addEventListener('mousemove', slideBar, false);
+                eventListen(true, 'slideBar');
             }
             else if (x <= (bar[i].barLength + bar[i].barLocX) && x >= (bar[i].barLocX + 2) && y <= (bar[i].barHeight + bar[i].barLocY) && y >= bar[i].barLocY) {
                 bar[i].sliderX = x - 5;
@@ -678,13 +635,13 @@ function bbui() {
                     bar[i].text = bar[i].frequency.toString() + ' s';
                 }
                 bar[i].move = 'on';
-                document.addEventListener('mousemove', slideBar, false);
+                eventListen(true, 'slideBar');
                 drawBar();
             }
         }
         // if on zoom in (plus sign)
         if (x <= plus.endX && x >= plus.x && y >= (plus.y - 15) && y <= plus.endY) {
-            document.addEventListener('mouseup', zooming, false);
+            eventListen(true, 'zooming');
             zoomChange("in");
             canvas.ctxGraph[0].fillStyle = "#FF4500";
             canvas.ctxGraph[0].font = '20pt Lucinda Grande';
@@ -692,7 +649,7 @@ function bbui() {
         }
         // if on zoom out (minus sign)
         else if (x <= minus.endX && x >= minus.x && y >= minus.y - 15 && y <= minus.endY) {
-            document.addEventListener('mouseup', zooming, false);
+            eventListen(true, 'zooming');
             zoomChange("out");
             canvas.ctxGraph[0].fillStyle = "#FF4500";
             canvas.ctxGraph[0].font = '30pt Lucinda Grande';
@@ -700,7 +657,7 @@ function bbui() {
         }
         // if on stop button
         else if (x <= stopBtn.endX && x >= stopBtn.x && y >= stopBtn.y - 15 && y <= stopBtn.endY) {
-            document.addEventListener('mouseup', stop, false);
+            eventListen(true, 'stop');
             canvas.ctxGraph[0].fillStyle = "#FF4500";
             canvas.ctxGraph[0].beginPath();
             canvas.ctxGraph[0].moveTo(stopBtn.x, stopBtn.y);
@@ -717,7 +674,7 @@ function bbui() {
             canvas.ctxGraph[0].lineTo(playBtn.x + 10, playBtn.y + 7);
             canvas.ctxGraph[0].lineTo(playBtn.x, playBtn.y + 14);
             canvas.ctxGraph[0].fill();
-            document.addEventListener('mouseup', record, false);
+            eventListen(true, 'record');
         }
     }
     
@@ -797,27 +754,27 @@ function bbui() {
         if (x >= inputBTN.x && x <= inputBTN.endX && y >= inputBTN.y - 5 && y <= inputBTN.endY) {
             btnType = inputBTN;
             btnStatus = "active";
-            document.addEventListener('mousemove', activateBtn, false);
+            eventListen(true, 'activateBtn');
         }
         else if (x >= outputBTN.x && x <= outputBTN.endX && y >= outputBTN.y - 5 && y <= outputBTN.endY) {
             btnType = outputBTN;
             btnStatus = "active";
-            document.addEventListener('mousemove', activateBtn, false);
+            eventListen(true, 'activateBtn');
         }
         else if (x >= pwmBTN.x && x <= pwmBTN.endX && y >= pwmBTN.y - 5 && y <= pwmBTN.endY) {
             btnType = pwmBTN;
             btnStatus = "active";
-            document.addEventListener('mousemove', activateBtn, false);
+            eventListen(true, 'activateBtn');
         }
-        document.removeEventListener('mousemove', digitalMenu, false);
+        eventListen(false, 'digitalMenu');
     }
     
     // dragging button to position
     function activateBtn(event) {
         var canvas = Canvas.get();
-        document.removeEventListener('mousemove', btnInfo, false);
-        document.removeEventListener('mousedown', clickDownDigital, false);
-        document.removeEventListener('mousedown', clickDown, false);
+        eventListen(false, 'btnInfo');
+        eventListen(false, 'clickDownDigital');
+        eventListen(false, 'clickDown');
         canvas.ctxActive.clearRect(0, 0, canvas.Active.width, canvas.Active.height);
         btnCheck = true;
         var coord = Position(event);
@@ -850,12 +807,12 @@ function bbui() {
         canvas.ctxActive.clearRect(0, 0, canvas.Active.width, canvas.Active.height);
         // releasing button on canvas
         if (btnStatus === "active") {
-            document.removeEventListener('mousemove', activateBtn, false);
+            eventListen(false, 'activateBtn');
             if (x >= rectInner.x && x <= (rectInner.x + rectInner.w) && y >= rectInner.y && y <= rectInner.y + rectInner.h && btnCheck === true) {
                 btn.push(new createBtn(snapPosPin.x, snapPosPin.y, btnType.text));
                 drawBtn(75, 15, snapPosPin.x, snapPosPin.y, canvas.ctxBTN, btnType, btnType.s, btnType.text, 1, false);
                 snapPosPin.y += btnHeight * 1.5;
-                document.addEventListener('mousemove', selectPin, false);
+                eventListen(true, 'selectPin');
                 canvas.ctxBase.fillStyle = 'red';
                 canvas.ctxBase.font = '12pt Andale Mono';
                 canvas.ctxBase.fillText("select " + btnType.article, BBposX + 10, BBposY - 25);
@@ -869,8 +826,8 @@ function bbui() {
                 }
             }
             else {
-                document.addEventListener('mousemove', btnInfo, false);
-                document.addEventListener('mousedown', clickDown, false);
+                eventListen(true, 'btnInfo');
+                eventListen(true, 'clickDown');
             }
             btnStatus = "none";
         }
@@ -878,7 +835,7 @@ function bbui() {
         for (var i = 0; i < lenBar; i++) {
             if (bar[i].move === "on") {
                 bar[i].move = 'off';
-                document.removeEventListener('mousemove', slideBar, false);
+                eventListen(false, 'slideBar');
             }
         }
     }
@@ -887,7 +844,7 @@ function bbui() {
     function selectPin(event) {
         var canvas = Canvas.get();
         canvas.ctxActive.clearRect(0, 0, canvas.Active.width, canvas.Active.height);
-        document.addEventListener('click', pinSelected, false);
+        eventListen(true, 'pinSelected');
         var coord = Position(event);
         var x = coord[0];
         var y = coord[1];
@@ -920,10 +877,10 @@ function bbui() {
         var len = btn.length;
         var lenBar = bar.length;
         var selected;
-        document.removeEventListener('mousemove', selectPin, false);
-        document.addEventListener('mousemove', btnInfo, false);
-        document.addEventListener('mousedown', clickDown, false);
-        document.removeEventListener('click', pinSelected, false);
+        eventListen(false, 'selectPin');
+        eventListen(true, 'btnInfo');
+        eventListen(true, 'clickDown');
+        eventListen(false, 'pinSelected');
         canvas.ctxActive.clearRect(0, 0, canvas.Active.width, canvas.Active.height);
         canvas.ctxBase.fillStyle = "white";
         canvas.ctxBase.fillRect(BBposX, BBposY - 70, 230, 50);
@@ -945,7 +902,7 @@ function bbui() {
                 canvas.ctxBase.fillStyle = 'red';
                 canvas.ctxBase.font = '12pt Andale Mono';
                 canvas.ctxBase.fillText("select " + btnType.article, BBposX + 10, BBposY - 25);
-                document.addEventListener('mousemove', selectPin, false);
+                eventListen(true, 'selectPin');
             }
             else {
                 canvas.ctxBTN.fillStyle = 'rgb(225,225,225)';
@@ -1047,8 +1004,8 @@ function bbui() {
     
     function createOutput() {
         var canvas = Canvas.get();
-        document.removeEventListener('mousemove', btnInfo, false);
-        document.removeEventListener('mousedown', clickDown, false);
+        eventListen(false, 'btnInfo');
+        eventListen(false, 'clickDown');
         var len = btn.length;
         btn.push(new createBtn(btnX + 70, snapPosPin.y, btnType.text));
         drawBtn(75, 15, btnX + 70, snapPosPin.y, canvas.ctxBTN, outputBTN, 13, 'output', 1, false);
@@ -1059,7 +1016,7 @@ function bbui() {
         canvas.ctxBase.fillStyle = 'red';
         canvas.ctxBase.font = '12pt Andale Mono';
         canvas.ctxBase.fillText("select " + btnType.article, BBposX + 10, BBposY - 25);
-        document.addEventListener('mousemove', selectPin, false);
+        eventListen(true, 'selectPin');
     }
     
     // *************************
@@ -1314,7 +1271,7 @@ function bbui() {
         var canvas = Canvas.get();
         canvas.ctxGraph[0].clearRect(0, 0, canvas.Graph[0].width, canvas.Graph[0].height);
         drawGraph();
-        document.removeEventListener('mouseup', zooming, false);
+        eventListen(false, 'zooming');
     }
     
     // start recording data
@@ -1356,7 +1313,7 @@ function bbui() {
         }
         canvas.ctxGraph[0].clearRect(0, 0, canvas.Graph[0].width, canvas.Graph[0].height);
         drawGraph();
-        document.removeEventListener('mouseup', stop, false);
+        eventListen(false, 'stop');
     }
     
     // only record data if not already on
@@ -1367,7 +1324,7 @@ function bbui() {
         else {
             //	drawGraph();
         }
-        document.removeEventListener('mouseup', record, false);
+        eventListen(false, 'record');
     }
     
     // change zoom level
@@ -1489,9 +1446,9 @@ function bbui() {
     
     function welcomeMessage(color) {
         var canvas = Canvas.get();
-        canvas.ctxActive.fillStyle = 'rgba(255,255,255,.5)';
+        canvas.ctxActive.fillStyle = 'rgba(255,255,255,0.5)';
         canvas.ctxActive.fillRect(0, 0, canvas.Base.width, canvas.Base.height);
-        canvas.ctxActive.fillStyle = 'rgba(0,102,204,.85)';
+        canvas.ctxActive.fillStyle = 'rgba(0,102,204,0.85)';
         canvas.ctxActive.fillRect(canvas.Base.width / 4, canvas.Base.height / 4,
         canvas.Base.width / 2, canvas.Base.height / 2);
         canvas.ctxActive.fillStyle = color;
@@ -1509,8 +1466,6 @@ function bbui() {
         canvas.ctxActive.fillText('input and an output. The graph to the right will display the voltage', canvas.Base.width / 4 + 25, canvas.Base.height / 4 + 130);
         canvas.ctxActive.fillText('of the corresponding pin. Use the zoom in or zoom out to alter the graph,', canvas.Base.width / 4 + 25, canvas.Base.height / 4 + 145);
         canvas.ctxActive.fillText('stop to stop recording voltages, and play again to reset. Enjoy!', canvas.Base.width / 4 + 25, canvas.Base.height / 4 + 160);
-        document.addEventListener('click', exit, false);
-        document.addEventListener('mousemove', exitHover, false);
         
         // event listeners for welcome message
         function exitHover(event) {
@@ -1535,12 +1490,12 @@ function bbui() {
             var y = coord[1];
             if (x < canvas.Base.width * 6 / 8 && x > canvas.Base.width * 6 / 8 - 20 && y < canvas.Base.height / 4 + 20 && y > canvas.Base.height / 4) {
                 canvas.ctxActive.clearRect(0, 0, canvas.Active.width, canvas.Active.height);
-                document.removeEventListener('click', exit, false);
-                document.removeEventListener('mousemove', exitHover, false);
-                document.addEventListener('mousedown', clickDown, false);
-                document.addEventListener('mouseup', release, false);
-                document.addEventListener('click', clicked, false);
-                document.addEventListener('mousemove', btnInfo, false);
+                eventListen(false, 'exit');
+                eventListen(false, 'exitHover');
+                eventListen(true, 'clickDown');
+                eventListen(true, 'release');
+                eventListen(true, 'clicked');
+                eventListen(true, 'btnInfo');
             }
         }
     }
@@ -2089,4 +2044,139 @@ function bbui() {
         drawAxis();
         //console.timeEnd("draw graph");
     }
+}
+
+var UIEvents = (function() {
+    var uiEvents;
+
+    function init() {
+        uiEvents = {};
+        uiEvents.listeners = {};
+        listen(true, 'exit');
+        listen(true, 'exitHover');
+    }
+
+    function listen(enable, description) {
+        var events = {
+            'exit': { event: 'click', func: exit },
+            'exitHover': { event: 'mousemove', func: exitHover },
+            'digitalMenu': { event: 'mousemove', func: digitalMenu },
+            'clicked': { event: 'click', func: clicked },
+            'clickDown': { event: 'mousedown', func: clickDown },
+            'clickDownDigital': { event: 'mousedown', func: clickDownDigital },
+            'activateBtn': { event: 'mousemove', func: activateBtn },
+            'slidebar': { event: 'mousemove', func: slideBar },
+            'zooming': { event: 'mouseup', func: zooming },
+            'stop': { event: 'mouseup', func: stop },
+            'record': { event: 'mouseup', func: record },
+            'digitalMenu': { event: 'mousemove', func: digitalMenu },
+            'btnInfo': { event: 'mousemove', func: btnInfo },
+            'selectPin': { event: 'mousemove', func: selectPin },
+            'pinSelected': { event: 'click', func: pinSelected }
+        };
+        console.log((enable?"Enabling listener ":"Disabling listener ")+description);
+        if(!(description in events)) {
+            console.log("Listener for " + description + " doesn't exist");
+        }
+        if((description in uiEvents.listeners) && enable) {
+            console.log("Listener " + description + " already enabled");
+            return;
+        }
+        if(!(description in uiEvents.listeners) && !enable) {
+            console.log("Listener " + description + " was not previously enabled");
+            return;
+        }
+        var ev = events[description].event;
+        var func = events[description].event;
+        if(enable) document.addEventListener(ev, func, false);
+        else document.removeEventListener(ev, func, false);
+    }
+
+    function exit(event) {
+        
+    }
+    
+    function exitHover(event) {
+        
+    }
+    
+    function digitalMenu(event) {
+        
+    }
+    
+    function clicked(event) {
+        
+    }
+    
+    function clickDown(event) {
+        
+    }
+    
+    function clickDownDigital(event) {
+        
+    }
+    
+    function activateBtn(event) {
+        
+    }
+    
+    function slidebar(event) {
+        
+    }
+    
+    function zooming(event) {
+        
+    }
+    
+    function stop(event) {
+        
+    }
+    
+    function record(event) {
+        
+    }
+    
+    function btnInfo(event) {
+        
+    }
+    
+    function selectPin(event) {
+        
+    }
+    
+    function pinSelected(event) {
+        
+    }
+    
+    return {
+        'get': function () {
+            if (!uiEvents) {
+                uiEvents = init();
+            }
+            return uiEvents;
+        },
+        'listen': listen
+    };
+})();
+
+// find position of mouse
+function Position(event) {
+    var canvas = Canvas.get();
+    var x;
+    var y;
+
+    if (event.x !== undefined && event.y !== undefined) {
+        x = event.x;
+        y = event.y;
+    }
+    else // Firefox method to get the position
+    {
+        x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+        y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+    }
+
+    x -= canvas.Base.offsetLeft;
+    y -= canvas.Base.offsetTop;
+    var coord = [x, y];
+    return coord;
 }
