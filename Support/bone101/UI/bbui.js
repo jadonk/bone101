@@ -63,6 +63,12 @@ var UI = (function() {
         var BBposY = 60;
         var axisStartY = BBposY + 40;
         var axisStartX = BBposX + 375;
+        var bg = {
+            x: 0,
+            y: BBposY - 20,
+            w: canvas.Base.e.width,
+            h: 540
+        };
         
         // major buttons
         ui.button = (function() {
@@ -199,11 +205,11 @@ var UI = (function() {
                 var coord = Position(event);
                 var x = coord[0];
                 var y = coord[1];
-                for(var button in ui.buttons) {
-                    var minX = ui.buttons[button].x;
-                    var minY = ui.buttons[button].y;
-                    var maxX = ui.buttons[button].endX;
-                    var maxY = ui.buttons[button].endY;
+                for(var button in buttons) {
+                    var minX = buttons[button].x;
+                    var minY = buttons[button].y;
+                    var maxX = buttons[button].endX;
+                    var maxY = buttons[button].endY;
                     if(x >= minX && x <= maxX && y >= minY && y <= maxY) {
                         return(button);
                     }
@@ -323,6 +329,25 @@ var UI = (function() {
             ctx.fillText('of the corresponding pin. Use the zoom in or zoom out to alter the graph,', width / 4 + 25, height / 4 + 145);
             ctx.fillText('stop to stop recording voltages, and play again to reset. Enjoy!', width / 4 + 25, height / 4 + 160);
         };
+        
+        // draw beaglebone
+        var beagleBone = new Image();
+        beagleBone.src = 'beaglebone.png';
+        beagleBone.onload = function() {
+            canvas.Base.ctx.drawImage(beagleBone, BBposX, BBposY);
+        };
+
+        // draw gray background, buttons, and graph
+        //drawGraph(canvas, uiElements);
+        canvas.Base.ctx.fillStyle = 'rgb(225,225,225)';
+        canvas.Base.ctx.fillRect(bg.x, bg.y, bg.w, bg.h);
+        canvas.Base.ctx.strokeStyle = 'rgb(255,255,255)';
+        canvas.Base.ctx.lineWidth = 3;
+        canvas.Base.ctx.strokeRect(bg.x + 20, bg.y + 15, 420, 510);
+        //drawButtons(canvas, uiElements);
+        ui.welcomeMessage('white');
+        
+        return ui;
     } // end of ui's init()
 
     // find position of mouse
@@ -341,8 +366,8 @@ var UI = (function() {
             y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
         }
     
-        x -= canvas.Base.offsetLeft;
-        y -= canvas.Base.offsetTop;
+        x -= canvas.Base.e.offsetLeft;
+        y -= canvas.Base.e.offsetTop;
         var coord = [x, y];
         return coord;
     }
@@ -403,6 +428,7 @@ var Hardware = (function() {
     var hw;
 
     function init() {
+        return hw;
     }
 
     return {
@@ -425,6 +451,7 @@ var Events = (function() {
         e.listeners = {};
         listen(true, 'exit');
         listen(true, 'exitHover');
+        return e;
     }
 
     function listen(enable, description) {
@@ -457,7 +484,7 @@ var Events = (function() {
             return;
         }
         var ev = events[description].event;
-        var func = events[description].event;
+        var func = events[description].func;
         if(enable) document.addEventListener(ev, func, false);
         else document.removeEventListener(ev, func, false);
     }
