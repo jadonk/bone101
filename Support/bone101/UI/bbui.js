@@ -63,12 +63,6 @@ var UI = (function() {
         var BBposY = 60;
         var axisStartY = BBposY + 40;
         var axisStartX = BBposX + 375;
-        var bg = {
-            x: 0,
-            y: BBposY - 20,
-            w: canvas.Base.e.width,
-            h: 540
-        };
         
         // major buttons
         ui.button = (function() {
@@ -266,6 +260,18 @@ var UI = (function() {
             
             return button;
         })();
+        
+        ui.pin = (function() {
+            var pin = {};
+            
+            pin.highlight = function(button) {
+                if (button == "none") return;
+                for (var i = 0; i < 96; i++) {
+                }
+            };
+            
+            return pin;
+        })();
 
         // each inserted element is a 'probe'
         ui.probe = (function() {
@@ -293,59 +299,78 @@ var UI = (function() {
                     
             return probe;
         })();
-    
-        ui.ActiveClear = function() {
-            canvas.Active.ctx.clearRect(0, 0, canvas.Active.e.width, canvas.Active.e.height);
-        };
-    
-        ui.highlightPins = function(button) {
-            if (button == "none") return;
-            for (var i = 0; i < 96; i++) {
-            }
-        };
-    
-        ui.welcomeMessage = function(button) {
-            var color = (button=='exit') ? 'black' : 'white';
-            var ctx = canvas.Active.ctx;
-            var width = canvas.Active.e.width;
-            var height = canvas.Active.e.height;
-            ctx.fillStyle = 'rgba(255,255,255,0.5)';
-            ctx.fillRect(0, 0, width, height);
-            ctx.fillStyle = 'rgba(0,102,204,0.85)';
-            ctx.fillRect(width / 4, height / 4, width / 2, height / 2);
-            ctx.fillStyle = color;
-            ctx.font = '12pt Andale Mono';
-            ctx.fillText('X', width * 6 / 8 - 20, height / 4 + 20);
-            ctx.fillStyle = 'white';
-            ctx.font = '13pt Andale Mono';
-            ctx.fillText('Welcome to the beaglebone user interface!', width / 4 + 20, height / 4 + 25);
-            ctx.font = '10pt Andale Mono';
-            ctx.fillText('This interface allows you to play with analog to digital converters,', width / 4 + 25, height / 4 + 55);
-            ctx.fillText('digital pins (including inputs, outputs, and pwms), and the user leds', width / 4 + 25, height / 4 + 70);
-            ctx.fillText('located at the top of the board. Hovering over the buttons indicates', width / 4 + 25, height / 4 + 85);
-            ctx.fillText('which pins correspond to what type. Click and drag the button within', width / 4 + 25, height / 4 + 100);
-            ctx.fillText('the white rectangle and select a pin. The input button requires both an', width / 4 + 25, height / 4 + 115);
-            ctx.fillText('input and an output. The graph to the right will display the voltage', width / 4 + 25, height / 4 + 130);
-            ctx.fillText('of the corresponding pin. Use the zoom in or zoom out to alter the graph,', width / 4 + 25, height / 4 + 145);
-            ctx.fillText('stop to stop recording voltages, and play again to reset. Enjoy!', width / 4 + 25, height / 4 + 160);
-        };
         
-        // draw beaglebone
-        var beagleBone = new Image();
-        beagleBone.src = 'beaglebone.png';
-        beagleBone.onload = function() {
-            canvas.Base.ctx.drawImage(beagleBone, BBposX, BBposY);
-        };
+        ui.active = (function() {
+            var active = {};
+            
+            active.clear = function() {
+                canvas.Active.ctx.clearRect(0, 0, canvas.Active.e.width, canvas.Active.e.height);
+            };
+            
+            active.welcome = function(button) {
+                var color = (button=='exit') ? 'black' : 'white';
+                var ctx = canvas.Active.ctx;
+                var width = canvas.Active.e.width;
+                var height = canvas.Active.e.height;
+                ctx.fillStyle = 'rgba(255,255,255,0.5)';
+                ctx.fillRect(0, 0, width, height);
+                ctx.fillStyle = 'rgba(0,102,204,0.85)';
+                ctx.fillRect(width / 4, height / 4, width / 2, height / 2);
+                ctx.fillStyle = color;
+                ctx.font = '12pt Andale Mono';
+                ctx.fillText('X', width * 6 / 8 - 20, height / 4 + 20);
+                ctx.fillStyle = 'white';
+                ctx.font = '13pt Andale Mono';
+                ctx.fillText('Welcome to the beaglebone user interface!', width / 4 + 20, height / 4 + 25);
+                ctx.font = '10pt Andale Mono';
+                ctx.fillText('This interface allows you to play with analog to digital converters,', width / 4 + 25, height / 4 + 55);
+                ctx.fillText('digital pins (including inputs, outputs, and pwms), and the user leds', width / 4 + 25, height / 4 + 70);
+                ctx.fillText('located at the top of the board. Hovering over the buttons indicates', width / 4 + 25, height / 4 + 85);
+                ctx.fillText('which pins correspond to what type. Click and drag the button within', width / 4 + 25, height / 4 + 100);
+                ctx.fillText('the white rectangle and select a pin. The input button requires both an', width / 4 + 25, height / 4 + 115);
+                ctx.fillText('input and an output. The graph to the right will display the voltage', width / 4 + 25, height / 4 + 130);
+                ctx.fillText('of the corresponding pin. Use the zoom in or zoom out to alter the graph,', width / 4 + 25, height / 4 + 145);
+                ctx.fillText('stop to stop recording voltages, and play again to reset. Enjoy!', width / 4 + 25, height / 4 + 160);
+            };
+            
+            active.clear();
+            active.welcome('white');
+            
+            return active;
+        })();
 
-        // draw gray background, buttons, and graph
-        //drawGraph(canvas, uiElements);
-        canvas.Base.ctx.fillStyle = 'rgb(225,225,225)';
-        canvas.Base.ctx.fillRect(bg.x, bg.y, bg.w, bg.h);
-        canvas.Base.ctx.strokeStyle = 'rgb(255,255,255)';
-        canvas.Base.ctx.lineWidth = 3;
-        canvas.Base.ctx.strokeRect(bg.x + 20, bg.y + 15, 420, 510);
-        //drawButtons(canvas, uiElements);
-        ui.welcomeMessage('white');
+        ui.base = (function() {
+            var base = {};
+            var bg = {
+                x: 0,
+                y: BBposY - 20,
+                w: canvas.Base.e.width,
+                h: 540
+            };
+            
+            var beagleBone = new Image();
+            beagleBone.src = 'beaglebone.png';
+            beagleBone.onload = function() {
+                canvas.Base.ctx.drawImage(beagleBone, BBposX, BBposY);
+            };
+
+            return base;
+        })();
+
+        ui.graph = (function() {
+            var graph = {};
+
+            // draw gray background, buttons, and graph
+            //drawGraph(canvas, uiElements);
+            canvas.Base.ctx.fillStyle = 'rgb(225,225,225)';
+            canvas.Base.ctx.fillRect(bg.x, bg.y, bg.w, bg.h);
+            canvas.Base.ctx.strokeStyle = 'rgb(255,255,255)';
+            canvas.Base.ctx.lineWidth = 3;
+            canvas.Base.ctx.strokeRect(bg.x + 20, bg.y + 15, 420, 510);
+            //drawButtons(canvas, uiElements);
+            
+            return graph;
+        })();
         
         return ui;
     } // end of ui's init()
@@ -428,6 +453,7 @@ var Hardware = (function() {
     var hw;
 
     function init() {
+        hw = {};
         return hw;
     }
 
@@ -453,6 +479,7 @@ var Events = (function() {
             listen(true, 'exit');
             listen(true, 'exitHover');
         };
+        e.start();
         return e;
     }
 
@@ -650,6 +677,5 @@ var Events = (function() {
 })();
 
 function bbui() {
-    var e = Events.get();
-    e.start();
+    Events.get();
 }
