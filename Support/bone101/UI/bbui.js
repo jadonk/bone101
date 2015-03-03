@@ -601,7 +601,7 @@ var Events = (function() {
     function btnInfo(event) {
         e.ui.loop.clear();
         var button = e.ui.button.test(event);
-        e.ui.pins.highlight(button);
+        e.ui.pin.highlight(button);
         e.ui.button.highlight(button);
         switch(button) {
             case "digital":
