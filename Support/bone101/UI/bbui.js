@@ -256,9 +256,26 @@ var UI = (function() {
             };
             
             button.test = function(event) {
-                var coord = Position(event);
-                var x = coord[0];
-                var y = coord[1];
+                var canvas = Canvas.get();
+                var rect = canvas.Base.e.getBoundingClientRect();
+                var x;
+                var y;
+                
+                // find position of mouse
+                if (event.x !== undefined && event.y !== undefined) {
+                    x = event.x;
+                    y = event.y;
+                }
+                else // Firefox method to get the position
+                {
+                    x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+                    y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+                }
+                //console.log("Position = " + [x, y]);
+                //console.log("Offset = " + [rect.left, rect.top]);
+                x -= rect.left;
+                y -= rect.top;
+                
                 for(var b in buttons) {
                     var minX = buttons[b].x;
                     var minY = buttons[b].y;
@@ -452,28 +469,6 @@ var UI = (function() {
         
         return ui;
     } // end of ui's init()
-
-    // find position of mouse
-    function Position(event) {
-        var canvas = Canvas.get();
-        var x;
-        var y;
-    
-        if (event.x !== undefined && event.y !== undefined) {
-            x = event.x;
-            y = event.y;
-        }
-        else // Firefox method to get the position
-        {
-            x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-            y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-        }
-    
-        x -= canvas.Base.e.offsetLeft;
-        y -= canvas.Base.e.offsetTop;
-        var coord = [x, y];
-        return coord;
-    }
     
     function hover(canvas, x, y, w, h) {
         canvas.Active.ctx.fillStyle = 'RGBA(255,255,255,0.5)';
@@ -598,6 +593,7 @@ var Events = (function() {
     
     function exitHover(event) {
         var button = e.ui.button.test(event);
+        console.log("exitHover: button = " + button);
         e.ui.loop.clear();
         e.ui.loop.welcome(button);
     }
