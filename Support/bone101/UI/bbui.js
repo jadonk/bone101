@@ -33,13 +33,59 @@ var Canvas = (function() {
         return(canvas);
     }
 
+    function add(id, zIndex) {
+        var canvasdiv = document.getElementById('canvasdiv');
+        canvas[id] = {};
+        canvas[id].e = document.createElement('canvas');
+        canvas[id].e.width = canvas.Base.e.width;
+        canvas[id].e.height = canvas.Base.e.height;
+        canvas[id].e.style.zIndex = zIndex;
+        canvas[id].e.style.left = 0;
+        canvas[id].e.style.right = 0;
+        canvas[id].e.style.top = 0;
+        canvas[id].e.style.bottom = 0;
+        canvas[id].e.style.margin = 'auto';
+        canvas[id].e.style.position = "absolute";
+        canvas[id].ctx = canvas[id].e.getContext("2d");
+        canvasdiv.appendChild(canvas[id].e);
+    }
+
     return {
         'get': function () {
             if (!canvas) {
                 canvas = init();
             }
             return canvas;
-        }
+        },
+        'add': add
+    };
+})();
+
+var Hardware = (function() {
+    var hw;
+
+    function init() {
+        hw = {};
+        return hw;
+    }
+    
+    function add(pin, mode, state) {
+        
+    }
+    
+    function write(pin, state) {
+        
+    }
+
+    return {
+        'get': function () {
+            if (!hw) {
+                hw = init();
+            }
+            return hw;
+        },
+        'add': add,
+        'write': write
     };
 })();
 
@@ -55,6 +101,7 @@ var UI = (function() {
 
     function init() {
         ui = {};
+        var hw = Hardware.get();
         var canvas = Canvas.get();
 
         // initialize global positions of some elements, all other elements based on these 
@@ -83,7 +130,8 @@ var UI = (function() {
                     s: 13,
                     offColor: 'rgb(0,51,102)',
                     article: "an analog pin",
-                    graphColors: ['rgb(0,0,255)', 'rgb(0,01,53)', 'rgb(0,102,204)', 'rgb(0,51,102)']
+                    graphColors: ['rgb(0,0,255)', 'rgb(0,01,53)', 'rgb(0,102,204)', 'rgb(0,51,102)'],
+                    category: "main"
                 },
                 digital: {
                     x: btnX + 78,
@@ -92,7 +140,8 @@ var UI = (function() {
                     endY: btnY + 15,
                     color: 'rgb(102,204,51)',
                     text: "digital",
-                    s: 10 
+                    s: 10,
+                    category: "main"
                 },
                 ground: {
                     x: btnX + 156,
@@ -101,7 +150,8 @@ var UI = (function() {
                     endY: btnY + 15,
                     color: 'rgb(64,64,64)',
                     text: "ground",
-                    s: 12
+                    s: 12,
+                    category: "main"
                 },
                 power: {
                     x: btnX + 234,
@@ -110,7 +160,8 @@ var UI = (function() {
                     endY: btnY + 15,
                     color: 'rgb(255,51,51)',
                     text: "power",
-                    s: 17
+                    s: 17,
+                    category: "main"
                 },
                 led: {
                     x: btnX + 312,
@@ -123,7 +174,8 @@ var UI = (function() {
                     offColor: 'rgb(102,0,0)',
                     barColor: 'rgb(255,204,153)',
                     article: "a user led",
-                    graphColors: ['rgb(255,128,0)', 'rgb(164,60,0)', 'rgb(255,99,71)', 'rgb(255,69,0)']
+                    graphColors: ['rgb(255,128,0)', 'rgb(164,60,0)', 'rgb(255,99,71)', 'rgb(255,69,0)'],
+                    category: "main"
                 },
                 input: {
                     x: btnX + 78,
@@ -135,7 +187,8 @@ var UI = (function() {
                     s: 17,
                     offColor: 'rgb(0,81,36)',
                     article: "a digital pin",
-                    graphColors: ['rgb(0,51,0)', 'rgb(0,204,0)', 'rgb(51,102,0)', 'rgb(0,255,0)', 'rgb(128,255,0)']
+                    graphColors: ['rgb(0,51,0)', 'rgb(0,204,0)', 'rgb(51,102,0)', 'rgb(0,255,0)', 'rgb(128,255,0)'],
+                    category: "digital"
                 },
                 output: {
                     x: btnX + 78,
@@ -148,7 +201,8 @@ var UI = (function() {
                     offColor: 'rgb(0,85,85)',
                     barColor: 'rgb(153,255,255)',
                     article: "a digital pin",
-                    graphColors: ['rgb(60,179,113)', 'rgb(0,153,153)', 'rgb(0,255,255)', 'rgb(0,102,102)']
+                    graphColors: ['rgb(60,179,113)', 'rgb(0,153,153)', 'rgb(0,255,255)', 'rgb(0,102,102)'],
+                    category: "digital"
                 },
                 pwm: {
                     x: btnX + 78,
@@ -161,37 +215,43 @@ var UI = (function() {
                     offColor: 'rgb(51,0,102)',
                     barColor: 'rgb(229,204,255)',
                     article: "a pwm pin",
-                    graphColors: ['rgb(102,0,102)', 'rgb(204,0,204)', 'rgb(255,102,255)', 'rgb(51,0,51)']
+                    graphColors: ['rgb(102,0,102)', 'rgb(204,0,204)', 'rgb(255,102,255)', 'rgb(51,0,51)'],
+                    category: "digital"
                 },
                 plus: {
                     x: axisStartX + 10,
                     y: axisStartY + 451,
                     endX: axisStartX + 25,
-                    endY: axisStartY + 451
+                    endY: axisStartY + 451,
+                    category: "graph"
                 },
                 minus: {
                     x: axisStartX - 10,
                     y: axisStartY + 453,
                     endX: axisStartX + 5,
-                    endY: axisStartY + 451
+                    endY: axisStartY + 451,
+                    category: "graph"
                 },
                 stop: {
                     x: axisStartX - 29,
                     y: axisStartY + 437,
                     endX: axisStartX - 17,
-                    endY: axisStartY + 451
+                    endY: axisStartY + 451,
+                    category: "graph"
                 },
                 play: {
                     x: axisStartX - 48,
                     y: axisStartY + 436,
                     endX: axisStartX - 34,
-                    endY: axisStartY + 451
+                    endY: axisStartY + 451,
+                    category: "graph"
                 },
                 exit: {
                     x: canvas.Base.e.width * 6 / 8 - 20,
                     y: canvas.Base.e.height / 4 - 20,
                     endX: canvas.Base.e.width * 6 / 8,
-                    endY: canvas.Base.e.height / 4
+                    endY: canvas.Base.e.height / 4,
+                    category: "welcome"
                 }
             };
             
@@ -199,13 +259,13 @@ var UI = (function() {
                 var coord = Position(event);
                 var x = coord[0];
                 var y = coord[1];
-                for(var button in buttons) {
-                    var minX = buttons[button].x;
-                    var minY = buttons[button].y;
-                    var maxX = buttons[button].endX;
-                    var maxY = buttons[button].endY;
+                for(var b in buttons) {
+                    var minX = buttons[b].x;
+                    var minY = buttons[b].y;
+                    var maxX = buttons[b].endX;
+                    var maxY = buttons[b].endY;
                     if(x >= minX && x <= maxX && y >= minY && y <= maxY) {
-                        return(button);
+                        return(b);
                     }
                 }
                 return("none");
@@ -213,17 +273,19 @@ var UI = (function() {
             
             button.highlight = function(highlightButton) {
                 canvas.Active.ctx.fillStyle = 'rgba(255,255,255,0.7)';
-                for (var b in ["analog", "digital", "ground", "power", "led"]) {
-                    var btn = buttons[b];
-                    roundRect(btn, 75, 15, 1, canvas.Active.ctx, (highlightButton == b));
+                for (var b in buttons) {
+                    if(buttons[b].category == "main") {
+                        roundRect(buttons[b], 1, canvas.Active.ctx, (highlightButton == b));
+                    }
                 }
             };
     
             button.highlightDigital = function(highlightButton) {
                 canvas.Active.ctx.fillStyle = 'rgba(255,255,255,0.7)';
-                for (var b in ["input", "output", "pwm"]) {
-                    var btn = buttons[b];
-                    roundRect(btn, 75, 15, 1, canvas.Active.ctx, (highlightButton == b));
+                for (var b in buttons) {
+                    if(buttons[b].category == "digital") {
+                        roundRect(buttons[b], 1, canvas.Active.ctx, (highlightButton == b));
+                    }
                 }
             };
             
@@ -258,6 +320,12 @@ var UI = (function() {
                 canvas.Graph.ctx.fill();
             };
             
+            for(var b in buttons) {
+                if(buttons[b].category == "main") {
+                    roundRect(buttons[b], 1, canvas.Base.ctx, false);
+                }
+            }
+
             return button;
         })();
         
@@ -296,18 +364,23 @@ var UI = (function() {
                 add.status = "active";
                 add.type = type;
             };
-                    
+            
+            probe.add = function(pin) {
+                canvas.add(pin.id, 10);
+                ui.graph.add(pin.id, 10);
+            };
+
             return probe;
         })();
         
-        ui.active = (function() {
-            var active = {};
+        ui.loop = (function() {
+            var loop = {};
             
-            active.clear = function() {
+            loop.clear = function() {
                 canvas.Active.ctx.clearRect(0, 0, canvas.Active.e.width, canvas.Active.e.height);
             };
             
-            active.welcome = function(button) {
+            loop.welcome = function(button) {
                 var color = (button=='exit') ? 'black' : 'white';
                 var ctx = canvas.Active.ctx;
                 var width = canvas.Active.e.width;
@@ -333,20 +406,14 @@ var UI = (function() {
                 ctx.fillText('stop to stop recording voltages, and play again to reset. Enjoy!', width / 4 + 25, height / 4 + 160);
             };
             
-            active.clear();
-            active.welcome('white');
+            loop.clear();
+            loop.welcome('white');
             
-            return active;
+            return loop;
         })();
 
         ui.base = (function() {
             var base = {};
-            var bg = {
-                x: 0,
-                y: BBposY - 20,
-                w: canvas.Base.e.width,
-                h: 540
-            };
             
             var beagleBone = new Image();
             beagleBone.src = 'beaglebone.png';
@@ -359,6 +426,12 @@ var UI = (function() {
 
         ui.graph = (function() {
             var graph = {};
+            var bg = {
+                x: 0,
+                y: BBposY - 20,
+                w: canvas.Base.e.width,
+                h: 540
+            };
 
             // draw gray background, buttons, and graph
             //drawGraph(canvas, uiElements);
@@ -368,6 +441,11 @@ var UI = (function() {
             canvas.Base.ctx.lineWidth = 3;
             canvas.Base.ctx.strokeRect(bg.x + 20, bg.y + 15, 420, 510);
             //drawButtons(canvas, uiElements);
+            
+            graph.add = function(pin) {
+                canvas.add(pin.id+'Graph', 10);  
+                
+            };
             
             return graph;
         })();
@@ -402,23 +480,23 @@ var UI = (function() {
         canvas.Active.ctx.fillRect(x, y, w, h);
     }
     
-    function roundRect(btn, w, h, radius, context, stroke) {
+    function roundRect(btn, radius, context, stroke) {
         var x = btn.x;
         var y = btn.y;
         var color = btn.color;
         var text = btn.text;
         var s = btn.s;
-        var r = x + w;
-        var b = y + h;
+        var endX = btn.endX;
+        var endY = btn.endY;
         context.beginPath();
         context.lineWidth = "1";
         context.moveTo(x + radius, y);
-        context.lineTo(r - radius, y);
-        context.quadraticCurveTo(r, y, r, y + radius);
-        context.lineTo(r, y + h - radius);
-        context.quadraticCurveTo(r, b, r - radius, b);
-        context.lineTo(x + radius, b);
-        context.quadraticCurveTo(x, b, x, b - radius);
+        context.lineTo(endX - radius, y);
+        context.quadraticCurveTo(endX, y, endX, y + radius);
+        context.lineTo(endX, endY - radius);
+        context.quadraticCurveTo(endX, endY, endX - radius, endY);
+        context.lineTo(x + radius, endY);
+        context.quadraticCurveTo(x, endY, x, endY - radius);
         context.lineTo(x, y + radius);
         context.quadraticCurveTo(x, y, x + radius, y);
         if (stroke === true) {
@@ -449,31 +527,12 @@ var UI = (function() {
     };
 })();
 
-var Hardware = (function() {
-    var hw;
-
-    function init() {
-        hw = {};
-        return hw;
-    }
-
-    return {
-        get: function () {
-            if (!hw) {
-                hw = init();
-            }
-            return hw;
-        }
-    };
-})();
-
 var Events = (function() {
     var e;
 
     function init() {
         e = {};
         e.ui = UI.get();
-        e.hw = Hardware.get();
         e.listeners = {};
         e.start = function() {
             listen(true, 'exit');
@@ -527,7 +586,7 @@ var Events = (function() {
     function exit(event) {
         var button = e.ui.button.test(event);
         if(button == "exit") {
-            e.ui.ActiveClear();
+            e.ui.loop.clear();
             listen(false, 'exit');
             listen(false, 'exitHover');
             listen(true, 'clickDown');
@@ -539,12 +598,12 @@ var Events = (function() {
     
     function exitHover(event) {
         var button = e.ui.button.test(event);
-        e.ui.ActiveClear();
-        e.ui.welcomeMessage(button);
+        e.ui.loop.clear();
+        e.ui.loop.welcome(button);
     }
     
     function btnInfo(event) {
-        e.ui.ActiveClear();
+        e.ui.loop.clear();
         var button = e.ui.button.test(event);
         e.ui.pins.highlight(button);
         e.ui.button.highlight(button);
