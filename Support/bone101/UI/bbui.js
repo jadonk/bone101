@@ -296,11 +296,11 @@ var UI = (function() {
                     var maxX = buttons[b].endX;
                     var maxY = buttons[b].endY;
                     if(x >= minX && x <= maxX && y >= minY && y <= maxY) {
-                        console.log("button = " + b);
+                        //console.log("button = " + b);
                         return(b);
                     }
                 }
-                console.log("button = none");
+                //console.log("button = none");
                 return("none");
             };
             
@@ -485,17 +485,22 @@ var UI = (function() {
             }
             for (var i = 92; i < 96; i++) {
                 var LEDpositions = [230.5, 241.75, 253, 264.25];
-                pins[i].x = LEDpositions[i-92];
+                pins[i].x = BBposX + LEDpositions[i-92];
                 pins[i].y = BBposY + 27;
                 pins[i].w = 8;
-                pins[i].h = 8;
+                pins[i].h = 16;
                 pins[i].s = 18;
             }
             
             pin.highlight = function(button) {
                 if (button == "none") return;
+                var category = button;
+                var pwm = false;
+                if (category == "input") category = "digital";
+                if (category == "output") category = "digital";
                 for (var i = 0; i < 96; i++) {
-                    if (button == pins[i].category) {
+                    if (category == "pwm") pwm = pins[i].PWM;
+                    if (category == pins[i].category || pwm) {
                         var p = pins[i];
                         canvas.Active.ctx.fillStyle = 'RGBA(255,255,255,0.5)';
                         canvas.Active.ctx.fillRect(p.x, p.y, p.w, p.h);
@@ -737,7 +742,7 @@ var Events = (function() {
     
     function exitHover(event) {
         var button = e.ui.button.test(event);
-        console.log("exitHover: button = " + button);
+        //console.log("exitHover: button = " + button);
         e.ui.loop.clear();
         e.ui.loop.welcome(button);
     }
