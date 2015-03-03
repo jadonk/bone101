@@ -263,6 +263,12 @@ var UI = (function() {
                 }
             };
             
+            for(var b in buttons) {
+                if(buttons[b].category == "main") {
+                    roundRect(buttons[b], 1, canvas.Base.ctx, false);
+                }
+            }
+            
             button.test = function(event) {
                 var canvas = Canvas.get();
                 var rect = canvas.Base.e.getBoundingClientRect();
@@ -346,22 +352,154 @@ var UI = (function() {
                 canvas.Graph.ctx.lineTo(buttons.play.x, buttons.play.y + 14);
                 canvas.Graph.ctx.fill();
             };
-            
-            for(var b in buttons) {
-                if(buttons[b].category == "main") {
-                    roundRect(buttons[b], 1, canvas.Base.ctx, false);
-                }
-            }
 
             return button;
         })();
         
         ui.pin = (function() {
             var pin = {};
+            var pins = [
+                // P9
+                { name: 'GND', category: 'ground' },
+                { name: 'GND', category: 'ground' },
+                { name: 'VDD 3.3V', category: 'power' },
+                { name: 'VDD 3.3V', category: 'power' },
+                { name: 'VDD 5V', category: '' },
+                { name: 'VDD 5V', category: '' },
+                { name: 'SYS 5V', category: '' },
+                { name: 'SYS 5V', category: '' },
+                { name: 'PWR_BUT', category: 'reset' },
+                { name: 'SYS_RESETn', category: 'reset' },
+                { name: 'P9_11', category: 'digital' },
+                { name: 'P9_12', category: 'digital' },
+                { name: 'P9_13', category: 'digital' },
+                { name: 'P9_14', category: 'digital', PWM: true },
+                { name: 'P9_15', category: 'digital' },
+                { name: 'P9_16', category: 'digital', PWM: true },
+                { name: 'P9_17', category: 'digital' },
+                { name: 'P9_18', category: 'digital' },
+                { name: 'P9_19', category: 'i2c' },
+                { name: 'P9_20', category: 'i2c' },
+                { name: 'P9_21', category: 'digital', PWM: true },
+                { name: 'P9_22', category: 'digital', PWM: true },
+                { name: 'P9_23', category: 'digital' },
+                { name: 'P9_24', category: 'digital' },
+                { name: 'P9_25', category: 'digital' },
+                { name: 'P9_26', category: 'digital' },
+                { name: 'P9_27', category: 'digital' },
+                { name: 'P9_28', category: '' },
+                { name: 'P9_29', category: '' },
+                { name: 'P9_30', category: 'digital' },
+                { name: 'P9_31', category: '' },
+                { name: 'P9_32', category: '' },
+                { name: 'P9_33', category: 'analog' },
+                { name: 'P9_34', category: '' },
+                { name: 'P9_35', category: 'analog' },
+                { name: 'P9_36', category: 'analog' },
+                { name: 'P9_37', category: 'analog' },
+                { name: 'P9_38', category: 'analog' },
+                { name: 'P9_39', category: 'analog' },
+                { name: 'P9_40', category: 'analog' },
+                { name: 'P9_41', category: 'digital' },
+                { name: 'P9_42', category: 'digital', PWM: true },
+                { name: 'GND', category: 'ground' },
+                { name: 'GND', category: 'ground' },
+                { name: 'GND', category: 'ground' },
+                { name: 'GND', category: 'ground' },
+                // P8
+                { name: 'GND', category: 'ground' },
+                { name: 'GND', category: 'ground' },
+                { name: 'P8_3', category: '' },
+                { name: 'P8_4', category: '' },
+                { name: 'P8_5', category: '' },
+                { name: 'P8_6', category: '' },
+                { name: 'P8_7', category: 'digital' },
+                { name: 'P8_8', category: 'digital' },
+                { name: 'P8_9', category: 'digital' },
+                { name: 'P8_10', category: 'digital' },
+                { name: 'P8_11', category: 'digital' },
+                { name: 'P8_12', category: 'digital' },
+                { name: 'P8_13', category: 'digital', PWM: true },
+                { name: 'P8_14', category: 'digital' },
+                { name: 'P8_15', category: 'digital' },
+                { name: 'P8_16', category: 'digital' },
+                { name: 'P8_17', category: 'digital' },
+                { name: 'P8_18', category: 'digital' },
+                { name: 'P8_19', category: 'digital', PWM: true },
+                { name: 'P8_20', category: '' },
+                { name: 'P8_21', category: '' },
+                { name: 'P8_22', category: '' },
+                { name: 'P8_23', category: '' },
+                { name: 'P8_24', category: '' },
+                { name: 'P8_25', category: '' },
+                { name: 'P8_26', category: 'digital' },
+                { name: 'P8_27', category: '' },
+                { name: 'P8_28', category: '' },
+                { name: 'P8_29', category: '' },
+                { name: 'P8_30', category: '' },
+                { name: 'P8_31', category: '' },
+                { name: 'P8_32', category: '' },
+                { name: 'P8_33', category: '' },
+                { name: 'P8_34', category: '' },
+                { name: 'P8_35', category: '' },
+                { name: 'P8_36', category: '' },
+                { name: 'P8_37', category: '' },
+                { name: 'P8_38', category: '' },
+                { name: 'P8_39', category: '' },
+                { name: 'P8_40', category: '' },
+                { name: 'P8_41', category: '' },
+                { name: 'P8_42', category: '' },
+                { name: 'P8_43', category: '' },
+                { name: 'P8_44', category: '' },
+                { name: 'P8_45', category: '' },
+                { name: 'P8_46', category: '' },
+                // LEDs
+                { name: 'USR0', category: 'led' },
+                { name: 'USR1', category: 'led' },
+                { name: 'USR2', category: 'led' },
+                { name: 'USR3', category: 'led' },
+                
+            ];
+
+            // initialize positions
+            for (var i = 0; i < 92; i++) {
+                var x, y;
+                // only compute base x/y on initial/even iterations
+                if((i % 2) === 0) {
+                    y = BBposY + 129 + 14.05*((i%46)/2);
+                    x = BBposX + 7;
+                    // P8
+                    if(i >= 46) {
+                        x += 273;
+                    }
+                }
+                // offset x on odd iterations 
+                else {
+                    x += 15;
+                }
+                pins[i].x = x;
+                pins[i].y = y;
+                pins[i].w = 8;
+                pins[i].h = 8;
+                pins[i].s = 18;
+            }
+            for (var i = 92; i < 96; i++) {
+                var LEDpositions = [230.5, 241.75, 253, 264.25];
+                pins[i].x = LEDpositions[i-92];
+                pins[i].y = BBposY + 27;
+                pins[i].w = 8;
+                pins[i].h = 8;
+                pins[i].s = 18;
+            }
             
             pin.highlight = function(button) {
                 if (button == "none") return;
                 for (var i = 0; i < 96; i++) {
+                    if (button == pins[i].category) {
+                        var p = pins[i];
+                        canvas.Active.ctx.fillStyle = 'RGBA(255,255,255,0.5)';
+                        canvas.Active.ctx.fillRect(p.x, p.y, p.w, p.h);
+                    }
                 }
             };
             
@@ -480,11 +618,6 @@ var UI = (function() {
         return ui;
     } // end of ui's init()
     
-    function hover(canvas, x, y, w, h) {
-        canvas.Active.ctx.fillStyle = 'RGBA(255,255,255,0.5)';
-        canvas.Active.ctx.fillRect(x, y, w, h);
-    }
-    
     function roundRect(btn, radius, context, stroke) {
         var x = btn.x;
         var y = btn.y;
@@ -565,20 +698,21 @@ var Events = (function() {
             'pinSelected': { event: 'click', func: pinSelected },
             'release': { event: 'mouseup', func: release }
         };
-        console.log((enable?"Enabling listener ":"Disabling listener ")+description);
         
         if(!(description in events)) {
             console.log("Listener for " + description + " doesn't exist");
             return;
         }
         if((description in e.listeners) && enable) {
-            console.log("Listener " + description + " already enabled");
+            console.log("Listener " + description + " already enabled, but requested to enable again");
             return;
         }
         if(!(description in e.listeners) && !enable) {
-            console.log("Listener " + description + " was not previously enabled");
+            console.log("Listener " + description + " was not previously enabled, but requested to disable again");
             return;
         }
+        console.log((enable?"Enabling listener ":"Disabling listener ")+description);
+        
         if(enable) e.listeners[description] = true;
         else delete e.listeners[description];
         
