@@ -252,6 +252,14 @@ var UI = (function() {
                     endX: canvas.Base.e.width * 6 / 8,
                     endY: canvas.Base.e.height / 4,
                     category: "welcome"
+                },
+                digitalMenu: {
+                    // in the range of the digital buttons, but not on one
+                    x: btnX + 78,
+                    y: btnY,
+                    endX: btnX + 153,
+                    endY: btnY + 75,
+                    category: "digitalMenu"
                 }
             };
             
@@ -282,9 +290,11 @@ var UI = (function() {
                     var maxX = buttons[b].endX;
                     var maxY = buttons[b].endY;
                     if(x >= minX && x <= maxX && y >= minY && y <= maxY) {
+                        console.log("button = " + b);
                         return(b);
                     }
                 }
+                console.log("button = none");
                 return("none");
             };
             
@@ -621,6 +631,8 @@ var Events = (function() {
             case "output":
             case "pwm":
                 listen(true, 'clickDownDigital');
+                break;
+            case "digitalMenu":
                 break;
             default:
                 listen(false, 'digitalMenu');
