@@ -248,9 +248,9 @@ var UI = (function() {
                 },
                 exit: {
                     x: canvas.Base.e.width * 6 / 8 - 20,
-                    y: canvas.Base.e.height / 4 - 20,
+                    y: canvas.Base.e.height / 4,
                     endX: canvas.Base.e.width * 6 / 8,
-                    endY: canvas.Base.e.height / 4,
+                    endY: canvas.Base.e.height / 4 + 20,
                     category: "welcome"
                 },
                 digitalMenu: {
