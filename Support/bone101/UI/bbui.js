@@ -263,32 +263,10 @@ var UI = (function() {
                 }
             };
             
-            for(var b in buttons) {
-                if(buttons[b].category == "main") {
-                    roundRect(buttons[b], 1, canvas.Base.ctx, false);
-                }
-            }
-            
             button.test = function(event) {
-                var canvas = Canvas.get();
-                var rect = canvas.Base.e.getBoundingClientRect();
-                var x;
-                var y;
-                
-                // find position of mouse
-                if (event.x !== undefined && event.y !== undefined) {
-                    x = event.x;
-                    y = event.y;
-                }
-                else // Firefox method to get the position
-                {
-                    x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-                    y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-                }
-                //console.log("Position = " + [x, y]);
-                //console.log("Offset = " + [rect.left, rect.top]);
-                x -= rect.left;
-                y -= rect.top;
+                var coords = Position(event);
+                var x = coords[0];
+                var y = coords[1];
                 
                 for(var b in buttons) {
                     var minX = buttons[b].x;
@@ -308,7 +286,7 @@ var UI = (function() {
                 canvas.Active.ctx.fillStyle = 'rgba(255,255,255,0.7)';
                 for (var b in buttons) {
                     if(buttons[b].category == "main") {
-                        roundRect(buttons[b], 1, canvas.Active.ctx, (highlightButton == b));
+                        button.draw(b, canvas.Active.ctx, (highlightButton == b));
                     }
                 }
             };
@@ -317,7 +295,7 @@ var UI = (function() {
                 canvas.Active.ctx.fillStyle = 'rgba(255,255,255,0.7)';
                 for (var b in buttons) {
                     if(buttons[b].category == "digital") {
-                        roundRect(buttons[b], 1, canvas.Active.ctx, (highlightButton == b));
+                        button.draw(b, canvas.Active.ctx, (highlightButton == b));
                     }
                 }
             };
@@ -352,6 +330,58 @@ var UI = (function() {
                 canvas.Graph.ctx.lineTo(buttons.play.x, buttons.play.y + 14);
                 canvas.Graph.ctx.fill();
             };
+    
+            button.draw = function(b, context, highlight, x, y) {
+                var radius = 1;
+                var btn = buttons[b];
+                var endX, endY;
+                if (!x || !y) {
+                    x = btn.x;
+                    y = btn.y;
+                    endX = btn.endX;
+                    endY = btn.endY;
+                }
+                else {
+                    endX = x + (btn.endX - btn.x);
+                    endY = y + (btn.endY - btn.y);
+                }
+                var color = btn.color;
+                var text = btn.text;
+                var s = btn.s;
+                context.beginPath();
+                context.lineWidth = "1";
+                context.moveTo(x + radius, y);
+                context.lineTo(endX - radius, y);
+                context.quadraticCurveTo(endX, y, endX, y + radius);
+                context.lineTo(endX, endY - radius);
+                context.quadraticCurveTo(endX, endY, endX - radius, endY);
+                context.lineTo(x + radius, endY);
+                context.quadraticCurveTo(x, endY, x, endY - radius);
+                context.lineTo(x, y + radius);
+                context.quadraticCurveTo(x, y, x + radius, y);
+                if (highlight === true) {
+                    context.strokeStyle = color;
+                    context.stroke();
+                    context.fillStyle = 'white';
+                    context.fill();
+                    context.fillStyle = color;
+                }
+                else {
+                    context.strokeStyle = color;
+                    context.stroke();
+                    context.fillStyle = color;
+                    context.fill();
+                    context.fillStyle = 'white';
+                }
+                context.font = '10pt Andale Mono';
+                context.fillText(text, x + s, y + 12);
+            };
+
+            for(var b in buttons) {
+                if(buttons[b].category == "main") {
+                    button.draw(b, canvas.Base.ctx, false);
+                }
+            }
 
             return button;
         })();
@@ -516,27 +546,36 @@ var UI = (function() {
             probe.n = [];
             
             var add = {};
-            add.status = 'unactive';
             add.type = 'none';
             
             var width = 100;
             var height = 15;
     
-            probe.addTest = function(event) {
-                // if new pin selected and now connected to led
-                if (add.status === 'active') {
-                    add.status = 'unactive';
-                }
-            };
-    
             probe.addStart = function(type) {
-                add.status = "active";
                 add.type = type;
+            };
+            
+            probe.addTest = function(event) {
+                // if pin selected
+                add.type = 'none';
+            };
+            
+            probe.dragButton = function(event) {
+                ui.loop.clear();
+                var coords = Position(event);
+                var x = coords[0] - 50;
+                var y = coords[1] - 7.5;
+                ui.button.draw(add.type, canvas.Active.ctx, true, x, y);
+                ui.pin.highlight(add.type);
             };
             
             probe.add = function(pin) {
                 canvas.add(pin.id, 10);
                 ui.graph.add(pin.id, 10);
+            };
+            
+            probe.onOffTest = function(event) {
+                
             };
 
             return probe;
@@ -619,46 +658,31 @@ var UI = (function() {
             return graph;
         })();
         
+        function Position(event) {
+            var rect = canvas.Base.e.getBoundingClientRect();
+            var coords = [];
+            // find position of mouse
+            if (event.x !== undefined && event.y !== undefined) {
+                coords[0] = event.x;
+                coords[1] = event.y;
+            }
+            else // Firefox method to get the position
+            {
+                coords[0] = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+                coords[1] = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+            }
+            //console.log("Position = " + [x, y]);
+            //console.log("Offset = " + [rect.left, rect.top]);
+            coords[0] -= rect.left;
+            coords[1] -= rect.top;
+            
+            return(coords);
+        }
+        
         return ui;
     } // end of ui's init()
-    
-    function roundRect(btn, radius, context, stroke) {
-        var x = btn.x;
-        var y = btn.y;
-        var color = btn.color;
-        var text = btn.text;
-        var s = btn.s;
-        var endX = btn.endX;
-        var endY = btn.endY;
-        context.beginPath();
-        context.lineWidth = "1";
-        context.moveTo(x + radius, y);
-        context.lineTo(endX - radius, y);
-        context.quadraticCurveTo(endX, y, endX, y + radius);
-        context.lineTo(endX, endY - radius);
-        context.quadraticCurveTo(endX, endY, endX - radius, endY);
-        context.lineTo(x + radius, endY);
-        context.quadraticCurveTo(x, endY, x, endY - radius);
-        context.lineTo(x, y + radius);
-        context.quadraticCurveTo(x, y, x + radius, y);
-        if (stroke === true) {
-            context.strokeStyle = color;
-            context.stroke();
-            context.fillStyle = 'white';
-            context.fill();
-            context.fillStyle = color;
-        }
-        else {
-            context.strokeStyle = color;
-            context.stroke();
-            context.fillStyle = color;
-            context.fill();
-            context.fillStyle = 'white';
-        }
-        context.font = '10pt Andale Mono';
-        context.fillText(text, x + s, y + 12);
-    }
-
+            
+            
     return {
         get: function () {
             if (!ui) {
@@ -688,7 +712,7 @@ var Events = (function() {
         var events = {
             'exit': { event: 'click', func: exit },
             'exitHover': { event: 'mousemove', func: exitHover },
-            'activateBtn': { event: 'mousemove', func: activateBtn },
+            'activateProbe': { event: 'mousemove', func: activateProbe },
             'digitalMenu': { event: 'mousemove', func: digitalMenu },
             'btnInfo': { event: 'mousemove', func: btnInfo },
             'selectPin': { event: 'mousemove', func: selectPin },
@@ -781,7 +805,7 @@ var Events = (function() {
     
     // if click on/off button or pin while active
     function clicked(event) {
-        e.ui.probe.addTest(event);
+        //e.ui.probe.addTest(event); ???
         e.ui.probe.onOffTest(event);
     }
 
@@ -794,7 +818,10 @@ var Events = (function() {
             case "analog":
             case "led":
                 e.ui.probe.addStart(button);
-                listen(true, 'activateBtn');
+                listen(true, 'activateProbe');
+                listen(false, 'btnInfo');
+                listen(false, 'clickDownDigital');
+                listen(false, 'clickDown');
                 break;
             case "plus":
                 listen(true, 'zooming');
@@ -829,7 +856,10 @@ var Events = (function() {
             case "output":
             case "pwm":
                 e.ui.probe.addStart(button);
-                listen(true, 'activateBtn');
+                listen(true, 'activateProbe');
+                listen(false, 'btnInfo');
+                listen(false, 'clickDownDigital');
+                listen(false, 'clickDown');
                 break;
             default:
                 break;
@@ -837,10 +867,8 @@ var Events = (function() {
         listen(false, 'digitalMenu');
     }
     
-    function activateBtn(event) {
-        listen(false, 'btnInfo');
-        listen(false, 'clickDownDigital');
-        listen(false, 'clickDown');
+    function activateProbe(event) {
+        e.ui.probe.dragButton(event);
     }
     
     function slideBar(event) {
