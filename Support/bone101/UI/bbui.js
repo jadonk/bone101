@@ -110,6 +110,9 @@ var UI = (function() {
         var BBposY = 60;
         var axisStartY = BBposY + 40;
         var axisStartX = BBposX + 375;
+        var rect = {x: 0, y: BBposY - 20, w: canvas.Base.e.width, h: 540};
+        var rectInner = {x: rect.x + 20, y: rect.y + 15, w: 420, h: 510};
+        var snapProbe = {x: rect.x + 35, y: rect.y + 25};
         
         // major buttons
         ui.button = (function() {
@@ -376,6 +379,33 @@ var UI = (function() {
                 context.font = '10pt Andale Mono';
                 context.fillText(text, x + s, y + 12);
             };
+            
+            var probeIndex = 0;
+            button.push = function(b, x, y) {
+                buttons[probeIndex] = {};
+                for (var prop in buttons[b]) {
+                    if (buttons[b].hasOwnProperty(prop)) {
+                        buttons[probeIndex][prop] = buttons[b][prop];
+                    }
+                }
+                buttons[probeIndex].x = snapProbe.x;
+                buttons[probeIndex].y = snapProbe.y;
+                buttons[probeIndex].endX = snapProbe.x + 75;
+                buttons[probeIndex].endY = snapProbe.y + 15;
+                buttons[probeIndex].category = "probe";
+                button.draw(probeIndex, canvas.Base.ctx, false);
+                snapProbe.y += 22;
+                probeIndex++;
+            };
+            
+            button.pop = function() {
+                probeIndex--;
+                delete buttons[probeIndex];
+            };
+            
+            button.get = function() {
+                return buttons;
+            }
 
             for(var b in buttons) {
                 if(buttons[b].category == "main") {
@@ -543,21 +573,28 @@ var UI = (function() {
         // each inserted element is a 'probe'
         ui.probe = (function() {
             var probe = {};
-            probe.n = [];
+            var probes = [];
             
             var add = {};
             add.type = 'none';
-            
-            var width = 100;
-            var height = 15;
-    
+
             probe.addStart = function(type) {
                 add.type = type;
             };
             
             probe.addTest = function(event) {
-                // if pin selected
+                if(add.type == 'none') return('none');
+                var coords = Position(event);
+                var x = coords[0];
+                var y = coords[1];
+                if(x < rectInner.x || x > rectInner.x+rectInner.w ||
+                    y < rectInner.y || y > rectInner.y+rectInner.h) {
+                    return('cancelled');    
+                }
+                ui.button.push(add.type);
+                ui.button.draw(add.type, canvas.Active.ctx, true);
                 add.type = 'none';
+                return('selectPin');
             };
             
             probe.dragButton = function(event) {
@@ -888,7 +925,8 @@ var Events = (function() {
     }
     
     function selectPin(event) {
-        
+        listen(false, 'selectPin');
+        listen(true, 'btnInfo');
     }
     
     function pinSelected(event) {
@@ -896,7 +934,18 @@ var Events = (function() {
     }
     
     function release(event) {
-        
+        var probeMode = e.ui.probe.addTest(event);
+        if (probeMode == 'selectPin') {
+            listen(false, 'activateProbe');
+            listen(true, 'selectPin');
+            listen(true, 'pinSelected');
+            listen(true, 'clickDown');
+        }
+        else if (probeMode == 'cancelled') {
+            listen(false, 'activateProbe');
+            listen(true, 'btnInfo');
+            listen(true, 'clickDown');
+        }
     }
     
     return {
