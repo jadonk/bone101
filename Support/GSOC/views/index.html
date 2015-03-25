@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>BeagleBoard.org</title>
+    <link rel="icon" href="../../../favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="../../../favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap core CSS -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="../css/bootstrap-theme.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../css/theme.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="../css/common.css" />
+  
+    
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+ <style>
+
+
+                .gist{
+                    margin-left:2em;
+                    margin-right:2em
+                }
+
+                div.bonecard-list {
+                    width: 100%;
+                    overflow: hidden;
+                    margin-left: 15px;
+                }
+                div.container {
+                    width: 100%;
+                    overflow: hidden;
+                    //margin-left: 15px;
+                }
+
+                div.bonecard {
+                    background-color: white;
+                    margin: 10px;
+                    width: 340px;
+                    height: 210px;
+                    border: 2px solid black;
+                    border-left: 2px solid black;
+                    padding: 10px;
+                    -webkit-border-radius: 20px;
+                    -webkit-border-top-right-radius: 50px;
+                    -webkit-border-bottom-right-radius: 50px;
+                    -moz-border-radius: 20px;
+                    -moz-border-radius-topright: 50px;
+                    -moz-border-radius-bottomright: 50px;
+                    -webkit-box-sizing: content-box;
+                    border-radius: 20px;
+                    border-top-right-radius: 50px;
+                    border-bottom-right-radius: 50px;
+                    position: relative;
+                    float: left;
+                    -webkit-transition: color 0.5s ease;
+                    box-sizing:content-box;
+                }
+                div.bonecard:after, div.bonecard:before {
+                    background-color: white;
+                    position: absolute;
+                    display: block;
+                    content:"";
+                    border: 2px solid black;
+                    border-right: 2px solid white;
+                    width: 6px;
+                    left: -10px;
+                    box-sizing:content-box;
+                }
+                div.bonecard:before {
+                    top: 60px;
+                    height: 60px;
+                }
+                div.bonecard:after {
+                    top: 180px;
+                    height: 30px;
+                }
+
+                div.bonecard img {
+                    max-width: 45%;
+                    -webkit-border-radius: 5px;
+                    -moz-border-radius: 5px;
+                    border-radius: 5px;
+                    margin-left: 50px;
+                    border:2px solid black;
+                }
+                h3, h4 {font-size: 0.84em;font-family: "Arial", Verdana, Helvetica, sans-serif; color:#b4a279; margin: 20px 0 0px 0; font-weight:normal; }
+                h2, h3 {
+		margin-top: 5px;
+		margin-bottom: 5px;
+                }
+                a:link
+{
+color: #de7224;
+}
+a:hover   {color: #de7224; text-decoration:underline;}
+p.action a:link, p.action a:visited {text-decoration:none; padding-right:15px;}
+p {font-size: 0.85em;line-height:1.3em; }
+.social{
+	width:200px;
+	float:right;
+	padding-top:15px;
+}
+
+            </style>
+  </head>
+
+  <body role="document">
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">About</a></li>
+          </ul>
+
+            <div class="social">
+    <span style="padding-left:8px"><a href="http://facebook.com/beagleboard" name="header_facebook_icon"><img src="../images/icon_facebook.png" width="27" height="28" alt="facebook" border="0"/></a></span>
+    <span style="padding-left:8px"><a href="http://twitter.com/beagleboardorg" name="header_twitter_icon"><img src="../images/icon_twitter.png" width="27" height="28" border="0" alt="twitter"/></a></span>
+    <span style="padding-left:8px"><a href="http://www.linkedin.com/groups/BeagleBoardorg-1474607?gid=1474607&mostPopular=&trk=tyah" name="header_linkedin_icon"><img src="../images/icon_linkedin.png" width="27" height="28" border="0" alt="linkedin" /></a></span>
+    <span style="padding-left:8px"><a href="http://plus.google.com/+beagleboard" name="header_google+_icon"><img src="../images/icon_google.png" width="27" height="28" border="0" alt="google+"/></a></span>
+   </div>
+
+    <ul class="nav navbar-nav navbar-right">
+        <li><a id="create"><i class="icon-login"></i></a></li>
+        <li  id="dropName" class="dropdown">
+            <a id="user" href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="icon-login"></i>
+                
+            </a>
+             <ul id="dropNameU" class="dropdown-menu" role="menu">
+                 
+            
+            </ul>
+        </li>
+        <li><a id="login" href="#"><i class="icon-login"></i>Login</a></li>
+           
+      
+    </ul>
+
+        </div><!--/.nav-collapse -->
+      </div>
+
+    </div>
+
+  
+
+    <div class="bonecard-list"></div>
+            
+            
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="//code.jquery.com/jquery-1.9.1.min.js"></script> 
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/oauth.js"></script>
+    <script src="../js/githubOauth.js"></script>
+    <script src="../js/jquery.cookie.js"></script>
+    <script src="../js/indexBonecard.js"></script>
+    <script src="../js/lodash.min.js"></script>  
+    <script src="../js/docs.min.js"></script>
+    <script>
+    $(document).ready(function() {
+       var token=$.cookie('githubToken');
+       var user=$.cookie('githubUser');
+       if(token != null){
+           //$('a#user')
+           $('a#user').append(user);
+           $('a#user').append('<span class="caret"></span>');
+           $('ul#dropNameU').append('<li><a id="profile" href="#">Profile</a></li>');
+           $('ul#dropNameU').append('<li><a id="logout" href="#"><i class="icon-login"></i>Logout</a></li>');
+           $("a#create").attr("href", "create.html");
+           $("a#create").append("Create");
+           $("a#login").empty();
+           $("a#login").attr("href", "#");
+       }
+
+    });
+    
+    $(document).on('click','#ulindex > li > a',function(event){
+                var link= $(this).context.hash;
+                var current = $("#ulindex .active");
+                current.removeClass('active');
+                var curDiv =$(current).children().attr("href");
+                $(curDiv).hide();
+                var linkparent = $(this).parent();
+                linkparent.addClass("active");
+                $(link).show();
+    });
+    
+    $('a#login').click(function() {
+        start();
+     }); 
+    
+    $(document).on('click','a#profile',function(event){
+        var id = $.cookie("gistSaveId");
+        var link="profile.html?profileId="+id;
+        $(location).attr('href', link);
+    });
+    
+    $(document).on('click','a#logout',function(event){
+        logout();
+        $(location).attr('href', "index.html");
+    });
+    
+    jQuery(function($) {
+$('.navbar .dropdown').hover(function() {
+$(this).find('.dropdown-menu').first().stop(true, true).delay(250).slideDown();
+
+}, function() {
+$(this).find('.dropdown-menu').first().stop(true, true).delay(100).slideUp();
+
+});
+
+$('.navbar .dropdown > a').click(function(){
+location.href = this.href;
+});
+
+});
+    
+    </script>
+  </body>
+</html>
