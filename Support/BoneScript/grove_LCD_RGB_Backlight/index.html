@@ -22,15 +22,14 @@ LCD with various backlight colors to rapidly display status for your project.
  <button class="dynlink" onclick="demoRestore('code')">restore</button>
 </h2>
 <pre id="code" class="use-editor" style="height:500px;">
-<![CDATA[
 var b = require('bonescript');
 var status = {};
 
 // based on https://github.com/Seeed-Studio/Grove_LCD_RGB_Backlight
 
 // Device I2C address
-var LCD_ADDRESS = 0x7c>>1;
-var RGB_ADDRESS = 0xc4>>1;
+var LCD_ADDRESS = 0x7c&gt;&gt;1;
+var RGB_ADDRESS = 0xc4&gt;&gt;1;
 
 // color define 
 var WHITE = 0;
@@ -103,8 +102,8 @@ exports.groveLCDOpen = function(port, col, lines, dotsize, callback) {
             displaymode: 0,
             currline: 0
         };
-        if(lines > 1) status.displayfunction |= LCD_2LINE;
-        if ((dotsize != 0) && (lines == 1)) {
+        if(lines &gt; 1) status.displayfunction |= LCD_2LINE;
+        if ((dotsize != 0) &amp;&amp; (lines == 1)) {
             status.displayfunction |= LCD_5x10DOTS;
         }
 
@@ -193,10 +192,10 @@ exports.groveLCDPrint = function(string, callback) {
     }
     console.log('LCD print: ' + string);
     var data = [];
-    for(var i=0; i<string.length; i++) {
+    for(var i=0; i&lt;string.length; i++) {
         data[i] = string.charAt(i);
     }
-    console.log('i2c write: ' + i2cport + ': 0x40 <- ' + data.toString(16));
+    console.log('i2c write: ' + i2cport + ': 0x40 &lt;- ' + data.toString(16));
     b.i2cWriteBytes(lcd, 0x40, data, mycallback);
 
     function mycallback(x) {
@@ -213,7 +212,7 @@ exports.groveLCDCommand = function(command, callback) {
     var i2cport = lcd[0]+',0x'+lcd[1].toString(16);
     console.log('LCD command: 0x' + command.toString(16));
     //if(callback) callback();
-    console.log('i2c write: ' + i2cport + ': 0x80 <- 0x' + command.toString(16));
+    console.log('i2c write: ' + i2cport + ': 0x80 &lt;- 0x' + command.toString(16));
     b.i2cWriteBytes(lcd, null, [0x80, command], mycallback);
 
     function mycallback(x) {
@@ -230,7 +229,7 @@ exports.groveLCDDisplay = function(callback) {
 };
 
 exports.groveLCDNoDisplay = function(callback) {
-    status.displaycontrol &= ~LCD_DISPLAYON;
+    status.displaycontrol &amp;= ~LCD_DISPLAYON;
     exports.groveLCDCommand(LCD_DISPLAYCONTROL | status.displaycontrol, callback);
 };
 
@@ -266,7 +265,7 @@ exports.groveLCDSetRGB = function(r, g, b, callback) {
 function setReg(addr, data, callback) {
     var err;
     var i2cport = rgb[0]+',0x'+rgb[1].toString(16);
-    console.log('i2c write: ' + i2cport + ': ' + addr.toString(16) + ' <- 0x' + data.toString(16));
+    console.log('i2c write: ' + i2cport + ': ' + addr.toString(16) + ' &lt;- 0x' + data.toString(16));
     //if(callback) callback();
     b.i2cWriteBytes(rgb, null, [addr, data], mycallback);
 
@@ -291,7 +290,6 @@ function onLCDOpen(x) {
 function onLCDPrint(x) {
     console.log(x);
 }
-]]>
 </pre>
 <div readonly id='console-output' style="height:200px;"></div>
 <br></br>
