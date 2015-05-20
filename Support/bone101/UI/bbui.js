@@ -420,16 +420,11 @@ var UI = (function() {
             var pin = {};
             var pins = [
                 // P9
-                { name: 'GND', category: 'ground' },
-                { name: 'GND', category: 'ground' },
-                { name: 'VDD 3.3V', category: 'power' },
-                { name: 'VDD 3.3V', category: 'power' },
-                { name: 'VDD 5V', category: '' },
-                { name: 'VDD 5V', category: '' },
-                { name: 'SYS 5V', category: '' },
-                { name: 'SYS 5V', category: '' },
-                { name: 'PWR_BUT', category: 'reset' },
-                { name: 'SYS_RESETn', category: 'reset' },
+                { name: 'GND', category: 'ground' },     { name: 'GND', category: 'ground' },
+                { name: 'VDD 3.3V', category: 'power' }, { name: 'VDD 3.3V', category: 'power' },
+                { name: 'VDD 5V', category: '' },        { name: 'VDD 5V', category: '' },
+                { name: 'SYS 5V', category: '' },        { name: 'SYS 5V', category: '' },
+                { name: 'PWR_BUT', category: 'reset' },  { name: 'SYS_RESETn', category: 'reset' },
                 { name: 'P9_11', category: 'digital' },
                 { name: 'P9_12', category: 'digital' },
                 { name: 'P9_13', category: 'digital' },
@@ -447,11 +442,9 @@ var UI = (function() {
                 { name: 'P9_25', category: 'digital' },
                 { name: 'P9_26', category: 'digital' },
                 { name: 'P9_27', category: 'digital' },
-                { name: 'P9_28', category: '' },
-                { name: 'P9_29', category: '' },
+                { name: 'P9_28', category: '' }, { name: 'P9_29', category: '' },
                 { name: 'P9_30', category: 'digital' },
-                { name: 'P9_31', category: '' },
-                { name: 'P9_32', category: '' },
+                { name: 'P9_31', category: '' }, { name: 'P9_32', category: '' },
                 { name: 'P9_33', category: 'analog' },
                 { name: 'P9_34', category: '' },
                 { name: 'P9_35', category: 'analog' },
@@ -462,17 +455,12 @@ var UI = (function() {
                 { name: 'P9_40', category: 'analog' },
                 { name: 'P9_41', category: 'digital' },
                 { name: 'P9_42', category: 'digital', PWM: true },
-                { name: 'GND', category: 'ground' },
-                { name: 'GND', category: 'ground' },
-                { name: 'GND', category: 'ground' },
-                { name: 'GND', category: 'ground' },
+                { name: 'GND', category: 'ground' }, { name: 'GND', category: 'ground' },
+                { name: 'GND', category: 'ground' }, { name: 'GND', category: 'ground' },
                 // P8
-                { name: 'GND', category: 'ground' },
-                { name: 'GND', category: 'ground' },
-                { name: 'P8_3', category: '' },
-                { name: 'P8_4', category: '' },
-                { name: 'P8_5', category: '' },
-                { name: 'P8_6', category: '' },
+                { name: 'GND', category: 'ground' }, { name: 'GND', category: 'ground' },
+                { name: 'P8_3', category: '' }, { name: 'P8_4', category: '' },
+                { name: 'P8_5', category: '' }, { name: 'P8_6', category: '' },
                 { name: 'P8_7', category: 'digital' },
                 { name: 'P8_8', category: 'digital' },
                 { name: 'P8_9', category: 'digital' },
@@ -486,38 +474,23 @@ var UI = (function() {
                 { name: 'P8_17', category: 'digital' },
                 { name: 'P8_18', category: 'digital' },
                 { name: 'P8_19', category: 'digital', PWM: true },
-                { name: 'P8_20', category: '' },
-                { name: 'P8_21', category: '' },
-                { name: 'P8_22', category: '' },
-                { name: 'P8_23', category: '' },
-                { name: 'P8_24', category: '' },
-                { name: 'P8_25', category: '' },
+                { name: 'P8_20', category: '' }, { name: 'P8_21', category: '' },
+                { name: 'P8_22', category: '' }, { name: 'P8_23', category: '' },
+                { name: 'P8_24', category: '' }, { name: 'P8_25', category: '' },
                 { name: 'P8_26', category: 'digital' },
-                { name: 'P8_27', category: '' },
-                { name: 'P8_28', category: '' },
-                { name: 'P8_29', category: '' },
-                { name: 'P8_30', category: '' },
-                { name: 'P8_31', category: '' },
-                { name: 'P8_32', category: '' },
-                { name: 'P8_33', category: '' },
-                { name: 'P8_34', category: '' },
-                { name: 'P8_35', category: '' },
-                { name: 'P8_36', category: '' },
-                { name: 'P8_37', category: '' },
-                { name: 'P8_38', category: '' },
-                { name: 'P8_39', category: '' },
-                { name: 'P8_40', category: '' },
-                { name: 'P8_41', category: '' },
-                { name: 'P8_42', category: '' },
-                { name: 'P8_43', category: '' },
-                { name: 'P8_44', category: '' },
-                { name: 'P8_45', category: '' },
-                { name: 'P8_46', category: '' },
+                { name: 'P8_27', category: '' }, { name: 'P8_28', category: '' },
+                { name: 'P8_29', category: '' }, { name: 'P8_30', category: '' },
+                { name: 'P8_31', category: '' }, { name: 'P8_32', category: '' },
+                { name: 'P8_33', category: '' }, { name: 'P8_34', category: '' },
+                { name: 'P8_35', category: '' }, { name: 'P8_36', category: '' },
+                { name: 'P8_37', category: '' }, { name: 'P8_38', category: '' },
+                { name: 'P8_39', category: '' }, { name: 'P8_40', category: '' },
+                { name: 'P8_41', category: '' }, { name: 'P8_42', category: '' },
+                { name: 'P8_43', category: '' }, { name: 'P8_44', category: '' },
+                { name: 'P8_45', category: '' }, { name: 'P8_46', category: '' },
                 // LEDs
-                { name: 'USR0', category: 'led' },
-                { name: 'USR1', category: 'led' },
-                { name: 'USR2', category: 'led' },
-                { name: 'USR3', category: 'led' }
+                { name: 'USR0', category: 'led' }, { name: 'USR1', category: 'led' },
+                { name: 'USR2', category: 'led' }, { name: 'USR3', category: 'led' }
             ];
 
             // initialize positions
@@ -925,12 +898,11 @@ var Events = (function() {
     }
     
     function selectPin(event) {
-        listen(false, 'selectPin');
-        listen(true, 'btnInfo');
     }
     
     function pinSelected(event) {
-        
+        listen(false, 'selectPin');
+        listen(true, 'btnInfo');
     }
     
     function release(event) {
