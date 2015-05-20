@@ -1,0 +1,62 @@
+---
+layout: index
+title: SeeedStudio Grove Touch
+scripts: [ '/static/bonescript-demo.js' ]
+---
+<h2>BoneScript</h2>
+<div id='side-menu' class="t3_sidebar">
+    <ul class="left-menu"><strong>Navigation</strong>
+        <li><a href="{{site.baseurl}}/Support/BoneScript/menu/">Menu contents</a></li>
+    </ul>
+</div>
+<div class="t3_content_1"><div id='connect-status'></div><div id="content_child">
+<h1>Demo: SeeedStudio Grove Touch Sensor</h1>
+<p>The <a href="http://www.seeedstudio.com/wiki/Grove_-_Touch_Sensor"
+class="external">Grove Touch Sensor</a> provides a simple capacitive
+sensor to detect a finger touch.</p>
+<br>
+
+<h2>Example
+ <button class="dynlink" onclick="demoRun('code')">run</button>
+ <button class="dynlink" onclick="demoRestore('code')">restore</button>
+</h2>
+<pre id="code" class="use-editor" style="height:230px;">
+var b = require('bonescript');
+var previous = b.LOW;
+var TOUCH = 'P9_22';
+b.pinMode(TOUCH, b.INPUT);
+function doRead() {
+    b.digitalRead(TOUCH, printStatus);
+}
+function printStatus(x) {
+    if(x.value != previous) {
+        if(x.value) {
+            console.log('Touched');
+        } else {
+            console.log('Released');
+        }
+        previous = x.value;
+    }
+}
+setInterval(doRead, 100);
+</pre>
+<div readonly id='console-output' style="height:100px;"></div>
+<br></br>
+<img align="right" width="70%" src="300px-Twig-Touch.jpg"/>
+<br></br>
+<h2>Build and execute instructions</h2>
+<ul>
+ <li>Connect Touch Sensor to UART2 Grove connector on BeagleBone Green.</li>
+ <li>Click "Run" on the code and it will output when the button is touched.</li>
+</ul>
+
+<h2>See also</h2>
+<h3>Related functions</h3>
+<ul>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/#require">require</a></li>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/pinMode/">pinMode</a></li>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/digitalRead/">digitalRead</a></li>
+</ul>
+</div>
+<br/>
+</div>
