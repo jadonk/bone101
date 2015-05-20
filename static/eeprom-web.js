@@ -10,7 +10,13 @@ $(document).ready(function() {
         var boneserial = eeproms['/sys/bus/i2c/drivers/at24/1-0050/eeprom'].serialNumber;
 
         var bonestring = "BeagleBone ";
-        if(bonename.match("A335BNLT")) bonestring += "Black ";
+        if(bonename.match("A335BNLT")) {
+          bonetest = eeproms['/sys/bus/i2c/drivers/at24/1-0050/eeprom'].version;
+          if(bonetest.match("GR")) {
+            bonestring += "Green ";
+          }
+          else bonestring += "Black ";
+        }
         bonestring += " revision " + boneversion + "<br/>";
         bonestring += "Serial number: " + boneserial + "<br/>";
 
