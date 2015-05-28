@@ -23,7 +23,6 @@ var statusConnected = '' +
     '        </div>' +
     '    </div>' +
     '</div>';
-$('#connect-ip').keypress(oninput);
 var handlers = {};
 function oninput(e) {
     if(e.which == 10 || e.which == 13) {
@@ -113,6 +112,7 @@ $(document).ready(function(){
             function initialized() {
                 console.log('Bonescript: initialized');
                 $('#connect-status').replaceWith(statusConnected);
+                $('#connect-ip').keypress(oninput);
                 updateBoardInfo();
                 if(typeof onbonescriptinit == 'function') onbonescriptinit();
                 connectState = 'connected';
