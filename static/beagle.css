@@ -1,3 +1,6 @@
+---
+layout: bare
+---
 @charset "utf-8";
 /* CSS Document */
 
@@ -33,7 +36,7 @@ a img {
 	border: none;
 }
 a.external {
-    background: url(/static/images/icon_offsite.gif) center right no-repeat;
+    background: url({{site.baseurl}}/static/images/icon_offsite.gif) center right no-repeat;
     padding-right: 13px;
 }
 
