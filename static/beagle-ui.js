@@ -54,13 +54,12 @@ $(document).ready(function(){
             '    <div class="browser-connected">' +
             '        <img alt="Connected" src="' + serverBasePath + 'static/images/green_check.png" border="0">' +
             '        <div id="browser-content"><strong>Your board is connected!</strong><br>' +
-            '            <div id="board-info"></div> <button id="disconnect">Disconnect</button>' +
+            '            <div id="board-info"></div> <button onclick="disconnect();">Disconnect</button>' +
             '        </div>' +
             '    </div>' +
             '</div>';
         $('#connect-status').replaceWith(statusDisconnected);
-        $('#disconnect').click(disconnect);
-        
+
         function disconnect() {
             disconnected();	
         }
