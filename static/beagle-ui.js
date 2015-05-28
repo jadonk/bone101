@@ -23,6 +23,14 @@ var statusConnected = '' +
     '        </div>' +
     '    </div>' +
     '</div>';
+$('#connect-ip').keypress(oninput);
+var handlers = {};
+function oninput(e) {
+    if(e.which == 10 || e.which == 13) {
+        var givenAddress = $('#connect-ip').val();
+        setTargetAddress(givenAddress, handlers);
+    }
+}
 
 function disconnect() {
     console.log('Bonescript: disconnected');
@@ -69,7 +77,6 @@ $(document).ready(function(){
 	// note, due to a bug in Firefox, the call is moved below
 
         function testForConnection() {
-            var handlers = {};
             handlers.callback = callback;
             handlers.initialized = initialized;
             handlers.connecting = disconnected;
@@ -79,7 +86,6 @@ $(document).ready(function(){
             handlers.connect = connected;
             handlers.reconnect = connected;
             handlers.reconnecting = connected;
-            $('#connect-ip').keypress(oninput);
             
             setTimeout(tryWindowHost, 5);
             setTimeout(try192, 5);
@@ -93,13 +99,6 @@ $(document).ready(function(){
             }
             function tryLocal() {
                 setTargetAddress('beaglebone.local', handlers);
-            }
-
-            function oninput(e) {
-                if(e.which == 10 || e.which == 13) {
-                    var givenAddress = $('#connect-ip').val();
-                    setTargetAddress(givenAddress, handlers);
-                }
             }
 
             function callback() {
