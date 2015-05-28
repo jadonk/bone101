@@ -3,7 +3,32 @@ layout: bare
 ---
 serverBasePath = typeof serverBasePath == 'undefined' ? '{{site.baseurl}}/' : serverBasePath;
 var name = "#floatMenu";  
-var menuYloc = null;  
+var menuYloc = null;
+var connectState = 'init';
+var statusDisconnected = '' +
+    '<div id="connect-status">' +
+    '    <div class="browser-connect">' +
+    '        <img alt="Not Connected" src="' + serverBasePath + 'static/images/usb.png" border="0">' +
+    '        <div id="browser-content"><strong>Did you know?</strong>  This page can interact with your BeagleBone<br />' +
+    'Type in your BeagleBone&#39;s IP address here:<input id="connect-ip"></input>' +
+    '        </div>' +
+    '    </div>' +
+    '</div>';
+var statusConnected = '' +
+    '<div id="connect-status">' +
+    '    <div class="browser-connected">' +
+    '        <img alt="Connected" src="' + serverBasePath + 'static/images/green_check.png" border="0">' +
+    '        <div id="browser-content"><strong>Your board is connected!</strong><br>' +
+    '            <div id="board-info"></div> <button onclick="disconnect();">Disconnect</button>' +
+    '        </div>' +
+    '    </div>' +
+    '</div>';
+
+function disconnect() {
+    console.log('Bonescript: disconnected');
+    $('#connect-status').replaceWith(statusDisconnected);
+    connectState = 'disconnected';
+}
   
 $(document).ready(function(){
     if($(name).length) {
@@ -39,32 +64,7 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     if($('#connect-status').length) {
-        var connectState = 'init';
-        var statusDisconnected = '' +
-            '<div id="connect-status">' +
-            '    <div class="browser-connect">' +
-            '        <img alt="Not Connected" src="' + serverBasePath + 'static/images/usb.png" border="0">' +
-            '        <div id="browser-content"><strong>Did you know?</strong>  This page can interact with your BeagleBone<br />' +
-            'Type in your BeagleBone&#39;s IP address here:<input id="connect-ip"></input>' +
-            '        </div>' +
-            '    </div>' +
-            '</div>';
-        var statusConnected = '' +
-            '<div id="connect-status">' +
-            '    <div class="browser-connected">' +
-            '        <img alt="Connected" src="' + serverBasePath + 'static/images/green_check.png" border="0">' +
-            '        <div id="browser-content"><strong>Your board is connected!</strong><br>' +
-            '            <div id="board-info"></div> <button onclick="disconnect();">Disconnect</button>' +
-            '        </div>' +
-            '    </div>' +
-            '</div>';
         $('#connect-status').replaceWith(statusDisconnected);
-
-        function disconnect() {
-            console.log('Bonescript: disconnected');
-            $('#connect-status').replaceWith(statusDisconnected);
-            connectState = 'disconnected';
-        }
 
 	// note, due to a bug in Firefox, the call is moved below
 
