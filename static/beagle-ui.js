@@ -61,7 +61,9 @@ $(document).ready(function(){
         $('#connect-status').replaceWith(statusDisconnected);
 
         function disconnect() {
-            disconnected();	
+            console.log('Bonescript: disconnected');
+            $('#connect-status').replaceWith(statusDisconnected);
+            connectState = 'disconnected';
         }
 
 	// note, due to a bug in Firefox, the call is moved below
