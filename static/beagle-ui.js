@@ -34,6 +34,7 @@ function oninput(e) {
 function disconnect() {
     console.log('Bonescript: disconnected');
     $('#connect-status').replaceWith(statusDisconnected);
+    $('#connect-ip').keypress(oninput);
     connectState = 'disconnected';
 }
   
@@ -72,6 +73,7 @@ $(document).ready(function(){
 $(document).ready(function(){
     if($('#connect-status').length) {
         $('#connect-status').replaceWith(statusDisconnected);
+        $('#connect-ip').keypress(oninput);
 
 	// note, due to a bug in Firefox, the call is moved below
 
@@ -112,7 +114,6 @@ $(document).ready(function(){
             function initialized() {
                 console.log('Bonescript: initialized');
                 $('#connect-status').replaceWith(statusConnected);
-                $('#connect-ip').keypress(oninput);
                 updateBoardInfo();
                 if(typeof onbonescriptinit == 'function') onbonescriptinit();
                 connectState = 'connected';
@@ -121,6 +122,7 @@ $(document).ready(function(){
                 if(connectState == 'connected') {
                     console.log('Bonescript: disconnected');
                     $('#connect-status').replaceWith(statusDisconnected);
+                    $('#connect-ip').keypress(oninput);
                     connectState = 'disconnected';
                 }
             }
