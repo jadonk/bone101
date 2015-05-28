@@ -59,6 +59,7 @@ $(document).ready(function(){
             '    </div>' +
             '</div>';
         $('#connect-status').replaceWith(statusDisconnected);
+        $('#disconnect').click(disconnect);
         
         function disconnect() {
             disconnected();	
