@@ -25,259 +25,279 @@ LCD with various backlight colors to rapidly display status for your project.
 var b = require('bonescript');
 var status = {};
 
-// based on https://github.com/Seeed-Studio/Grove_LCD_RGB_Backlight
-
-// Device I2C address
-var LCD_ADDRESS = 0x7c&gt;&gt;1;
-var RGB_ADDRESS = 0xc4&gt;&gt;1;
-
-// color define 
-var WHITE = 0;
-var RED = 1;
-var GREEN = 2;
-var BLUE = 3;
-
-var REG_RED = 0x04;   // pwm2
-var REG_GREEN = 0x03; // pwm1
-var REG_BLUE = 0x02;  // pwm0
-
-var REG_MODE1 = 0x00;
-var REG_MODE2 = 0x01;
-var REG_OUTPUT = 0x08;
-
-// commands
-var LCD_CLEARDISPLAY = 0x01;
-var LCD_RETURNHOME = 0x02;
-var LCD_ENTRYMODESET = 0x04;
-var LCD_DISPLAYCONTROL = 0x08;
-var LCD_CURSORSHIFT = 0x10;
-var LCD_FUNCTIONSET = 0x20;
-var LCD_SETCGRAMADDR = 0x40;
-var LCD_SETDDRAMADDR = 0x80;
-
-// flags for display entry mode
-var LCD_ENTRYRIGHT = 0x00;
-var LCD_ENTRYLEFT = 0x02;
-var LCD_ENTRYSHIFTINCREMENT = 0x01;
-var LCD_ENTRYSHIFTDECREMENT = 0x00;
-
-// flags for display on/off control
-var LCD_DISPLAYON = 0x04;
-var LCD_DISPLAYOFF = 0x00;
-var LCD_CURSORON = 0x02;
-var LCD_CURSOROFF = 0x00;
-var LCD_BLINKON = 0x01;
-var LCD_BLINKOFF = 0x00;
-
-// flags for display/cursor shift
-var LCD_DISPLAYMOVE = 0x08;
-var LCD_CURSORMOVE = 0x00;
-var LCD_MOVERIGHT = 0x04;
-var LCD_MOVELEFT = 0x00;
-
-// flags for function set
-var LCD_8BITMODE = 0x10;
-var LCD_4BITMODE = 0x00;
-var LCD_2LINE = 0x08;
-var LCD_1LINE = 0x00;
-var LCD_5x10DOTS = 0x04;
-var LCD_5x8DOTS = 0x00;
-
-var lcd;
-var rgb;
-
-exports.groveLCDOpen = function(port, col, lines, dotsize, callback) {
-    lcd = [port, LCD_ADDRESS];
-    rgb = [port, RGB_ADDRESS];
-    b.i2cOpen(lcd, {}, onLCDOpen);
-
-    function onLCDOpen(x) {
-        console.log(x);
-        status = {
-            'ready': true,
-            port: port,
-            numlines: lines,
-            displayfunction: 0,
-            displaycontrol: 0,
-            displaymode: 0,
-            currline: 0
-        };
-        if(lines &gt; 1) status.displayfunction |= LCD_2LINE;
-        if ((dotsize != 0) &amp;&amp; (lines == 1)) {
-            status.displayfunction |= LCD_5x10DOTS;
-        }
-
-        b.i2cOpen(rgb, {}, onRGBOpen);
-    }
-
-    function onRGBOpen(x) {
-        console.log(x);
-
-        setTimeout(onWait1, 50);
-    }
-
-    // Send function set command sequence
-    function onWait1() {
-        exports.groveLCDCommand(LCD_FUNCTIONSET | status.displayfunction, onInit1);
-    }
-
-    // wait more than 4.1ms
-    function onInit1(x) {
-        if(x.err) throw x.err;
-        setTimeout(onWait2, 5);
-    }
-
-    // second try
-    function onWait2() {
-        exports.groveLCDCommand(LCD_FUNCTIONSET | status.displayfunction, onInit2);
-    }
-
-    function onInit2(x) {
-        if(x.err) throw x.err;
-        setTimeout(onWait3, 1);
-    }
-
-    // third go
-    function onWait3() {
-        exports.groveLCDCommand(LCD_FUNCTIONSET | status.displayfunction, onInit3);
-    }
-
-    // finally, set # lines, font size, etc.
-    function onInit3(x) {
-        if(x.err) throw x.err;
-        exports.groveLCDCommand(LCD_FUNCTIONSET | status.displayfunction, onInit4);
-    }
-
-    // turn the display on with no cursor or blinking default
-    function onInit4(x) {
-        if(x.err) throw x.err;
-        status.displaycontrol = LCD_DISPLAYON | LCD_CURSOROFF | LCD_BLINKOFF;
-        exports.groveLCDDisplay(onInit5);
-    }
-
-    // clear it off
-    function onInit5(x) {
-        if(x.err) throw x.err;
-        exports.groveLCDClear(onInit6);
-    }
-
-    // Initialize to default text direction (for romance languages)
-    function onInit6(x) {
-        if(x.err) throw x.err;
-        status.displaymode = LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT;
-        exports.groveLCDCommand(LCD_ENTRYMODESET | status.displaymode, onInit7);
-    }
-
-    // backlight init
-    function onInit7(x) {if(x.err) throw x.err; setReg(0, 0, onInit8);}
-    function onInit8(x) {if(x.err) throw x.err; setReg(1, 0, onInit9);}
-    function onInit9(x) {if(x.err) throw x.err; setReg(0x08, 0xAA, onInit10); }
-
-    function onInit10(x) {
-        if(x.err) throw x.err;
-        exports.groveLCDSetColorWhite(onDone);
-    }
-
-    function onDone(x) {
-        if(x.err) throw x.err;
-        if(callback) callback(status);
-    }
-};
-
-exports.groveLCDPrint = function(string, callback) {
-    var err;
-    var i2cport = lcd[0]+',0x'+lcd[1].toString(16);
-    if(!status || !status.ready) {
-        return({'error':'Not ready'});
-    }
-    console.log('LCD print: ' + string);
-    var data = [];
-    for(var i=0; i&lt;string.length; i++) {
-        data[i] = string.charAt(i);
-    }
-    console.log('i2c write: ' + i2cport + ': 0x40 &lt;- ' + data.toString(16));
-    b.i2cWriteBytes(lcd, 0x40, data, mycallback);
-
-    function mycallback(x) {
-        var err;
-        if(x.err) err = x.err;
-        console.log('writeBytes returned: ' + JSON.stringify(x));
-        if(x.event == 'callback') {
-            if(callback) callback({err:err});
-        }
-    }
-};
-
-exports.groveLCDCommand = function(command, callback) {
-    var i2cport = lcd[0]+',0x'+lcd[1].toString(16);
-    console.log('LCD command: 0x' + command.toString(16));
-    //if(callback) callback();
-    console.log('i2c write: ' + i2cport + ': 0x80 &lt;- 0x' + command.toString(16));
-    b.i2cWriteBytes(lcd, null, [0x80, command], mycallback);
-
-    function mycallback(x) {
-        console.log('writeBytes returned: ' + JSON.stringify(x));
-        if(x.event == 'callback') {
-            if(callback) callback(x);
-        }
-    }
-};
-
-exports.groveLCDDisplay = function(callback) {
-    status.displaycontrol |= LCD_DISPLAYON;
-    exports.groveLCDCommand(LCD_DISPLAYCONTROL | status.displaycontrol, callback);
-};
-
-exports.groveLCDNoDisplay = function(callback) {
-    status.displaycontrol &amp;= ~LCD_DISPLAYON;
-    exports.groveLCDCommand(LCD_DISPLAYCONTROL | status.displaycontrol, callback);
-};
-
-exports.groveLCDClear = function(callback) {
-    var mycallback = callback ? onWrite : undefined;
-    // clear display, set cursor position to zero
-    exports.groveLCDCommand(LCD_CLEARDISPLAY, mycallback);
-
-    function onWrite(x) {
-        if(x.err) {
-            callback(x);
-            return;
-        }
-        // this command takes a long time!
-        setTimeout(onWait, 2);
-    }
-
-    function onWait() {
-        callback({});
-    }
-};
-
-exports.groveLCDSetColorWhite = function(callback) {
-    exports.groveLCDSetRGB(255, 255, 255, callback);
-};
-
-exports.groveLCDSetRGB = function(r, g, b, callback) {
-    setReg(REG_RED, r, setGreen);
-    function setGreen() {setReg(REG_GREEN, g, setBlue); }
-    function setBlue() {setReg(REG_BLUE, b, callback); }    
-};
-
-function setReg(addr, data, callback) {
-    var err;
-    var i2cport = rgb[0]+',0x'+rgb[1].toString(16);
-    console.log('i2c write: ' + i2cport + ': ' + addr.toString(16) + ' &lt;- 0x' + data.toString(16));
-    //if(callback) callback();
-    b.i2cWriteBytes(rgb, null, [addr, data], mycallback);
-
-    function mycallback(x) {
-        if(x.err) err = x.err;
-        console.log('writeBytes returned: ' + JSON.stringify(x));
-        if(x.event == 'callback') {
-            if(callback) callback({err:err});
-        }
-    }
+function mydebug(x) {
+    console.log(x);
 }
 
+exports = (function(){
+    var exports = {};
+    // based on https://github.com/Seeed-Studio/Grove_LCD_RGB_Backlight
+    
+    // Device I2C address
+    var LCD_ADDRESS = 0x7c&gt;&gt;1;
+    var RGB_ADDRESS = 0xc4&gt;&gt;1;
+    
+    // color define 
+    var WHITE = 0;
+    var RED = 1;
+    var GREEN = 2;
+    var BLUE = 3;
+    
+    var REG_RED = 0x04;   // pwm2
+    var REG_GREEN = 0x03; // pwm1
+    var REG_BLUE = 0x02;  // pwm0
+    
+    var REG_MODE1 = 0x00;
+    var REG_MODE2 = 0x01;
+    var REG_OUTPUT = 0x08;
+    
+    // commands
+    var LCD_CLEARDISPLAY = 0x01;
+    var LCD_RETURNHOME = 0x02;
+    var LCD_ENTRYMODESET = 0x04;
+    var LCD_DISPLAYCONTROL = 0x08;
+    var LCD_CURSORSHIFT = 0x10;
+    var LCD_FUNCTIONSET = 0x20;
+    var LCD_SETCGRAMADDR = 0x40;
+    var LCD_SETDDRAMADDR = 0x80;
+    
+    // flags for display entry mode
+    var LCD_ENTRYRIGHT = 0x00;
+    var LCD_ENTRYLEFT = 0x02;
+    var LCD_ENTRYSHIFTINCREMENT = 0x01;
+    var LCD_ENTRYSHIFTDECREMENT = 0x00;
+    
+    // flags for display on/off control
+    var LCD_DISPLAYON = 0x04;
+    var LCD_DISPLAYOFF = 0x00;
+    var LCD_CURSORON = 0x02;
+    var LCD_CURSOROFF = 0x00;
+    var LCD_BLINKON = 0x01;
+    var LCD_BLINKOFF = 0x00;
+    
+    // flags for display/cursor shift
+    var LCD_DISPLAYMOVE = 0x08;
+    var LCD_CURSORMOVE = 0x00;
+    var LCD_MOVERIGHT = 0x04;
+    var LCD_MOVELEFT = 0x00;
+    
+    // flags for function set
+    var LCD_8BITMODE = 0x10;
+    var LCD_4BITMODE = 0x00;
+    var LCD_2LINE = 0x08;
+    var LCD_1LINE = 0x00;
+    var LCD_5x10DOTS = 0x04;
+    var LCD_5x8DOTS = 0x00;
+    
+    var lcd;
+    var rgb;
+    
+    exports.groveLCDOpen = function(port, col, lines, dotsize, callback) {
+        lcd = [port, LCD_ADDRESS];
+        rgb = [port, RGB_ADDRESS];
+        b.i2cOpen(lcd, {}, onLCDOpen);
+        mydebug("Open issued");
+    
+        function onLCDOpen(x) {
+            mydebug(x);
+            status = {
+                'ready': true,
+                port: port,
+                numlines: lines,
+                displayfunction: 0,
+                displaycontrol: 0,
+                displaymode: 0,
+                currline: 0
+            };
+            if(lines &gt; 1) status.displayfunction |= LCD_2LINE;
+            if ((dotsize != 0) &amp;&amp; (lines == 1)) {
+                status.displayfunction |= LCD_5x10DOTS;
+            }
+    
+            b.i2cOpen(rgb, {}, onRGBOpen);
+        }
+    
+        function onRGBOpen(x) {
+            mydebug(x);
+    
+            setTimeout(onWait1, 50);
+        }
+    
+        // Send function set command sequence
+        function onWait1() {
+            exports.groveLCDCommand(LCD_FUNCTIONSET | status.displayfunction, onInit1);
+        }
+    
+        // wait more than 4.1ms
+        function onInit1(x) {
+            if(x.err &amp;&amp; x.err != {}) mydebug(JSON.stringify(x));
+            setTimeout(onWait2, 5);
+        }
+    
+        // second try
+        function onWait2() {
+            exports.groveLCDCommand(LCD_FUNCTIONSET | status.displayfunction, onInit2);
+        }
+    
+        function onInit2(x) {
+            if(x.err &amp;&amp; x.err != {}) mydebug(JSON.stringify(x));
+            setTimeout(onWait3, 1);
+        }
+    
+        // third go
+        function onWait3() {
+            exports.groveLCDCommand(LCD_FUNCTIONSET | status.displayfunction, onInit3);
+        }
+    
+        // finally, set # lines, font size, etc.
+        function onInit3(x) {
+            if(x.err &amp;&amp; x.err != {}) mydebug(JSON.stringify(x));
+            exports.groveLCDCommand(LCD_FUNCTIONSET | status.displayfunction, onInit4);
+        }
+    
+        // turn the display on with no cursor or blinking default
+        function onInit4(x) {
+            if(x.err &amp;&amp; x.err != {}) mydebug(JSON.stringify(x));
+            status.displaycontrol = LCD_DISPLAYON | LCD_CURSOROFF | LCD_BLINKOFF;
+            exports.groveLCDDisplay(onInit5);
+        }
+    
+        // clear it off
+        function onInit5(x) {
+            if(x.err &amp;&amp; x.err != {}) mydebug(JSON.stringify(x));
+            exports.groveLCDClear(onInit6);
+        }
+    
+        // Initialize to default text direction (for romance languages)
+        function onInit6(x) {
+            if(x.err &amp;&amp; x.err != {}) mydebug(JSON.stringify(x));
+            status.displaymode = LCD_ENTRYLEFT | LCD_ENTRYSHIFTDECREMENT;
+            exports.groveLCDCommand(LCD_ENTRYMODESET | status.displaymode, onInit7);
+        }
+    
+        // backlight init
+        function onInit7(x) {if(x.err) mydebug(JSON.stringify(x)); setReg(0, 0, onInit8);}
+        function onInit8(x) {if(x.err) mydebug(JSON.stringify(x)); setReg(1, 0, onInit9);}
+        function onInit9(x) {if(x.err) mydebug(JSON.stringify(x)); setReg(0x08, 0xAA, onInit10); }
+    
+        function onInit10(x) {
+            if(x.err &amp;&amp; x.err != {}) mydebug(JSON.stringify(x));
+            exports.groveLCDSetColorWhite(onDone);
+        }
+    
+        function onDone(x) {
+            if(x.err &amp;&amp; x.err != {}) mydebug(JSON.stringify(x));
+            if(callback) callback(status);
+        }
+    };
+    
+    exports.groveLCDPrint = function(string, callback) {
+        var err;
+        var i2cport = lcd[0]+',0x'+lcd[1].toString(16);
+        if(!status || !status.ready) {
+            return({'error':'Not ready'});
+        }
+        mydebug('LCD print: ' + string);
+        var data = [];
+        for(var i=0; i&lt;string.length; i++) {
+            data[i] = string.charAt(i);
+        }
+        var c = 0;
+        mydebug('i2c write: ' + i2cport + ': 0x40 &lt;- ' + data[c].toString(16));
+        b.i2cWriteBytes(lcd, 0x40, [data[c]], mycallback);
+        c++;
+    
+        function mycallback(x) {
+            var err;
+            if(x.event == 'callback') {
+                if(x.err) {
+                    err = x.err;
+                    mydebug('writeBytes returned: ' + JSON.stringify(x));
+                    if(callback) callback({err:err});
+                }
+                if(c &lt; string.length) {
+                    mydebug('i2c write: ' + i2cport + ': 0x40 &lt;- ' + data[c].toString(16));
+                    b.i2cWriteBytes(lcd, 0x40, [data[c]], mycallback);
+                    c++;
+                } else {
+                    callback();
+                }
+            }
+        }
+    };
+    
+    exports.groveLCDCommand = function(command, callback) {
+        var i2cport = lcd[0]+',0x'+lcd[1].toString(16);
+        mydebug('LCD command: 0x' + command.toString(16));
+        //if(callback) callback();
+        mydebug('i2c write: ' + i2cport + ': 0x80 &lt;- 0x' + command.toString(16));
+        b.i2cWriteBytes(lcd, 0x80, [command], mycallback);
+    
+        function mycallback(x) {
+            mydebug('writeBytes returned: ' + JSON.stringify(x));
+            if(x.event == 'callback') {
+                if(callback) callback(x);
+            }
+        }
+    };
+    
+    exports.groveLCDDisplay = function(callback) {
+        status.displaycontrol |= LCD_DISPLAYON;
+        exports.groveLCDCommand(LCD_DISPLAYCONTROL | status.displaycontrol, callback);
+    };
+    
+    exports.groveLCDNoDisplay = function(callback) {
+        status.displaycontrol &amp;= ~LCD_DISPLAYON;
+        exports.groveLCDCommand(LCD_DISPLAYCONTROL | status.displaycontrol, callback);
+    };
+    
+    exports.groveLCDClear = function(callback) {
+        var mycallback = callback ? onWrite : undefined;
+        // clear display, set cursor position to zero
+        exports.groveLCDCommand(LCD_CLEARDISPLAY, mycallback);
+    
+        function onWrite(x) {
+            if(x.err) {
+                callback(x);
+                return;
+            }
+            // this command takes a long time!
+            setTimeout(onWait, 2);
+        }
+    
+        function onWait() {
+            callback({});
+        }
+    };
+    
+    exports.groveLCDSetColorWhite = function(callback) {
+        exports.groveLCDSetRGB(255, 255, 255, callback);
+    };
+    
+    exports.groveLCDSetRGB = function(r, g, b, callback) {
+        setReg(REG_RED, r, setGreen);
+        function setGreen() {setReg(REG_GREEN, g, setBlue); }
+        function setBlue() {setReg(REG_BLUE, b, callback); }    
+    };
+    
+    function setReg(addr, data, callback) {
+        var err;
+        var i2cport = rgb[0]+',0x'+rgb[1].toString(16);
+        mydebug('i2c write: ' + i2cport + ': ' + addr.toString(16) + ' &lt;- 0x' + data.toString(16));
+        //if(callback) callback();
+        b.i2cWriteBytes(rgb, addr, [data], mycallback);
+    
+        function mycallback(x) {
+            if(x.err) err = x.err;
+            mydebug('writeBytes returned: ' + JSON.stringify(x));
+            if(x.event == 'callback') {
+                if(callback) callback({err:err});
+            }
+        }
+    }
+    
+    return(exports);
+})();
 
 // Start test code
 exports.groveLCDOpen('/dev/i2c-2', 16, 2, 0, onLCDOpen);
@@ -290,6 +310,19 @@ function onLCDOpen(x) {
 function onLCDPrint(x) {
     console.log(x);
 }
+
+var colorIndex = 0;
+var colors = [[255,0,0], [0,255,0], [0,0,255]];
+function rotateColor() {
+    var r = colors[colorIndex][0];
+    var g = colors[colorIndex][1];
+    var b = colors[colorIndex][2];
+    exports.groveLCDSetRGB(r, g, b);
+    colorIndex++;
+    if(colorIndex &gt;= 3) colorIndex=0;
+}
+
+setInterval(rotateColor, 2000);
 </pre>
 <div readonly id='console-output' style="height:200px;"></div>
 <br></br>

@@ -3,7 +3,40 @@ layout: bare
 ---
 serverBasePath = typeof serverBasePath == 'undefined' ? '{{site.baseurl}}/' : serverBasePath;
 var name = "#floatMenu";  
-var menuYloc = null;  
+var menuYloc = null;
+var connectState = 'init';
+var statusDisconnected = '' +
+    '<div id="connect-status">' +
+    '    <div class="browser-connect">' +
+    '        <img alt="Not Connected" src="' + serverBasePath + 'static/images/usb.png" border="0">' +
+    '        <div id="browser-content"><strong>Did you know?</strong>  This page can interact with your BeagleBone<br />' +
+    'Type in your BeagleBone&#39;s IP address here:<input id="connect-ip"></input>' +
+    '        </div>' +
+    '    </div>' +
+    '</div>';
+var statusConnected = '' +
+    '<div id="connect-status">' +
+    '    <div class="browser-connected">' +
+    '        <img alt="Connected" src="' + serverBasePath + 'static/images/green_check.png" border="0">' +
+    '        <div id="browser-content"><strong>Your board is connected!</strong><br>' +
+    '            <div id="board-info"></div> <button onclick="disconnect();">Disconnect</button>' +
+    '        </div>' +
+    '    </div>' +
+    '</div>';
+var handlers = {};
+function oninput(e) {
+    if(e.which == 10 || e.which == 13) {
+        var givenAddress = $('#connect-ip').val();
+        setTargetAddress(givenAddress, handlers);
+    }
+}
+
+function disconnect() {
+    console.log('Bonescript: disconnected');
+    $('#connect-status').replaceWith(statusDisconnected);
+    $('#connect-ip').keypress(oninput);
+    connectState = 'disconnected';
+}
   
 $(document).ready(function(){
     if($(name).length) {
@@ -39,31 +72,12 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     if($('#connect-status').length) {
-        var connectState = 'init';
-        var statusDisconnected = '' +
-            '<div id="connect-status">' +
-            '    <div class="browser-connect">' +
-            '        <img alt="Not Connected" src="' + serverBasePath + 'static/images/usb.png" border="0">' +
-            '        <div id="browser-content"><strong>Did you know?</strong>  This page can interact with your BeagleBone<br />' +
-            'Type in your BeagleBone&#39;s IP address here:<input id="connect-ip"></input>' +
-            '        </div>' +
-            '    </div>' +
-            '</div>';
-        var statusConnected = '' +
-            '<div id="connect-status">' +
-            '    <div class="browser-connected">' +
-            '        <img alt="Connected" src="' + serverBasePath + 'static/images/green_check.png" border="0">' +
-            '        <div id="browser-content"><strong>Your board is connected!</strong><br>' +
-            '            <div id="board-info"></div>' +
-            '        </div>' +
-            '    </div>' +
-            '</div>';
         $('#connect-status').replaceWith(statusDisconnected);
+        $('#connect-ip').keypress(oninput);
 
 	// note, due to a bug in Firefox, the call is moved below
 
         function testForConnection() {
-            var handlers = {};
             handlers.callback = callback;
             handlers.initialized = initialized;
             handlers.connecting = disconnected;
@@ -73,7 +87,6 @@ $(document).ready(function(){
             handlers.connect = connected;
             handlers.reconnect = connected;
             handlers.reconnecting = connected;
-            $('#connect-ip').keypress(oninput);
             
             setTimeout(tryWindowHost, 5);
             setTimeout(try192, 5);
@@ -87,13 +100,6 @@ $(document).ready(function(){
             }
             function tryLocal() {
                 setTargetAddress('beaglebone.local', handlers);
-            }
-
-            function oninput(e) {
-                if(e.which == 10 || e.which == 13) {
-                    var givenAddress = $('#connect-ip').val();
-                    setTargetAddress(givenAddress, handlers);
-                }
             }
 
             function callback() {
@@ -116,6 +122,7 @@ $(document).ready(function(){
                 if(connectState == 'connected') {
                     console.log('Bonescript: disconnected');
                     $('#connect-status').replaceWith(statusDisconnected);
+                    $('#connect-ip').keypress(oninput);
                     connectState = 'disconnected';
                 }
             }
