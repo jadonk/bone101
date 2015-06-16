@@ -18,13 +18,37 @@ $( document ).ready(function(){
 		$('div.view-content').append(boncard_block(bonecard_id));
 		// reinit appended textarea to be ckeditor
 		$('div.view-content').find('textarea#editor'+bonecard_id).ckeditor().end();
-
+		
+		// apply 'on click' on the new added bonecard
+		update_boncards_list_action();
+	
 		editor = ace.edit("editor"+bonecard_id);
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/javascript");
 		
 		bonecard_id++;
 	});
+
+	function update_boncards_list_action() {
+		$('ul.bonecards-list').find('li').each(function(i) {
+			var $this = $(this);
+			$this.on('click', function() {
+				selected_id = $this.attr('id').substring(19);
+				display_selected_card(selected_id);
+			});
+		});
+	}
+
+	function display_selected_card(id) {
+		$('div.view-content').children().each(function() {
+			$this = $(this);
+			current_id = $this.attr('id').substring(14);
+			if(current_id == selected_id)
+				$this.show();
+			else
+				$this.hide();
+		});
+	}
 	
 	// html content for adding new bonecard-micro to the list
 	function boncard_item(index) {
