@@ -44,3 +44,10 @@ ul.bonecards-list {
    white-space: -o-pre-wrap;   /* Opera 7 */    
    word-wrap: break-word;      /* IE */
 }
+
+button.add-bonecard{
+	border: 1px solid gray;
+	background-color: white;
+	width: 130px;
+	height: 35px;
+}
