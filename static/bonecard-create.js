@@ -74,6 +74,11 @@ $( document ).ready(function(){
 			var $this = $(this);
 			current_id = $this.attr('id').substring(14);
 
+			// Listen for text input and update bonecard title
+			$this.find('input.bonecard-title-input-text').keyup(function() {
+				update_micro_bonecard_title($(this).val());
+			});
+
 			// Listen for the change in the radio buttons 'html/code'
 			$this.find('input[name=options'+current_id+']:radio')
 			.change(function() {
@@ -91,6 +96,16 @@ $( document ).ready(function(){
 				$this.find('#editor'+selected_id+'-content')
 				.html(CKEDITOR.instances['editor'+selected_id].getData());
 			});
+		});
+	}
+
+	function update_micro_bonecard_title(title) {
+		$('ul.bonecards-list').find('li').each(function(i) {
+			var $this = $(this);
+			var $card_title  = $this.find('.bonecard-micro-content');
+			current_id = $this.attr('id').substring(19);
+			if(current_id == selected_id)
+				$card_title.text(title);
 		});
 	}
 	
