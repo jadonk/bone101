@@ -108,8 +108,8 @@ div.bonecard-micro:after {
 }
 
 div.bonecard-micro:after, div.bonecard-micro:before {
-    width: 8px;
-    left: -17px;
+    width: 7px;
+    left: -15px;
 }
 
 div.bonecard-micro-content{
