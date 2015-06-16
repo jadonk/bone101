@@ -114,6 +114,7 @@ div.bonecard-micro:after, div.bonecard-micro:before {
 
 div.bonecard-micro-content{
     text-align: -webkit-center;
+    text-align: -moz-center;
     width: 147px;
     height: 106px;
     position: absolute;
