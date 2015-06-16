@@ -13,6 +13,10 @@
     overflow: hidden;
 }
 
+/*
+ * The code version of bonecard
+ */
+
 div.bonecard, div.bonecard-code {
     margin: 0 auto;
     width: 600px;
@@ -73,10 +77,9 @@ div.bonecard:after {
     top: 140px;
     height: 64px;
 }
-
-#editor {
-    width: 666px;
-    height: 360px;
+.editor {
+    width: 570px;
+    height: 330px;
     border-radius: 0px;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
@@ -87,7 +90,6 @@ div.bonecard:after {
 .ace_gutter {
     background: #272822 !important;
 }
-
 div.bonecard-micro {
     width: 170px;
     height: 98px;
