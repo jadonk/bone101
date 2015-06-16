@@ -85,6 +85,12 @@ window.onload = function() {
 					$this.find('div.html-card').hide();
 				}
 			});
+
+			// get the ckeditor content to the bonecard when clicking on preview
+			$this.find('a.bonecard-preview').on('click', function() {
+				$this.find('#editor'+selected_id+'-content')
+				.html(CKEDITOR.instances['editor'+selected_id].getData());
+			});
 		});
 	}
 	
