@@ -47,3 +47,10 @@ ul.bonecards-list {
     white-space: nowrap;
     padding: 0px;
 }
+
+button.add-bonecard {
+    border: 1px solid gray;
+    background-color: white;
+    width: 130px;
+    height: 35px;
+}
