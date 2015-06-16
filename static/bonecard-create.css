@@ -19,3 +19,28 @@ div.cards-sidebar {
 input.tutorial-title::-webkit-input-placeholder { font-style: italic; }
 input.tutorial-title::-ms-input-placeholder { font-style: italic; }
 input.tutorial-title::-moz-placeholder { font-style: italic; }
+
+li.boncards-list-item {
+	display: inline-block;
+	width: 215px;
+	height: 130px; 
+	position: relative;
+}
+
+ul.bonecards-list {
+	list-style: none;
+	width: auto;
+	height: 170px;
+  width: 100%;
+  overflow: auto;
+  white-space: nowrap;
+  padding: 0px;
+}
+
+.wordwrap { 
+   white-space: pre-wrap;      /* CSS3 */   
+   white-space: -moz-pre-wrap; /* Firefox */    
+   white-space: -pre-wrap;     /* Opera <7 */   
+   white-space: -o-pre-wrap;   /* Opera 7 */    
+   word-wrap: break-word;      /* IE */
+}
