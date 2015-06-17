@@ -11,21 +11,21 @@ window.onload = function() {
 	var bonecard_id = 1;
 	var selected_id = 0;
 
-	update_boncards_list_action();
+	update_bonecards_list_action();
 	update_view_content_action();
 	highlight_selected_card(selected_id);
 
 
 	$('button.add-bonecard').on('click', function(e) {
 		e.preventDefault();
-		$('ul.bonecards-list').append(boncard_item(bonecard_id));
+		$('ul.bonecards-list').append(bonecard_item(bonecard_id));
 		$('.sortable').sortable(); // make the add bonecard sortable
-		$('div.view-content').append(boncard_block(bonecard_id));
+		$('div.view-content').append(bonecard_block(bonecard_id));
 		// reinit appended textarea to be ckeditor
 		$('div.view-content').find('textarea#editor'+bonecard_id).ckeditor().end();
 		
 		// apply 'on click' on the new added bonecard
-		update_boncards_list_action();
+		update_bonecards_list_action();
 		update_view_content_action();
 	
 		editor = ace.edit("editor"+bonecard_id);
@@ -35,7 +35,7 @@ window.onload = function() {
 		bonecard_id++;
 	});
 
-	function update_boncards_list_action() {
+	function update_bonecards_list_action() {
 		$('ul.bonecards-list').find('li').each(function(i) {
 			var $this = $(this);
 			$this.on('click', function() {
@@ -110,21 +110,21 @@ window.onload = function() {
 	}
 	
 	// html content for adding new bonecard-micro to the list
-	function boncard_item(index) {
+	function bonecard_item(index) {
 		return '<li id="bonecard-micro-item'+index+'" '+
-					 'class="boncards-list-item"><div class="bonecard '+
+					 'class="bonecards-list-item"><div class="bonecard '+
 					 'bonecard-micro"><div class="bonecard-micro-content'+
 					 '">untitled bonecard'+index+'</div></div></li>';
 	}
 
-	//html content to add new boncard block for editing
-	function boncard_block(index) {
+	//html content to add new bonecard block for editing
+	function bonecard_block(index) {
 		// data-type attr could take 'html'(default) or 'code'
 		return '<div id="bonecard-block'+index+'"  style="display: none;" '+
 					 'data-type="html">'+
 					 '<div class="row"><div class="col-md-6"><input'+
-					 ' type="text" class="form-control bonecard-title-input-text" id="Boncard-title'+index+'" '+
-					 'placeholder="Boncard Title" value=""></div><div class="col-md-3 '+
+					 ' type="text" class="form-control bonecard-title-input-text" id="bonecard-title'+index+'" '+
+					 'placeholder="bonecard Title" value=""></div><div class="col-md-3 '+
 					 'col-md-offset-3"><div class="btn-group" data-toggle='+
 					 '"buttons"><label class="btn btn-default active"><input '+
 					 'type="radio" name="options'+index+'" id="option'+index+'-1" autocomplete='+
