@@ -20,7 +20,7 @@ input.tutorial-title::-webkit-input-placeholder { font-style: italic; }
 input.tutorial-title::-ms-input-placeholder { font-style: italic; }
 input.tutorial-title::-moz-placeholder { font-style: italic; }
 
-li.boncards-list-item {
+li.bonecards-list-item {
 	display: inline-block;
 	width: 215px;
 	height: 130px; 
