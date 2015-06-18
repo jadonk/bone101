@@ -125,7 +125,7 @@ window.onload = function() {
 					 '<div class="row"><div class="col-md-6"><input'+
 					 ' type="text" class="form-control bonecard-title-input-text" id="bonecard-title'+index+'" '+
 					 'placeholder="bonecard Title" value=""></div><div class="col-md-3 '+
-					 'col-md-offset-3"><div class="btn-group" data-toggle='+
+					 'col-md-offset-3"><div class="btn-group float-right" data-toggle='+
 					 '"buttons"><label class="btn btn-default active"><input '+
 					 'type="radio" name="options'+index+'" id="option'+index+'-1" autocomplete='+
 					 '"off" value="html" checked> HTML</label><label class="btn btn-default">'+
