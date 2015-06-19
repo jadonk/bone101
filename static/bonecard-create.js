@@ -43,6 +43,17 @@ window.onload = function() {
 				highlight_selected_card(selected_id);
 				display_selected_card(selected_id);
 			});
+			$this.find('a').on('click', function(e) {
+				e.preventDefault();
+				$this.remove();
+			})
+
+			$this.mouseenter(function() {
+				$this.find('a').show();
+			});
+			$this.mouseleave(function() {
+				$this.find('a').hide();
+			});
 		});
 	}
 
@@ -112,7 +123,8 @@ window.onload = function() {
 	// html content for adding new bonecard-micro to the list
 	function bonecard_item(index) {
 		return '<li id="bonecard-micro-item'+index+'" '+
-					 'class="bonecards-list-item"><div class="bonecard '+
+					 'class="bonecards-list-item"><a href = "#" class = '+
+					 '"delete-button">x</a><div class="bonecard '+
 					 'bonecard-micro"><div class="bonecard-micro-content'+
 					 '">untitled bonecard'+index+'</div></div></li>';
 	}
