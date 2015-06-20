@@ -45,11 +45,12 @@ ul.bonecards-list {
    word-wrap: break-word;      /* IE */
 }
 
-button.add-bonecard{
+button.add-bonecard, button.save{
 	border: 1px solid gray;
 	background-color: white;
-	width: 130px;
+	width: 195px;
 	height: 35px;
+	float: right;
 }
 
 .float-right {
@@ -64,4 +65,18 @@ a.delete-button {
 		font-size: 12px;
 		text-decoration: none;
 		display: none;
+}
+
+button.save {
+	border-color: #de7224;
+	color: #fff;
+  font-weight: bold;
+  font-size: 1em;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+	background-color: #de7224;
+}
+
+button.save:hover {
+	background-color: #562e12;
+	border-color: #765740;
 }
