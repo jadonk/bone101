@@ -4,7 +4,7 @@ window.onload = function() {
 		$('input.btn1.github-login').hide();
 		$login_ul = $('div.github-login ul.github-login-ul');
     $login_ul.show();
-    $login_ul.find('span.username').html(name);
+    $login_ul.find('span.username').html(Cookies.get('name'));
 	}
 
 	OAuth.initialize('N46nTD88b9rs7E-K0FUAqt8JUi0');
