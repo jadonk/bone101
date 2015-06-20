@@ -1,5 +1,5 @@
-window.onload = function() {
-  
+$( document ).ready( function() {
+
   var editor = ace.edit("editor0");
   editor.setTheme("ace/theme/monokai");
   editor.getSession().setMode("ace/mode/javascript");
@@ -162,4 +162,4 @@ window.onload = function() {
 					 '"preview'+index+'"></br><div class="bonecard editor-preview">'+
 					 '<div id="editor'+index+'-content" class="editor"></div></div></div></div></div></div>';
 	}
-}
+});
