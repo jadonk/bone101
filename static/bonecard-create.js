@@ -15,6 +15,30 @@ $( document ).ready(function(){
 	update_view_content_action();
 	highlight_selected_card(selected_id);
 
+	$('button.save').on('click', function() {
+		var gist_request = {
+			type: 'POST',
+			url: 'https://api.github.com/gists',
+			data: gist_params(),
+		}
+
+		gist_request.headers = {
+			"Authorization": 'token ' + Cookies.get('token')
+		}
+
+		gist_request.success = function(response) {
+			window.location.replace(base_url + '/Support/bonecard/tutorial?gist_id=' + response.id);
+		}
+
+		gist_request.error = function(err) {
+			console.log(err);
+		}
+
+		console.log(gist_request);
+
+		$.ajax(gist_request);
+	});
+
 
 	$('button.add-bonecard').on('click', function(e) {
 		e.preventDefault();
