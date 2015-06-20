@@ -94,9 +94,11 @@ $( document ).ready( function() {
 			$this.find('input[name=options'+current_id+']:radio')
 			.change(function() {
 				if($(this).val() == 'html') {
+					$this.data('type', 'html');
 					$this.find('div.code-card').hide();
 					$this.find('div.html-card').show();
 				} else {
+					$this.data('type', 'code');
 					$this.find('div.code-card').show();
 					$this.find('div.html-card').hide();
 				}
