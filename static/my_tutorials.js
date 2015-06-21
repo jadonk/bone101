@@ -6,6 +6,7 @@ $( document ).ready(function() {
 		type: 'GET',
 		url: 'https://api.github.com/users/'+ username +'/gists',
 		success: function(data) {
+			$('div.ajax-loader').hide();
 			tutorials = [];
 			// check for each gist if it start with 'bone101_' then it is
 			// a bone101 tutorial

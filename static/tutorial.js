@@ -8,6 +8,7 @@ $(document).ready(function() {
 		type: 'GET',
 		url: 'https://api.github.com/gists/' + gist_id,
 		success: function(data) {
+			$('div.ajax-loader').hide();
 			var i = 0;
 			$.each(data.files, function(index, val) {
 				title = val.filename.substring(13);
