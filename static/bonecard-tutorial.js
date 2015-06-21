@@ -26,6 +26,7 @@ $(document).ready(function() {
 		type: 'GET',
 		url: 'https://api.github.com/gists/' + gist_id,
 		success: function(data) {
+			$('div.ajax-loader').hide();
 
 			// Update page title
 			description_index = data['description'].indexOf(', description:');
