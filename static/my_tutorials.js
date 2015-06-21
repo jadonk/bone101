@@ -32,7 +32,10 @@ $( document ).ready(function() {
 	
 	function bonecard_preview_div(title, gist_id) {
 		return '<div class="col-md-4"><a href="/Support'+
-					 '/bone101/tutorial.html?gist_id='+ gist_id +'"><div class="bonecard bonecard-preview">'+
-					 '<div class="bonecard-preview-content wordwrap"><b>'+ title +'</b></div></div></a></div>';
+					 '/bone101/tutorial.html?gist_id='+ gist_id 
+					 +'"><div class="bonecard bonecard-preview"'+
+					 ' style=" margin-bottom: 20px; "><div class="'+
+					 'bonecard-preview-content wordwrap"><b>'+ title 
+					 +'</b></div></div></a></div>';
 	}
 });
