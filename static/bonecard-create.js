@@ -26,6 +26,10 @@ $( document ).ready( function() {
 			"Authorization": 'token ' + Cookies.get('token')
 		}
 
+		gist_request.success = function(response) {
+			window.location.replace('/Support/bone101/tutorial.html?gist_id=' + response.id);
+		}
+
 		gist_request.error = function(err) {
 			console.log(err);
 		}
