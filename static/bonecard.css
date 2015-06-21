@@ -65,7 +65,7 @@ div.bonecard:after, div.bonecard:before {
 }
 div.bonecard-code:before,
 div.bonecard:before {
-    top: 105px;
+    top: 103px;
     height: 116px;
 }
 div.bonecard-code:after {
@@ -74,7 +74,7 @@ div.bonecard-code:after {
 }
 
 div.bonecard:after {
-    top: 140px;
+    top: 145px;
     height: 64px;
 }
 .editor {
