@@ -2,9 +2,9 @@
  * This file contains different versions of bonecard
  * 1- default version: 
  *      class: bonecard
- * 2- code version:
- *      class: bonecard-code
- * 3- micro bonecard
+ * 2- bonecard-code
+ * 3- bonecard-micro
+ * 4- bonecard-preview
  */
 
 
@@ -112,6 +112,7 @@ div.bonecard-micro:after, div.bonecard-micro:before {
     left: -15px;
 }
 
+div.bonecard-preview-content,
 div.bonecard-micro-content{
     text-align: -webkit-center;
     text-align: -moz-center;
@@ -128,4 +129,31 @@ div.bonecard-micro-content{
     width: 95%;
     height: 30%;
     margin: auto;
+}
+
+div.bonecard-preview {
+    width: 240px;
+    height: 138px;
+    border-radius: 20px;
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+    margin-left: 20px;
+}
+div.bonecard-preview:before {
+    top: 33px;
+    height: 48px;
+}
+div.bonecard-preview:after {
+    top: 50px;
+    height: 25px;
+}
+
+div.bonecard-preview:after, div.bonecard-preview:before {
+    width: 7px;
+    left: -15px;
+}
+
+div.bonecard-preview-content{
+    width: 247px;
+    height: 27px;
 }
