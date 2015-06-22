@@ -31,7 +31,7 @@ $( document ).ready(function() {
 			else if(tutorials.length == 0)
 				$tutorials_preview.append('<div style="text-align: center;height:'+
 					' 200px;"><h1><b>Couldn&#39;t find any tutorial</b></h1><h2> &nbsp; &nbsp;<a href="'+
-					base_url + '/Support/bone101/create.html">Create your first '+
+					base_url + '/Support/bonecard/create/">Create your first '+
 					'tutorial now!</a></h2></div>');
 
 		},
