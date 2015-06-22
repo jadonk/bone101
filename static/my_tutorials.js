@@ -22,8 +22,18 @@ $( document ).ready(function() {
 					tutorials.push(val);
 				}
 			});
+			// if user didn't sign in redirect to the home page
+			if(Cookies.get('token') == null ||
+		 		 Cookies.get('name') == null) {
+				window.location.replace('/');
+		 	} 
+			// else if no tutorial found append msg to redirect to create page
+			else if(tutorials.length == 0)
+				$tutorials_preview.append('<div style="text-align: center;height:'+
+					' 200px;"><h1><b>Couldn&#39;t find any tutorial</b></h1><h2> &nbsp; &nbsp;<a href='+
+					'"/Support/bone101/create.html">Create your first '+
+					'tutorial now!</a></h2></div>');
 
-			console.log(tutorials);
 		},
 		error: function(err) {
 			console.log(err);
