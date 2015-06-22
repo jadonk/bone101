@@ -25,13 +25,13 @@ $( document ).ready(function() {
 			// if user didn't sign in redirect to the home page
 			if(Cookies.get('token') == null ||
 		 		 Cookies.get('name') == null) {
-				window.location.replace('/');
+				window.location.replace( base_url + '/');
 		 	} 
 			// else if no tutorial found append msg to redirect to create page
 			else if(tutorials.length == 0)
 				$tutorials_preview.append('<div style="text-align: center;height:'+
-					' 200px;"><h1><b>Couldn&#39;t find any tutorial</b></h1><h2> &nbsp; &nbsp;<a href='+
-					'"/Support/bone101/create.html">Create your first '+
+					' 200px;"><h1><b>Couldn&#39;t find any tutorial</b></h1><h2> &nbsp; &nbsp;<a href="'+
+					base_url + '/Support/bone101/create.html">Create your first '+
 					'tutorial now!</a></h2></div>');
 
 		},
@@ -41,7 +41,7 @@ $( document ).ready(function() {
 	});
 	
 	function bonecard_preview_div(title, gist_id) {
-		return '<div class="col-md-4"><a href="/Support'+
+		return '<div class="col-md-4"><a href="'+ base_url +'/Support'+
 					 '/bone101/tutorial.html?gist_id='+ gist_id 
 					 +'"><div class="bonecard bonecard-preview"'+
 					 ' style=" margin-bottom: 20px; "><div class="'+

@@ -28,7 +28,7 @@ $( document ).ready( function() {
 			}
 
 			gist_request.success = function(response) {
-				window.location.replace('/Support/bone101/tutorial.html?gist_id=' + response.id);
+					window.location.replace(base_url + '/Support/bone101/tutorial.html?gist_id=' + response.id);
 			}
 
 			gist_request.error = function(err) {
