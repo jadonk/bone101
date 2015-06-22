@@ -157,3 +157,7 @@ div.bonecard-preview-content{
     width: 247px;
     height: 27px;
 }
+
+div.bonecard-preview:hover {
+    box-shadow: 5px 5px 10px #de7224;
+}
