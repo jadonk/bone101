@@ -42,7 +42,7 @@ $( document ).ready(function() {
 	
 	function bonecard_preview_div(title, gist_id) {
 		return '<div class="col-md-4"><a href="'+ base_url +'/Support'+
-					 '/bone101/tutorial.html?gist_id='+ gist_id 
+					 '/bonecard/tutorial?gist_id='+ gist_id 
 					 +'"><div class="bonecard bonecard-preview"'+
 					 ' style=" margin-bottom: 20px; "><div class="'+
 					 'bonecard-preview-content wordwrap"><b>'+ title 
