@@ -16,27 +16,29 @@ $( document ).ready( function() {
 	highlight_selected_card(selected_id);
 
 	$('button.save').on('click', function() {
-		var gist_request = {
-			type: 'POST',
-			url: 'https://api.github.com/gists',
-			data: gist_params(),
+		if(valid_tutorial()) {
+			var gist_request = {
+				type: 'POST',
+				url: 'https://api.github.com/gists',
+				data: gist_params(),
+			}
+
+			gist_request.headers = {
+				"Authorization": 'token ' + Cookies.get('token')
+			}
+
+			gist_request.success = function(response) {
+				window.location.replace('/Support/bone101/tutorial.html?gist_id=' + response.id);
+			}
+
+			gist_request.error = function(err) {
+				console.log(err);
+			}
+
+			console.log(gist_request);
+
+			$.ajax(gist_request);
 		}
-
-		gist_request.headers = {
-			"Authorization": 'token ' + Cookies.get('token')
-		}
-
-		gist_request.success = function(response) {
-			window.location.replace('/Support/bone101/tutorial.html?gist_id=' + response.id);
-		}
-
-		gist_request.error = function(err) {
-			console.log(err);
-		}
-
-		console.log(gist_request);
-
-		$.ajax(gist_request);
 	});
 
 
@@ -191,6 +193,59 @@ $( document ).ready( function() {
 			}
 		});
 		return JSON.stringify(gist_params);
+	}
+
+	function valid_tutorial() {
+		is_valid = true;
+		// Hide all error msgs
+		$('div.errors ul').children().each(function(){
+			$(this).hide();
+		});
+
+		// Check if the user didn't sign in
+		if(Cookies.get('token') == null ||
+		 		 Cookies.get('name') == null) {
+			$('li.error-login').show()
+			is_valid = false;
+		}
+
+		// Check if tutorial title is empty
+		if($('input.tutorial-title').val() == '') {
+			$('li.error-tutorial-title').show()
+			is_valid = false;
+		}
+
+		// Check if description is empty
+		if($('input.tutorial-description').val() == '') {
+			$('li.error-description').show()
+			is_valid = false;
+		}
+
+		//Check for card title and its content
+		$('div.view-content').children().each(function() {
+			$this = $(this);
+			current_id = $this.attr('id').substring(14);
+
+			title = $this.find('input.bonecard-title-input-text').val();
+			if(title == '') {
+				$('li.error-card-title').show()
+				is_valid = false;
+			}
+			if($this.data('type') == 'html') {
+			  if(CKEDITOR.instances['editor'+current_id].getData() == '') {
+			  	$('li.error-html-content').show()
+					is_valid = false;
+			  }
+			} else if($this.data('type') == 'code') {
+				editor = ace.edit("editor"+current_id);
+			  if(editor.getSession().getValue() == '') {
+			  	$('li.error-code-content').show()
+					is_valid = false;
+			  }
+			}
+		});
+
+		return is_valid;
 	}
 	
 	// html content for adding new bonecard-micro to the list
