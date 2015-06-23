@@ -72,3 +72,17 @@ div.bonecard:after {
     top: 140px;
     height: 64px;
 }
+
+#editor {
+    width: 666px;
+    height: 360px;
+    border-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    position: absolute;
+    margin-top: -107px;
+    margin-right: 1px;
+}
+.ace_gutter {
+    background: #272822 !important;
+}
