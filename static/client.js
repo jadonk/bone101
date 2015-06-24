@@ -16,7 +16,7 @@ var scriptUrls = [
     'jquery-ui.min.js',         // http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js
     'weatherstation.js',
     'bone.js',
-    'ajaxorg-ace-builds-c2f3abb/ace.js' // https://github.com/ajaxorg/ace-builds/commit/c2f3abb2ecd3287f90225d804132f0fd26cfb639
+    'ace/ace.js'
 ];
 
 var doAlert = function(m) {
