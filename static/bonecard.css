@@ -4,11 +4,11 @@
 }
 .bonecard {
     background-color: white;
-    margin: 10px;
-    width: 340px;
-    height: 210px;
-    border: 2px solid black;
-    border-left: 2px solid black;
+    margin: 0 auto;
+    width: 600px;
+    height: 360px;
+    border: 1px solid grey;
+    border-left: 1px solid grey;
     padding: 10px;
     -webkit-border-radius: 20px;
     -webkit-border-top-right-radius: 50px;
@@ -16,12 +16,14 @@
     -moz-border-radius: 20px;
     -moz-border-radius-topright: 50px;
     -moz-border-radius-bottomright: 50px;
-    border-radius: 20px;
-    border-top-right-radius: 50px;
-    border-bottom-right-radius: 50px;
+    border-radius: 48px;
+    border-top-right-radius: 99px;
+    border-bottom-right-radius: 99px;
     position: relative;
-    float: left;
+    float: center;
     -webkit-transition: color 0.5s ease;
+    box-sizing: content-box;
+    box-shadow: 5px 5px 10px #888888;
 }
 .bonecard:after, div.bonecard:before {
     background-color: white;
@@ -34,10 +36,10 @@
     left: -10px;
 }
 .bonecard:before {
-    top: 60px;
-    height: 60px;
+    top: 105px;
+    height: 116px;
 }
 .bonecard:after {
-    top: 180px;
-    height: 30px;
+    top: 140px;
+    height: 64px;
 }
