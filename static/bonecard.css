@@ -1,9 +1,18 @@
+/*
+ * This file contains different versions of bonecard
+ * 1- default version: 
+ *      class: bonecard
+ * 2- code version:
+ *      class: bonecard-code
+ */
+
+
 .bonecard-list {
-	width: 100%;
-	overflow: hidden;
+    width: 100%;
+    overflow: hidden;
 }
-.bonecard {
-    background-color: white;
+
+div.bonecard, div.bonecard-code {
     margin: 0 auto;
     width: 600px;
     height: 360px;
@@ -25,21 +34,41 @@
     box-sizing: content-box;
     box-shadow: 5px 5px 10px #888888;
 }
-.bonecard:after, div.bonecard:before {
+
+div.bonecard-code {
+    background-color: #272822; 
+} 
+
+div.bonecard-code:after, div.bonecard-code:before {
+    background-color: #272822;
+    border: 1px solid grey;
+    border-right: 1px solid #272822;
+}div.bonecard:after, div.bonecard:before {
     background-color: white;
-    position: absolute;
-    display: block;
-    content:"";
-    border: 2px solid black;
-    border-right: 2px solid white;
-    width: 6px;
-    left: -10px;
+    border-bottom: 1px solid gray;
+    border-left: 1px solid gray;
+    border-top: 1px solid gray
 }
-.bonecard:before {
+div.bonecard-code:after, div.bonecard-code:before,
+div.bonecard:after, div.bonecard:before {
+    position: relative;
+    display: block;
+    content: "";
+    width: 18px;
+    left: -22px;
+    box-sizing: content-box;
+}
+div.bonecard-code:before,
+div.bonecard:before {
     top: 105px;
     height: 116px;
 }
-.bonecard:after {
+div.bonecard-code:after {
+    top: -78px;
+    height: 64px;
+}
+
+div.bonecard:after {
     top: 140px;
     height: 64px;
 }
