@@ -54,3 +54,7 @@ button.add-bonecard {
     width: 130px;
     height: 35px;
 }
+
+.float-right {
+    float: right;
+}
