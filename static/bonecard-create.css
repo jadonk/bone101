@@ -1,0 +1,21 @@
+input.tutorial-title {
+	border: 0px;
+	width: 100%;
+	height: 80px;
+	font-size: 40px;
+	text-align: -webkit-center;
+	color: #b4a279;
+}
+input.tutorial-description {
+	width: 75%;
+	height: 35px;
+}
+
+div.cards-sidebar {
+	border-right: 1px solid grey;
+}
+
+/*This for making placeholder italic*/
+input.tutorial-title::-webkit-input-placeholder { font-style: italic; }
+input.tutorial-title::-ms-input-placeholder { font-style: italic; }
+input.tutorial-title::-moz-placeholder { font-style: italic; }
