@@ -9,9 +9,12 @@
   <link rel="stylesheet" type="text/css" media="screen" href="{{site.baseurl}}/static/common.css" />
   <link rel="stylesheet" type="text/css" media="screen" href="{{site.baseurl}}/static/login.css" />
   <link rel="stylesheet" type="text/css" media="screen" href="{{site.baseurl}}/static/beagle.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="{{site.baseurl}}/static/github-login.css" />
+
 {% for style in page.styles %}
   <link rel="stylesheet" type="text/css" media="screen" href="{{ site.baseurl }}{{ style }}" />
 {% endfor %}
+
 {% if page.style %}
   <style>
 {{ page.style }}
@@ -20,7 +23,7 @@
   <script src="{{ site.baseurl }}/static/jquery.js"></script>
   <script src="{{ site.baseurl }}/static/js.cookie.js"></script>
   <script src="{{ site.baseurl }}/static/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
-  <script src="{{ site.baseurl }}/static/oauth.min.js"></script>
+  <script src="{{ site.baseurl }}/static/third_party/OAuth.io/oauth.min.js"></script>
   {% for script in page.scripts-before %}
     <script src="{{ site.baseurl }}{{ script }}"></script>
   {% endfor %}
@@ -41,7 +44,9 @@
  </div>
  <a name="top" id="top"></a>
  <div id="wrapper">
-  <div id='cssmenu'></div>
+  <div id='cssmenu'>
+    {% include github-login.html %}
+  </div>
   <div id="content">
    <div id="contentbuffer">
     {{ content }}
