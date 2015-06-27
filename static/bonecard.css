@@ -1,14 +1,28 @@
+/*
+ * This file contains different versions of bonecard
+ * 1- default version: 
+ *      class: bonecard
+ * 2- bonecard-code
+ * 3- bonecard-micro
+ * 4- bonecard-preview
+ */
+
+
 .bonecard-list {
-	width: 100%;
-	overflow: hidden;
+    width: 100%;
+    overflow: hidden;
 }
-.bonecard {
-    background-color: white;
-    margin: 10px;
-    width: 340px;
-    height: 210px;
-    border: 2px solid black;
-    border-left: 2px solid black;
+
+/*
+ * The code version of bonecard
+ */
+
+div.bonecard, div.bonecard-code {
+    margin: 0 auto;
+    width: 600px;
+    height: 360px;
+    border: 1px solid grey;
+    border-left: 1px solid grey;
     padding: 10px;
     -webkit-border-radius: 20px;
     -webkit-border-top-right-radius: 50px;
@@ -16,47 +30,56 @@
     -moz-border-radius: 20px;
     -moz-border-radius-topright: 50px;
     -moz-border-radius-bottomright: 50px;
-    border-radius: 20px;
-    border-top-right-radius: 50px;
-    border-bottom-right-radius: 50px;
+    border-radius: 48px;
+    border-top-right-radius: 99px;
+    border-bottom-right-radius: 99px;
     position: relative;
-    float: left;
+    float: center;
     -webkit-transition: color 0.5s ease;
-}
-.bonecard:after, div.bonecard:before {
-    background-color: white;
-    position: absolute;
-    display: block;
-    content:"";
-    border: 2px solid black;
-    border-right: 2px solid white;
-    width: 6px;
-    left: -10px;
-}
-.bonecard:before {
-    top: 60px;
-    height: 60px;
-}
-.bonecard:after {
-    top: 180px;
-    height: 30px;
-}
-.bonecard-zoomed {
-    width: 850px;
-    height: 525px;
-}
-.bonecard-zoomed:before {
-    top: 150px;
-    height: 150px;
-}
-.bonecard-zoomed:after {
-    top: 460px;
-    height: 45px;
+    box-sizing: content-box;
+    box-shadow: 5px 5px 10px #888888;
 }
 
-#editor {
-    width: 666px;
-    height: 360px;
+div.bonecard-code {
+    background-color: #272822; 
+} 
+
+div.bonecard-code:after, div.bonecard-code:before {
+    background-color: #272822;
+    border: 1px solid grey;
+    border-right: 1px solid #272822;
+}div.bonecard:after, div.bonecard:before {
+    background-color: white;
+    border-bottom: 1px solid gray;
+    border-left: 1px solid gray;
+    border-top: 1px solid gray
+}
+div.bonecard-code:after, div.bonecard-code:before,
+div.bonecard:after, div.bonecard:before {
+    position: relative;
+    display: block;
+    content: "";
+    width: 18px;
+    left: -22px;
+    box-sizing: content-box;
+}
+div.bonecard-code:before,
+div.bonecard:before {
+    top: 103px;
+    height: 116px;
+}
+div.bonecard-code:after {
+    top: -78px;
+    height: 64px;
+}
+
+div.bonecard:after {
+    top: 145px;
+    height: 64px;
+}
+.editor {
+    width: 570px;
+    height: 330px;
     border-radius: 0px;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
@@ -66,4 +89,75 @@
 }
 .ace_gutter {
     background: #272822 !important;
+}
+div.bonecard-micro {
+    width: 170px;
+    height: 98px;
+    border-radius: 20px;
+    border-top-right-radius: 35px;
+    border-bottom-right-radius: 35px;
+    margin-left: 6px;
+}
+div.bonecard-micro:before {
+    top: 25px;
+    height: 33px;
+}
+div.bonecard-micro:after {
+    top: 34px;
+    height: 18px;
+}
+
+div.bonecard-micro:after, div.bonecard-micro:before {
+    width: 7px;
+    left: -15px;
+}
+
+div.bonecard-preview-content,
+div.bonecard-micro-content{
+    text-align: -webkit-center;
+    text-align: -moz-center;
+    width: 147px;
+    height: 106px;
+    position: absolute;
+    margin-top: -40px;
+    margin-right: 12px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 95%;
+    height: 30%;
+    margin: auto;
+}
+
+div.bonecard-preview {
+    width: 240px;
+    height: 138px;
+    border-radius: 20px;
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+    margin-left: 20px;
+}
+div.bonecard-preview:before {
+    top: 33px;
+    height: 48px;
+}
+div.bonecard-preview:after {
+    top: 50px;
+    height: 25px;
+}
+
+div.bonecard-preview:after, div.bonecard-preview:before {
+    width: 7px;
+    left: -15px;
+}
+
+div.bonecard-preview-content{
+    width: 247px;
+    height: 27px;
+}
+
+div.bonecard-preview:hover {
+    box-shadow: 5px 5px 10px #de7224;
 }
