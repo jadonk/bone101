@@ -21,7 +21,7 @@ var scriptUrls = [
     'jquery-ui.min.js',            // http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js
     'bonescript.js',
     'beagle-ui.js',
-    'ace/ace.js'
+    'third_party/ace/src/ace.js'
 ];
 
 var oldLog = console.log;
