@@ -43,9 +43,9 @@
     top: 140px;
     height: 64px;
 }
-#editor {
-    width: 666px;
-    height: 360px;
+.editor {
+    width: 570px;
+    height: 330px;
     border-radius: 0px;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
