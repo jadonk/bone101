@@ -6,12 +6,16 @@
   <link href="http://feeds.feedburner.com/BeagleBoard" rel="alternate" title="BeagleBoard.org news feed" type="application/atom+xml" />
   <link rel="icon" href="{{site.baseurl}}/static/beagle.ico" type="image/x-icon" />
   <link rel="shortcut icon" href="{{site.baseurl}}/favicon.ico" type="image/x-icon">
+  {% for style in page.styles %}
+  <link rel="stylesheet" type="text/css" media="screen" href="{{ site.baseurl }}{{ style }}" />
+  {% endfor %}
+  <link rel="stylesheet" type="text/css" media="screen" href="{{site.baseurl}}/static/bootstrap/css/bootstrap.css"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="{{site.baseurl}}/static/bootstrap/css/bootstrap-theme.css"/>
   <link rel="stylesheet" type="text/css" media="screen" href="{{site.baseurl}}/static/common.css" />
   <link rel="stylesheet" type="text/css" media="screen" href="{{site.baseurl}}/static/login.css" />
   <link rel="stylesheet" type="text/css" media="screen" href="{{site.baseurl}}/static/beagle.css" />
-{% for style in page.styles %}
-  <link rel="stylesheet" type="text/css" media="screen" href="{{ site.baseurl }}{{ style }}" />
-{% endfor %}
+  <link rel="stylesheet" type="text/css" media="screen" href="{{site.baseurl}}/static/github-login.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="{{site.baseurl}}/static/bonecard.css" />
 {% if page.style %}
   <style>
 {{ page.style }}
@@ -19,11 +23,12 @@
 {% endif %}
   <script src="{{ site.baseurl }}/static/jquery.js"></script>
   <script src="{{ site.baseurl }}/static/js.cookie.js"></script>
-  <script src="{{ site.baseurl }}/static/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
-  <script src="{{ site.baseurl }}/static/oauth.min.js"></script>
+  <script src="{{ site.baseurl }}/static/bootstrap/js/bootstrap.min.js"></script>
+  <script src="{{ site.baseurl }}/static/third_party/OAuth.io/oauth.min.js"></script>
   {% for script in page.scripts-before %}
     <script src="{{ site.baseurl }}{{ script }}"></script>
   {% endfor %}
+
 
 {{ page.head }}
 </head><body>
