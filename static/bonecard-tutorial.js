@@ -13,7 +13,7 @@ $(document).ready(function() {
 	});
 	
 	$slider_nav.slick({
-  	slidesToShow: 3,
+	slidesToShow: 3,
 	  slidesToScroll: 1,
 	  asNavFor: '.slider-for',
 	  dots: true,
@@ -53,8 +53,8 @@ $(document).ready(function() {
 
 	function ace_init(index) {
 		editor = ace.edit("editor"+index);
-    editor.setTheme("ace/theme/monokai");
-    editor.getSession().setMode("ace/mode/javascript");
+		editor.setTheme("ace/theme/monokai");
+		editor.getSession().setMode("ace/mode/javascript");
 	} 
 
 	function bonecard_code_div(content, index) {
