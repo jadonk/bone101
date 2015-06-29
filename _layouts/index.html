@@ -19,11 +19,11 @@
 {% endif %}
   <script src="{{ site.baseurl }}/static/jquery.js"></script>
   <script src="{{ site.baseurl }}/static/js.cookie.js"></script>
-  <script src="{{ site.baseurl }}/static/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
-  <script src="{{ site.baseurl }}/static/oauth.min.js"></script>
-  {% for script in page.scripts-before %}
-    <script src="{{ site.baseurl }}{{ script }}"></script>
-  {% endfor %}
+  <script src="{{ site.baseurl }}/static/bootstrap/js/bootstrap.min.js"></script>
+  <script src="{{ site.baseurl }}/static/third_party/OAuth.io/oauth.min.js"></script>
+{% for script in page.scripts %}
+  <script src="{{ site.baseurl }}{{ script }}"></script>
+{% endfor %}
 
 {{ page.head }}
 </head><body>
@@ -50,12 +50,12 @@
   <script>
     var base_url = '{{ site.baseurl }}';
   </script>
-  {% for script in page.scripts-after %}
-    <script src="{{ site.baseurl }}{{ script }}"></script>
-  {% endfor %}
+{% for script in page.scripts-after %}
+  <script src="{{ site.baseurl }}{{ script }}"></script>
+{% endfor %}
   <script src="{{ site.baseurl }}/static/github-login.js"></script>
 
-    {% include footer.html %}
+{% include footer.html %}
  </div>
  <div id="fb-root"></div>
 </body></html>
