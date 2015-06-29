@@ -19,8 +19,8 @@
     margin: 10px;
     width: 340px;
     height: 210px;
-    border: 2px solid black;
-    border-left: 2px solid black;
+    border: 1px solid black;
+    border-left: 1px solid black;
     padding: 10px;
     -webkit-border-radius: 20px;
     -webkit-border-top-right-radius: 50px;
@@ -55,10 +55,10 @@ div.bonecard-code:before {
     position: absolute;
     display: block;
     content: "";
-    border: 2px solid black;
-    border-right: 2px solid white;
+    border: 1px solid black;
+    border-right: 1px solid white;
     width: 6px;
-    left: -10px;
+    left: -8px;
     box-sizing: content-box;
 }
 
@@ -75,8 +75,6 @@ div.bonecard-code:before {
 .bonecard-micro {
     width: 170px;
     height: 105px;
-    border: 1px solid black;
-    border-left: 1px solid black;
     -webkit-border-radius: 10px;
     -webkit-border-top-right-radius: 25px;
     -webkit-border-bottom-right-radius: 25px;
@@ -89,9 +87,6 @@ div.bonecard-code:before {
 }
 
 div.bonecard-micro:before {
-    width: 8px;
-    border: 1px solid black;
-    border-right: 1px solid white;
 }
 
 .bonecard-micro:before {
@@ -102,9 +97,6 @@ div.bonecard-micro:before {
 .bonecard-micro:after {
     top: 90px;
     height: 15px;
-    width: 8px;
-    border: 1px solid black;
-    border-right: 1px solid white;
 }
 
 .bonecard-zoomed,
