@@ -33,6 +33,11 @@
     float: left;
     -webkit-transition: color 0.5s ease;
     box-sizing: content-box;
+    box-shadow: 5px 5px 10px #888888;
+}
+
+div.bonecard:hover {
+    box-shadow: 5px 5px 10px #de7224;
 }
 
 .bonecard:after,
