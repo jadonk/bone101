@@ -88,6 +88,11 @@ div.bonecard-code:before {
     border-bottom-right-radius: 25px;
 }
 
+div.bonecard-micro:before {
+    border: 1px solid black;
+    border-right: 1px solid white;
+}
+
 .bonecard-micro:before {
     top: 30px;
     height: 30px;
@@ -96,6 +101,8 @@ div.bonecard-code:before {
 .bonecard-micro:after {
     top: 90px;
     height: 15px;
+    border: 1px solid black;
+    border-right: 1px solid white;
 }
 
 .bonecard-zoomed,
