@@ -56,17 +56,20 @@ div.bonecard:before {
     height: 30px;
 }
 
-.bonecard-zoomed {
+.bonecard-zoomed,
+.bonecard-code {
     width: 850px;
     height: 525px;
 }
 
-.bonecard-zoomed:before {
+.bonecard-zoomed:before,
+.bonecard-code:before {
     top: 150px;
     height: 150px;
 }
 
-.bonecard-zoomed:after {
+.bonecard-zoomed:after,
+.bonecard-code:after {
     top: 460px;
     height: 45px;
 }
