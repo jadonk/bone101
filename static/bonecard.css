@@ -1,7 +1,8 @@
 .bonecard-list {
-	width: 100%;
-	overflow: hidden;
+    width: 100%;
+    overflow: hidden;
 }
+
 .bonecard {
     background-color: white;
     margin: 10px;
@@ -23,32 +24,39 @@
     float: left;
     -webkit-transition: color 0.5s ease;
 }
-.bonecard:after, div.bonecard:before {
+
+.bonecard:after,
+div.bonecard:before {
     background-color: white;
     position: absolute;
     display: block;
-    content:"";
+    content: "";
     border: 2px solid black;
     border-right: 2px solid white;
     width: 6px;
     left: -10px;
 }
+
 .bonecard:before {
     top: 60px;
     height: 60px;
 }
+
 .bonecard:after {
     top: 180px;
     height: 30px;
 }
+
 .bonecard-zoomed {
     width: 850px;
     height: 525px;
 }
+
 .bonecard-zoomed:before {
     top: 150px;
     height: 150px;
 }
+
 .bonecard-zoomed:after {
     top: 460px;
     height: 45px;
@@ -64,6 +72,7 @@
     margin-top: -107px;
     margin-right: 1px;
 }
+
 .ace_gutter {
     background: #272822 !important;
 }

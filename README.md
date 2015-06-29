@@ -17,3 +17,9 @@ Directory structure
 * index.html - The starting bone101 page that redirects to Support/bone101/index.html
 * static - Directory with non-HTML bone101 web content (javascript, css, images, etc.)
 * Support - Directory with HTML bone101 web content (directory structure matches URLs) 
+
+Style
+=====
+
+To simplify style conflicts, please use the following tools to clean-up the styles:
+* JS/CSS/HTML: https://www.npmjs.com/package/js-beautify version 1.5.10
