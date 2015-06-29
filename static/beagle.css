@@ -120,6 +120,7 @@ ul.square {
   line-height: 39px;
   padding: 0 25px;
   text-decoration: none;
+  height: 37px;
 }
 #cssmenu ul {
   list-style: none;
