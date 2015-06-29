@@ -75,6 +75,15 @@ div.bonecard-code:before {
 .bonecard-micro {
     width: 170px;
     height: 105px;
+    -webkit-border-radius: 10px;
+    -webkit-border-top-right-radius: 25px;
+    -webkit-border-bottom-right-radius: 25px;
+    -moz-border-radius: 10px;
+    -moz-border-radius-topright: 25px;
+    -moz-border-radius-bottomright: 25px;
+    border-radius: 10px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
 }
 
 .bonecard-micro:before {
