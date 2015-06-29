@@ -1,9 +1,18 @@
+/*
+ * This file contains different versions of bonecard
+ * 1- bonecard: small sized preview card
+ * 2- bonecard-zoomed: full-sized card for tutorial page
+ * 3- bonecard-code: full-sized card with code area
+ */
+
 .bonecard-list {
     width: 100%;
     overflow: hidden;
 }
 
-.bonecard {
+.bonecard,
+.bonecard-zoomed,
+.bonecard-code {
     background-color: white;
     margin: 10px;
     width: 340px;
