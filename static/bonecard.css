@@ -89,6 +89,7 @@ div.bonecard-code:before {
 }
 
 div.bonecard-micro:before {
+    width: 8px;
     border: 1px solid black;
     border-right: 1px solid white;
 }
@@ -101,6 +102,7 @@ div.bonecard-micro:before {
 .bonecard-micro:after {
     top: 90px;
     height: 15px;
+    width: 8px;
     border: 1px solid black;
     border-right: 1px solid white;
 }
