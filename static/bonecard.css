@@ -80,7 +80,7 @@ div.bonecard-code:before {
     height: 45px;
 }
 
-#editor {
+.bonecard-code .code {
     width: 666px;
     height: 360px;
     border-radius: 0px;
