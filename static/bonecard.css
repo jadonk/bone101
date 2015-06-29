@@ -57,7 +57,7 @@ div.bonecard-code:before {
     content: "";
     border: 1px solid black;
     border-right: 1px solid white;
-    width: 6px;
+    width: 7px;
     left: -8px;
     box-sizing: content-box;
 }
