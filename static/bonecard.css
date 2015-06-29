@@ -36,7 +36,11 @@
 }
 
 .bonecard:after,
-div.bonecard:before {
+div.bonecard:before,
+.bonecard-zoomed:after,
+div.bonecard-zoomed:before,
+.bonecard-code:after,
+div.bonecard-code:before {
     background-color: white;
     position: absolute;
     display: block;
