@@ -1,8 +1,9 @@
 /*
  * This file contains different versions of bonecard
- * 1- bonecard: small sized preview card
- * 2- bonecard-zoomed: full-sized card for tutorial page
- * 3- bonecard-code: full-sized card with code area
+ * 1- bonecard: small sized preview card for deck lists
+ * 2- bonecard-micro: tiny sized preview card for page lists
+ * 3- bonecard-zoomed: full-sized card for tutorial page
+ * 4- bonecard-code: full-sized card with code area
  */
 
 .bonecard-list {
@@ -11,6 +12,7 @@
 }
 
 .bonecard,
+.bonecard-micro,
 .bonecard-zoomed,
 .bonecard-code {
     background-color: white;
@@ -36,12 +38,15 @@
     box-shadow: 5px 5px 10px #888888;
 }
 
+div.bonecard-micro:hover,
 div.bonecard:hover {
     box-shadow: 5px 5px 10px #de7224;
 }
 
 .bonecard:after,
 div.bonecard:before,
+.bonecard-micro:after,
+div.bonecard-micro:before,
 .bonecard-zoomed:after,
 div.bonecard-zoomed:before,
 .bonecard-code:after,
@@ -65,6 +70,21 @@ div.bonecard-code:before {
 .bonecard:after {
     top: 180px;
     height: 30px;
+}
+
+.bonecard-micro {
+    width: 170px;
+    height: 105px;
+}
+
+.bonecard-micro:before {
+    top: 30px;
+    height: 30px;
+}
+
+.bonecard-micro:after {
+    top: 90px;
+    height: 15px;
 }
 
 .bonecard-zoomed,
