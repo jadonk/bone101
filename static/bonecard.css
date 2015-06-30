@@ -19,8 +19,8 @@
     margin: 10px;
     width: 340px;
     height: 210px;
-    border: 1px solid black;
-    border-left: 1px solid black;
+    border: 1px solid gray;
+    border-left: 1px solid gray;
     padding: 10px;
     -webkit-border-radius: 20px;
     -webkit-border-top-right-radius: 50px;
@@ -55,7 +55,7 @@ div.bonecard-code:before {
     position: absolute;
     display: block;
     content: "";
-    border: 1px solid black;
+    border: 1px solid gray;
     border-right: 1px solid white;
     width: 7px;
     left: -8px;
