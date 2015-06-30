@@ -38,6 +38,10 @@
     box-shadow: 5px 5px 10px #888888;
 }
 
+.bonecard-code {
+    background-color: #272822;
+}
+
 div.bonecard-micro:hover,
 div.bonecard:hover {
     box-shadow: 5px 5px 10px #de7224;
@@ -61,6 +65,13 @@ div.bonecard-code:before {
     left: -8px;
     box-sizing: content-box;
 }
+
+.bonecard-code:after,
+div.bonecard-code:before {
+    background-color: #272822;
+    border-color: #272822;
+}
+
 
 .bonecard:before {
     top: 60px;
@@ -121,14 +132,14 @@ div.bonecard-micro:before {
 }
 
 .bonecard-code .code {
-    width: 666px;
-    height: 360px;
+    width: 834px;
+    height: 527px;
     border-radius: 0px;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
     position: absolute;
-    margin-top: -107px;
     margin-right: 1px;
+    background-color: #272822;
 }
 
 .ace_gutter {
