@@ -96,6 +96,12 @@ div.bonecard-code:before {
     height: 15px;
 }
 
+.bonecard-micro:after,
+div.bonecard-micro:before {
+    width: 4px;
+    left: -6px;
+}
+
 .bonecard-zoomed,
 .bonecard-code {
     width: 850px;
