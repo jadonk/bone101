@@ -10,4 +10,75 @@ scripts-after: ['/static/bonecard-create.js']
 </br>
 </br>
 <h3><b>Description:</b></h3>
-<input class="tutorial-description" type="text" name="tutorial-description" value="">
+<div class="row">
+	<div class="col-md-9">
+		<input class="tutorial-description" type="text" name="tutorial-description" value="">
+	</div>
+	<div class="col-md-2 col-md-offset-1">
+		<button class="add-bonecard">Add Bonecard</button>
+	</div>
+</div>
+</br>
+</br>
+</br>
+</br>
+
+<div class="view-content">
+	<!-- bonecard block -->
+
+	<div id="bonecard-block0">
+		<div class="row card-info">
+		  <div class="col-md-6">
+				<form>
+	  	  	<input type="text" class="form-control bonecard-title-input-text" id="Bonecard-title0" placeholder="Bonecard Title" value="">
+	  		</form>
+	  	</div>
+	  	<div class="col-md-3 col-md-offset-3">
+	  		<div class="btn-group options" data-toggle="buttons">
+				  <label class="btn btn-default active">
+				    <input type="radio" name="options0" id="option0-1" value="html" autocomplete="off" checked> HTML
+				  </label>
+				  <label class="btn btn-default">
+				    <input type="radio" name="options0" id="option0-2" value="code"autocomplete="off"> Code
+				  </label>
+				</div>
+	  	</div>
+		</div>
+		</br>
+		</br>
+		<div class="code-card" style="display: none;">
+			<div class="row">
+				<div class="col-md-12" >
+					<div class="bonecard-code">
+						<div id="editor0" class="code"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="html-card" role="tabpanel">
+		  <!-- Nav tabs -->
+		  <ul class="nav nav-tabs" role="tablist">
+		    <li role="presentation" class="active bonecard-write"><a href="#write0" aria-controls="write" role="tab" data-toggle="tab">Write</a></li>
+		    <li role="presentation"><a href="#preview0" class="bonecard-preview" aria-controls="preview" role="tab" data-toggle="tab">Preview</a></li>
+		  </ul>
+
+		  <!-- Tab panes -->
+		  <div class="tab-content">
+		    <div role="tabpanel" class="tab-pane active" id="write0">
+		    	<div class="bonecard-editor">
+							<textarea class="ckeditor" cols="80" id="editor0" name="editor0" rows="10">
+						</textarea>
+					</div>
+		    </div>
+		    <div role="tabpanel" class="tab-pane" id="preview0">
+		    </br>
+		    	<div class="bonecard-zoomed">
+		    		<div id="editor0-content"></div>
+		    	</div>
+		    </div>
+		  </div>
+		</div>
+	</div>
+	<!-- end of bonecard block -->
+</div>
