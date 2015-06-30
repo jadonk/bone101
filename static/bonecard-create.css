@@ -30,3 +30,20 @@ input.tutorial-title::-ms-input-placeholder {
 input.tutorial-title::-moz-placeholder {
     font-style: italic;
 }
+
+li.bonecards-list-item {
+    display: inline-block;
+    width: 215px;
+    height: 130px;
+    position: relative;
+}
+
+ul.bonecards-list {
+    list-style: none;
+    width: auto;
+    height: 170px;
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+    padding: 0px;
+}
