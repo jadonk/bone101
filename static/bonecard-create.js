@@ -23,7 +23,7 @@ $(document).ready(function() {
 
         // apply 'on click' on the new added bonecard
         update_bonecards_list_action();
-
+        update_view_content_action();
 
         editor = ace.edit("editor" + bonecard_id);
         editor.setTheme("ace/theme/monokai");
@@ -37,6 +37,8 @@ $(document).ready(function() {
             var $this = $(this);
             $this.on('click', function() {
                 selected_id = $this.attr('id').substring(19);
+                update_bonecards_list_action();
+                update_view_content_action();
                 highlight_selected_card(selected_id);
                 display_selected_card(selected_id);
             });
@@ -67,6 +69,26 @@ $(document).ready(function() {
                 $this.hide();
         });
     }
+
+    function update_view_content_action() {
+        $('div.view-content').children().each(function() {
+            var $this = $(this);
+            current_id = $this.attr('id').substring(14);
+
+            // Listen for the change in the radio buttons 'html/code'
+            $this.find('input[name=options' + current_id + ']:radio')
+                .change(function() {
+                    if ($(this).val() == 'html') {
+                        $this.find('div.code-card').hide();
+                        $this.find('div.html-card').show();
+                    } else {
+                        $this.find('div.code-card').show();
+                        $this.find('div.html-card').hide();
+                    }
+                });
+        });
+    }
+
 
     // html content for adding new bonecard-micro to the list
     function bonecard_item(index) {
