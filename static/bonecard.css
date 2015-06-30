@@ -42,7 +42,6 @@
     background-color: #272822;
 }
 
-div.bonecard-micro:hover,
 div.bonecard:hover {
     box-shadow: 5px 5px 10px #de7224;
 }
