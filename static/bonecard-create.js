@@ -11,6 +11,7 @@ $(document).ready(function() {
     var bonecard_id = 1;
     var selected_id = 0;
 
+    update_view_content_action();
     highlight_selected_card(selected_id);
 
     $('button.add-bonecard').on('click', function(e) {
@@ -86,6 +87,11 @@ $(document).ready(function() {
                         $this.find('div.html-card').hide();
                     }
                 });
+            // get the ckeditor content to the bonecard when clicking on preview
+            $this.find('a.bonecard-preview').on('click', function() {
+                $this.find('#editor' + selected_id + '-content')
+                    .html(CKEDITOR.instances['editor' + selected_id].getData());
+            });
         });
     }
 
