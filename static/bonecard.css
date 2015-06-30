@@ -19,8 +19,8 @@
     margin: 10px;
     width: 340px;
     height: 210px;
-    border: 1px solid black;
-    border-left: 1px solid black;
+    border: 1px solid gray;
+    border-left: 1px solid gray;
     padding: 10px;
     -webkit-border-radius: 20px;
     -webkit-border-top-right-radius: 50px;
@@ -38,7 +38,10 @@
     box-shadow: 5px 5px 10px #888888;
 }
 
-div.bonecard-micro:hover,
+.bonecard-code {
+    background-color: #272822;
+}
+
 div.bonecard:hover {
     box-shadow: 5px 5px 10px #de7224;
 }
@@ -55,12 +58,19 @@ div.bonecard-code:before {
     position: absolute;
     display: block;
     content: "";
-    border: 1px solid black;
+    border: 1px solid gray;
     border-right: 1px solid white;
     width: 7px;
     left: -8px;
     box-sizing: content-box;
 }
+
+.bonecard-code:after,
+div.bonecard-code:before {
+    background-color: #272822;
+    border-color: #272822;
+}
+
 
 .bonecard:before {
     top: 60px;
@@ -96,6 +106,12 @@ div.bonecard-code:before {
     height: 15px;
 }
 
+.bonecard-micro:after,
+div.bonecard-micro:before {
+    width: 4px;
+    left: -6px;
+}
+
 .bonecard-zoomed,
 .bonecard-code {
     width: 850px;
@@ -115,16 +131,42 @@ div.bonecard-code:before {
 }
 
 .bonecard-code .code {
-    width: 666px;
-    height: 360px;
+    width: 834px;
+    height: 527px;
     border-radius: 0px;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
     position: absolute;
-    margin-top: -107px;
     margin-right: 1px;
+    background-color: #272822;
 }
 
 .ace_gutter {
     background: #272822 !important;
+}
+
+div.bonecard-micro-content{
+    text-align: -webkit-center;
+    text-align: -moz-center;
+    width: 147px;
+    height: 106px;
+    position: absolute;
+    margin-top: -40px;
+    margin-right: 12px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 95%;
+    height: 30%;
+    margin: auto;
+}
+
+.wordwrap { 
+   white-space: pre-wrap;      /* CSS3 */   
+   white-space: -moz-pre-wrap; /* Firefox */    
+   white-space: -pre-wrap;     /* Opera <7 */   
+   white-space: -o-pre-wrap;   /* Opera 7 */    
+   word-wrap: break-word;      /* IE */
 }

@@ -141,17 +141,17 @@ function init() {
 
     function bonecard_code_div(content, index) {
         return '<div><div class="bonecard-code"><div id="editor' + index + '"' +
-            'class="editor" >' + content + '</div></div></div>';
+            'class="code" >' + content + '</div></div></div>';
     }
 
     function bonecard_html_div(content) {
-        return '<div><div class="bonecard editor-preview"><div ' +
-            'class="editor">' + content + '</div></div></div>';
+        return '<div><div class="bonecard-zoomed editor-preview"><div ' +
+            '>' + content + '</div></div></div>';
     }
 
     function bonecard_mirco_div(title) {
         return '<div><div class="bonecard bonecard-micro"><div ' +
-            'class="bonecard-micro-content wordwrap">' + title + '</div></div></div>';
+            'class="bonecard-micro-content"><h2>' + title + '</h2></div></div></div>';
     }
 }
 

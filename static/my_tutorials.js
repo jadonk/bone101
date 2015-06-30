@@ -41,11 +41,11 @@ $( document ).ready(function() {
 	});
 	
 	function bonecard_preview_div(title, gist_id) {
-		return '<div class="col-md-4"><a href="'+ base_url +'/Support'+
+		return '<div class="col-md-6"><a href="'+ base_url +'/Support'+
 					 '/bonecard/tutorial?gist_id='+ gist_id 
-					 +'"><div class="bonecard bonecard-preview"'+
+					 +'"><div class="bonecard"'+
 					 ' style=" margin-bottom: 20px; "><div class="'+
-					 'bonecard-preview-content wordwrap"><b>'+ title 
-					 +'</b></div></div></a></div>';
+					 'bonecard-preview-content wordwrap"><h1>'+ title 
+					 +'</h1></div></div></a></div>';
 	}
 });
