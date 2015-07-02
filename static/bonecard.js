@@ -116,8 +116,9 @@ function init() {
 
             var i = 0;
             $.each(data.files, function(index, val) {
-                title = val.filename.substring(13);
-                card_type = val.filename.substring(8, 12);
+                bonecard_index = val.filename.indexOf("bonecard");
+                title = val.filename.substring(bonecard_index + 14);
+                card_type = val.filename.substring(bonecard_index + 9, bonecard_index + 13);
                 if (card_type === "code") {
                     $slider_for.slick('slickAdd', bonecard_code_div(val.content, i));
                     ace_init(i);

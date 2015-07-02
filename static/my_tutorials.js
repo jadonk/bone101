@@ -8,11 +8,10 @@ $( document ).ready(function() {
 		success: function(data) {
 			$('div.ajax-loader').hide();
 			tutorials = [];
-			// check for each gist if it start with 'bone101_' then it is
+            // check for first file in each gist if it has 'bonecard_' then it is
 			// a bone101 tutorial
 			$.each(data, function(index, val) {
-				if(Object.keys(val.files)[0].indexOf('bone101_') > -1) {
-					//$tutorials_preview.append(bonecard_preview_div(val));
+                if (Object.keys(val.files)[0].indexOf('bonecard_') > -1) {
 					description_index =val['description'].indexOf(', description:');
 					title = val['description'].substring(7, description_index);
 					description = val['description'].substring(description_index+15);
