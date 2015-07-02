@@ -113,6 +113,58 @@ $(document).ready(function() {
     }
 
 
+    /*
+     * this function returns a ready JSON gist format for sending
+     *
+     *{
+     *  description: "title: [tutorial title], description: [tutorial description]",
+     *  public: true,
+     *  files: {
+     *    bone101_[card type]_[card title]: {
+     *      content: "String file contents"
+     *    }
+     *    .
+     *    .
+     *    .
+     *  }
+     *}
+     */
+
+    function gist_params() {
+        tutorial_title = $('input.tutorial-title').val();
+        description = $('input.tutorial-description').val();
+
+        var gist_params = {
+            description: 'title: ' + tutorial_title + ', description: ' + description,
+            public: true
+        }
+        gist_params['files'] = {};
+
+        $('ul.bonecards-list').find('li').each(function() {
+
+            card_id = $(this).attr('id').substring(19);
+            $this = $('div.view-content').find('#bonecard-block' + card_id);
+
+
+            current_id = $this.attr('id').substring(14);
+
+            title = $this.find('input.bonecard-title-input-text').val();
+
+            if ($this.data('type') == 'html') {
+                gist_params['files']['bone101_html_' + title] = {};
+                gist_params['files']['bone101_html_' + title]['content'] =
+                    CKEDITOR.instances['editor' + current_id].getData();
+            } else if ($this.data('type') == 'code') {
+                editor = ace.edit("editor" + current_id);
+                gist_params['files']['bone101_code_' + title] = {};
+                gist_params['files']['bone101_code_' + title]['content'] =
+                    editor.getSession().getValue();
+            }
+        });
+        return JSON.stringify(gist_params);
+    }
+
+
     // html content for adding new bonecard-micro to the list
     function bonecard_item(index) {
         return '<li id="bonecard-micro-item' + index + '" ' +
