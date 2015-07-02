@@ -58,3 +58,11 @@ button.add-bonecard {
 .float-right {
     float: right;
 }
+
+a.delete-button {
+    font-weight: bold;
+    text-decoration: none;
+    position: absolute;
+    right: 0;
+    display: none;
+}
