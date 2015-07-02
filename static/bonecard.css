@@ -71,7 +71,6 @@ div.bonecard-code:before {
     border-color: #272822;
 }
 
-
 .bonecard:before {
     top: 60px;
     height: 60px;
@@ -145,7 +144,7 @@ div.bonecard-micro:before {
     background: #272822 !important;
 }
 
-div.bonecard-micro-content{
+div.bonecard-micro-content {
     text-align: -webkit-center;
     text-align: -moz-center;
     width: 147px;
@@ -163,10 +162,15 @@ div.bonecard-micro-content{
     margin: auto;
 }
 
-.wordwrap { 
-   white-space: pre-wrap;      /* CSS3 */   
-   white-space: -moz-pre-wrap; /* Firefox */    
-   white-space: -pre-wrap;     /* Opera <7 */   
-   white-space: -o-pre-wrap;   /* Opera 7 */    
-   word-wrap: break-word;      /* IE */
+.wordwrap {
+    /* CSS3 */
+    white-space: pre-wrap;
+    /* Firefox */
+    white-space: -moz-pre-wrap;
+    /* Opera <7 */
+    white-space: -pre-wrap;
+    /* Opera 7 */
+    white-space: -o-pre-wrap;
+    /* IE */
+    word-wrap: break-word;
 }
