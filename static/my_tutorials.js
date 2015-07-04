@@ -52,7 +52,8 @@ $(document).ready(function() {
                 description = bonecard_json.description;
                 img = data.files['0_bonecard_cover_card'].content;
                 src = (img == 'default') ? base_url + '/static/images/logo.png' : img;
-                bonecard_preview_div = '<div class="col-md-6"><a href="' + base_url + '/Support' +
+                bonecard_preview_div = '<div class="col-md-6 tutorial-card"><a id="' + gist_id + '"href = "#"' +
+                    ' class = "delete-button" onclick="delete_gist(this.id)">x</a><a href="' + base_url + '/Support' +
                     '/bonecard/tutorial?gist_id=' + gist_id + '"><div class="bonecard"><div style="padding-left: 14px;">' +
                     '<img class="cover-card" src="' + src + '" width="300" height="213" />' +
                     '<div class="contenthover">' +
@@ -78,3 +79,21 @@ $(document).ready(function() {
         });
     }
 });
+
+function delete_gist(gist_id) {
+    if (confirm("Are you sure you want to delete this Tutorial?")) {
+        $.ajax({
+            type: 'DELETE',
+            url: 'https://api.github.com/gists/' + gist_id,
+            headers: {
+                "Authorization": 'token ' + Cookies.get('token')
+            },
+            success: function() {
+                document.getElementById(gist_id).parentElement.remove();
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    }
+}
