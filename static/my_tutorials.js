@@ -2,7 +2,6 @@ $(document).ready(function() {
     var username = Cookies.get('username');
     var count = 0;
     $tutorials_preview = $('div.tutorials-preview');
-
     $.ajax({
         type: 'GET',
         url: 'https://api.github.com/users/' + username + '/gists',
@@ -12,8 +11,8 @@ $(document).ready(function() {
             // a bonecard tutorial
             $.each(data, function(index, val) {
                 if (Object.keys(val.files)[0].indexOf('bonecard_') > -1) {
-                    append_tutorial(val.id);
                     tutorials.push(val);
+                    retrieve_tutorial(val.id);
                 }
             });
             // if user didn't sign in redirect to the home page
@@ -36,48 +35,58 @@ $(document).ready(function() {
         }
     });
 
-    function append_tutorial(gist_id) {
-        // ajax request for retriving each tutorial info (title, description and cover img)
-        $.ajax({
-            type: 'GET',
-            url: 'https://api.github.com/gists/' + gist_id,
-            success: function(data) {
-                Cookies.set(gist_id, data, {
-                    expires: 1,
-                    path: '/'
-                });
-                count++;
-                bonecard_json = JSON.parse(data.files['bonecard.json'].content);
-                title = bonecard_json.title;
-                description = bonecard_json.description;
-                img = data.files['0_bonecard_cover_card'].content;
-                src = (img == 'default') ? base_url + '/static/images/logo.png' : img;
-                bonecard_preview_div = '<div class="col-md-6 tutorial-card"><a id="' + gist_id + '"href = "#"' +
-                    ' class = "delete-button" onclick="delete_gist(this.id)">x</a><a href="' + base_url + '/Support' +
-                    '/bonecard/tutorial?gist_id=' + gist_id + '"><div class="bonecard"><div style="padding-left: 14px;">' +
-                    '<img class="cover-card" src="' + src + '" width="300" height="213" />' +
-                    '<div class="contenthover">' +
-                    '<h1>' + title + '</h1>' +
-                    '<p style="color:black;">' + description + '</p>' +
-                    '</div>' +
-                    '</div></div></a></div>';
-                $tutorials_preview.append(bonecard_preview_div);
+    function retrieve_tutorial(gist_id) {
 
-                $('.cover-card').contenthover({
-                    overlay_background: '#fff',
-                    overlay_opacity: .9
-                });
-
-                if (tutorials.length == count) {
-                    $('div.ajax-loader').hide();
-                    $tutorials_preview.show();
+        tutorial = load_tutorial(gist_id);
+        if (tutorial == null) {
+            // ajax request for retriving each tutorial info (title, description and cover img)
+            $.ajax({
+                type: 'GET',
+                url: 'https://api.github.com/gists/' + gist_id,
+                success: function(data) {
+                    save_tutorial(gist_id, data, {
+                        expires: 1
+                    });
+                    append_tutorial(data);
+                },
+                error: function(err) {
+                    console.log(err);
                 }
-            },
-            error: function(err) {
-                console.log(err);
-            }
-        });
+            });
+        } else {
+            append_tutorial(tutorial);
+        }
     }
+
+    function append_tutorial(tutorial) {
+        count++;
+        bonecard_json = JSON.parse(tutorial.files['bonecard.json'].content);
+        title = bonecard_json.title;
+        description = bonecard_json.description;
+        img = tutorial.files['0_bonecard_cover_card'].content;
+        src = (img == 'default') ? base_url + '/static/images/logo.png' : img;
+        bonecard_preview_div = '<div class="col-md-6 tutorial-card"><a id="' + tutorial.id + '"href = "#"' +
+            ' class = "delete-button" onclick="delete_gist(this.id)">x</a><a href="' + base_url + '/Support' +
+            '/bonecard/tutorial?gist_id=' + tutorial.id + '"><div class="bonecard"><div style="padding-left: 14px;">' +
+            '<img class="cover-card" src="' + src + '" width="300" height="213" />' +
+            '<div class="contenthover">' +
+            '<h1>' + title + '</h1>' +
+            '<p style="color:black;">' + description + '</p>' +
+            '</div>' +
+            '</div></div></a></div>';
+        $tutorials_preview.append(bonecard_preview_div);
+
+        $('.cover-card').contenthover({
+            overlay_background: '#fff',
+            overlay_opacity: .9
+        });
+
+        if (tutorials.length == count) {
+            $('div.ajax-loader').hide();
+            $tutorials_preview.show();
+        }
+    }
+
 });
 
 function delete_gist(gist_id) {

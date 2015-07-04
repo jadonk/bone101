@@ -88,6 +88,9 @@ $(document).ready(function() {
             }
 
             gist_request.success = function(response) {
+                save_tutorial(response.id, response, {
+                    expires: 1
+                });
                 $.unblockUI();
                 window.location.replace(base_url + '/Support/bonecard/tutorial?gist_id=' + response.id);
             }

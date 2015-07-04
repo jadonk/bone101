@@ -84,6 +84,7 @@ function init() {
     var gist_id = window.location.search.substring(1).substring(8);
     var $slider_for = $('div.slider-for');
     var $slider_nav = $('div.slider-nav');
+    tutorial = load_tutorial(gist_id);
 
     // Initialize slick carousel
     $slider_for.slick({
@@ -102,39 +103,51 @@ function init() {
         focusOnSelect: true
     });
 
-    // build ajax request for retrieving the tutorial
-    $.ajax({
-        type: 'GET',
-        url: 'https://api.github.com/gists/' + gist_id,
-        success: function(data) {
-            $('div.ajax-loader').hide();
+    // check if the tutorial is not in the local storage do an ajax request to get & save it
+    // then call preview_tutorial function with tutorial data.
+    if (tutorial == null) {
+        // build ajax request for retrieving the tutorial
+        $.ajax({
+            type: 'GET',
+            url: 'https://api.github.com/gists/' + gist_id,
+            success: function(data) {
+                save_tutorial(gist_id, data, {
+                    expires: 1
+                });
+                preview_tutorial(data);
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    } else
+        preview_tutorial(tutorial);
 
-            // Update page title
-            description_index = data['description'].indexOf(', description:');
-            page_title = data['description'].substring(7, description_index)
-            $(document).prop('title', 'BeagleBoard.org - ' + page_title);
+    function preview_tutorial(tutorial) {
+        $('div.ajax-loader').hide();
 
-            var i = 0;
-            $.each(data.files, function(index, val) {
-                if (val.filename != '0_bonecard_cover_card' && val.filename != 'bonecard.json') {
-                    bonecard_index = val.filename.indexOf("bonecard");
-                    title = val.filename.substring(bonecard_index + 14);
-                    card_type = val.filename.substring(bonecard_index + 9, bonecard_index + 13);
-                    if (card_type === "code") {
-                        $slider_for.slick('slickAdd', bonecard_code_div(val.content, i));
-                        ace_init(i);
-                    } else if (card_type === "html") {
-                        $slider_for.slick('slickAdd', bonecard_html_div(val.content));
-                    }
-                    $slider_nav.slick('slickAdd', bonecard_mirco_div(title));
-                    i++;
+        // Update page title
+        description_index = tutorial['description'].indexOf(', description:');
+        page_title = tutorial['description'].substring(7, description_index)
+        $(document).prop('title', 'BeagleBoard.org - ' + page_title);
+
+        var i = 0;
+        $.each(tutorial.files, function(index, val) {
+            if (val.filename != '0_bonecard_cover_card' && val.filename != 'bonecard.json') {
+                bonecard_index = val.filename.indexOf("bonecard");
+                title = val.filename.substring(bonecard_index + 14);
+                card_type = val.filename.substring(bonecard_index + 9, bonecard_index + 13);
+                if (card_type === "code") {
+                    $slider_for.slick('slickAdd', bonecard_code_div(val.content, i));
+                    ace_init(i);
+                } else if (card_type === "html") {
+                    $slider_for.slick('slickAdd', bonecard_html_div(val.content));
                 }
-            });
-        },
-        error: function(err) {
-            console.log(err);
-        }
-    });
+                $slider_nav.slick('slickAdd', bonecard_mirco_div(title));
+                i++;
+            }
+        });
+    }
 
     function ace_init(index) {
         editor = ace.edit("editor" + index);
