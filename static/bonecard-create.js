@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    var editor = ace.edit("editor0");
+    var editor = ace.edit("editor1");
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/javascript");
 
@@ -8,15 +8,76 @@ $(document).ready(function() {
     $('.sortable').sortable();
 
     //append new bonecard to the list when clicking on 'add bonecard'
-    var bonecard_id = 1;
+    var bonecard_id = 2;
     var selected_id = 0;
+    var cover_img = 'default';
+
+    // Special case for cover card 'on click' action
+    $('#bonecard-micro-item0').on('click', function() {
+        selected_id = $(this).attr('id').substring(19);
+        update_view_content_action();
+        display_selected_card(selected_id);
+        $('ul.bonecards-list').find('li').each(function(i) {
+            $(this).find('.bonecard-micro').css('box-shadow', '5px 5px 10px #888888');
+        });
+        $(this).css('box-shadow', '5px 5px 10px #de7224');
+    });
+
+    // Initialize contenthover
+    $('#cover-card').contenthover({
+        overlay_background: '#fff',
+        overlay_opacity: .9
+    });
+
+    // Update tutorial title on cover card
+    $('input.tutorial-title').keyup(function() {
+        $('#bonecard-block0').find('h1').text($(this).val());
+    });
+
+    // Update tutorial description on cover card
+    $('input.tutorial-description').keyup(function() {
+        $('#bonecard-block0').find('p').text($(this).val());
+    });
+
+    $('a.prevent').on('click', function(e) {
+        e.preventDefault();
+    });
+
+    $('#cover-card-input').change(function() {
+        var filesSelected = document.getElementById("cover-card-input").files;
+        if (filesSelected.length > 0) {
+            var fileToLoad = filesSelected[0];
+            var fileReader = new FileReader();
+            fileReader.onload = function(fileLoadedEvent) {
+                cover_img = fileLoadedEvent.target.result;
+                img_name = filesSelected[0].name;
+                $('#bonecard-block0').find('img').attr('src', fileLoadedEvent.target.result);
+            };
+            fileReader.readAsDataURL(fileToLoad);
+        }
+    });
+
 
     update_bonecards_list_action();
     update_view_content_action();
     highlight_selected_card(selected_id);
 
     $('button.save').on('click', function() {
+
         if (valid_tutorial()) {
+
+            $.blockUI({
+                css: {
+                    border: 'none',
+                    padding: '15px',
+                    backgroundColor: '#000',
+                    '-webkit-border-radius': '10px',
+                    '-moz-border-radius': '10px',
+                    opacity: .5,
+                    color: '#fff'
+                }
+            });
+
             var gist_request = {
                 type: 'POST',
                 url: 'https://api.github.com/gists',
@@ -28,6 +89,7 @@ $(document).ready(function() {
             }
 
             gist_request.success = function(response) {
+                $.unblockUI();
                 window.location.replace(base_url + '/Support/bonecard/tutorial?gist_id=' + response.id);
             }
 
@@ -37,6 +99,9 @@ $(document).ready(function() {
 
             $.ajax(gist_request);
         }
+
+
+
     });
 
 
@@ -86,15 +151,20 @@ $(document).ready(function() {
 
 
     function highlight_selected_card(id) {
-        $('ul.bonecards-list').find('li').each(function(i) {
-            var $this = $(this);
-            var $card = $this.find('.bonecard-micro');
-            current_id = $this.attr('id').substring(19);
-            if (current_id == id)
-                $card.css('box-shadow', '5px 5px 10px #de7224');
-            else
-                $card.css('box-shadow', '5px 5px 10px #888888');
-        });
+        if (id == 0)
+            $('#bonecard-micro-item0').css('box-shadow', '5px 5px 10px #de7224');
+        else {
+            $('#bonecard-micro-item0').css('box-shadow', '5px 5px 10px #888888');
+            $('ul.bonecards-list').find('li').each(function(i) {
+                var $this = $(this);
+                var $card = $this.find('.bonecard-micro');
+                current_id = $this.attr('id').substring(19);
+                if (current_id == id)
+                    $card.css('box-shadow', '5px 5px 10px #de7224');
+                else
+                    $card.css('box-shadow', '5px 5px 10px #888888');
+            });
+        }
     }
 
 
@@ -178,6 +248,10 @@ $(document).ready(function() {
         }
         gist_params['files'] = {};
 
+        gist_params['files']['0_bonecard_cover_card'] = {};
+        gist_params['files']['0_bonecard_cover_card']['content'] = cover_img;
+
+
         var i = 1;
         $('ul.bonecards-list').find('li').each(function() {
 
@@ -233,22 +307,25 @@ $(document).ready(function() {
         $('div.view-content').children().each(function() {
             $this = $(this);
             current_id = $this.attr('id').substring(14);
-
-            title = $this.find('input.bonecard-title-input-text').val();
-            if (title == '') {
-                $('li.error-card-title').show()
-                is_valid = false;
-            }
-            if ($this.data('type') == 'html') {
-                if (CKEDITOR.instances['editor' + current_id].getData() == '') {
-                    $('li.error-html-content').show()
+            console.log($this);
+            console.log(current_id);
+            if (current_id != 0) {
+                title = $this.find('input.bonecard-title-input-text').val();
+                if (title == '') {
+                    $('li.error-card-title').show()
                     is_valid = false;
                 }
-            } else if ($this.data('type') == 'code') {
-                editor = ace.edit("editor" + current_id);
-                if (editor.getSession().getValue() == '') {
-                    $('li.error-code-content').show()
-                    is_valid = false;
+                if ($this.data('type') == 'html') {
+                    if (CKEDITOR.instances['editor' + current_id].getData() == '') {
+                        $('li.error-html-content').show()
+                        is_valid = false;
+                    }
+                } else if ($this.data('type') == 'code') {
+                    editor = ace.edit("editor" + current_id);
+                    if (editor.getSession().getValue() == '') {
+                        $('li.error-code-content').show()
+                        is_valid = false;
+                    }
                 }
             }
         });
@@ -263,7 +340,7 @@ $(document).ready(function() {
             'class="bonecards-list-item"><a href = "#" class = ' +
             '"delete-button">x</a><div class="' +
             'bonecard-micro"><div class="bonecard-micro-content' +
-            '"><h2>untitled bonecard' + index + '</h2></div></div></li>';
+            '"><h2><i>Untitled Bonecard</i></h2></div></div></li>';
     }
 
     //html content to add new bonecard block for editing
@@ -300,3 +377,12 @@ $(document).ready(function() {
             '<div id="editor' + index + '-content"></div></div></div></div></div></div>';
     }
 });
+
+function performClick(elemId) {
+    var elem = document.getElementById(elemId);
+    if (elem && document.createEvent) {
+        var evt = document.createEvent("MouseEvents");
+        evt.initEvent("click", true, false);
+        elem.dispatchEvent(evt);
+    }
+}
