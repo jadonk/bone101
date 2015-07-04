@@ -10,17 +10,16 @@ $(document).ready(function() {
     //append new bonecard to the list when clicking on 'add bonecard'
     var bonecard_id = 2;
     var selected_id = 0;
+    var pre_selected_id = 0;
     var cover_img = 'default';
 
     // Special case for cover card 'on click' action
     $('#bonecard-micro-item0').on('click', function() {
-        selected_id = $(this).attr('id').substring(19);
-        update_view_content_action();
-        display_selected_card(selected_id);
-        $('ul.bonecards-list').find('li').each(function(i) {
-            $(this).find('.bonecard-micro').css('box-shadow', '5px 5px 10px #888888');
-        });
-        $(this).css('box-shadow', '5px 5px 10px #de7224');
+        pre_selected_id = selected_id;
+        selected_id = 0;
+
+        display_selected_card();
+        highlight_selected_card();
     });
 
     // Initialize contenthover
@@ -60,7 +59,7 @@ $(document).ready(function() {
 
     update_bonecards_list_action();
     update_view_content_action();
-    highlight_selected_card(selected_id);
+    highlight_selected_card();
 
     $('button.save').on('click', function() {
 
@@ -107,6 +106,10 @@ $(document).ready(function() {
 
     $('button.add-bonecard').on('click', function(e) {
         e.preventDefault();
+
+        pre_selected_id = selected_id;
+        selected_id = bonecard_id;
+
         $('ul.bonecards-list').append(bonecard_item(bonecard_id));
         $('.sortable').sortable(); // make the add bonecard sortable
         $('div.view-content').append(bonecard_block(bonecard_id));
@@ -121,6 +124,9 @@ $(document).ready(function() {
         editor.setTheme("ace/theme/monokai");
         editor.getSession().setMode("ace/mode/javascript");
 
+        display_selected_card();
+        highlight_selected_card();
+
         bonecard_id++;
     });
 
@@ -128,11 +134,10 @@ $(document).ready(function() {
         $('ul.bonecards-list').find('li').each(function(i) {
             var $this = $(this);
             $this.on('click', function() {
+                pre_selected_id = selected_id;
                 selected_id = $this.attr('id').substring(19);
-                update_bonecards_list_action();
-                update_view_content_action();
-                highlight_selected_card(selected_id);
-                display_selected_card(selected_id);
+                highlight_selected_card();
+                display_selected_card();
             });
             $this.find('a').on('click', function(e) {
                 e.preventDefault();
@@ -150,33 +155,17 @@ $(document).ready(function() {
     }
 
 
-    function highlight_selected_card(id) {
-        if (id == 0)
-            $('#bonecard-micro-item0').css('box-shadow', '5px 5px 10px #de7224');
-        else {
-            $('#bonecard-micro-item0').css('box-shadow', '5px 5px 10px #888888');
-            $('ul.bonecards-list').find('li').each(function(i) {
-                var $this = $(this);
-                var $card = $this.find('.bonecard-micro');
-                current_id = $this.attr('id').substring(19);
-                if (current_id == id)
-                    $card.css('box-shadow', '5px 5px 10px #de7224');
-                else
-                    $card.css('box-shadow', '5px 5px 10px #888888');
-            });
-        }
+    function highlight_selected_card() {
+        $('#bonecard-micro-item' + pre_selected_id)
+            .find('.bonecard-micro').css('box-shadow', '5px 5px 10px #888888');
+        $('#bonecard-micro-item' + selected_id)
+            .find('.bonecard-micro').css('box-shadow', '5px 5px 10px #de7224');
     }
 
 
-    function display_selected_card(id) {
-        $('div.view-content').children().each(function() {
-            $this = $(this);
-            current_id = $this.attr('id').substring(14);
-            if (current_id == selected_id)
-                $this.show();
-            else
-                $this.hide();
-        });
+    function display_selected_card() {
+        $('div#bonecard-block' + pre_selected_id).hide();
+        $('div#bonecard-block' + selected_id).show();
     }
 
     function update_view_content_action() {
@@ -211,13 +200,8 @@ $(document).ready(function() {
     }
 
     function update_micro_bonecard_title(title) {
-        $('ul.bonecards-list').find('li').each(function(i) {
-            var $this = $(this);
-            var $card_title = $this.find('.bonecard-micro-content');
-            current_id = $this.attr('id').substring(19);
-            if (current_id == selected_id)
-                $card_title.html('<h2>' + title + '</h2');
-        });
+        $('#bonecard-micro-item' + selected_id)
+            .find('.bonecard-micro-content').html('<h2>' + title + '</h2');
     }
 
 
@@ -274,6 +258,7 @@ $(document).ready(function() {
             }
             i++;
         });
+
         return JSON.stringify(gist_params);
     }
 
@@ -307,8 +292,6 @@ $(document).ready(function() {
         $('div.view-content').children().each(function() {
             $this = $(this);
             current_id = $this.attr('id').substring(14);
-            console.log($this);
-            console.log(current_id);
             if (current_id != 0) {
                 title = $this.find('input.bonecard-title-input-text').val();
                 if (title == '') {
