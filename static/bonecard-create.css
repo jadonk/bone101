@@ -90,3 +90,8 @@ button.save:hover {
     background-color: #562e12;
     border-color: #765740;
 }
+#bonecard-block0 {
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
