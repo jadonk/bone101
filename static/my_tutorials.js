@@ -12,10 +12,7 @@ $(document).ready(function() {
             // a bonecard tutorial
             $.each(data, function(index, val) {
                 if (Object.keys(val.files)[0].indexOf('bonecard_') > -1) {
-                    description_index = val['description'].indexOf(', description:');
-                    title = val['description'].substring(7, description_index);
-                    description = val['description'].substring(description_index + 15);
-                    append_tutorial(title, description, val.id);
+                    append_tutorial(val.id);
                     tutorials.push(val);
                 }
             });
@@ -39,8 +36,8 @@ $(document).ready(function() {
         }
     });
 
-    function append_tutorial(title, description, gist_id) {
-        // ajax request for retriving each tutorial cover
+    function append_tutorial(gist_id) {
+        // ajax request for retriving each tutorial info (title, description and cover img)
         $.ajax({
             type: 'GET',
             url: 'https://api.github.com/gists/' + gist_id,
@@ -50,6 +47,9 @@ $(document).ready(function() {
                     path: '/'
                 });
                 count++;
+                bonecard_json = JSON.parse(data.files['bonecard.json'].content);
+                title = bonecard_json.title;
+                description = bonecard_json.description;
                 img = data.files['0_bonecard_cover_card'].content;
                 src = (img == 'default') ? base_url + '/static/images/logo.png' : img;
                 bonecard_preview_div = '<div class="col-md-6"><a href="' + base_url + '/Support' +

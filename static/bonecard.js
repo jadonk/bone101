@@ -116,7 +116,7 @@ function init() {
 
             var i = 0;
             $.each(data.files, function(index, val) {
-                if (val.filename != '0_bonecard_cover_card') {
+                if (val.filename != '0_bonecard_cover_card' && val.filename != 'bonecard.json') {
                     bonecard_index = val.filename.indexOf("bonecard");
                     title = val.filename.substring(bonecard_index + 14);
                     card_type = val.filename.substring(bonecard_index + 9, bonecard_index + 13);

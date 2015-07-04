@@ -2,21 +2,35 @@
 
 Name | Format
 -------- | ---------------
-description | title: [ tutorial title ], description: [ tutorial description ]
+description | [ tutorial description ]
+public | true
 File name | [ bonecard No. ] \_bonecard\_[ card type ]_[ card title ]
+
+#### Special files
+
+Name | type
+-------- | ------
+0_bonecard_cover_card | Holds a Base64 encoded image or 'default' for the default cover
+bonecard.json | A string JSON object contains tutorial title and description
 
 For example:
 
 ````json
 {
-  "description": "title: LED blink, description: this is tutorial description.",
-  "public": true,
+  "description": "description of the tutorial",
+  "public":true,
   "files": {
+    "0_bonecard_cover_card": {
+      "content": "default"
+    },
     "1_bonecard_html_Card 1": {
       "content": "String file contents"
     },
-    "2_bonecard_code_Card 2": {
+    "2_bonecard_html_Card 2": {
       "content": "String file contents"
+    },
+    "bonecard.json": {
+      "content": "{\"description\":\"description of the tutorial\",\"title\":\"LED Blink\"}"
     }
   }
 }

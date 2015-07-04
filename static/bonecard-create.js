@@ -209,15 +209,21 @@ $(document).ready(function() {
      * this function returns a ready JSON gist format for sending
      *
      *{
-     *  description: "title: [tutorial title], description: [tutorial description]",
+     *  description: "[tutorial description]",
      *  public: true,
      *  files: {
+     *    0_bonecard_cover_card: {
+     *      content: [Base64 encoded img or 'default']
+     *    },
      *    [bonecard No.]_bonecard_[card type]_[card title]: {
      *      content: "String file contents"
      *    }
      *    .
      *    .
      *    .
+     *    bonecard.json: {
+     *      content: "{\"description\":\"[tutorial description]\",\"title\":\"[tutorial title]\"}"
+     *    }
      *  }
      *}
      */
@@ -227,7 +233,7 @@ $(document).ready(function() {
         description = $('input.tutorial-description').val();
 
         var gist_params = {
-            description: 'title: ' + tutorial_title + ', description: ' + description,
+            description: description,
             public: true
         }
         gist_params['files'] = {};
@@ -258,6 +264,14 @@ $(document).ready(function() {
             }
             i++;
         });
+
+        bonecard_json = {
+            description: description,
+            title: tutorial_title
+        }
+
+        gist_params['files']['bonecard.json'] = {};
+        gist_params['files']['bonecard.json']['content'] = JSON.stringify(bonecard_json);
 
         return JSON.stringify(gist_params);
     }
