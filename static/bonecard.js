@@ -116,17 +116,19 @@ function init() {
 
             var i = 0;
             $.each(data.files, function(index, val) {
-                bonecard_index = val.filename.indexOf("bonecard");
-                title = val.filename.substring(bonecard_index + 14);
-                card_type = val.filename.substring(bonecard_index + 9, bonecard_index + 13);
-                if (card_type === "code") {
-                    $slider_for.slick('slickAdd', bonecard_code_div(val.content, i));
-                    ace_init(i);
-                } else if (card_type === "html") {
-                    $slider_for.slick('slickAdd', bonecard_html_div(val.content));
+                if (val.filename != '0_bonecard_cover_card') {
+                    bonecard_index = val.filename.indexOf("bonecard");
+                    title = val.filename.substring(bonecard_index + 14);
+                    card_type = val.filename.substring(bonecard_index + 9, bonecard_index + 13);
+                    if (card_type === "code") {
+                        $slider_for.slick('slickAdd', bonecard_code_div(val.content, i));
+                        ace_init(i);
+                    } else if (card_type === "html") {
+                        $slider_for.slick('slickAdd', bonecard_html_div(val.content));
+                    }
+                    $slider_nav.slick('slickAdd', bonecard_mirco_div(title));
+                    i++;
                 }
-                $slider_nav.slick('slickAdd', bonecard_mirco_div(title));
-                i++;
             });
         },
         error: function(err) {
