@@ -64,20 +64,20 @@ scripts-after: ['/static/bonecard-create.js']
 
 	<!-- bonecard block -->
 
-	<div id="bonecard-block0" data-type="html">
+	<div id="bonecard-block1" data-type="html" style="display: none;">
 		<div class="row card-info">
 		  <div class="col-md-6">
 				<form>
-	  	  	<input type="text" class="form-control bonecard-title-input-text" id="Bonecard-title0" placeholder="Bonecard Title" value="">
+	  	  	<input type="text" class="form-control bonecard-title-input-text" id="Bonecard-title1" placeholder="Bonecard Title" value="">
 	  		</form>
 	  	</div>
 	  	<div class="col-md-3 col-md-offset-3">
 	  		<div class="btn-group options float-right" data-toggle="buttons">
 				  <label class="btn btn-default active">
-				    <input type="radio" name="options0" id="option0-1" value="html" autocomplete="off" checked> HTML
+				    <input type="radio" name="options1" id="option1-1" value="html" autocomplete="off" checked> HTML
 				  </label>
 				  <label class="btn btn-default">
-				    <input type="radio" name="options0" id="option0-2" value="code"autocomplete="off"> Code
+				    <input type="radio" name="options1" id="option1-2" value="code"autocomplete="off"> Code
 				  </label>
 				</div>
 	  	</div>
@@ -88,7 +88,7 @@ scripts-after: ['/static/bonecard-create.js']
 			<div class="row">
 				<div class="col-md-12" >
 					<div class="bonecard-code">
-						<div id="editor0" class="code"></div>
+						<div id="editor1" class="code"></div>
 					</div>
 				</div>
 			</div>
@@ -97,22 +97,22 @@ scripts-after: ['/static/bonecard-create.js']
 		<div class="html-card" role="tabpanel">
 		  <!-- Nav tabs -->
 		  <ul class="nav nav-tabs" role="tablist">
-		    <li role="presentation" class="active bonecard-write"><a href="#write0" aria-controls="write" role="tab" data-toggle="tab">Write</a></li>
-		    <li role="presentation"><a href="#preview0" class="bonecard-preview" aria-controls="preview" role="tab" data-toggle="tab">Preview</a></li>
+		    <li role="presentation" class="active bonecard-write"><a href="#write1" aria-controls="write" role="tab" data-toggle="tab">Write</a></li>
+		    <li role="presentation"><a href="#preview1" class="bonecard-preview" aria-controls="preview" role="tab" data-toggle="tab">Preview</a></li>
 		  </ul>
 
 		  <!-- Tab panes -->
 		  <div class="tab-content">
-		    <div role="tabpanel" class="tab-pane active" id="write0">
+		    <div role="tabpanel" class="tab-pane active" id="write1">
 		    	<div class="bonecard-editor">
-							<textarea class="ckeditor" cols="80" id="editor0" name="editor0" rows="10">
+							<textarea class="ckeditor" cols="80" id="editor1" name="editor1" rows="10">
 						</textarea>
 					</div>
 		    </div>
-		    <div role="tabpanel" class="tab-pane" id="preview0">
+		    <div role="tabpanel" class="tab-pane" id="preview1">
 		    </br>
 		    	<div class="bonecard-zoomed">
-		    		<div id="editor0-content"></div>
+		    		<div id="editor1-content"></div>
 		    	</div>
 		    </div>
 		  </div>
