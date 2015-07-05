@@ -1,9 +1,25 @@
 ---
 layout: index
 styles: ['/static/third_party/slick/src/slick.css', '/static/third_party/slick/src/slick-theme.css']
-scripts: ['/static/third_party/slick/src/slick.min.js', '/static/third_party/ace/src/ace.js']
+scripts: ['/static/third_party/slick/src/slick.min.js', '/static/third_party/ace/src/ace.js', '/static/connect.js', '/static/bonescript.js', '/static/beagle-ui.js']
 scripts-after: ['/static/bonecard.js']
+style: |
+   div#connect-status {
+     display: table;
+     margin: 0 auto;
+     padding-right: 10px;
+     margin-bottom: 30px;
+   }
+   div#browser-content button, input#connect-ip {
+     color: black !important;
+   }
 ---
+
+<div class="row">
+	<div class="col-md-12">
+		<div id='connect-status'></div>
+	</div>
+</div>
 
 {% include ajax_loader.html %}
 
