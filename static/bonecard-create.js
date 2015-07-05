@@ -3,6 +3,7 @@ $(document).ready(function() {
     var editor = ace.edit("editor1");
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/javascript");
+    ace_editor_id = -1;
 
     // make bonecard list sortable
     $('.sortable').sortable();
@@ -20,6 +21,7 @@ $(document).ready(function() {
 
         display_selected_card();
         highlight_selected_card();
+        update_ace_editor_id();
     });
 
     // Initialize contenthover
@@ -36,10 +38,6 @@ $(document).ready(function() {
     // Update tutorial description on cover card
     $('input.tutorial-description').keyup(function() {
         $('#bonecard-block0').find('p').text($(this).val());
-    });
-
-    $('a.prevent').on('click', function(e) {
-        e.preventDefault();
     });
 
     $('#cover-card-input').change(function() {
@@ -129,6 +127,7 @@ $(document).ready(function() {
 
         display_selected_card();
         highlight_selected_card();
+        update_ace_editor_id();
 
         bonecard_id++;
     });
@@ -141,6 +140,7 @@ $(document).ready(function() {
                 selected_id = $this.attr('id').substring(19);
                 highlight_selected_card();
                 display_selected_card();
+                update_ace_editor_id();
             });
             $this.find('a').on('click', function(e) {
                 e.preventDefault();
@@ -193,6 +193,7 @@ $(document).ready(function() {
                         $this.find('div.code-card').show();
                         $this.find('div.html-card').hide();
                     }
+                    update_ace_editor_id();
                 });
             // get the ckeditor content to the bonecard when clicking on preview
             $this.find('a.bonecard-preview').on('click', function() {
@@ -331,6 +332,14 @@ $(document).ready(function() {
         });
 
         return is_valid;
+    }
+
+    function update_ace_editor_id() {
+        $this = $('div.view-content').find('#bonecard-block' + selected_id);
+        if ($this.data('type') == 'code') {
+            ace_editor_id = 'editor' + selected_id;
+        } else
+            ace_editor_id = -1;
     }
 
 
