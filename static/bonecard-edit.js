@@ -46,7 +46,7 @@ $(document).ready(function() {
 
         if (valid_tutorial()) {
             image = $('#bonecard-block0').find('img').attr('src');
-            image = (image === '/static/images/logo.png') ? 'default' : image;
+            image = (image === '/static/images/mascot.png') ? 'default' : image;
 
             $.blockUI({
                 css: {

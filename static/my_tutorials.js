@@ -64,7 +64,7 @@ $(document).ready(function() {
         title = bonecard_json.title;
         description = bonecard_json.description;
         img = tutorial.files['0_bonecard_cover_card'].content;
-        src = (img == 'default') ? base_url + '/static/images/logo.png' : img;
+        src = (img == 'default') ? base_url + '/static/images/mascot.png' : img;
         bonecard_preview_div = '<div class="col-md-6 tutorial-card"><a id="' + tutorial.id + '"href = "#"' +
             ' class = "delete-button" onclick="delete_gist(this.id)">x</a><a href="' + base_url + '/Support' +
             '/bonecard/tutorial?gist_id=' + tutorial.id + '"><div class="bonecard"><div style="padding-left: 14px;">' +
