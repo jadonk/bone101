@@ -141,7 +141,11 @@ function init() {
 
     function preview_tutorial(tutorial) {
         $('div.ajax-loader').hide();
-
+        update_cssmenu();
+        Cookies.set('tutorial_owner', tutorial.owner.login, {
+            expires: 1,
+            path: '/'
+        });
         // Update page title
         description_index = tutorial['description'].indexOf(', description:');
         page_title = tutorial['description'].substring(7, description_index)
@@ -164,6 +168,56 @@ function init() {
             }
         });
         update_ace_editor_id_val();
+    }
+
+    $('a.fork-tutorial').on('click', function(e) {
+        if (Cookies.get('tutorial_owner') != Cookies.get('username')) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: 'https://api.github.com/gists/' + gist_id + '/forks',
+                headers: {
+                    "Authorization": 'token ' + Cookies.get('token')
+                },
+                success: function(response) {
+                    window.location.replace(base_url + '/Support/bonecard/tutorial?gist_id=' + response.id);
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
+        } else {
+            gist_params = {
+                description: tutorial.description,
+                public: true,
+                files: tutorial.files
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: 'https://api.github.com/gists',
+                data: JSON.stringify(gist_params),
+                headers: {
+                    "Authorization": 'token ' + Cookies.get('token')
+                },
+                success: function(response) {
+                    window.location.replace(base_url + '/Support/bonecard/tutorial?gist_id=' + response.id);
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
+        }
+    });
+
+    function update_cssmenu() {
+        // Add 'fork' to cssmenu
+        $('ul.main-menu').append(
+            '<li class="has-sub">' +
+            '  <a class="fork-tutorial" href="#">' +
+            '    <span>Fork</span>' +
+            '  </a>' +
+            '</li>');
     }
 
     function ace_init(index) {
