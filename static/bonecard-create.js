@@ -9,6 +9,7 @@ var bonecard_id = 2;
 var selected_id = 0;
 var pre_selected_id = 0;
 var cover_img = 'default';
+var cards = [];
 
 $(document).ready(function() {
 
@@ -223,14 +224,16 @@ function update_micro_bonecard_title(title) {
  *    0_bonecard_cover_card: {
  *      content: [Base64 encoded img or 'default']
  *    },
- *    [bonecard No.]_bonecard_[card type]_[card title]: {
+ *    [bonecard No.]_bonecard: {
  *      content: "String file contents"
  *    }
  *    .
  *    .
  *    .
  *    bonecard.json: {
- *      content: "{\"description\":\"[tutorial description]\",\"title\":\"[tutorial title]\"}"
+ *      content: "{\"description\":\"[tutorial description]\",
+                   \"title\":\"[tutorial title]\",
+                   \"bonecards\":\"[{"title":"string of card title","type":"html"}]\"}"
  *    }
  *  }
  *}
@@ -259,28 +262,35 @@ function gist_params(image) {
         current_id = $this.attr('id').substring(14);
 
         title = $this.find('input.bonecard-title-input-text').val();
+        gist_params['files'][i + '_bonecard'] = {};
 
         if ($this.data('type') == 'html') {
-            gist_params['files'][i + '_bonecard_html_' + title] = {};
-            gist_params['files'][i + '_bonecard_html_' + title]['content'] =
+            gist_params['files'][i + '_bonecard']['content'] =
                 CKEDITOR.instances['editor' + current_id].getData();
+            cards.push({
+                title: title,
+                type: 'html'
+            });
         } else if ($this.data('type') == 'code') {
             editor = ace.edit("editor" + current_id);
-            gist_params['files'][i + '_bonecard_code_' + title] = {};
-            gist_params['files'][i + '_bonecard_code_' + title]['content'] =
+            gist_params['files'][i + '_bonecard']['content'] =
                 editor.getSession().getValue();
+            cards.push({
+                title: title,
+                type: 'code'
+            });
         }
         i++;
     });
 
     bonecard_json = {
+        title: tutorial_title,
         description: description,
-        title: tutorial_title
+        bonecards: cards
     }
 
     gist_params['files']['bonecard.json'] = {};
     gist_params['files']['bonecard.json']['content'] = JSON.stringify(bonecard_json);
-
     return JSON.stringify(gist_params);
 }
 

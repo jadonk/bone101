@@ -152,11 +152,13 @@ function init() {
         $(document).prop('title', 'BeagleBoard.org - ' + page_title);
 
         var i = 0;
+        bonecard_json = JSON.parse(tutorial.files['bonecard.json'].content);
         $.each(tutorial.files, function(index, val) {
             if (val.filename != '0_bonecard_cover_card' && val.filename != 'bonecard.json') {
-                bonecard_index = val.filename.indexOf("bonecard");
-                title = val.filename.substring(bonecard_index + 14);
-                card_type = val.filename.substring(bonecard_index + 9, bonecard_index + 13);
+                bonecard_info = val.filename.split('_');
+                bonecard_index = bonecard_info[0];
+                title = bonecard_json.bonecards[bonecard_index - 1].title;
+                card_type = bonecard_json.bonecards[bonecard_index - 1].type;
                 if (card_type === "code") {
                     $slider_for.slick('slickAdd', bonecard_code_div(val.content, i));
                     ace_init(i);

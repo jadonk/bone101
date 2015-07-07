@@ -10,7 +10,7 @@ $(document).ready(function() {
             // check for first file in each gist if it has 'bonecard_' then it is
             // a bonecard tutorial
             $.each(data, function(index, val) {
-                if (Object.keys(val.files)[0].indexOf('bonecard_') > -1) {
+                if (Object.keys(val.files)[0].indexOf('bonecard') > -1) {
                     tutorials.push(val);
                     retrieve_tutorial(val.id);
                 }
