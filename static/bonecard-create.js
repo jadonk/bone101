@@ -15,6 +15,7 @@ $(document).ready(function() {
     // make bonecard list sortable
     $('.sortable').sortable();
 
+
     // Special case for cover card 'on click' action
     $('#bonecard-micro-item0').on('click', function() {
         pre_selected_id = selected_id;
@@ -140,6 +141,7 @@ function update_bonecards_list_action() {
         $this.on('click', function() {
             pre_selected_id = selected_id;
             selected_id = $this.attr('id').substring(19);
+
             highlight_selected_card();
             display_selected_card();
             update_ace_editor_id();
@@ -234,7 +236,7 @@ function update_micro_bonecard_title(title) {
  *}
  */
 
-function gist_params() {
+function gist_params(image) {
     tutorial_title = $('input.tutorial-title').val();
     description = $('input.tutorial-description').val();
 
@@ -245,7 +247,7 @@ function gist_params() {
     gist_params['files'] = {};
 
     gist_params['files']['0_bonecard_cover_card'] = {};
-    gist_params['files']['0_bonecard_cover_card']['content'] = cover_img;
+    gist_params['files']['0_bonecard_cover_card']['content'] = image || cover_img;
 
 
     var i = 1;
@@ -346,33 +348,54 @@ function update_ace_editor_id() {
 
 
 // html content for adding new bonecard-micro to the list
-function bonecard_item(index) {
+function bonecard_item(index, title) {
+    title = title || '<i>Untitled Bonecard</i>'
     return '<li id="bonecard-micro-item' + index + '" ' +
         'class="bonecards-list-item"><a href = "#" class = ' +
         '"delete-button">x</a><div class="' +
         'bonecard-micro"><div class="bonecard-micro-content' +
-        '"><h2><i>Untitled Bonecard</i></h2></div></div></li>';
+        '"><h2>' + title + '</h2></div></div></li>';
 }
 
 //html content to add new bonecard block for editing
-function bonecard_block(index) {
-    // data-type attr could take 'html'(default) or 'code'
+function bonecard_block(index, title, type, content) {
+    type = type || 'html';
+    html = {
+        radio_btn: '',
+        style: ''
+    }
+    code = {
+        radio_btn: '',
+        style: 'style="display: none;"',
+        content: ''
+    }
+
+    if (type === 'html') {
+        html.radio_btn = 'active';
+        html.style = '';
+        code.style = 'style="display: none;"';
+    } else if (type === 'code') {
+        code.radio_btn = 'active';
+        html.style = 'style="display: none;"';
+        code.style = '';
+        code.content = content || '';
+    }
+
     return '<div id="bonecard-block' + index + '"  style="display: none;" ' +
-        'data-type="html">' +
+        'data-type="' + type + '">' +
         '<div class="row"><div class="col-md-6"><input' +
         ' type="text" class="form-control bonecard-title-input-text" id="bonecard-title' + index + '" ' +
-        'placeholder="bonecard Title" value=""></div><div class="col-md-3 ' +
+        'placeholder="bonecard Title" value="' + (title || '') + '"></div><div class="col-md-3 ' +
         'col-md-offset-3"><div class="btn-group float-right" data-toggle=' +
-        '"buttons"><label class="btn btn-default active"><input ' +
+        '"buttons"><label class="btn btn-default ' + html.radio_btn + '"><input ' +
         'type="radio" name="options' + index + '" id="option' + index + '-1" autocomplete=' +
-        '"off" value="html" checked> HTML</label><label class="btn btn-default">' +
+        '"off" value="html" checked> HTML</label><label class="btn btn-default  ' + code.radio_btn + '">' +
         '<input type="radio" name="options' + index + '" id="option' + index + '-2" autocomplete=' +
         '"off" value="code" > Code</label></div></div></div></br></br>' +
-        '<div class="code-card"' +
-        'style="display: none;"><div class="row"><div' +
+        '<div class="code-card" ' + code.style + '><div class="row"><div' +
         ' class="col-md-12" ><div class="bonecard-code">' +
-        '<div id="editor' + index + '" class="code"></div></div></div></div></div>' +
-        '<div class="html-card" role="tabpanel"><ul class="nav nav-tabs"' +
+        '<div id="editor' + index + '" class="code">' + code.content + '</div></div></div></div></div>' +
+        '<div class="html-card" role="tabpanel" ' + html.style + '><ul class="nav nav-tabs"' +
         ' role="tablist"><li role="presentation" class=' +
         '"active bonecard-write"><a href="#write' + index + '"' +
         ' aria-controls="write" role="tab" data-toggle' +
