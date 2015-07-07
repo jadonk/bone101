@@ -141,11 +141,12 @@ function init() {
 
     function preview_tutorial(tutorial) {
         $('div.ajax-loader').hide();
-        update_cssmenu();
         Cookies.set('tutorial_owner', tutorial.owner.login, {
             expires: 1,
             path: '/'
         });
+        update_cssmenu();
+
         // Update page title
         description_index = tutorial['description'].indexOf(', description:');
         page_title = tutorial['description'].substring(7, description_index)
@@ -220,6 +221,16 @@ function init() {
             '    <span>Fork</span>' +
             '  </a>' +
             '</li>');
+        // Add 'edit' to cssmenu
+        if (Cookies.get('tutorial_owner') === Cookies.get('username')) {
+            $('ul.main-menu').append(
+                '<li class="has-sub">' +
+                '  <a class="edit-tutorial" href="' + base_url +
+                '/Support/bonecard/edit?gist_id=' + gist_id + '">' +
+                '    <span>Edit</span>' +
+                '  </a>' +
+                '</li>');
+        }
     }
 
     function ace_init(index) {

@@ -1,0 +1,147 @@
+---
+layout: index
+title: bone101
+styles: ['/static/bonecard-create.css']
+scripts: ['/static/third_party/ace/src/ace.js', '/static/third_party/ckeditor/ckeditor.js', '/static/third_party/ckeditor/adapters/jquery.js', '/static/jquery.sortable.min.js', '/static/third_party/contenthover/contenthover.min.js', '/static/third_party/blockui/jquery.blockUI.js', '/static/connect.js', '/static/bonescript.js', '/static/beagle-ui.js']
+scripts-after: ['/static/bonecard-create.js', '/static/bonecard-edit.js']
+style: |
+   div#connect-status {
+     display: table;
+     margin: 0 auto;
+     padding-right: 10px;
+     margin-bottom: 30px;
+   }
+   div#browser-content button, input#connect-ip {
+     color: black !important;
+   }
+---
+
+<div class="row">
+	<div class="col-md-12">
+		<div id='connect-status'></div>
+	</div>
+</div>
+
+
+<div class="errors" style="color: red;">
+	<ul>
+    <li class="error-login" style="display: none;">You must login first</li>
+    <li class="error-tutorial-title" style="display: none;">Tutorial title can&#39;t be blank</li>
+    <li class="error-description" style="display: none;">Description can&#39;t be blank</li>
+    <li class="error-card-title" style="display: none;">Card title can&#39;t be blank</li>
+    <li class="error-html-content" style="display: none;">HTML card content can&#39;t be blank</li>
+    <li class="error-code-content" style="display: none;">Code card content can&#39;t be blank</li>
+   </ul>
+</div>
+
+<input class="tutorial-title" type="text" name="tutorialTitle" value="" placeholder="Untitled tutorial">
+
+</br>
+</br>
+<h3><b>Description:</b></h3>
+<div class="row">
+	<div class="col-md-9">
+		<input class="tutorial-description" type="text" name="tutorial-description" value="">
+	</div>
+	<div class="col-md-2 col-md-offset-1">
+		<button class="add-bonecard">Add Bonecard</button>
+	</div>
+</div>
+</br>
+</br>
+<div class="row">
+	<div class="col-md-12" >
+		<div>
+			<ul class="bonecards-list sortable">
+				<div id="bonecard-micro-item0"><div class="bonecard-micro"><div class="bonecard-micro-content wordwrap"><h2>Cover Card</h2></div></div></div>
+				<li id="bonecard-micro-item1" class="bonecards-list-item"><a href = "#" class = "delete-button">x</a><div class="bonecard bonecard-micro"><div class="bonecard-micro-content wordwrap"><h2><i>Untitled Bonecard</i></h2></div></div></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+
+<div class="view-content">
+	<!-- Cover card block -->
+	<div id="bonecard-block0" data-type="cover">
+		<a class="img-upload" href="#cover-card" onclick="performClick('cover-card-input');">
+			<div class="bonecard">
+				<div style="padding-left: 14px;">
+					<img id="cover-card" src="{{ site.baseurl }}/static/images/logo.png" width="300" height="213" />
+					<div class="contenthover">
+					    <h1><i>Untitled tutorial</i></h1>
+					    <p style="color:black;"></p>
+					</div>
+				</div>
+			</div>
+		</a>
+		<input type="file" id="cover-card-input" style="display: none;" />
+	</div>
+	<!-- end of cover card block -->
+
+
+	<!-- bonecard block -->
+
+	<div id="bonecard-block1" data-type="html" style="display: none;">
+		<div class="row card-info">
+		  <div class="col-md-6">
+				<form>
+	  	  	<input type="text" class="form-control bonecard-title-input-text" id="Bonecard-title1" placeholder="Bonecard Title" value="">
+	  		</form>
+	  	</div>
+	  	<div class="col-md-3 col-md-offset-3">
+	  		<div class="btn-group options float-right" data-toggle="buttons">
+				  <label class="btn btn-default active">
+				    <input type="radio" name="options1" id="option1-1" value="html" autocomplete="off" checked> HTML
+				  </label>
+				  <label class="btn btn-default">
+				    <input type="radio" name="options1" id="option1-2" value="code"autocomplete="off"> Code
+				  </label>
+				</div>
+	  	</div>
+		</div>
+		</br>
+		</br>
+		<div class="code-card" style="display: none;">
+			<div class="row">
+				<div class="col-md-12" >
+					<div class="bonecard-code">
+						<div id="editor1" class="code"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="html-card" role="tabpanel">
+		  <!-- Nav tabs -->
+		  <ul class="nav nav-tabs" role="tablist">
+		    <li role="presentation" class="active bonecard-write"><a href="#write1" aria-controls="write" role="tab" data-toggle="tab">Write</a></li>
+		    <li role="presentation"><a href="#preview1" class="bonecard-preview" aria-controls="preview" role="tab" data-toggle="tab">Preview</a></li>
+		  </ul>
+
+		  <!-- Tab panes -->
+		  <div class="tab-content">
+		    <div role="tabpanel" class="tab-pane active" id="write1">
+		    	<div class="bonecard-editor">
+							<textarea class="ckeditor" cols="80" id="editor1" name="editor1" rows="10">
+						</textarea>
+					</div>
+		    </div>
+		    <div role="tabpanel" class="tab-pane" id="preview1">
+		    </br>
+		    	<div class="bonecard-zoomed">
+		    		<div id="editor1-content"></div>
+		    	</div>
+		    </div>
+		  </div>
+		</div>
+	</div>
+	<!-- end of bonecard block -->
+</div>
+</br>
+</br>
+<div class="row">
+	<div class="col-md-12">
+		<button class="update">Update</button>
+	</div>
+</div>
