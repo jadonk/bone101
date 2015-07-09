@@ -1,0 +1,16 @@
+a.delete-button {
+    font-weight: bold;
+    text-decoration: none;
+    position: absolute;
+    right: 0;
+    display: none;
+    margin: 3px 44px;
+}
+
+div.tutorial-card {
+    padding: 0 33px 0px 44px;
+}
+
+div.tutorial-card:hover a.delete-button {
+    display: block;
+}

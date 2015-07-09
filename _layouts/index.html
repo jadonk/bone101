@@ -47,7 +47,7 @@
  <a name="top" id="top"></a>
  <div id="wrapper">
   <div id='cssmenu'>
-    <ul>
+    <ul class="main-menu">
       <li class="has-sub"><a class="new-tutorial" href="{{ site.baseurl }}/Support/bonecard/create/"><span>New Tutorial</span></a>
       </li>
     </ul>
@@ -60,6 +60,24 @@
   </div>
   <script>
     var base_url = '{{ site.baseurl }}';
+    my_tutorials = localStorage;
+
+    // some work around to have expiry date when saving a tutorial
+    // expires option is in days
+    function save_tutorial (gist_id, tutorial, options) {
+      tutorial.saved_at = new Date().getTime();
+      tutorial.options = options;
+      my_tutorials.setItem(gist_id, JSON.stringify(tutorial));
+    }
+
+    function load_tutorial (gist_id) {
+      time_now = new Date().getTime();
+      tutorial = JSON.parse(my_tutorials.getItem(gist_id));
+      if(tutorial != null && (time_now - tutorial.saved_at < 86400 * tutorial.options.expires)) {
+        return tutorial;
+      } else
+        return null;
+    }
   </script>
 {% for script in page.scripts-after %}
   <script src="{{ site.baseurl }}{{ script }}"></script>

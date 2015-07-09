@@ -1,5 +1,6 @@
 $(document).ready(init);
 
+
 function init() {
     if (location.hash) {
         console.log(location.hash);
@@ -84,6 +85,7 @@ function init() {
     var gist_id = window.location.search.substring(1).substring(8);
     var $slider_for = $('div.slider-for');
     var $slider_nav = $('div.slider-nav');
+    tutorial = load_tutorial(gist_id);
 
     // Initialize slick carousel
     $slider_for.slick({
@@ -102,23 +104,62 @@ function init() {
         focusOnSelect: true
     });
 
-    // build ajax request for retrieving the tutorial
-    $.ajax({
-        type: 'GET',
-        url: 'https://api.github.com/gists/' + gist_id,
-        success: function(data) {
-            $('div.ajax-loader').hide();
+    // change ace_editor_id value with the change of slick slider
+    $slider_for.on('afterChange',
+        function(event, slick, currentSlide) {
+            update_ace_editor_id_val();
+        });
 
-            // Update page title
-            description_index = data['description'].indexOf(', description:');
-            page_title = data['description'].substring(7, description_index)
-            $(document).prop('title', 'BeagleBoard.org - ' + page_title);
+    function update_ace_editor_id_val() {
+        ace_editor = document.getElementsByClassName('slick-active')[0]
+            .getElementsByClassName('ace_editor')[0];
+        if (typeof ace_editor != 'undefined')
+            ace_editor_id = ace_editor.id;
+        else
+            ace_editor_id = -1;
+    }
 
-            var i = 0;
-            $.each(data.files, function(index, val) {
-                bonecard_index = val.filename.indexOf("bonecard");
-                title = val.filename.substring(bonecard_index + 14);
-                card_type = val.filename.substring(bonecard_index + 9, bonecard_index + 13);
+    // check if the tutorial is not in the local storage do an ajax request to get & save it
+    // then call preview_tutorial function with tutorial data.
+    if (tutorial == null) {
+        // build ajax request for retrieving the tutorial
+        $.ajax({
+            type: 'GET',
+            url: 'https://api.github.com/gists/' + gist_id,
+            success: function(data) {
+                save_tutorial(gist_id, data, {
+                    expires: 1
+                });
+                preview_tutorial(data);
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    } else
+        preview_tutorial(tutorial);
+
+    function preview_tutorial(tutorial) {
+        $('div.ajax-loader').hide();
+        Cookies.set('tutorial_owner', tutorial.owner.login, {
+            expires: 1,
+            path: '/'
+        });
+        update_cssmenu();
+
+        // Update page title
+        description_index = tutorial['description'].indexOf(', description:');
+        page_title = tutorial['description'].substring(7, description_index)
+        $(document).prop('title', 'BeagleBoard.org - ' + page_title);
+
+        var i = 0;
+        bonecard_json = JSON.parse(tutorial.files['bonecard.json'].content);
+        $.each(tutorial.files, function(index, val) {
+            if (val.filename != '0_bonecard_cover_card' && val.filename != 'bonecard.json') {
+                bonecard_info = val.filename.split('_');
+                bonecard_index = bonecard_info[0];
+                title = bonecard_json.bonecards[bonecard_index - 1].title;
+                card_type = bonecard_json.bonecards[bonecard_index - 1].type;
                 if (card_type === "code") {
                     $slider_for.slick('slickAdd', bonecard_code_div(val.content, i));
                     ace_init(i);
@@ -127,12 +168,70 @@ function init() {
                 }
                 $slider_nav.slick('slickAdd', bonecard_mirco_div(title));
                 i++;
+            }
+        });
+        update_ace_editor_id_val();
+    }
+
+    $('a.fork-tutorial').on('click', function(e) {
+        if (Cookies.get('tutorial_owner') != Cookies.get('username')) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: 'https://api.github.com/gists/' + gist_id + '/forks',
+                headers: {
+                    "Authorization": 'token ' + Cookies.get('token')
+                },
+                success: function(response) {
+                    window.location.replace(base_url + '/Support/bonecard/tutorial?gist_id=' + response.id);
+                },
+                error: function(err) {
+                    console.log(err);
+                }
             });
-        },
-        error: function(err) {
-            console.log(err);
+        } else {
+            gist_params = {
+                description: tutorial.description,
+                public: true,
+                files: tutorial.files
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: 'https://api.github.com/gists',
+                data: JSON.stringify(gist_params),
+                headers: {
+                    "Authorization": 'token ' + Cookies.get('token')
+                },
+                success: function(response) {
+                    window.location.replace(base_url + '/Support/bonecard/tutorial?gist_id=' + response.id);
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            });
         }
     });
+
+    function update_cssmenu() {
+        // Add 'fork' to cssmenu
+        $('ul.main-menu').append(
+            '<li class="has-sub">' +
+            '  <a class="fork-tutorial" href="#">' +
+            '    <span>Fork</span>' +
+            '  </a>' +
+            '</li>');
+        // Add 'edit' to cssmenu
+        if (Cookies.get('tutorial_owner') === Cookies.get('username')) {
+            $('ul.main-menu').append(
+                '<li class="has-sub">' +
+                '  <a class="edit-tutorial" href="' + base_url +
+                '/Support/bonecard/edit?gist_id=' + gist_id + '">' +
+                '    <span>Edit</span>' +
+                '  </a>' +
+                '</li>');
+        }
+    }
 
     function ace_init(index) {
         editor = ace.edit("editor" + index);
