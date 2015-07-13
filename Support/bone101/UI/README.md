@@ -5,10 +5,17 @@ This is a UI that allows a user to interact with a BeagleBone with minimal to no
 
 Served locally
 --------------
-
 The UI runs on http://yourbeagleboneip/bone101/Support/UI/ as long as this version of the bone101 library is installed to /var/lib/clou9 and the BoneScript server is running. Changes can be made to the file locations and filenames at the top of the js file.
 
 Served on Github Pages
 ----------------------
-
 This UI can be run by visiting http://beagleboard.github.io/bone101/Support/bone101/UI/ with a BeagleBone connected locally via USB or on the network. If the board is not automatically discovered, you'll need to type in the IP address of the board
+
+bbui.js
+=======
+This script renders the UI, reacts to user input and calls the BoneScript functions for hardware interaction. Including this script exposes 1 initialization function called 'bbui' and is built as 4 classes:
+* Canvas: fetches the canvas elements from the HTML page and expose them to the rest of BBUI.
+* Hardware: modifies, fetches and exposes the hardware status using BoneScript calls.
+* UI: renders the user interface and provides methods for updating the rendering.
+* Events: reponds to input provided by the user and calls UI methods for updating the display.
+
