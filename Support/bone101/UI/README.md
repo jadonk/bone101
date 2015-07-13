@@ -27,4 +27,8 @@ The Canvas class grabs 9 HTML canvas elements each rendered at 1224x600 pixels o
 * Active: is the active canvas, constantly being cleared and redrawn by UI and is rendered at z-index 10.
 * LED0-LED3: are 4 separate canvases for LEDs so they can redraw at different rates and are rendered at z-indexes 11-14.
 * Bar: is the canvas for slider bars and is rendered at z-index 8.
-* Graph: is the canvas for graph lines and is rendered at z-index 9.
+* Graph: is the canvas for the graph controls and is rendered at z-index 9.
+
+Each canvas exposes and element (e) and a context (ctx).
+
+Additional canvases beyond the initial 9 are added using the Canvas 'add' method. It is used to add probes and graphs as will be described in the UI class. The 'add' method takes in z-index as an argument, but today they are all added at z-index 10.
