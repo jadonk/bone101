@@ -19,3 +19,12 @@ This script renders the UI, reacts to user input and calls the BoneScript functi
 * UI: renders the user interface and provides methods for updating the rendering.
 * Events: reponds to input provided by the user and calls UI methods for updating the display.
 
+Canvas
+------
+The Canvas class grabs 9 HTML canvas elements each rendered at 1224x600 pixels on top of each other.
+* Base: is the canvas with BeagleBone and other unchanging elements and is rendered at z-index 1 (background).
+* BTN: is the canvas that draws buttons and corresponding elements and is rendered at z-index 2 (just above the background).
+* Active: is the active canvas, constantly being cleared and redrawn by UI and is rendered at z-index 10.
+* LED0-LED3: are 4 separate canvases for LEDs so they can redraw at different rates and are rendered at z-indexes 11-14.
+* Bar: is the canvas for slider bars and is rendered at z-index 8.
+* Graph: is the canvas for graph lines and is rendered at z-index 9.
