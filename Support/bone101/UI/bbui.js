@@ -11,26 +11,26 @@ var Canvas = (function() {
 
     function init() {
         canvas = {};
-        
-        var layers = { 
-            'Base':     'layer1',   // canvas with bb and other unchanging elements
-            'BTN':      'layer2',   // canvas that draws buttons and corresponding elements
-            'Active':   'layer3',   // active canvas, constantly being cleared and redrawn by UI
-            'LED0':     'layer4',   // separate canvases for LEDs so they can redraw at different rates
-            'LED1':     'layer5',
-            'LED2':     'layer6',
-            'LED3':     'layer7',
-            'Bar':      'layer8',   // canvas for slider bars
-            'Graph':    'layer9'    // canvas for base drawings of graph (axis, labels, etc)
+
+        var layers = {
+            'Base': 'layer1', // canvas with bb and other unchanging elements
+            'BTN': 'layer2', // canvas that draws buttons and corresponding elements
+            'Active': 'layer3', // active canvas, constantly being cleared and redrawn by UI
+            'LED0': 'layer4', // separate canvases for LEDs so they can redraw at different rates
+            'LED1': 'layer5',
+            'LED2': 'layer6',
+            'LED3': 'layer7',
+            'Bar': 'layer8', // canvas for slider bars
+            'Graph': 'layer9' // canvas for base drawings of graph (axis, labels, etc)
         };
-        
-        for(var layer in layers) {
+
+        for (var layer in layers) {
             canvas[layer] = {};
             canvas[layer].e = document.getElementById(layers[layer]);
             canvas[layer].ctx = canvas[layer].e.getContext("2d");
         }
-        
-        return(canvas);
+
+        return (canvas);
     }
 
     function add(id, zIndex) {
@@ -51,7 +51,7 @@ var Canvas = (function() {
     }
 
     return {
-        'get': function () {
+        'get': function() {
             if (!canvas) {
                 canvas = init();
             }
@@ -68,17 +68,17 @@ var Hardware = (function() {
         hw = {};
         return hw;
     }
-    
+
     function add(pin, mode, state) {
-        
+
     }
-    
+
     function write(pin, state) {
-        
+
     }
 
     return {
-        'get': function () {
+        'get': function() {
             if (!hw) {
                 hw = init();
             }
@@ -110,18 +110,31 @@ var UI = (function() {
         var BBposY = 60;
         var axisStartY = BBposY + 40;
         var axisStartX = BBposX + 375;
-        var rect = {x: 0, y: BBposY - 20, w: canvas.Base.e.width, h: 540};
-        var rectInner = {x: rect.x + 20, y: rect.y + 15, w: 420, h: 510};
-        var snapProbe = {x: rect.x + 35, y: rect.y + 25};
-        
+        var rect = {
+            x: 0,
+            y: BBposY - 20,
+            w: canvas.Base.e.width,
+            h: 540
+        };
+        var rectInner = {
+            x: rect.x + 20,
+            y: rect.y + 15,
+            w: 420,
+            h: 510
+        };
+        var snapProbe = {
+            x: rect.x + 35,
+            y: rect.y + 25
+        };
+
         // major buttons
         ui.button = (function() {
             var button = {};
-            
+
             // global buttons
             var btnX = BBposX - 425;
             var btnY = BBposY - 40;
-    
+
             var buttons = {
                 analog: {
                     x: btnX,
@@ -265,44 +278,44 @@ var UI = (function() {
                     category: "digitalMenu"
                 }
             };
-            
+
             button.test = function(event) {
                 var coords = Position(event);
                 var x = coords[0];
                 var y = coords[1];
-                
-                for(var b in buttons) {
+
+                for (var b in buttons) {
                     var minX = buttons[b].x;
                     var minY = buttons[b].y;
                     var maxX = buttons[b].endX;
                     var maxY = buttons[b].endY;
-                    if(x >= minX && x <= maxX && y >= minY && y <= maxY) {
+                    if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
                         //console.log("button = " + b);
-                        return(b);
+                        return (b);
                     }
                 }
                 //console.log("button = none");
-                return("none");
+                return ("none");
             };
-            
+
             button.highlight = function(highlightButton) {
                 canvas.Active.ctx.fillStyle = 'rgba(255,255,255,0.7)';
                 for (var b in buttons) {
-                    if(buttons[b].category == "main") {
+                    if (buttons[b].category == "main") {
                         button.draw(b, canvas.Active.ctx, (highlightButton == b));
                     }
                 }
             };
-    
+
             button.highlightDigital = function(highlightButton) {
                 canvas.Active.ctx.fillStyle = 'rgba(255,255,255,0.7)';
                 for (var b in buttons) {
-                    if(buttons[b].category == "digital") {
+                    if (buttons[b].category == "digital") {
                         button.draw(b, canvas.Active.ctx, (highlightButton == b));
                     }
                 }
             };
-            
+
             button.highlightPlus = function() {
                 canvas.Graph.ctx.fillStyle = "#FF4500";
                 canvas.Graph.ctx.font = '20pt Lucinda Grande';
@@ -314,7 +327,7 @@ var UI = (function() {
                 canvas.Graph.ctx.font = '30pt Lucinda Grande';
                 canvas.Graph.ctx.fillText("-", buttons.minus.x, buttons.minus.y);
             };
-            
+
             button.highlightStop = function() {
                 canvas.Graph.ctx.fillStyle = "#FF4500";
                 canvas.Graph.ctx.beginPath();
@@ -324,7 +337,7 @@ var UI = (function() {
                 canvas.Graph.ctx.lineTo(buttons.stop.x, buttons.stop.y + 12);
                 canvas.Graph.ctx.fill();
             };
-            
+
             button.highlightStop = function() {
                 canvas.Graph.ctx.fillStyle = "#FF4500";
                 canvas.Graph.ctx.beginPath();
@@ -333,7 +346,7 @@ var UI = (function() {
                 canvas.Graph.ctx.lineTo(buttons.play.x, buttons.play.y + 14);
                 canvas.Graph.ctx.fill();
             };
-    
+
             button.draw = function(b, context, highlight, x, y) {
                 var radius = 1;
                 var btn = buttons[b];
@@ -343,8 +356,7 @@ var UI = (function() {
                     y = btn.y;
                     endX = btn.endX;
                     endY = btn.endY;
-                }
-                else {
+                } else {
                     endX = x + (btn.endX - btn.x);
                     endY = y + (btn.endY - btn.y);
                 }
@@ -368,8 +380,7 @@ var UI = (function() {
                     context.fillStyle = 'white';
                     context.fill();
                     context.fillStyle = color;
-                }
-                else {
+                } else {
                     context.strokeStyle = color;
                     context.stroke();
                     context.fillStyle = color;
@@ -379,7 +390,7 @@ var UI = (function() {
                 context.font = '10pt Andale Mono';
                 context.fillText(text, x + s, y + 12);
             };
-            
+
             var probeIndex = 0;
             button.push = function(b, x, y) {
                 buttons[probeIndex] = {};
@@ -397,111 +408,340 @@ var UI = (function() {
                 snapProbe.y += 22;
                 probeIndex++;
             };
-            
+
             button.pop = function() {
                 probeIndex--;
                 delete buttons[probeIndex];
             };
-            
+
             button.get = function() {
                 return buttons;
             }
 
-            for(var b in buttons) {
-                if(buttons[b].category == "main") {
+            for (var b in buttons) {
+                if (buttons[b].category == "main") {
                     button.draw(b, canvas.Base.ctx, false);
                 }
             }
 
             return button;
         })();
-        
+
         ui.pin = (function() {
             var pin = {};
             var pins = [
                 // P9
-                { name: 'GND', category: 'ground' },     { name: 'GND', category: 'ground' },
-                { name: 'VDD 3.3V', category: 'power' }, { name: 'VDD 3.3V', category: 'power' },
-                { name: 'VDD 5V', category: '' },        { name: 'VDD 5V', category: '' },
-                { name: 'SYS 5V', category: '' },        { name: 'SYS 5V', category: '' },
-                { name: 'PWR_BUT', category: 'reset' },  { name: 'SYS_RESETn', category: 'reset' },
-                { name: 'P9_11', category: 'digital' },
-                { name: 'P9_12', category: 'digital' },
-                { name: 'P9_13', category: 'digital' },
-                { name: 'P9_14', category: 'digital', PWM: true },
-                { name: 'P9_15', category: 'digital' },
-                { name: 'P9_16', category: 'digital', PWM: true },
-                { name: 'P9_17', category: 'digital' },
-                { name: 'P9_18', category: 'digital' },
-                { name: 'P9_19', category: 'i2c' },
-                { name: 'P9_20', category: 'i2c' },
-                { name: 'P9_21', category: 'digital', PWM: true },
-                { name: 'P9_22', category: 'digital', PWM: true },
-                { name: 'P9_23', category: 'digital' },
-                { name: 'P9_24', category: 'digital' },
-                { name: 'P9_25', category: 'digital' },
-                { name: 'P9_26', category: 'digital' },
-                { name: 'P9_27', category: 'digital' },
-                { name: 'P9_28', category: '' }, { name: 'P9_29', category: '' },
-                { name: 'P9_30', category: 'digital' },
-                { name: 'P9_31', category: '' }, { name: 'P9_32', category: '' },
-                { name: 'P9_33', category: 'analog' },
-                { name: 'P9_34', category: '' },
-                { name: 'P9_35', category: 'analog' },
-                { name: 'P9_36', category: 'analog' },
-                { name: 'P9_37', category: 'analog' },
-                { name: 'P9_38', category: 'analog' },
-                { name: 'P9_39', category: 'analog' },
-                { name: 'P9_40', category: 'analog' },
-                { name: 'P9_41', category: 'digital' },
-                { name: 'P9_42', category: 'digital', PWM: true },
-                { name: 'GND', category: 'ground' }, { name: 'GND', category: 'ground' },
-                { name: 'GND', category: 'ground' }, { name: 'GND', category: 'ground' },
+                {
+                    name: 'GND',
+                    category: 'ground'
+                }, {
+                    name: 'GND',
+                    category: 'ground'
+                }, {
+                    name: 'VDD 3.3V',
+                    category: 'power'
+                }, {
+                    name: 'VDD 3.3V',
+                    category: 'power'
+                }, {
+                    name: 'VDD 5V',
+                    category: ''
+                }, {
+                    name: 'VDD 5V',
+                    category: ''
+                }, {
+                    name: 'SYS 5V',
+                    category: ''
+                }, {
+                    name: 'SYS 5V',
+                    category: ''
+                }, {
+                    name: 'PWR_BUT',
+                    category: 'reset'
+                }, {
+                    name: 'SYS_RESETn',
+                    category: 'reset'
+                }, {
+                    name: 'P9_11',
+                    category: 'digital'
+                }, {
+                    name: 'P9_12',
+                    category: 'digital'
+                }, {
+                    name: 'P9_13',
+                    category: 'digital'
+                }, {
+                    name: 'P9_14',
+                    category: 'digital',
+                    PWM: true
+                }, {
+                    name: 'P9_15',
+                    category: 'digital'
+                }, {
+                    name: 'P9_16',
+                    category: 'digital',
+                    PWM: true
+                }, {
+                    name: 'P9_17',
+                    category: 'digital'
+                }, {
+                    name: 'P9_18',
+                    category: 'digital'
+                }, {
+                    name: 'P9_19',
+                    category: 'i2c'
+                }, {
+                    name: 'P9_20',
+                    category: 'i2c'
+                }, {
+                    name: 'P9_21',
+                    category: 'digital',
+                    PWM: true
+                }, {
+                    name: 'P9_22',
+                    category: 'digital',
+                    PWM: true
+                }, {
+                    name: 'P9_23',
+                    category: 'digital'
+                }, {
+                    name: 'P9_24',
+                    category: 'digital'
+                }, {
+                    name: 'P9_25',
+                    category: 'digital'
+                }, {
+                    name: 'P9_26',
+                    category: 'digital'
+                }, {
+                    name: 'P9_27',
+                    category: 'digital'
+                }, {
+                    name: 'P9_28',
+                    category: ''
+                }, {
+                    name: 'P9_29',
+                    category: ''
+                }, {
+                    name: 'P9_30',
+                    category: 'digital'
+                }, {
+                    name: 'P9_31',
+                    category: ''
+                }, {
+                    name: 'P9_32',
+                    category: ''
+                }, {
+                    name: 'P9_33',
+                    category: 'analog'
+                }, {
+                    name: 'P9_34',
+                    category: ''
+                }, {
+                    name: 'P9_35',
+                    category: 'analog'
+                }, {
+                    name: 'P9_36',
+                    category: 'analog'
+                }, {
+                    name: 'P9_37',
+                    category: 'analog'
+                }, {
+                    name: 'P9_38',
+                    category: 'analog'
+                }, {
+                    name: 'P9_39',
+                    category: 'analog'
+                }, {
+                    name: 'P9_40',
+                    category: 'analog'
+                }, {
+                    name: 'P9_41',
+                    category: 'digital'
+                }, {
+                    name: 'P9_42',
+                    category: 'digital',
+                    PWM: true
+                }, {
+                    name: 'GND',
+                    category: 'ground'
+                }, {
+                    name: 'GND',
+                    category: 'ground'
+                }, {
+                    name: 'GND',
+                    category: 'ground'
+                }, {
+                    name: 'GND',
+                    category: 'ground'
+                },
                 // P8
-                { name: 'GND', category: 'ground' }, { name: 'GND', category: 'ground' },
-                { name: 'P8_3', category: '' }, { name: 'P8_4', category: '' },
-                { name: 'P8_5', category: '' }, { name: 'P8_6', category: '' },
-                { name: 'P8_7', category: 'digital' },
-                { name: 'P8_8', category: 'digital' },
-                { name: 'P8_9', category: 'digital' },
-                { name: 'P8_10', category: 'digital' },
-                { name: 'P8_11', category: 'digital' },
-                { name: 'P8_12', category: 'digital' },
-                { name: 'P8_13', category: 'digital', PWM: true },
-                { name: 'P8_14', category: 'digital' },
-                { name: 'P8_15', category: 'digital' },
-                { name: 'P8_16', category: 'digital' },
-                { name: 'P8_17', category: 'digital' },
-                { name: 'P8_18', category: 'digital' },
-                { name: 'P8_19', category: 'digital', PWM: true },
-                { name: 'P8_20', category: '' }, { name: 'P8_21', category: '' },
-                { name: 'P8_22', category: '' }, { name: 'P8_23', category: '' },
-                { name: 'P8_24', category: '' }, { name: 'P8_25', category: '' },
-                { name: 'P8_26', category: 'digital' },
-                { name: 'P8_27', category: '' }, { name: 'P8_28', category: '' },
-                { name: 'P8_29', category: '' }, { name: 'P8_30', category: '' },
-                { name: 'P8_31', category: '' }, { name: 'P8_32', category: '' },
-                { name: 'P8_33', category: '' }, { name: 'P8_34', category: '' },
-                { name: 'P8_35', category: '' }, { name: 'P8_36', category: '' },
-                { name: 'P8_37', category: '' }, { name: 'P8_38', category: '' },
-                { name: 'P8_39', category: '' }, { name: 'P8_40', category: '' },
-                { name: 'P8_41', category: '' }, { name: 'P8_42', category: '' },
-                { name: 'P8_43', category: '' }, { name: 'P8_44', category: '' },
-                { name: 'P8_45', category: '' }, { name: 'P8_46', category: '' },
+                {
+                    name: 'GND',
+                    category: 'ground'
+                }, {
+                    name: 'GND',
+                    category: 'ground'
+                }, {
+                    name: 'P8_3',
+                    category: ''
+                }, {
+                    name: 'P8_4',
+                    category: ''
+                }, {
+                    name: 'P8_5',
+                    category: ''
+                }, {
+                    name: 'P8_6',
+                    category: ''
+                }, {
+                    name: 'P8_7',
+                    category: 'digital'
+                }, {
+                    name: 'P8_8',
+                    category: 'digital'
+                }, {
+                    name: 'P8_9',
+                    category: 'digital'
+                }, {
+                    name: 'P8_10',
+                    category: 'digital'
+                }, {
+                    name: 'P8_11',
+                    category: 'digital'
+                }, {
+                    name: 'P8_12',
+                    category: 'digital'
+                }, {
+                    name: 'P8_13',
+                    category: 'digital',
+                    PWM: true
+                }, {
+                    name: 'P8_14',
+                    category: 'digital'
+                }, {
+                    name: 'P8_15',
+                    category: 'digital'
+                }, {
+                    name: 'P8_16',
+                    category: 'digital'
+                }, {
+                    name: 'P8_17',
+                    category: 'digital'
+                }, {
+                    name: 'P8_18',
+                    category: 'digital'
+                }, {
+                    name: 'P8_19',
+                    category: 'digital',
+                    PWM: true
+                }, {
+                    name: 'P8_20',
+                    category: ''
+                }, {
+                    name: 'P8_21',
+                    category: ''
+                }, {
+                    name: 'P8_22',
+                    category: ''
+                }, {
+                    name: 'P8_23',
+                    category: ''
+                }, {
+                    name: 'P8_24',
+                    category: ''
+                }, {
+                    name: 'P8_25',
+                    category: ''
+                }, {
+                    name: 'P8_26',
+                    category: 'digital'
+                }, {
+                    name: 'P8_27',
+                    category: ''
+                }, {
+                    name: 'P8_28',
+                    category: ''
+                }, {
+                    name: 'P8_29',
+                    category: ''
+                }, {
+                    name: 'P8_30',
+                    category: ''
+                }, {
+                    name: 'P8_31',
+                    category: ''
+                }, {
+                    name: 'P8_32',
+                    category: ''
+                }, {
+                    name: 'P8_33',
+                    category: ''
+                }, {
+                    name: 'P8_34',
+                    category: ''
+                }, {
+                    name: 'P8_35',
+                    category: ''
+                }, {
+                    name: 'P8_36',
+                    category: ''
+                }, {
+                    name: 'P8_37',
+                    category: ''
+                }, {
+                    name: 'P8_38',
+                    category: ''
+                }, {
+                    name: 'P8_39',
+                    category: ''
+                }, {
+                    name: 'P8_40',
+                    category: ''
+                }, {
+                    name: 'P8_41',
+                    category: ''
+                }, {
+                    name: 'P8_42',
+                    category: ''
+                }, {
+                    name: 'P8_43',
+                    category: ''
+                }, {
+                    name: 'P8_44',
+                    category: ''
+                }, {
+                    name: 'P8_45',
+                    category: ''
+                }, {
+                    name: 'P8_46',
+                    category: ''
+                },
                 // LEDs
-                { name: 'USR0', category: 'led' }, { name: 'USR1', category: 'led' },
-                { name: 'USR2', category: 'led' }, { name: 'USR3', category: 'led' }
+                {
+                    name: 'USR0',
+                    category: 'led'
+                }, {
+                    name: 'USR1',
+                    category: 'led'
+                }, {
+                    name: 'USR2',
+                    category: 'led'
+                }, {
+                    name: 'USR3',
+                    category: 'led'
+                }
             ];
 
             // initialize positions
             for (var i = 0; i < 92; i++) {
                 var x, y;
                 // only compute base x/y on initial/even iterations
-                if((i % 2) === 0) {
-                    y = BBposY + 129 + 14.05*((i%46)/2);
+                if ((i % 2) === 0) {
+                    y = BBposY + 129 + 14.05 * ((i % 46) / 2);
                     x = BBposX + 7;
                     // P8
-                    if(i >= 46) {
+                    if (i >= 46) {
                         x += 273;
                     }
                 }
@@ -517,13 +757,13 @@ var UI = (function() {
             }
             for (var i = 92; i < 96; i++) {
                 var LEDpositions = [230.5, 241.75, 253, 264.25];
-                pins[i].x = BBposX + LEDpositions[i-92];
+                pins[i].x = BBposX + LEDpositions[i - 92];
                 pins[i].y = BBposY + 27;
                 pins[i].w = 8;
                 pins[i].h = 16;
                 pins[i].s = 18;
             }
-            
+
             pin.highlight = function(button) {
                 if (button == "none") return;
                 var category = button;
@@ -539,7 +779,7 @@ var UI = (function() {
                     }
                 }
             };
-            
+
             return pin;
         })();
 
@@ -547,29 +787,29 @@ var UI = (function() {
         ui.probe = (function() {
             var probe = {};
             var probes = [];
-            
+
             var add = {};
             add.type = 'none';
 
             probe.addStart = function(type) {
                 add.type = type;
             };
-            
+
             probe.addTest = function(event) {
-                if(add.type == 'none') return('none');
+                if (add.type == 'none') return ('none');
                 var coords = Position(event);
                 var x = coords[0];
                 var y = coords[1];
-                if(x < rectInner.x || x > rectInner.x+rectInner.w ||
-                    y < rectInner.y || y > rectInner.y+rectInner.h) {
-                    return('cancelled');    
+                if (x < rectInner.x || x > rectInner.x + rectInner.w ||
+                    y < rectInner.y || y > rectInner.y + rectInner.h) {
+                    return ('cancelled');
                 }
                 ui.button.push(add.type);
                 ui.button.draw(add.type, canvas.Active.ctx, true);
                 add.type = 'none';
-                return('selectPin');
+                return ('selectPin');
             };
-            
+
             probe.dragButton = function(event) {
                 ui.loop.clear();
                 var coords = Position(event);
@@ -578,28 +818,28 @@ var UI = (function() {
                 ui.button.draw(add.type, canvas.Active.ctx, true, x, y);
                 ui.pin.highlight(add.type);
             };
-            
+
             probe.add = function(pin) {
                 canvas.add(pin.id, 10);
                 ui.graph.add(pin.id, 10);
             };
-            
+
             probe.onOffTest = function(event) {
-                
+
             };
 
             return probe;
         })();
-        
+
         ui.loop = (function() {
             var loop = {};
-            
+
             loop.clear = function() {
                 canvas.Active.ctx.clearRect(0, 0, canvas.Active.e.width, canvas.Active.e.height);
             };
-            
+
             loop.welcome = function(button) {
-                var color = (button=='exit') ? 'black' : 'white';
+                var color = (button == 'exit') ? 'black' : 'white';
                 var ctx = canvas.Active.ctx;
                 var width = canvas.Active.e.width;
                 var height = canvas.Active.e.height;
@@ -623,16 +863,16 @@ var UI = (function() {
                 ctx.fillText('of the corresponding pin. Use the zoom in or zoom out to alter the graph,', width / 4 + 25, height / 4 + 145);
                 ctx.fillText('stop to stop recording voltages, and play again to reset. Enjoy!', width / 4 + 25, height / 4 + 160);
             };
-            
+
             loop.clear();
             loop.welcome('white');
-            
+
             return loop;
         })();
 
         ui.base = (function() {
             var base = {};
-            
+
             var beagleBone = new Image();
             beagleBone.src = 'beaglebone.png';
             beagleBone.onload = function() {
@@ -659,15 +899,15 @@ var UI = (function() {
             canvas.Base.ctx.lineWidth = 3;
             canvas.Base.ctx.strokeRect(bg.x + 20, bg.y + 15, 420, 510);
             //drawButtons(canvas, uiElements);
-            
+
             graph.add = function(pin) {
-                canvas.add(pin.id+'Graph', 10);  
-                
+                canvas.add(pin.id + 'Graph', 10);
+
             };
-            
+
             return graph;
         })();
-        
+
         function Position(event) {
             var rect = canvas.Base.e.getBoundingClientRect();
             var coords = [];
@@ -675,8 +915,7 @@ var UI = (function() {
             if (event.x !== undefined && event.y !== undefined) {
                 coords[0] = event.x;
                 coords[1] = event.y;
-            }
-            else // Firefox method to get the position
+            } else // Firefox method to get the position
             {
                 coords[0] = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
                 coords[1] = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
@@ -685,16 +924,16 @@ var UI = (function() {
             //console.log("Offset = " + [rect.left, rect.top]);
             coords[0] -= rect.left;
             coords[1] -= rect.top;
-            
-            return(coords);
+
+            return (coords);
         }
-        
+
         return ui;
     } // end of ui's init()
-            
-            
+
+
     return {
-        get: function () {
+        get: function() {
             if (!ui) {
                 ui = init();
             }
@@ -720,49 +959,94 @@ var Events = (function() {
 
     function listen(enable, description) {
         var events = {
-            'exit': { event: 'click', func: exit },
-            'exitHover': { event: 'mousemove', func: exitHover },
-            'activateProbe': { event: 'mousemove', func: activateProbe },
-            'digitalMenu': { event: 'mousemove', func: digitalMenu },
-            'btnInfo': { event: 'mousemove', func: btnInfo },
-            'selectPin': { event: 'mousemove', func: selectPin },
-            'clicked': { event: 'click', func: clicked },
-            'clickDown': { event: 'mousedown', func: clickDown },
-            'clickDownDigital': { event: 'mousedown', func: clickDownDigital },
-            'slideBar': { event: 'mousemove', func: slideBar },
-            'zooming': { event: 'mouseup', func: zooming },
-            'stop': { event: 'mouseup', func: stop },
-            'record': { event: 'mouseup', func: record },
-            'pinSelected': { event: 'click', func: pinSelected },
-            'release': { event: 'mouseup', func: release }
+            'exit': {
+                event: 'click',
+                func: exit
+            },
+            'exitHover': {
+                event: 'mousemove',
+                func: exitHover
+            },
+            'activateProbe': {
+                event: 'mousemove',
+                func: activateProbe
+            },
+            'digitalMenu': {
+                event: 'mousemove',
+                func: digitalMenu
+            },
+            'btnInfo': {
+                event: 'mousemove',
+                func: btnInfo
+            },
+            'selectPin': {
+                event: 'mousemove',
+                func: selectPin
+            },
+            'clicked': {
+                event: 'click',
+                func: clicked
+            },
+            'clickDown': {
+                event: 'mousedown',
+                func: clickDown
+            },
+            'clickDownDigital': {
+                event: 'mousedown',
+                func: clickDownDigital
+            },
+            'slideBar': {
+                event: 'mousemove',
+                func: slideBar
+            },
+            'zooming': {
+                event: 'mouseup',
+                func: zooming
+            },
+            'stop': {
+                event: 'mouseup',
+                func: stop
+            },
+            'record': {
+                event: 'mouseup',
+                func: record
+            },
+            'pinSelected': {
+                event: 'click',
+                func: pinSelected
+            },
+            'release': {
+                event: 'mouseup',
+                func: release
+            }
         };
-        
-        if(!(description in events)) {
+
+        if (!(description in events)) {
             console.log("Listener for " + description + " doesn't exist");
             return;
         }
-        if((description in e.listeners) && enable) {
+        if ((description in e.listeners) && enable) {
             console.log("Listener " + description + " already enabled, but requested to enable again");
             return;
         }
-        if(!(description in e.listeners) && !enable) {
+        if (!(description in e.listeners) && !enable) {
             console.log("Listener " + description + " was not previously enabled, but requested to disable again");
             return;
         }
-        console.log((enable?"Enabling listener ":"Disabling listener ")+description);
-        
-        if(enable) e.listeners[description] = true;
+        console.log((enable ? "Enabling listener " : "Disabling listener ") + description);
+
+        if (enable) e.listeners[description] = true;
         else delete e.listeners[description];
-        
+
         var ev = events[description].event;
         var func = events[description].func;
-        if(enable) document.addEventListener(ev, func, false);
+        if (enable) document.addEventListener(ev, func, false);
         else document.removeEventListener(ev, func, false);
     }
 
     function exit(event) {
         var button = e.ui.button.test(event);
-        if(button == "exit") {
+        if (button == "exit") {
             e.ui.loop.clear();
             listen(false, 'exit');
             listen(false, 'exitHover');
@@ -772,20 +1056,20 @@ var Events = (function() {
             listen(true, 'btnInfo');
         }
     }
-    
+
     function exitHover(event) {
         var button = e.ui.button.test(event);
         //console.log("exitHover: button = " + button);
         e.ui.loop.clear();
         e.ui.loop.welcome(button);
     }
-    
+
     function btnInfo(event) {
         e.ui.loop.clear();
         var button = e.ui.button.test(event);
         e.ui.button.highlight(button);
         e.ui.pin.highlight(button);
-        switch(button) {
+        switch (button) {
             case "digital":
                 listen(true, 'digitalMenu');
                 break;
@@ -793,11 +1077,11 @@ var Events = (function() {
                 break;
         }
     }
-    
+
     function digitalMenu(event) {
         var button = e.ui.button.test(event);
         e.ui.button.highlightDigital(button);
-        switch(button) {
+        switch (button) {
             case "digital":
             case "input":
             case "output":
@@ -810,9 +1094,9 @@ var Events = (function() {
                 listen(false, 'digitalMenu');
                 listen(false, 'clickDownDigital');
                 break;
-        }    
+        }
     }
-    
+
     // if click on/off button or pin while active
     function clicked(event) {
         //e.ui.probe.addTest(event); ???
@@ -822,9 +1106,9 @@ var Events = (function() {
     // if clicked on global button, slider, or graph button    
     function clickDown(event) {
         var button = e.ui.button.test(event);
-        if(button == "none") button = e.ui.probe.sliderTest(event);
-        if(button == "none") button = e.ui.graph.test(event);
-        switch(button) {
+        if (button == "none") button = e.ui.probe.sliderTest(event);
+        if (button == "none") button = e.ui.graph.test(event);
+        switch (button) {
             case "analog":
             case "led":
                 e.ui.probe.addStart(button);
@@ -858,10 +1142,10 @@ var Events = (function() {
                 break;
         }
     }
-    
+
     function clickDownDigital(event) {
         var button = e.ui.button.test(event);
-        switch(button) {
+        switch (button) {
             case "input":
             case "output":
             case "pwm":
@@ -876,35 +1160,34 @@ var Events = (function() {
         }
         listen(false, 'digitalMenu');
     }
-    
+
     function activateProbe(event) {
         e.ui.probe.dragButton(event);
     }
-    
+
     function slideBar(event) {
-        
+
     }
-    
+
     function zooming(event) {
-        
+
     }
-    
+
     function stop(event) {
-        
+
     }
-    
+
     function record(event) {
-        
+
     }
-    
-    function selectPin(event) {
-    }
-    
+
+    function selectPin(event) {}
+
     function pinSelected(event) {
         listen(false, 'selectPin');
         listen(true, 'btnInfo');
     }
-    
+
     function release(event) {
         var probeMode = e.ui.probe.addTest(event);
         if (probeMode == 'selectPin') {
@@ -912,16 +1195,15 @@ var Events = (function() {
             listen(true, 'selectPin');
             listen(true, 'pinSelected');
             listen(true, 'clickDown');
-        }
-        else if (probeMode == 'cancelled') {
+        } else if (probeMode == 'cancelled') {
             listen(false, 'activateProbe');
             listen(true, 'btnInfo');
             listen(true, 'clickDown');
         }
     }
-    
+
     return {
-        'get': function () {
+        'get': function() {
             if (!e) {
                 e = init();
             }
