@@ -112,9 +112,9 @@ var UI = (function() {
         var axisStartX = BBposX + 375;
         var rect = {
             x: 0,
-            y: BBposY - 20,
+            y: BBposY - 70,
             w: canvas.Base.e.width,
-            h: 540
+            h: 523
         };
         var rectInner = {
             x: rect.x + 20,
@@ -132,8 +132,8 @@ var UI = (function() {
             var button = {};
 
             // global buttons
-            var btnX = BBposX - 425;
-            var btnY = BBposY - 40;
+            var btnX = BBposX - 250;
+            var btnY = BBposY - 90;
 
             var buttons = {
                 analog: {
@@ -887,7 +887,7 @@ var UI = (function() {
             var graph = {};
             var bg = {
                 x: 0,
-                y: BBposY - 20,
+                y: BBposY - 70,
                 w: canvas.Base.e.width,
                 h: 540
             };
@@ -898,7 +898,7 @@ var UI = (function() {
             canvas.Base.ctx.fillRect(bg.x, bg.y, bg.w, bg.h);
             canvas.Base.ctx.strokeStyle = 'rgb(255,255,255)';
             canvas.Base.ctx.lineWidth = 3;
-            canvas.Base.ctx.strokeRect(bg.x + 20, bg.y + 15, 420, 510);
+            canvas.Base.ctx.strokeRect(bg.x + 20, bg.y + 15, 250, 440);
             //drawButtons(canvas, uiElements);
 
             graph.add = function(pin) {
