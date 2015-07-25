@@ -106,8 +106,8 @@ var UI = (function() {
 
         // initialize global positions of some elements, all other elements based on these 
         // positions
-        var BBposX = 460;
-        var BBposY = 60;
+        var BBposX = 283;
+        var BBposY = 120;
         var axisStartY = BBposY + 40;
         var axisStartX = BBposX + 375;
         var rect = {
@@ -876,7 +876,8 @@ var UI = (function() {
             var beagleBone = new Image();
             beagleBone.src = 'beaglebone.png';
             beagleBone.onload = function() {
-                canvas.Base.ctx.drawImage(beagleBone, BBposX, BBposY);
+                canvas.Base.ctx.drawImage(beagleBone, BBposX, BBposY, beagleBone.width * 0.65, beagleBone.height * 0.65);
+
             };
 
             return base;
