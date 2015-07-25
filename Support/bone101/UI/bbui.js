@@ -738,29 +738,30 @@ var UI = (function() {
                 var x, y;
                 // only compute base x/y on initial/even iterations
                 if ((i % 2) === 0) {
-                    y = BBposY + 129 + 14.05 * ((i % 46) / 2);
-                    x = BBposX + 7;
+                    y = BBposY + 83.5 + 9.12 * ((i % 46) / 2);
+                    x = BBposX + 5;
                     // P8
                     if (i >= 46) {
-                        x += 273;
+                        x += 177.5;
                     }
                 }
                 // offset x on odd iterations 
                 else {
-                    x += 15;
+                    x += 9.5;
                 }
                 pins[i].x = x;
                 pins[i].y = y;
-                pins[i].w = 8;
-                pins[i].h = 8;
+                pins[i].w = 5;
+                pins[i].h = 5;
                 pins[i].s = 18;
             }
             for (var i = 92; i < 96; i++) {
-                var LEDpositions = [230.5, 241.75, 253, 264.25];
+                // var LEDpositions = [230.5, 241.75, 253, 264.25];
+                var LEDpositions = [151.5, 158.5, 165.5, 171.5];
                 pins[i].x = BBposX + LEDpositions[i - 92];
-                pins[i].y = BBposY + 27;
-                pins[i].w = 8;
-                pins[i].h = 16;
+                pins[i].y = BBposY + 18;
+                pins[i].w = 5;
+                pins[i].h = 10;
                 pins[i].s = 18;
             }
 
