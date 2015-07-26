@@ -2,7 +2,7 @@
 layout: index
 title: bone101
 styles: ['/static/bonecard-create.css']
-scripts: ['/static/third_party/ace/src/ace.js', '/static/third_party/ckeditor/ckeditor.js', '/static/third_party/ckeditor/adapters/jquery.js', '/static/jquery.sortable.min.js', '/static/third_party/contenthover/contenthover.min.js', '/static/third_party/blockui/jquery.blockUI.js', '/static/connect.js', '/static/bonescript.js', '/static/beagle-ui.js']
+scripts: ['/static/third_party/ace/src/ace.js', '/static/third_party/ckeditor/ckeditor.js', '/static/third_party/ckeditor/adapters/jquery.js', '/static/jquery.sortable.min.js', '/static/third_party/contenthover/contenthover.min.js', '/static/third_party/blockui/jquery.blockUI.js', '/static/connect.js', '/static/bonescript.js', '/static/beagle-ui.js', '/Support/bone101/UI/bbui.js']
 scripts-after: ['/static/bonecard-create.js']
 style: |
    div#connect-status {
@@ -13,6 +13,26 @@ style: |
    }
    div#browser-content button, input#connect-ip {
      color: black !important;
+   }
+   canvas {
+     position:absolute;
+     width:850px;
+     height:513px;
+     margin:auto;
+   }
+   div#connect-status {
+     padding-top: 30px;
+     display: table;
+     margin: 0 auto;
+     padding-right: 10px;
+     margin-bottom: 30px;
+   }
+   div#browser-content button, input#connect-ip {
+     color: black !important;
+   }
+   .center {
+     display: table;
+     margin: 0 auto;
    }
 ---
 
@@ -54,7 +74,8 @@ style: |
 		<div>
 			<ul class="bonecards-list sortable">
 				<div id="bonecard-micro-item0"><div class="bonecard-micro"><div class="bonecard-micro-content wordwrap"><h2>Cover Card</h2></div></div></div>
-				<li id="bonecard-micro-item1" class="bonecards-list-item"><a href = "#" class = "delete-button">x</a><div class="bonecard bonecard-micro"><div class="bonecard-micro-content wordwrap"><h2><i>Untitled Bonecard</i></h2></div></div></li>
+				<li id="bonecard-micro-item1" class="bonecards-list-item"><div class="bonecard bonecard-micro"><div class="bonecard-micro-content wordwrap"><h2>Beaglebone UI</h2></div></div></li>
+				<li id="bonecard-micro-item2" class="bonecards-list-item"><a href = "#" class = "delete-button">x</a><div class="bonecard bonecard-micro"><div class="bonecard-micro-content wordwrap"><h2><i>Untitled Bonecard</i></h2></div></div></li>
 			</ul>
 		</div>
 	</div>
@@ -79,23 +100,41 @@ style: |
 	</div>
 	<!-- end of cover card block -->
 
+	<!-- BBUI card block -->
+	<div id="bonecard-block1" data-type="bbui" style="display: none;">
+	<div class="bonecard-bbui">
+		<div id="canvasdiv">
+			<canvas id="layer1" style="z-index: 1;"  height="513" width="850"></canvas>
+			<canvas id="layer2" style="z-index: 2;"  height="513" width="850"></canvas>
+			<canvas id="layer3" style="z-index: 10;" height="513" width="850"></canvas>
+			<canvas id="layer4" style="z-index: 11;" height="513" width="850"></canvas>
+			<canvas id="layer5" style="z-index: 12;" height="513" width="850"></canvas>
+			<canvas id="layer6" style="z-index: 13;" height="513" width="850"></canvas>
+			<canvas id="layer7" style="z-index: 14;" height="513" width="850"></canvas>
+			<canvas id="layer8" style="z-index: 8;"  height="513" width="850"></canvas>
+			<canvas id="layer9" style="z-index: 9;"  height="513" width="850"></canvas>
+		</div>
+	</div>
+		<script>bbui();</script>	
+	</div>
+	<!-- end of BBUI card block -->
 
 	<!-- bonecard block -->
 
-	<div id="bonecard-block1" data-type="html" style="display: none;">
+	<div id="bonecard-block2" data-type="html" style="display: none;">
 		<div class="row card-info">
 		  <div class="col-md-6">
 				<form>
-	  	  	<input type="text" class="form-control bonecard-title-input-text" id="Bonecard-title1" placeholder="Bonecard Title" value="">
+	  	  	<input type="text" class="form-control bonecard-title-input-text" id="Bonecard-title2" placeholder="Bonecard Title" value="">
 	  		</form>
 	  	</div>
 	  	<div class="col-md-3 col-md-offset-3">
 	  		<div class="btn-group options float-right" data-toggle="buttons">
 				  <label class="btn btn-default active">
-				    <input type="radio" name="options1" id="option1-1" value="html" autocomplete="off" checked> HTML
+				    <input type="radio" name="options2" id="option2-1" value="html" autocomplete="off" checked> HTML
 				  </label>
 				  <label class="btn btn-default">
-				    <input type="radio" name="options1" id="option1-2" value="code"autocomplete="off"> Code
+				    <input type="radio" name="options2" id="option2-2" value="code"autocomplete="off"> Code
 				  </label>
 				</div>
 	  	</div>
@@ -105,8 +144,10 @@ style: |
 		<div class="code-card" style="display: none;">
 			<div class="row">
 				<div class="col-md-12" >
-					<div class="bonecard-code">
-						<div id="editor1" class="code"></div>
+					<div class="center">
+						<div class="bonecard-code">
+							<div id="editor2" class="code"></div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -115,22 +156,28 @@ style: |
 		<div class="html-card" role="tabpanel">
 		  <!-- Nav tabs -->
 		  <ul class="nav nav-tabs" role="tablist">
-		    <li role="presentation" class="active bonecard-write"><a href="#write1" aria-controls="write" role="tab" data-toggle="tab">Write</a></li>
-		    <li role="presentation"><a href="#preview1" class="bonecard-preview" aria-controls="preview" role="tab" data-toggle="tab">Preview</a></li>
+		    <li role="presentation" class="active bonecard-write"><a href="#write2" aria-controls="write" role="tab" data-toggle="tab">Write</a></li>
+		    <li role="presentation"><a href="#preview2" class="bonecard-preview" aria-controls="preview" role="tab" data-toggle="tab">Preview</a></li>
 		  </ul>
 
 		  <!-- Tab panes -->
 		  <div class="tab-content">
-		    <div role="tabpanel" class="tab-pane active" id="write1">
+		    <div role="tabpanel" class="tab-pane active" id="write2">
 		    	<div class="bonecard-editor">
-							<textarea class="ckeditor" cols="80" id="editor1" name="editor1" rows="10">
+							<textarea class="ckeditor" cols="80" id="editor2" name="editor2" rows="10">
 						</textarea>
 					</div>
 		    </div>
-		    <div role="tabpanel" class="tab-pane" id="preview1">
+		    <div role="tabpanel" class="tab-pane" id="preview2">
 		    </br>
-		    	<div class="bonecard-zoomed">
-		    		<div id="editor1-content"></div>
+		    	<div class="row">
+		    		<div class="col-md-12">
+		    			<div class="center">
+		    				<div class="bonecard-zoomed">
+					    		<div id="editor1-content"></div>
+					    	</div>
+		    			</div>
+		    		</div>
 		    	</div>
 		    </div>
 		  </div>
