@@ -21,6 +21,9 @@
 {{ page.style }}
   </style>
 {% endif %}
+  <script type="text/javascript">
+      var base_url = '{{ site.baseurl }}';
+  </script>
   <script src="{{ site.baseurl }}/static/jquery.js"></script>
   <script src="{{ site.baseurl }}/static/js.cookie.js"></script>
   <script src="{{ site.baseurl }}/static/bootstrap/js/bootstrap.min.js"></script>
@@ -59,7 +62,6 @@
    </div>
   </div>
   <script>
-    var base_url = '{{ site.baseurl }}';
     my_tutorials = localStorage;
 
     // some work around to have expiry date when saving a tutorial

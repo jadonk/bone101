@@ -873,9 +873,8 @@ var UI = (function() {
 
         ui.base = (function() {
             var base = {};
-
             var beagleBone = new Image();
-            beagleBone.src = 'beaglebone.png';
+            beagleBone.src = base_url + '/static/images/beaglebone.png';
             beagleBone.onload = function() {
                 canvas.Base.ctx.drawImage(beagleBone, BBposX, BBposY, beagleBone.width * 0.65, beagleBone.height * 0.65);
 
