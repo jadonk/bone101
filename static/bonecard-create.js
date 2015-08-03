@@ -1,11 +1,11 @@
-var editor = ace.edit("editor1");
+var editor = ace.edit("editor2");
 editor.setTheme("ace/theme/monokai");
 editor.getSession().setMode("ace/mode/javascript");
 ace_editor_id = -1;
 
 
 //append new bonecard to the list when clicking on 'add bonecard'
-var bonecard_id = 2;
+var bonecard_id = 3;
 var selected_id = 0;
 var pre_selected_id = 0;
 var cover_img = 'default';

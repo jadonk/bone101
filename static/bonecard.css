@@ -14,7 +14,8 @@
 .bonecard,
 .bonecard-micro,
 .bonecard-zoomed,
-.bonecard-code {
+.bonecard-code,
+.bonecard-bbui {
     background-color: white;
     margin: 10px;
     width: 340px;
@@ -42,6 +43,10 @@
     background-color: #272822;
 }
 
+.bonecard-bbui {
+    background-color: #e1e1e1;
+}
+
 div.bonecard:hover {
     box-shadow: 5px 5px 10px #de7224;
 }
@@ -53,7 +58,9 @@ div.bonecard-micro:before,
 .bonecard-zoomed:after,
 div.bonecard-zoomed:before,
 .bonecard-code:after,
-div.bonecard-code:before {
+div.bonecard-code:before,
+.bonecard-bbui:after,
+div.bonecard-bbui:before {
     background-color: white;
     position: absolute;
     display: block;
@@ -69,6 +76,12 @@ div.bonecard-code:before {
 div.bonecard-code:before {
     background-color: #272822;
     border-color: #272822;
+}
+
+.bonecard-bbui:after,
+div.bonecard-bbui:before {
+    background-color: #e1e1e1;
+    border-right-color: #e1e1e1;
 }
 
 .bonecard:before {
@@ -112,19 +125,22 @@ div.bonecard-micro:before {
 }
 
 .bonecard-zoomed,
-.bonecard-code {
+.bonecard-code,
+.bonecard-bbui {
     width: 850px;
     height: 525px;
 }
 
 .bonecard-zoomed:before,
-.bonecard-code:before {
+.bonecard-code:before,
+.bonecard-bbui:before {
     top: 150px;
     height: 150px;
 }
 
 .bonecard-zoomed:after,
-.bonecard-code:after {
+.bonecard-code:after,
+.bonecard-bbui:after {
     top: 460px;
     height: 45px;
 }
