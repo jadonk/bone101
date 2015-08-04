@@ -1,10 +1,10 @@
 ---
-layout: index
+layout: tutorial
 title: Potentiometer
-scripts: [ '/script/bonescript-demo.js' ]
+description: A specific voltage can be sent to the ADC1 channel using a potentiometer. Please keep in mind that each one of the ADC pins can only handle 1.8V maximum.
+microcards: ['Build And Execute', 'Demo', 'See Also']
 ---
-{% include side_menu.html title="Demos" %}
-<div class="t3_content_1"><div id='connect-status'></div><div id="content_child">
+
 <h1>Demo: Potentiometer</h1>
 <p> A specific voltage can be sent to the ADC1 channel using a potentiometer. Please keep in mind that each one of the ADC pins can only 
 handle <b>1.8V maximum.</b> 
@@ -12,44 +12,54 @@ handle <b>1.8V maximum.</b>
 
 
 
-<h2>Example
- <button class="dynlink" onclick="demoRun('code')">run</button>
- <button class="dynlink" onclick="demoRestore('code')">restore</button>
-</h2>
-<pre id="code" class="use-editor" style="height:120px;">
-var b = require('bonescript');
+<div class="slider-for">
+  
+  <!-- Build And Execute Card -->
+  <div>
+    <div class="bonecard-zoomed editor-preview">
+    	<br>
+    	<img align="right" width="60%" src="http://beagleboard.org/static/uploads/ADC%20Potentiometer_bb.png">
+      <h2>Build and execute instructions</h2>
+      	<ul>
+			<li>Hook up a BeagleBone or BeagleBone Black to the breadboard as shown in the diagram on the right.</li>
+			<li>After clicking 'run', the ADC1 channel will output a reading between 0-1, where 0 is 0V and 1 is 
+			the maximum input voltage (1.8V).</li>
+			<li>Adjust your potentiometer's knob and click run again. The lower the resistance, the higher voltage you will see.</li>
+			<li>Alter the code to look at inputs on other analog input pins. A schematic showing all available ADC channels are listed <a href="http://circuitco.com/support/index.php?title=Cape_Expansion_Headers#Cape_Expansion_Headers">here.</a></li>
+		</ul>
+    </div>
+  </div>
+  <!-- End Of Build And Execute Card -->
+  
+  <!-- Demo Card -->
+  <div>
+    <div class="bonecard-code">
+            <div id="editor0" class="code" >var b = require('bonescript');
 b.analogRead('P9_40', printAIN1);
 
 function printAIN1(x) {
     console.log('x.value = ' + x.value);
     console.log('x.err = ' + x.err);
-}                    
-</pre>
-<div readonly id='console-output' style="height:100px;"></div>
-<br></br>
-<img align="right" width="60%" src="http://beagleboard.org/static/uploads/ADC%20Potentiometer_bb.png"/>
-<br></br>
-<h2>Build and execute instructions</h2>
-<ul>
- <li>Hook up a BeagleBone or BeagleBone Black to the breadboard as shown in the diagram on the right.</li>
- <li>After clicking 'run', the ADC1 channel will output a reading between 0-1, where 0 is 0V and 1 is 
- the maximum input voltage (1.8V).</li>
- <li>Adjust your potentiometer's knob and click run again. The lower the resistance, the higher voltage you will see.</li>
- <li>Alter the code to look at inputs on other analog input pins. A schematic showing all available ADC channels are listed <a href="http://circuitco.com/support/index.php?title=Cape_Expansion_Headers#Cape_Expansion_Headers">here.</a></li>
-    
-</ul>
+}      </div>
 
-<h2>See also</h2>
-<h3>Related functions</h3>
-<ul>
- <li><a href="{{site.baseurl}}/Support/BoneScript/#require">require</a></li>
- <li><a href="{{site.baseurl}}/Support/BoneScript/analogRead/">analogRead</a></li>
-</ul>
-</div>
-<div id="list">
+    </div>
+  </div>
+  <!-- End Of Demo Card -->
+  
+  <!-- Sea also Card -->
+  <div>
+    <div class="bonecard-zoomed editor-preview">
+		<h2>See also</h2>
+		<h3>Related functions</h3>
+		<ul>
+		 <li><a href="{{site.baseurl}}/Support/BoneScript/#require">require</a></li>
+		 <li><a href="{{site.baseurl}}/Support/BoneScript/analogRead/">analogRead</a></li>
+		</ul>
+		</div>
+		<div id="list">
 
-</div>
-<br/>
-<div id="createtime">Last updated by cortezjuanjr on Fri Jun 28 2013 16:46:08 GMT-0500 (CDT).</div>
-
+		</div>
+		<br/>
+  </div>
+  <!-- End Of Sea also Card -->
 </div>
