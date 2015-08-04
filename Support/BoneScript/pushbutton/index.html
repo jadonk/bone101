@@ -1,22 +1,34 @@
 ---
-layout: index
+layout: tutorial
 title: Push Button
-scripts: [ '/script/bonescript-demo.js' ]
+description: Every second, the program will check if the user has pressed the push button. If the push button is pressed, it will turn the LED on.
+microcards: ['Build And Execute', 'Demo', 'See Also']
 ---
-{% include side_menu.html title="Demos" %}
-<div class="t3_content_1">
-<div id='connect-status'></div>
-<div id="content_child">
 
 <h1>Demo: Push Button</h1>
-Every second, the program will check if the user has pressed the push button. If the push
-button is pressed, it will turn the LED on.
-<h2>Code
- <button class="dynlink" onclick="demoRun('code')">run</button>
- <button class="dynlink" onclick="demoRestore('code')">restore</button>
-</h2>
-<pre id='code' class='use-editor' style='height:240px;'>
-var b = require('bonescript');
+      Every second, the program will check if the user has pressed the push button. If the push
+      button is pressed, it will turn the LED on.
+<div class="slider-for">
+  <!-- Build And Execute Card -->
+  <div>
+    <div class="bonecard-zoomed editor-preview">
+
+      <h2>Build and execute instructions</h2>
+      <img align="right" width="50%" src="http://beagleboard.org/static/uploads/pushbutton.PNG" />
+      <ul>
+          <li>Connect the cathode side of the LED with a 470 ohm resistor in series, then to ground.</li>
+          <li>Connect the anode side of the LED to 'P8_13.'</li>
+          <li>Connect one side of the push-button to P'9_3' and the other to 'P8_19.'</li>
+          <li>Run the example code. If the push button is pressed, it will turn the LED on.</li>
+      </ul>
+    </div>
+  </div>
+  <!-- End Of Build And Execute Card -->
+  
+  <!-- Demo Card -->
+  <div>
+    <div class="bonecard-code">
+            <div id="editor0" class="code" >var b = require('bonescript');
 b.pinMode('P8_19', b.INPUT);
 b.pinMode('P8_13', b.OUTPUT);
 setInterval(check,100);
@@ -32,46 +44,31 @@ function checkButton(x) {
   else{
     b.digitalWrite('P8_13', b.LOW);
   }
-}
+}</div>
 
-</pre>
-<div readonly id='console-output' style='height:80px;'></div>
-<h2>Build and execute instructions</h2>
-<img align="right" width="50%" src="http://beagleboard.org/static/uploads/pushbutton.PNG" />
-<ul>
-    <li>Connect the cathode side of the LED with a 470 ohm resistor in series, then to ground.</li>
-    <li>Connect the anode side of the LED to 'P8_13.'</li>
-    <li>Connect one side of the push-button to P'9_3' and the other to 'P8_19.'</li>
-    <li>Run the example code. If the push button is pressed, it will turn the LED on.</li>
-</ul>
-<h2>See also</h2>
-<h3>Topics</h3>
-<ul>
- <li><a href="{{site.baseurl}}/Support/BoneScript/#headers">BeagleBone expansion headers</a></li>
- <li><a href="{{site.baseurl}}/Support/BoneScript/#digitalio">Digital I/O</a></li>
- <li><a href="{{site.baseurl}}/Support/BoneScript/#timers">Timers</a></li>
-</ul>
-<h3>Related functions</h3>
-<ul>
- <li><a href="{{site.baseurl}}/Support/BoneScript/#require">require</a></li>
- <li><a href="{{site.baseurl}}/Support/BoneScript/pinMode">pinMode</a></li>
- <li><a href="{{site.baseurl}}/Support/BoneScript/digitalWrite">digitalWrite</a></li>
- <li><a href="{{site.baseurl}}/Support/BoneScript/digitalWrite">digitalRead</a></li>
-  <li><a href="http://beagleboard.org/Support/BoneScript/#timers">setInterval</a></li>
-</ul>
-<!---<h3>Examples</h3>
-<ul>
- <li><a href="{{site.baseurl}}/Support/BoneScript/demo_blinkled">Blink an on-board LED</a></li>
-</ul>--->
-
-</div>
-</div>
-<div style="clear:both;"></div>
-</div>
-<div id="list">
-
-</div>
-<br/>
-<div id="createtime">Last updated by cortezjuanjr on Tue Jul 23 2013 13:37:29 GMT-0500 (CDT).</div>
-
+    </div>
+  </div>
+  <!-- End Of Demo Card -->
+  
+  <!-- Sea also Card -->
+  <div>
+    <div class="bonecard-zoomed editor-preview">
+      <h2>See also</h2>
+      <h3>Topics</h3>
+      <ul>
+       <li><a href="{{site.baseurl}}/Support/BoneScript/#headers">BeagleBone expansion headers</a></li>
+       <li><a href="{{site.baseurl}}/Support/BoneScript/#digitalio">Digital I/O</a></li>
+       <li><a href="{{site.baseurl}}/Support/BoneScript/#timers">Timers</a></li>
+      </ul>
+      <h3>Related functions</h3>
+      <ul>
+       <li><a href="{{site.baseurl}}/Support/BoneScript/#require">require</a></li>
+       <li><a href="{{site.baseurl}}/Support/BoneScript/pinMode">pinMode</a></li>
+       <li><a href="{{site.baseurl}}/Support/BoneScript/digitalWrite">digitalWrite</a></li>
+       <li><a href="{{site.baseurl}}/Support/BoneScript/digitalWrite">digitalRead</a></li>
+        <li><a href="http://beagleboard.org/Support/BoneScript/#timers">setInterval</a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- End Of Sea also Card -->
 </div>
