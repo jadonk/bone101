@@ -1,16 +1,11 @@
 ---
-layout: index
+layout: tutorial
 title: Adafruit 2-Axis Thumb Joystick
-scripts: [ '/script/bonescript-demo.js' ]
+description: allows you to easily mount a PSP/Xbox-like thumb joystick to your project.
+microcards: ['Build And Execute', 'Demo', 'See Also']
 ---
-<p class="breadcrumb"><a href="{{site.baseurl}}/">BeagleBoard.org</a> &rsaquo; <a href="{{site.baseurl}}/support/">support</a> &rsaquo; <a href="{{site.baseurl}}/support/BoneScript/">BoneScript</a> &rsaquo; <a href="{{site.baseurl}}/support/BoneScript/2AxisThumbJoystick/">2AxisThumbJoystick</a></p>
-<div id="page">
-<div id='side-menu' class="t3_sidebar">
-    <ul class="left-menu"><strong>Navigation</strong>
-        <li><a href="{{site.baseurl}}/static/side-menu.html">Menu contents</a></li>
-    </ul>
-</div>
-<div class="t3_content_1"><div id='connect-status'></div><div id="content_child">
+
+
 <h1>Demo: Adafruit 2-Axis Thumb Joystick</h1>
 <p> The <a href="http://www.adafruit.com/products/512" class="external">Analog
 2-axis Thumb Joystick</a> allows you to easily mount a PSP/Xbox-like thumb
@@ -22,12 +17,32 @@ joystick also includes an extra digital input that will let you read the switch.
 <i>The console will output both the x-axis and y-axis with readings from 0-100, with (50,50) being the center location.</i>
 <br>
 
-<h2>Example
- <button class="dynlink" onclick="demoRun('code')">run</button>
- <button class="dynlink" onclick="demoRestore('code')">restore</button>
-</h2>
-<pre id="code" class="use-editor" style="height:230px;">
-var b = require('bonescript');
+
+<div class="slider-for">
+  
+  <!-- Build And Execute Card -->
+  <div>
+    <div class="bonecard-zoomed editor-preview">
+    	</br>
+		<img align="right" width="70%" src="http://beagleboard.org/static/uploads/Joystick1.PNG"/>
+		<br></br>
+		<h2>Build and execute instructions</h2>
+		<ul>
+		 <li>Connect the "VCC" pin from the joystick to P9_32 of the BeagleBone.</li>
+		 <li>Connect the "VER" pin from the joystick to P9_38 of the BeagleBone.</li>
+		 <li>Connect the "HOR" pin from the joystick to P9_36 of the BeagleBone.</li>
+		 <li>Connect the "SEL" pin from the joystick to P9_42 of the BeagleBone.</li>
+		 <li>Connect the "GND" pin from the joystick to P9_34 of the BeagleBone.</li>
+		 <li>Click "Run" on the code and it will output both the x and y axis, with 50,50 being the center.</li>
+		</ul>
+    </div>
+  </div>
+  <!-- End Of Build And Execute Card -->
+  
+  <!-- Demo Card -->
+  <div>
+    <div class="bonecard-code">
+            <div id="editor0" class="code" >var b = require('bonescript');
 var pos = {};
 
 b.analogRead('P9_36', onX);
@@ -40,33 +55,22 @@ function onX(x) {
 function onY(x) {
 	pos.y = parseFloat(x.value * 100).toFixed(2);
 	console.log(JSON.stringify(pos));
-}
-</pre>
-<div readonly id='console-output' style="height:100px;"></div>
-<br></br>
-<img align="right" width="70%" src="http://beagleboard.org/static/uploads/Joystick1.PNG"/>
-<br></br>
-<h2>Build and execute instructions</h2>
-<ul>
- <li>Connect the "VCC" pin from the joystick to P9_32 of the BeagleBone.</li>
- <li>Connect the "VER" pin from the joystick to P9_38 of the BeagleBone.</li>
- <li>Connect the "HOR" pin from the joystick to P9_36 of the BeagleBone.</li>
- <li>Connect the "SEL" pin from the joystick to P9_42 of the BeagleBone.</li>
- <li>Connect the "GND" pin from the joystick to P9_34 of the BeagleBone.</li>
- <li>Click "Run" on the code and it will output both the x and y axis, with 50,50 being the center.</li>
-</ul>
+}</div>
 
-<h2>See also</h2>
-<h3>Related functions</h3>
-<ul>
- <li><a href="{{site.baseurl}}/Support/BoneScript/#require">require</a></li>
- <li><a href="{{site.baseurl}}/Support/BoneScript/analogRead/">analogRead</a></li>
-</ul>
-</div>
-<div id="list">
-
-</div>
-<br/>
-<div id="createtime">Last updated by juan_cortez on Fri Aug 16 2013 11:13:30 GMT-0500 (CDT).</div>
-
+    </div>
+  </div>
+  <!-- End Of Demo Card -->
+  
+  <!-- Sea also Card -->
+  <div>
+    <div class="bonecard-zoomed editor-preview">
+		<h2>See also</h2>
+		<h3>Related functions</h3>
+		<ul>
+		 <li><a href="{{site.baseurl}}/Support/BoneScript/#require">require</a></li>
+		 <li><a href="{{site.baseurl}}/Support/BoneScript/analogRead/">analogRead</a></li>
+		</ul>
+    </div>
+  </div>
+  <!-- End Of Sea also Card -->
 </div>
