@@ -23,6 +23,14 @@
 {% endif %}
   <script type="text/javascript">
       var base_url = '{{ site.baseurl }}';
+      function update_ace_editor_id_val() {
+        ace_editor = document.getElementsByClassName('slick-active')[0]
+            .getElementsByClassName('ace_editor')[0];
+        if (typeof ace_editor != 'undefined')
+            ace_editor_id = ace_editor.id;
+        else
+            ace_editor_id = -1;
+    }
   </script>
   <script src="{{ site.baseurl }}/static/jquery.js"></script>
   <script src="{{ site.baseurl }}/static/js.cookie.js"></script>

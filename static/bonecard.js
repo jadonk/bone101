@@ -110,15 +110,6 @@ function init() {
             update_ace_editor_id_val();
         });
 
-    function update_ace_editor_id_val() {
-        ace_editor = document.getElementsByClassName('slick-active')[0]
-            .getElementsByClassName('ace_editor')[0];
-        if (typeof ace_editor != 'undefined')
-            ace_editor_id = ace_editor.id;
-        else
-            ace_editor_id = -1;
-    }
-
     // check if the tutorial is not in the local storage do an ajax request to get & save it
     // then call preview_tutorial function with tutorial data.
     if (tutorial == null) {
