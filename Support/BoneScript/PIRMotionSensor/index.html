@@ -1,24 +1,54 @@
 ---
-layout: index
+layout: tutorial
 title: PIR Motion Sensor
-scripts: [ '/script/bonescript-demo.js' ]
+description: The PIR Motion Sensor, or Passive Infrared Sensor, is a sensor that takes a snapshot of the room and sets the alarm' pin to 'LOW' if it detects changes in heat.
+microcards: ['Description', Build And Execute', 'Demo', 'See Also']
 ---
-{% include side_menu.html title="Demos" %}
-<div class="t3_content_1"><div id='connect-status'></div><div id="content_child">
+
 <h1>Demo: PIR Motion Sensor</h1>
-<p>  The PIR Motion Sensor, or Passive Infrared Sensor, is a sensor that takes a snapshot of the room and sets the
-'alarm' pin to 'LOW' if it detects changes in heat. Since this sensor is an  <a href="http://en.wikipedia.org/wiki/Open_collector">open collector</a>,
-it needs a pull-up resistor on the alarm pin, which allows multiple motion sensors to be connected on a single input pin. If motion is detected in this
-demo, it will output "Motion Detected" on the console and will turn on the LED.
-</p>
 
 
-<h2>Example
- <button class="dynlink" onclick="demoRun('code')">run</button>
- <button class="dynlink" onclick="demoRestore('code')">restore</button>
-</h2>
-<pre id="code" class="use-editor" style="height:300px;">
-var b = require('bonescript');
+
+<div class="slider-for">
+  
+  <!-- Description Card -->
+  <div>
+    <div class="bonecard-zoomed editor-preview">
+    	</br>
+    	</br>
+		<p>  The PIR Motion Sensor, or Passive Infrared Sensor, is a sensor that takes a snapshot of</br>the room and sets the
+		'alarm' pin to 'LOW' if it detects changes in heat. Since this sensor is</br>an  <a href="http://en.wikipedia.org/wiki/Open_collector">open collector</a>,
+		it needs a pull-up resistor on the alarm pin, which allows multiple motion</br>sensors to be connected on a single input pin. If motion is detected in this
+		demo, it will output</br>"Motion Detected" on the console and will turn on the LED.
+		</p>
+    </div>
+  </div>
+  <!-- End Of Description Card -->
+
+  <!-- Build And Execute Card -->
+  <div>
+    <div class="bonecard-zoomed editor-preview">
+    	<br></br>
+		<img align="right" width="65%" src="http://beagleboard.org/static/uploads/Motion.PNG"/>
+		<br></br>
+		<h2>Build and execute instructions</h2>
+		<ul>
+		 <li>Connect the '+' pin from the sensor to 'P9_5' of the BeagleBoard in series with a 10kohm resistor as shown on the right.</li>
+		 <li>Connect the '-' pin from the sensor to 'P9_1' of the BeagleBoard.</li>
+		 <li>Connect the 'AL' pin from the sensor to 'P8_19' of the BeagleBoard in series with a 10kohm resistor as shown on the right.</li>
+		 <li>Connect the LED with a 470ohm resistor as shown on the right </li>
+		 <li>Click "Run" on the code. Every 2.5 seconds, the console will tell you if there was motion detected. If there
+		     was motion detected, the LED will also turn on.
+		 </li>
+		</ul>
+    </div>
+  </div>
+  <!-- End Of Build And Execute Card -->
+  
+  <!-- Demo Card -->
+  <div>
+    <div class="bonecard-code">
+            <div id="editor0" class="code" >var b = require('bonescript');
 var led = "P8_13";
 b.pinMode(led, 'out');
 b.pinMode('P8_19', b.INPUT);
@@ -37,36 +67,24 @@ function printStatus(x) {
     console.log("No Motion Detected");
          b.digitalWrite(led, 0);
     }
-}
-</pre>
-<div readonly id='console-output' style="height:100px;"></div>
-<br></br>
-<img align="right" width="65%" src="http://beagleboard.org/static/uploads/Motion.PNG"/>
-<br></br>
-<h2>Build and execute instructions</h2>
-<ul>
- <li>Connect the '+' pin from the sensor to 'P9_5' of the BeagleBoard in series with a 10kohm resistor as shown on the right.</li>
- <li>Connect the '-' pin from the sensor to 'P9_1' of the BeagleBoard.</li>
- <li>Connect the 'AL' pin from the sensor to 'P8_19' of the BeagleBoard in series with a 10kohm resistor as shown on the right.</li>
- <li>Connect the LED with a 470ohm resistor as shown on the right </li>
- <li>Click "Run" on the code. Every 2.5 seconds, the console will tell you if there was motion detected. If there
-     was motion detected, the LED will also turn on.
- </li>
-</ul>
+}</div>
 
-<h2>See also</h2>
-<h3>Related functions</h3>
-<ul>
- <li><a href="{{site.baseurl}}/Support/BoneScript/#require">require</a></li>
- <li><a href="http://beagleboard.org/Support/BoneScript/digitalRead/">digitalRead</a></li>
- <li><a href="http://beagleboard.org/Support/BoneScript/#timers">setInterval</a></li>
- <li><a href="http://beagleboard.org/Support/BoneScript/digitalWrite/">digitalWrite</a></li>
-</ul>
-</div>
-<div id="list">
-
-</div>
-<br/>
-<div id="createtime">Last updated by juan_cortez on Fri Aug 16 2013 11:15:59 GMT-0500 (CDT).</div>
-
+    </div>
+  </div>
+  <!-- End Of Demo Card -->
+  
+  <!-- Sea also Card -->
+  <div>
+    <div class="bonecard-zoomed editor-preview">
+		<h2>See also</h2>
+		<h3>Related functions</h3>
+		<ul>
+		 <li><a href="{{site.baseurl}}/Support/BoneScript/#require">require</a></li>
+		 <li><a href="http://beagleboard.org/Support/BoneScript/digitalRead/">digitalRead</a></li>
+		 <li><a href="http://beagleboard.org/Support/BoneScript/#timers">setInterval</a></li>
+		 <li><a href="http://beagleboard.org/Support/BoneScript/digitalWrite/">digitalWrite</a></li>
+		</ul>
+    </div>
+  </div>
+  <!-- End Of Sea also Card -->
 </div>
