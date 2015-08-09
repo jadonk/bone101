@@ -1,38 +1,65 @@
 ---
-layout: index
+layout: tutorial
 title: Ultrasonic Sensor
-scripts: [ '/script/bonescript-demo.js' ]
+description: LV-MaxSonar-EZ2 High Performance Sonar Range Finder provides very short to long-range detectionand ranging, in an incredibly small package.
+microcards: ['Description', Build And Execute', 'Demo', 'See Also']
 ---
-{% include side_menu.html title="Demos" %}
-<div class="t3_content_1"><div id='connect-status'></div><div id="content_child">
+
 <h1>Demo: Maxbotic Ultrasonic Sensor</h1>
-<p>The <a href="http://www.maxbotix.com/Ultrasonic_Sensors/MB1020.htm">LV-MaxSonar-EZ2 High Performance Sonar Range Finder</a> provides very short
-to long-range detection and ranging, in an incredibly small package. The sonar
-detects objects from 0-254 inches and provides sonar range information from 6-inches
-out to 254-inches with 1-inch resolution.
-</p>
-<i>Note: Each time after the Sonar is powered up, it will calibrate
-during its first read cycle. The sensor uses this stored 
-information to range a near object. It is important that objects
-not be close to the sensor during this calibration cycle. The
-best sensitivity is obtained when it is clear for fourteen 
-inches, but good results are common when clear for at least
-seven inches. If an object is too bear the Sonar during the calibration
-cycle, the sensor may then ignore the objects at that distance.
-To calibrate the LV-MAX Sonar, cycle power then command a read
-cycle.</i><br><br>
 
-The AN pin outputs a voltage with a scaling factor of (V<sub>cc</sub>/512) per inch. Since the AIN pin has a maximum voltage capacity of 1.8V, we will set a voltage divider to account for that difference. With the voltage divider, a supply of 5V yields ~6.99mV/in. and 3.3V yields ~4.57mV/in.
-<br>
+<div class="slider-for">
+  
+  <!-- Description Card -->
+  <div>
+    <div class="bonecard-zoomed editor-preview">
+    	</br>
+    	</br>
+	  	<p>The <a href="http://www.maxbotix.com/Ultrasonic_Sensors/MB1020.htm">LV-MaxSonar-EZ2 High Performance Sonar Range Finder</a> provides very short
+		to long-range detection</br>and ranging, in an incredibly small package. The sonar
+		detects objects from 0-254 inches and provides sonar</br>range information from 6-inches
+		out to 254-inches with 1-inch resolution.
+		</p>
+		<i>Note: Each time after the Sonar is powered up, it will calibrate
+		during its first read cycle. The sensor uses this stored</br>
+		information to range a near object. It is important that objects
+		not be close to the sensor during this calibration cycle.</br>The
+		best sensitivity is obtained when it is clear for fourteen 
+		inches, but good results are common when clear for at least</br>s		seven inches. If an object is too bear the Sonar during the calibration
+		cycle, the sensor may then ignore the objects at</br>that distance.
+		To calibrate the LV-MAX Sonar, cycle power then command a read
+		cycle.</i><br><br>
 
+		The AN pin outputs a voltage with a scaling factor of (V<sub>cc</sub>/512) per inch. Since the AIN pin has a maximum voltage</br>capacity of 1.8V, we will set a voltage divider to account for that difference. With the voltage divider, a supply of</br>5V yields ~6.99mV/in. and 3.3V yields ~4.57mV/in.
+		<br>
+    </div>
+  </div>
+  <!-- End Of Description Card -->
 
-
-<h2>Example
- <button class="dynlink" onclick="demoRun('code')">run</button>
- <button class="dynlink" onclick="demoRestore('code')">restore</button>
-</h2>
-<pre id="code" class="use-editor" style="height:310px;">
-var b = require('bonescript');
+  <!-- Build And Execute Card -->
+  <div>
+    <div class="bonecard-zoomed editor-preview">
+    	</br>
+		<img align="right" width="60%" src="{{site.baseurl}}/static/images/VD%20Ultrasonic%20Sensor.PNG"/>
+		<br></br>
+		<h2>Build and execute instructions</h2>
+		<ul>
+		 <li>Connect the "GND" pin from the sensor to P9_1 of the board</li>
+		 <li>Connect the "+5" pin from the sensor to P9_3 of the board</li>
+		 <li>Connect the 1.2kohm resistor to the AN pin of the supersonic sensor.</li>
+		 <li>Connect the 3k ohm resistor in series with the 1.2k ohm resistor and tie the bottom to ground, as shown in the diagram.</li>
+		 <li>Connect P9_40 of BeagleBone in series with the 3k ohm and 1.k ohm resistor.</li>
+		 <li>Click "Run" on the code and it will output the distance, in inches, that the
+		 sensor is detecting... updating every 5 seconds</li>
+		 <li>Move the sensor nearer to or farther from an object to see the change in distance</li>
+		</ul>
+    </div>
+  </div>
+  <!-- End Of Build And Execute Card -->
+  
+  <!-- Demo Card -->
+  <div>
+    <div class="bonecard-code">
+            <div id="editor0" class="code" >var b = require('bonescript');
 var analogVoltage = 0;
 
 /* Check the sensor values every 2 seconds*/
@@ -49,36 +76,23 @@ function printStatus(x) {
     distanceInches = analogVoltage / 0.00699;
     console.log("There is an object " + 
     parseFloat(distanceInches).toFixed(3) + " inches away.");
-}
-</pre>
-<div readonly id='console-output' style="height:100px;"></div>
-<br></br>
-<img align="right" width="60%" src="{{site.baseurl}}/static/images/VD%20Ultrasonic%20Sensor.PNG"/>
-<br></br>
-<h2>Build and execute instructions</h2>
-<ul>
- <li>Connect the "GND" pin from the sensor to P9_1 of the board</li>
- <li>Connect the "+5" pin from the sensor to P9_3 of the board</li>
- <li>Connect the 1.2kohm resistor to the AN pin of the supersonic sensor.</li>
- <li>Connect the 3k ohm resistor in series with the 1.2k ohm resistor and tie the bottom to ground, as shown in the diagram.</li>
- <li>Connect P9_40 of BeagleBone in series with the 3k ohm and 1.k ohm resistor.</li>
- <li>Click "Run" on the code and it will output the distance, in inches, that the
- sensor is detecting... updating every 5 seconds</li>
- <li>Move the sensor nearer to or farther from an object to see the change in distance</li>
-</ul>
+}</div>
 
-<h2>See also</h2>
-<h3>Related functions</h3>
-<ul>
- <li><a href="{{site.baseurl}}/Support/BoneScript/#require">require</a></li>
- <li><a href="{{site.baseurl}}/Support/BoneScript/analogRead/">analogRead</a></li>
- <li><a href="http://beagleboard.org/Support/BoneScript/#timers">setInterval</a></li>
-</ul>
-</div>
-<div id="list">
-
-</div>
-<br/>
-<div id="createtime">Last updated by juan_cortez on Fri Aug 16 2013 11:14:43 GMT-0500 (CDT).</div>
-
+    </div>
+  </div>
+  <!-- End Of Demo Card -->
+  
+  <!-- Sea also Card -->
+  <div>
+    <div class="bonecard-zoomed editor-preview">
+		<h2>See also</h2>
+		<h3>Related functions</h3>
+		<ul>
+		<li><a href="{{site.baseurl}}/Support/BoneScript/#require">require</a></li>
+		<li><a href="{{site.baseurl}}/Support/BoneScript/analogRead/">analogRead</a></li>
+		<li><a href="http://beagleboard.org/Support/BoneScript/#timers">setInterval</a></li>
+		</ul>
+    </div>
+  </div>
+  <!-- End Of Sea also Card -->
 </div>
