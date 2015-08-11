@@ -87,13 +87,17 @@ style: |
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
-    asNavFor: '.slider-nav'
+    asNavFor: '.slider-nav',
+    infinite: false
   });
   $slider_nav.slick({
     slidesToShow: 3,
     slidesToScroll: 1,
     asNavFor: '.slider-for',
     dots: true,
+    {% if page.microcards.size > 3 %}
+      infinite: false,
+    {% endif %}
     centerMode: true,
     focusOnSelect: true
   });
