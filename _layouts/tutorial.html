@@ -97,4 +97,20 @@ style: |
     centerMode: true,
     focusOnSelect: true
   });
+
+ // Swipe with left/right arrows
+  $(document).keydown(function(e) {
+      switch(e.which) {
+          case 37:
+            $slider_for.slick('slickPrev');
+            $slider_nav.slick('slickPrev');
+          break;
+          case 39:
+            $slider_for.slick('slickNext');
+            $slider_nav.slick('slickNext');
+          break;
+          default: return;
+      }
+      e.preventDefault();
+  });
 </script>
