@@ -50,6 +50,18 @@ style: |
     <div id='connect-status'></div>
 
     {{ content }}
+    
+    <div class="slider-nav">
+      {% for microcard in page.microcards %}
+        <div>
+          <div class="bonecard bonecard-micro">
+            <div class="bonecard-micro-content">
+                <h2>{{ microcard }}</h2>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
 
     {% include disqus.html %}
 
