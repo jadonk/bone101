@@ -1,7 +1,7 @@
 ---
 layout: index
 styles: ['/static/third_party/slick/src/slick.css', '/static/third_party/slick/src/slick-theme.css']
-scripts: ['/static/third_party/slick/src/slick.min.js', '/static/third_party/ace/src/ace.js', '/static/connect.js', '/static/bonescript.js', '/script/beagle-ui.js']
+scripts: ['/static/third_party/slick/src/slick.min.js', '/static/third_party/ace/src/ace.js', '/static/beagle-ui.js', '/static/third_party/blockui/jquery.blockUI.js', '/static/connect.js', '/static/bonescript.js', '/static/beagle-ui.js']
 
 style: |
    div#wrapper {
@@ -117,4 +117,109 @@ style: |
       }
       e.preventDefault();
   });
+
+  $slider_nav.on('edge', function(event, slick, direction){
+    console.log('edge was hit')
+  });
+
+  if(Cookies.get('token') != null) {
+    // Add 'fork' to cssmenu
+    $('ul.main-menu').append(
+      '<li class="has-sub">' +
+      '  <a class="fork-tutorial" href="#">' +
+      '    <span>Fork</span>' +
+      '  </a>' +
+      '</li>');
+  }
+  
+  $('a.fork-tutorial').on('click', function(e) {
+
+    $.blockUI({
+        css: {
+            border: 'none',
+            padding: '15px',
+            backgroundColor: '#000',
+            '-webkit-border-radius': '10px',
+            '-moz-border-radius': '10px',
+            opacity: .5,
+            color: '#fff'
+        }
+    });
+
+    var gist_request = {
+        type: 'POST',
+        url: 'https://api.github.com/gists',
+        data: gist_params(),
+    }
+
+    gist_request.headers = {
+        "Authorization": 'token ' + Cookies.get('token')
+    }
+
+    gist_request.success = function(response) {
+        save_tutorial(response.id, response, {
+            expires: 1
+        });
+        $.unblockUI();
+        window.location.replace(base_url + '/Support/bonecard/tutorial?gist_id=' + response.id);
+    }
+
+    gist_request.error = function(err) {
+        console.log(err);
+    }
+
+    $.ajax(gist_request);
+        
+  });
+
+ var params = {};
+ var cards = [];
+
+  function gist_params() {
+
+    cards = []
+
+    {% for microcard in page.microcards %}
+      cards.push({title: "{{ microcard }}" });
+    {% endfor %}
+
+    tutorial_title = '{{ page.title }}';
+    description = "{{ page.description }}";
+
+    params = {
+        description: description,
+        public: true
+    }
+
+    params['files'] = {};
+
+    params['files']['0_bonecard_cover_card'] = {};
+    params['files']['0_bonecard_cover_card']['content'] = 'default';
+
+    var i = 2;
+    $slider_for.find('.slick-track').children().each(function() {
+      // console.log($(this).attr('class'));
+      current_card = $(this).children();
+      params['files'][i + '_bonecard'] = {};
+      // check if it is a html card
+      if(current_card.attr('class').indexOf("bonecard-zoomed") > -1) {
+        params['files'][i + '_bonecard']['content'] = current_card.html();
+        cards[i-2].type = 'html';
+      } else {
+        params['files'][i + '_bonecard']['content'] = editor.getSession().getValue();
+        cards[i-2].type = 'code';
+      }
+      i++;
+    });
+
+    bonecard_json = {
+        title: tutorial_title,
+        description: description,
+        bonecards: cards
+    }
+
+    params['files']['bonecard.json'] = {};
+    params['files']['bonecard.json']['content'] = JSON.stringify(bonecard_json);
+    return JSON.stringify(params);
+  }
 </script>
