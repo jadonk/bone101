@@ -149,8 +149,8 @@ function init() {
             if (val.filename != '0_bonecard_cover_card' && val.filename != 'bonecard.json') {
                 bonecard_info = val.filename.split('_');
                 bonecard_index = bonecard_info[0];
-                title = bonecard_json.bonecards[bonecard_index - 1].title;
-                card_type = bonecard_json.bonecards[bonecard_index - 1].type;
+                title = bonecard_json.bonecards[bonecard_index - 2].title;
+                card_type = bonecard_json.bonecards[bonecard_index - 2].type;
                 if (card_type === "code") {
                     $slider_for.slick('slickAdd', bonecard_code_div(val.content, i));
                     ace_init(i);
