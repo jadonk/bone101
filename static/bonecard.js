@@ -104,6 +104,23 @@ function init() {
         focusOnSelect: true
     });
 
+    // Swipe with left/right arrows
+    $(document).keydown(function(e) {
+        switch (e.which) {
+            case 37:
+                $slider_for.slick('slickPrev');
+                $slider_nav.slick('slickPrev');
+                break;
+            case 39:
+                $slider_for.slick('slickNext');
+                $slider_nav.slick('slickNext');
+                break;
+            default:
+                return;
+        }
+        e.preventDefault();
+    });
+
     // change ace_editor_id value with the change of slick slider
     $slider_for.on('afterChange',
         function(event, slick, currentSlide) {
