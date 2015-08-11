@@ -92,7 +92,8 @@ function init() {
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: false,
-        asNavFor: '.slider-nav'
+        asNavFor: '.slider-nav',
+        infinite: false
     });
 
     $slider_nav.slick({
@@ -180,6 +181,11 @@ function init() {
                     $slider_for.slick('slickAdd', bonecard_html_div(val.content));
                 }
                 $slider_nav.slick('slickAdd', bonecard_mirco_div(title));
+
+                // Disable infinite scroll for slider_nav if number of cards are +3
+                if (i == 3)
+                    $slider_nav.slick('slickSetOption', 'infinite', false, true);
+
                 i++;
             }
         });
