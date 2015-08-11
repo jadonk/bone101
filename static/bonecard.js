@@ -145,6 +145,11 @@ function init() {
 
         var i = 0;
         bonecard_json = JSON.parse(tutorial.files['bonecard.json'].content);
+
+        // Update page title
+        page_title = bonecard_json.title;
+        $(document).prop('title', 'BeagleBoard.org - ' + page_title);
+        
         $.each(tutorial.files, function(index, val) {
             if (val.filename != '0_bonecard_cover_card' && val.filename != 'bonecard.json') {
                 bonecard_info = val.filename.split('_');
