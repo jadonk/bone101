@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var b = require('bonescript');
 
 var leds = ["USR0", "USR1", "USR2", "USR3", "P9_14"];
