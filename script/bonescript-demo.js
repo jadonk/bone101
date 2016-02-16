@@ -20,7 +20,7 @@ var scriptUrls = [
     'jquery.mousewheel.js',        // http://terminal.jcubic.pl/js/jquery.mousewheel-min.js
     'jquery-ui.min.js',            // http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js
     'bonescript.js',
-    'beagle-ui.js',
+    '../script/beagle-ui.js',
     'third_party/ace/src/ace.js'
 ];
 
