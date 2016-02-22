@@ -38,7 +38,12 @@ kernel, so all you have to do is ask the kernel to load the driver and then star
 </h2>
 <pre id="code" class="use-editor" style="height:425px;">
 var b = require('bonescript');
-var iic = '/sys/class/i2c-adapter/i2c-1/'; 
+var bus = 1;
+// uncomment if using SeeedStudio Grove sensor
+// bus = 2;
+var iic = '/sys/class/i2c-adapter/i2c-' + bus + '/';
+var temperature = '/sys/bus/i2c/drivers/bmp085/' + bus + '-0077/temp0_input';
+var pressure = '/sys/bus/i2c/drivers/bmp085/' + bus + '-0077/pressure0_input';
 
 //Sensor Locations on the BeagleBone Black
 var temperature = '/sys/bus/i2c/drivers/bmp085/1-0077/temp0_input';
