@@ -42,12 +42,10 @@ var bus = 1;
 // uncomment if using SeeedStudio Grove sensor
 // bus = 2;
 var iic = '/sys/class/i2c-adapter/i2c-' + bus + '/';
-var temperature = '/sys/bus/i2c/drivers/bmp085/' + bus + '-0077/temp0_input';
-var pressure = '/sys/bus/i2c/drivers/bmp085/' + bus + '-0077/pressure0_input';
 
 //Sensor Locations on the BeagleBone Black
-var temperature = '/sys/bus/i2c/drivers/bmp085/1-0077/temp0_input';
-var pressure = '/sys/bus/i2c/drivers/bmp085/1-0077/pressure0_input';
+var temperature = '/sys/bus/i2c/drivers/bmp085/' + bus + '-0077/temp0_input';
+var pressure = '/sys/bus/i2c/drivers/bmp085/' + bus + '-0077/pressure0_input';
 
 // We will initialize the driver for the BMP085 sensor located at I2C location 0x77
 b.writeTextFile(iic + 'new_device', 'bmp085 0x77');
