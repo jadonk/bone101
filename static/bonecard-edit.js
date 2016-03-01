@@ -1,3 +1,4 @@
+var edit = true;
 $(document).ready(function() {
     var gist_id = window.location.search.substring(1).substring(8);
 
@@ -18,8 +19,8 @@ $(document).ready(function() {
     });
 
     tutorial = load_tutorial(gist_id);
-    $('li#bonecard-micro-item1').remove()
-    $('div.view-content').find('#bonecard-block1').remove();
+    $('li#bonecard-micro-item2').remove()
+    $('div.view-content').find('#bonecard-block2').remove();
 
     if (tutorial == null) {
         // build ajax request for retrieving the tutorial
@@ -114,8 +115,8 @@ function load_data(tutorial) {
                 default:
                     card_info = file.split('_');
                     card_id = card_info[0];
-                    card_type = bonecard_json.bonecards[card_id - 1].type;
-                    card_title = bonecard_json.bonecards[card_id - 1].title;
+                    card_type = bonecard_json.bonecards[card_id - 2].type;
+                    card_title = bonecard_json.bonecards[card_id - 2].title;
 
                     $('ul.bonecards-list')
                         .append(bonecard_item(card_id, card_title));

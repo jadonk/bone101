@@ -92,7 +92,8 @@ function init() {
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: false,
-        asNavFor: '.slider-nav'
+        asNavFor: '.slider-nav',
+        infinite: false
     });
 
     $slider_nav.slick({
@@ -102,6 +103,23 @@ function init() {
         dots: true,
         centerMode: true,
         focusOnSelect: true
+    });
+
+    // Swipe with left/right arrows
+    $(document).keydown(function(e) {
+        switch (e.which) {
+            case 37:
+                $slider_for.slick('slickPrev');
+                $slider_nav.slick('slickPrev');
+                break;
+            case 39:
+                $slider_for.slick('slickNext');
+                $slider_nav.slick('slickNext');
+                break;
+            default:
+                return;
+        }
+        e.preventDefault();
     });
 
     // change ace_editor_id value with the change of slick slider
@@ -145,12 +163,17 @@ function init() {
 
         var i = 0;
         bonecard_json = JSON.parse(tutorial.files['bonecard.json'].content);
+
+        // Update page title
+        page_title = bonecard_json.title;
+        $(document).prop('title', 'BeagleBoard.org - ' + page_title);
+        
         $.each(tutorial.files, function(index, val) {
             if (val.filename != '0_bonecard_cover_card' && val.filename != 'bonecard.json') {
                 bonecard_info = val.filename.split('_');
                 bonecard_index = bonecard_info[0];
-                title = bonecard_json.bonecards[bonecard_index - 1].title;
-                card_type = bonecard_json.bonecards[bonecard_index - 1].type;
+                title = bonecard_json.bonecards[bonecard_index - 2].title;
+                card_type = bonecard_json.bonecards[bonecard_index - 2].type;
                 if (card_type === "code") {
                     $slider_for.slick('slickAdd', bonecard_code_div(val.content, i));
                     ace_init(i);
@@ -158,6 +181,11 @@ function init() {
                     $slider_for.slick('slickAdd', bonecard_html_div(val.content));
                 }
                 $slider_nav.slick('slickAdd', bonecard_mirco_div(title));
+
+                // Disable infinite scroll for slider_nav if number of cards are +3
+                if (i == 3)
+                    $slider_nav.slick('slickSetOption', 'infinite', false, true);
+
                 i++;
             }
         });

@@ -253,34 +253,36 @@ function gist_params(image) {
     gist_params['files']['0_bonecard_cover_card']['content'] = image || cover_img;
 
 
-    var i = 1;
+    var i = 2;
     $('ul.bonecards-list').find('li').each(function() {
 
         card_id = $(this).attr('id').substring(19);
-        $this = $('div.view-content').find('#bonecard-block' + card_id);
+        if(card_id != 1) {
+            $this = $('div.view-content').find('#bonecard-block' + card_id);
 
-        current_id = $this.attr('id').substring(14);
+            current_id = $this.attr('id').substring(14);
 
-        title = $this.find('input.bonecard-title-input-text').val();
-        gist_params['files'][i + '_bonecard'] = {};
+            title = $this.find('input.bonecard-title-input-text').val();
+            gist_params['files'][i + '_bonecard'] = {};
 
-        if ($this.data('type') == 'html') {
-            gist_params['files'][i + '_bonecard']['content'] =
-                CKEDITOR.instances['editor' + current_id].getData();
-            cards.push({
-                title: title,
-                type: 'html'
-            });
-        } else if ($this.data('type') == 'code') {
-            editor = ace.edit("editor" + current_id);
-            gist_params['files'][i + '_bonecard']['content'] =
-                editor.getSession().getValue();
-            cards.push({
-                title: title,
-                type: 'code'
-            });
+            if ($this.data('type') == 'html') {
+                gist_params['files'][i + '_bonecard']['content'] =
+                    CKEDITOR.instances['editor' + current_id].getData();
+                cards.push({
+                    title: title,
+                    type: 'html'
+                });
+            } else if ($this.data('type') == 'code') {
+                editor = ace.edit("editor" + current_id);
+                gist_params['files'][i + '_bonecard']['content'] =
+                    editor.getSession().getValue();
+                cards.push({
+                    title: title,
+                    type: 'code'
+                });
+            }
+            i++;
         }
-        i++;
     });
 
     bonecard_json = {
