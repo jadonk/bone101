@@ -3,28 +3,36 @@ function require(file) {
 }
 
 function setTargetAddress(address, handlers) {
+    scriptLoaded = false;
     var url = address;
-    url = url.replace(/^(http:\/\/|https:\/\/)*/, 'http://');
+    url = url.replace(/^(http:\/\/|https:\/\/)*/, 'https://');
     url = url.replace(/(\/)*$/, '/bonescript.js');
-    loadScript(url, addHandlers);
-    function loadScript(url, onload) {
-        try {
-            var head = document.getElementsByTagName('head')[0];
-            var script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.src = url;
-            script.charset = 'UTF-8';
-            var scriptObj = head.appendChild(script);
-            scriptObj.addEventListener('error', onerror);
-            scriptObj.onload = onload;
-        } catch(ex) {
-            onerror(ex);
-        }
-
-        function onerror(err) {
-            //console.log('Unable to load: ' + url);
-        }
+    
+    loadScript(url);
+    if(scriptLoaded==false)
+    {
+        url = url.replace(/^(http:\/\/|https:\/\/)*/, 'http://');
+        loadScript(url);
     }
+    if(scriptLoaded==false)
+        alert("Could not load the bonescript");
+        
+    
+    function loadScript(url) {
+        var head = document.getElementsByTagName('head')[0];
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = url;
+        script.charset = 'UTF-8';
+        var scriptObj = head.appendChild(script);
+        scriptObj.onload = onScriptLoad;
+    }
+    function onScriptLoad()
+    {
+        scriptLoaded=true;  
+        addHandlers();
+    }
+    
     function addHandlers() {
         if(typeof handlers == 'function') {
             handlers();
