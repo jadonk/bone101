@@ -3,20 +3,11 @@ function require(file) {
 }
 
 function setTargetAddress(address, handlers) {
-    scriptLoaded = false;
     var url = address;
     url = url.replace(/^(http:\/\/|https:\/\/)*/, 'https://');
     url = url.replace(/(\/)*$/, '/bonescript.js');
     
     loadScript(url);
-    if(scriptLoaded==false)
-    {
-        url = url.replace(/^(http:\/\/|https:\/\/)*/, 'http://');
-        loadScript(url);
-    }
-    if(scriptLoaded==false)
-        alert("Could not load the bonescript");
-        
     
     function loadScript(url) {
         var head = document.getElementsByTagName('head')[0];
@@ -24,12 +15,24 @@ function setTargetAddress(address, handlers) {
         script.type = 'text/javascript';
         script.src = url;
         script.charset = 'UTF-8';
+        script.onerror = function() {
+                 console.log("Loading "+url+" failed!");
+                 if(url.indexOf("https") > -1)
+                 {
+                   url = url.replace(/^(http:\/\/|https:\/\/)*/, 'http://');
+                   loadScript(url);
+                 }
+                 else
+                 {
+                   alert("Script load failed!");
+                 }                 
+                    }
         var scriptObj = head.appendChild(script);
         scriptObj.onload = onScriptLoad;
     }
     function onScriptLoad()
     {
-        scriptLoaded=true;  
+        alert("Script loaded successfully");  
         addHandlers();
     }
     
