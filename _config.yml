@@ -1,3 +1,3 @@
 baseurl: /bone101
 timezone: America/New_York
-exclude: ['.c9', 'static', 'examples', 'autorun', 'LICENSE', 'README.md']
+exclude: ['.c9', 'examples', 'autorun', 'LICENSE', 'README.md']
