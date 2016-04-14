@@ -1,6 +1,3 @@
----
-layout: bare
----
 @charset "utf-8";
 /* CSS Document */
 
@@ -36,7 +33,7 @@ a img {
 	border: none;
 }
 a.external {
-    background: url({{site.baseurl}}/static/images/icon_offsite.gif) center right no-repeat;
+    background: url(/bone101/static/images/icon_offsite.gif) center right no-repeat;
     padding-right: 13px;
 }
 
@@ -1096,7 +1093,7 @@ float:left;
 
 .footer
 {
-               background:url(images/footer-img.jpg) repeat-x;   
+               background:url(/bone101/static/images/footer-img.jpg) repeat-x;   
                clear: left;   
                font-size: 12px;
                height: 200px;
