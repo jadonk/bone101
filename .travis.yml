@@ -1,0 +1,12 @@
+language: ruby
+rvm:
+- 2.1
+sudo: required
+services:
+  - docker
+before_script: gem install jekyll html-proofer
+script:
+  - jekyll build && htmlproofer ./bone101
+  - wget -O- http://travis.debian.net/script.sh | sh -
+
+
