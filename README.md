@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jadonk/bone101.svg?branch=master)](https://travis-ci.org/jadonk/bone101)
+
 bone101
 =======
 
