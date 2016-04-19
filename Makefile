@@ -1,6 +1,8 @@
-all: bone101
+PREFIX:=/usr/local
 
-bone101:
+all: ./bone101
+
+./bone101: Makefile _config.yml
 	jekyll build -d ./bone101
 
 clean:
@@ -9,8 +11,11 @@ clean:
 test:
 	htmlproofer ./bone101
 
-install:
-	
+install: ./bone101
+	install -m 0755 -d $(PREFIX)/bone101
+	cp -dr --preserve=mode,timestamp ./bone101/* $(PREFIX)/bone101/
 
 package:
 	
+
+.PHONY: clean test install package
