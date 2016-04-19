@@ -6,7 +6,6 @@ services:
   - docker
 before_script: gem install jekyll html-proofer
 script:
-  - jekyll build -d ./bone101 && htmlproofer ./bone101
+  - make && make test
   - wget -O- http://travis.debian.net/script.sh | sh -
-
 
