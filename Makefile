@@ -3,14 +3,14 @@ PREFIX:=/usr/local
 all: ./bone101
 
 ./bone101: Makefile _config.yml
-	if [ -e /etc/profile.d/rvm.sh ] ; then source /etc/profile.d/rvm.sh ; fi
+	if [ -e /etc/profile.d/rvm.sh ] ; then . /etc/profile.d/rvm.sh ; fi
 	jekyll build -d ./bone101
 
 clean:
 	rm -rf ./bone101
 
 test:
-	if [ -e /etc/profile.d/rvm.sh ] ; then source /etc/profile.d/rvm.sh ; fi
+	if [ -e /etc/profile.d/rvm.sh ] ; then . /etc/profile.d/rvm.sh ; fi
 	htmlproofer ./bone101
 
 install: ./bone101
