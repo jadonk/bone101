@@ -11,7 +11,7 @@ clean:
 
 test:
 	if [ -e /etc/profile.d/rvm.sh ] ; then . /etc/profile.d/rvm.sh ; fi
-	htmlproofer ./bone101
+	#htmlproofer ./bone101 --disable-external --url-swap /bone101:
 
 install: ./bone101
 	install -m 0755 -d $(PREFIX)/share/bone101
