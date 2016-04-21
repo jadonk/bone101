@@ -158,7 +158,7 @@ function updateBoardInfo() {
     b.readTextFile('/proc/device-tree/model', onReadModel);
 
     function onReadModel(model) {
-        if(model.data.indexof("TI AM335x BeagleBone Green") == 0) {
+        if(model.data.indexOf("TI AM335x BeagleBone Green") == 0) {
             boardClass = "beaglebonegreen";
         }
         $("div.perboard").each(doHide);
