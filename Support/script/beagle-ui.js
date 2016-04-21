@@ -169,7 +169,7 @@ function updateBoardInfo() {
     }
 
     function doHide(e) {
-        if(! $(this).hasclass(boardClass)) {
+        if(! $(this).hasClass(boardClass)) {
             $(this).css("display", "none");
         }
     }
