@@ -164,8 +164,8 @@ function updateBoardInfo() {
         if(model == "TI AM335x BeagleBone Green Wireless") {
             boardClass = "beaglebonegreen";
         }
-        $("div#perboard").each(doHide);
-        $("div#" + boardClass).each(doShow);
+        $("div.perboard").each(doHide);
+        $("div." + boardClass).each(doShow);
     }
 
     function doHide(e) {
