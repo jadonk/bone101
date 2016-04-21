@@ -74,7 +74,6 @@ function loadScript(url, callback) {
 }
 
 function initClient() {
-    displayPerBoard();
     $('.use-editor').each(demoEdit);
     var co_style = $('#console-output').attr('style');
     $('#console-output').replaceWith('<textarea id="console-output" />')
@@ -150,29 +149,3 @@ function myeval(script) {
     }
 }
 
-function displayPerBoard() {
-    var b = require('bonescript');
-    var boardClass = "beagleboneblack";
-    b.readTextFile('/proc/device-tree/model', onReadModel);
-
-    function onReadModel(model) {
-        if(model == "TI AM335x BeagleBone Green") {
-            boardClass = "beaglebonegreen";
-        }
-        if(model == "TI AM335x BeagleBone Green Wireless") {
-            boardClass = "beaglebonegreen";
-            $("div#perboard").each(doHide);
-            $("div#beaglebonegreen").each(doShow);
-        }
-    }
-
-    function doHide(e) {
-        if(! $(this).hasclass(boardClass)) {
-            $(this).css("display", "none");
-        }
-    }
-
-    function doShow(e) {
-        $(this).css("display", "inline");
-    }
-}
