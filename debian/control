@@ -1,0 +1,13 @@
+Source: bone101
+Maintainer: Jason Kridner <jdk@ti.com>
+Section: misc
+Priority: optional
+Standards-Version: 3.9.2
+Build-Depends: debhelper (>= 9), jekyll (>= 3.1)
+
+Package: bone101
+Architecture: all
+Pre-Depends: c9-core-installer (>= 3.1), bonescript (>= 0.5)
+Depends: ${shlibs:Depends}, ${misc:Depends}, bonescript
+Recommends: bone101-desktop, bone101-cloud9-folder
+Description: web served interactive BeagleBone documentation 
