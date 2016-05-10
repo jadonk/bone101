@@ -52,7 +52,7 @@ ul.square {
 	text-align: center;
 }
 .top-header {
-	width: 950px;
+	width: 100%;
 	padding-left:50px;
 	padding-top:10px;
 	text-align:left;
@@ -61,6 +61,7 @@ ul.square {
 .social{
 	width:200px;
 	float:right;
+	margin-right: 100px;
 	padding-top:15px;
 }
 @media screen and (max-width: 1145px) {
@@ -1194,7 +1195,7 @@ float:left;
                width: 100%;
 }
 #footer-links {
-	width: 950px;
+	width: 100%;
 	padding-left:0px;
 	padding-top:30px;
 }
