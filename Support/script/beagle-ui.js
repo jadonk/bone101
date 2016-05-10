@@ -7,7 +7,7 @@ var statusDisconnected = '' +
     '    <div class="browser-connect">' +
     '        <img alt="Not Connected" src="' + serverBasePath + 'static/images/usb.png" border="0">' +
     '        <div id="browser-content"><strong>Did you know?</strong>  This page can interact with your BeagleBone<br />' +
-    'Type in your BeagleBone&#39;s IP address here:<input id="connect-ip"></input>' +
+    'Type in your BeagleBone&#39;s IP address here: <input id="connect-ip"></input>' +
     '        </div>' +
     '    </div>' +
     '</div>';
@@ -67,6 +67,11 @@ $(document).ready(function(){
             $('#side-menu').replaceWith(data);
         });
     }
+
+    $.get(serverBasePath + 'Support/BoneScript/menu/', function(data){
+        $('#dropdown-main-menu').children().replaceWith($(data).html());
+    });
+
 });
 
 $(document).ready(function(){
@@ -158,7 +163,9 @@ function updateBoardInfo() {
     b.readTextFile('/proc/device-tree/model', onReadModel);
 
     function onReadModel(model) {
-        if(model.data.indexOf("TI AM335x BeagleBone Green") == 0) {
+        if(model.data.indexOf("TI AM335x BeagleBone Green Wireless") == 0) {
+            boardClass = "beaglebonegreenwireless";
+        } else if(model.data.indexOf("TI AM335x BeagleBone Green") == 0) {
             boardClass = "beaglebonegreen";
         }
         $("div.perboard").each(doHide);

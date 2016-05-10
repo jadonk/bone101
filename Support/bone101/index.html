@@ -16,7 +16,6 @@ style: |
     align: left;
    }
 ---
-<h2>BeagleBone 101</h2>
 <div id='side-menu' class="t3_sidebar">
  <ul class="left-menu">
   <strong>Navigation</strong>
@@ -31,7 +30,7 @@ style: |
   <p>The left-hand navigation bar will help you explore
    your board and learn how to program it.
   </p>
-  <img src="{{site.baseurl}}/static/images/artist-tested-engineer-approved.jpg" />
+  <img src="{{site.baseurl}}/static/images/artist-tested-engineer-approved.jpg" width="100%"/>
   <h2 id="software"></h2>
   <h2>Latest ARM open source focused on easy hardware experimentation</h2>
   <ul>
@@ -200,8 +199,8 @@ function toggle() {
   </li>
   <li><b>Step D:</b>&nbsp;Save the file by clicking the disk icon and giving the file a name with the .js extension.<br /><br />
    <img src="{{site.baseurl}}/static/images/c9-disk-icon.png" /><br /><br />
-   <img src="{{site.baseurl}}/static/images/c9-save-name.png" /><br /><br />
-   <img src="{{site.baseurl}}/static/images/c9-save-name-complete.png" /><br /><br />
+   <img src="{{site.baseurl}}/static/images/c9-save-name.png" width="100%"/><br /><br />
+   <img src="{{site.baseurl}}/static/images/c9-save-name-complete.png" width="100%"/><br /><br />
    <img src="{{site.baseurl}}/static/images/c9-named-tab.png" /><br /><br />
   </li>
   <li><b>Step E:</b>&nbsp;Run the code by selecting the arrow to the right of &quot;run&quot; (or &quot;debug&quot;) in the toolbar to pull down the list of files to run and select your new file.<br /><br />
@@ -276,7 +275,16 @@ function toggle() {
  <h3>Other programming environments</h3>
  <p>The board also ships with gcc, python and more that can be invoked directly from the command-line.</p>
 
- <h1 id="hardware">Hardware documentation</h1>
+
+  <h2 id="node-red"><a target="_blank" class="node-red-url" href="http://192.168.7.2:1880">Node-RED</a></h2>
+  <p>Node-RED is a tool for wiring together hardware devices, APIs and online services in new and interesting ways.</p>
+  <p>Click on the "Node-RED" link above to get started with Node-RED on your BeagleBone.</p>
+  <p>Otherwise, head over to the <a target="_blank" href="http://nodered.org/docs/getting-started/">Getting Started guide</a>.</p>
+  <a target="_blank" class="node-red-url">
+   <img src="{{site.baseurl}}/static/images/node-red-screenshot-sm.png" width="100%" />
+  </a>
+
+  <h1 id="hardware">Hardware documentation</h1>
 <div class="perboard beagleboneblack">
  <p><a target="_blank" href="http://elinux.org/Beagleboard:BeagleBoneBlack">
   The BeagleBoneBlack wiki page</a> documents all of the known hardware issues, 
@@ -304,6 +312,13 @@ Seeed.cc's BeagleBoneGreen page</a> documents all of the known hardware issues, 
  <h3>BeagleBone Green hardware details</h3>
  <img src="{{site.baseurl}}/static/images/green_hardware_details.png" width="100%" />
 </div>
+  <div class="perboard beaglebonegreenwireless" style="display:none;">
+   <p><a target="_blank" href="http://www.seeedstudio.com/wiki/Beaglebone_green_wireless">
+    Seeed.cc's BeagleBoneGreen Wireless page</a> documents all of the known hardware issues, as well as the latest available software, hardware
+    documentation and design materials.</p>
+   <h3>BeagleBone Green Wireless hardware details</h3>
+   <img src="{{site.baseurl}}/static/images/green_wireless_hardware_details.png" width="100%" />
+  </div>
  <h3 id="headers">Headers</h3>
  <p>The expansion headers provide extensive I/O capabilities.</p>
 <div class="perboard beagleboneblack default">
@@ -312,6 +327,9 @@ Seeed.cc's BeagleBoneGreen page</a> documents all of the known hardware issues, 
 <div class="perboard beaglebonegreen" style="display:none;">
  <img src="{{site.baseurl}}/static/images/BeagleBoneGreenPins.jpg" width="100%" />
 </div>
+  <div class="perboard beaglebonegreenwireless" style="display:none;">
+   <img src="{{site.baseurl}}/static/images/BeagleBoneGreenWirelessPins.jpg" width="100%" />
+  </div>
  <p>Each digital I/O pin has 8 different modes that can be selected, including GPIO.</p>
  <img src="{{site.baseurl}}/static/images/cape-headers-digital.png" width="100%" />
  <p>In GPIO mode, each digital I/O can produce interrupts.</p>

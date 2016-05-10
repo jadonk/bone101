@@ -1,6 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=yes, target-densitydpi=device-dpi">
   <title>BeagleBoard.org {% if page.title %}- {{ page.title }}{% endif %}</title>
   <meta name="keywords" content="Beagle Board, BeagleBoard, beagleboard.org, BeagleBone, BeagleBoard-xM, bealgeboard, open hardware, open source, Linux, computer" />
   <link href="http://feeds.feedburner.com/BeagleBoard" rel="alternate" title="BeagleBoard.org news feed" type="application/atom+xml" />
@@ -43,7 +45,7 @@
 
 {{ page.head }}
 </head><body>
- <a href="https://github.com/beagleboard/bone101"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github-camo.global.ssl.fastly.net/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a> 
+ <a class="github-ribbon" href="https://github.com/beagleboard/bone101"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github-camo.global.ssl.fastly.net/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
  <div class="top">
   <div class="top-header"><a href="http://beagleboard.org"><img src="{{site.baseurl}}/static/images/beagle_logo_hdr.gif" alt="beagleboard.org" border="0" width="326" height="60" /></a>
    <div class="social">
@@ -56,10 +58,23 @@
   </div>
  </div>
  <a name="top" id="top"></a>
- <div id="wrapper">
+ <div id="wrapper" class="container">
+
   <div id='cssmenu'>
     <ul class="main-menu">
       <li class="has-sub"><a class="new-tutorial" href="{{ site.baseurl }}/Support/bonecard/create/"><span>New Tutorial</span></a>
+      </li>
+
+      <li class="responsive-menu">
+          <div class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">BeagleBone 101 <span class="caret"></span></a>
+              <div id="dropdown-main-menu" class="dropdown-menu">
+                  <ul class="left-menu">
+                      <strong>Navigation</strong>
+                      <li><a href="{{site.baseurl}}/Support/BoneScript/menu/">Menu contents</a></li>
+                  </ul>
+              </div>
+          </div>
       </li>
     </ul>
     {% include github-login.html %}
