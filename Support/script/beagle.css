@@ -1511,3 +1511,7 @@ pre#code {
 #browser-content button {
 	color: black;
 }
+
+input#connect-ip {
+	color: black;
+}
