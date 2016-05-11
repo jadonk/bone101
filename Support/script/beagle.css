@@ -1506,3 +1506,8 @@ pre#code {
                height:auto;
                min-height:150px;
 }
+
+/* Fixups for stupid bootstrap crap */
+button.bui {
+	color: black;
+}
