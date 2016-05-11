@@ -1508,6 +1508,6 @@ pre#code {
 }
 
 /* Fixups for stupid bootstrap crap */
-button.bui {
+#browser-content button {
 	color: black;
 }
