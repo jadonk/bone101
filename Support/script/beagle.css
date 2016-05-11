@@ -1515,3 +1515,8 @@ pre#code {
 input#connect-ip {
 	color: black;
 }
+
+div.ace_gutter-cell {
+	background-color: #fcf7ed;
+;
+}
