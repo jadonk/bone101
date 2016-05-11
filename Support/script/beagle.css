@@ -1518,5 +1518,8 @@ input#connect-ip {
 
 div.ace_gutter-cell {
 	background-color: #fcf7ed;
-;
+}
+
+div.ace_gutter-active-line {
+	background-color: darkgrey;
 }
