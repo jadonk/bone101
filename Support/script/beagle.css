@@ -1506,3 +1506,20 @@ pre#code {
                height:auto;
                min-height:150px;
 }
+
+/* Fixups for stupid bootstrap crap */
+#browser-content button {
+	color: black;
+}
+
+input#connect-ip {
+	color: black;
+}
+
+div.ace_gutter-cell {
+	background-color: #fcf7ed;
+}
+
+div.ace_gutter-active-line {
+	background-color: darkgrey;
+}
