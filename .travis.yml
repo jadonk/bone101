@@ -6,14 +6,16 @@ services:
   - docker
 before_script: 
   - gem install github-pages html-proofer
-  - jekyll build -d bone101
 script:
-  - htmlproofer ./bone101 --disable-external --only-4xx --url-swap /bone101:
+  - jekyll build
+  - htmlproofer ./_site --disable-external --only-4xx --url-swap /bone101:
   #- make && make test
   #- wget -O- http://travis.debian.net/script.sh | sh -
 
-# whitelist
 branches:
   only:
     - master
     - gh-pages
+env:
+  global:
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
