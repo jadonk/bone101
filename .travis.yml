@@ -4,8 +4,15 @@ rvm:
 sudo: required
 services:
   - docker
-before_script: gem install jekyll html-proofer
+before_script: gem install github-pages html-proofer
 script:
-  - make && make test
-  - wget -O- http://travis.debian.net/script.sh | sh -
+  - jekyll build
+  - htmlproof ./_site --only-4xx --check-favicon --check-html
+  #- make && make test
+  #- wget -O- http://travis.debian.net/script.sh | sh -
 
+# whitelist
+branches:
+  only:
+    - master
+    - gh-pages
