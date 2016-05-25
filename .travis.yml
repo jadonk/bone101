@@ -7,9 +7,9 @@ services:
 before_script: gem install github-pages html-proofer
 script:
   - jekyll build
-  - htmlproof ./_site --only-4xx --check-favicon --check-html
+  - htmlproofer ./_site --only-4xx --check-favicon --check-html
   #- make && make test
-  #- wget -O- http://travis.debian.net/script.sh | sh -
+  - wget -O- http://travis.debian.net/script.sh | sh -
 
 # whitelist
 branches:
