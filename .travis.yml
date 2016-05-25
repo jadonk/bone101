@@ -8,7 +8,7 @@ before_script:
   - gem install github-pages html-proofer
 script:
   - jekyll build
-  - htmlproofer ./_site --disable-external --only-4xx --url-swap /bone101:
+  - htmlproofer ./_site --disable-external --only-4xx --url-swap "/bone101:"
   #- make && make test
   #- wget -O- http://travis.debian.net/script.sh | sh -
 
