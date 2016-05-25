@@ -6,10 +6,10 @@ services:
   - docker
 before_script: gem install github-pages html-proofer
 script:
-  - jekyll build
-  - htmlproofer ./_site --only-4xx --check-favicon --check-html
+  - jekyll build -d bone101
+  - htmlproofer ./bone101 --disable-external --only-4xx --url-swap /bone101:
   #- make && make test
-  - wget -O- http://travis.debian.net/script.sh | sh -
+  #- wget -O- http://travis.debian.net/script.sh | sh -
 
 # whitelist
 branches:
