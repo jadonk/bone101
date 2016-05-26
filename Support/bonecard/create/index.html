@@ -2,14 +2,14 @@
 layout: index
 title: bone101
 styles: ['/static/bonecard-create.css']
-scripts: ['/static/third_party/ace/src/ace.js', '/static/third_party/ckeditor/ckeditor.js', '/static/third_party/ckeditor/adapters/jquery.js', '/static/jquery.sortable.min.js', '/static/third_party/contenthover/contenthover.min.js', '/static/third_party/blockui/jquery.blockUI.js', '/static/connect.js', '/static/bonescript.js', '/static/beagle-ui.js', '/Support/bone101/UI/bbui.js']
+scripts: ['/static/third_party/ace/src/ace.js', '/static/third_party/ckeditor/ckeditor.js', '/static/third_party/ckeditor/adapters/jquery.js', '/static/jquery.sortable.min.js', '/static/third_party/contenthover/contenthover.min.js', '/static/third_party/blockui/jquery.blockUI.js', '/static/connect.js', '/static/bonescript.js', '/Support/script/beagle-ui.js', '/Support/bone101/UI/bbui.js']
 scripts-after: ['/static/bonecard-create.js']
 style: |
    div#connect-status {
-     display: table;
+     //display: table;
      margin: 0 auto;
-     padding-right: 10px;
-     margin-bottom: 30px;
+     //padding-right: 10px;
+     //margin-bottom: 30px;
    }
    div#browser-content button, input#connect-ip {
      color: black !important;
@@ -21,11 +21,11 @@ style: |
      margin:auto;
    }
    div#connect-status {
-     padding-top: 30px;
-     display: table;
+     //padding-top: 30px;
+     //display: table;
      margin: 0 auto;
-     padding-right: 10px;
-     margin-bottom: 30px;
+     //padding-right: 10px;
+     //margin-bottom: 30px;
    }
    div#browser-content button, input#connect-ip {
      color: black !important;
@@ -63,7 +63,7 @@ style: |
 	<div class="col-md-9">
 		<input class="tutorial-description" type="text" name="tutorial-description" value="">
 	</div>
-	<div class="col-md-2 col-md-offset-1">
+	<div class="col-md-12">
 		<button class="add-bonecard">Add Bonecard</button>
 	</div>
 </div>
@@ -88,7 +88,7 @@ style: |
 		<a class="img-upload" href="#cover-card" onclick="performClick('cover-card-input');">
 			<div class="bonecard">
 				<div style="padding-left: 14px;">
-					<img id="cover-card" src="{{ site.baseurl }}/static/images/mascot.png" width="300" height="213" />
+					<img id="cover-card" src="{{ site.baseurl }}/static/images/mascot.png" width="250" height="213" />
 					<div class="contenthover">
 					    <h1><i>Untitled tutorial</i></h1>
 					    <p style="color:black;"></p>

@@ -1,7 +1,7 @@
 ---
 layout: index
 title: bone101
-scripts: [ '/static/bonescript-demo.js' ]
+scripts: [ '/Support/script/bonescript-demo.js' ]
 style: |
    #code {
     position: relative;
@@ -16,7 +16,6 @@ style: |
     align: left;
    }
 ---
-<h2>BeagleBone 101</h2>
 <div id='side-menu' class="t3_sidebar">
  <ul class="left-menu">
   <strong>Navigation</strong>
@@ -31,7 +30,7 @@ style: |
   <p>The left-hand navigation bar will help you explore
    your board and learn how to program it.
   </p>
-  <img src="{{site.baseurl}}/static/images/artist-tested-engineer-approved.jpg" />
+  <img src="{{site.baseurl}}/static/images/artist-tested-engineer-approved.jpg" width="100%"/>
   <h2 id="software"></h2>
   <h2>Latest ARM open source focused on easy hardware experimentation</h2>
   <ul>
@@ -159,6 +158,14 @@ function restore() {
   href="{{site.baseurl}}/Support/BoneScript/">
   this interactive guide</a>.
  </p>
+ 
+  <h2 id="node-red"><a target="_blank" class="node-red-url" href="http://192.168.7.2:1880">Node-RED</a></h2>
+  <p>Node-RED is a tool for wiring together hardware devices, APIs and online services in new and interesting ways.</p>
+  <p>Click on the "Node-RED" link above to get started with Node-RED on your BeagleBone.</p>
+  <p>Otherwise, head over to the <a target="_blank" href="http://nodered.org/docs/getting-started/">Getting Started guide</a>.</p>
+  <a href="http://192.168.7.2:1880" class="node-red-url" target="_blank" class="node-red-url">
+   <img src="{{site.baseurl}}/static/images/node-red-screenshot-sm.png" width="100%" />
+  </a>
 
  <h2 id="cloud9"><a target="_blank" class="cloud9-url" href="http://192.168.7.2:3000">Cloud9 IDE</a></h2>
  <p>To begin editing programs that live on your board, you can use the Cloud9 IDE.</p>
@@ -200,8 +207,8 @@ function toggle() {
   </li>
   <li><b>Step D:</b>&nbsp;Save the file by clicking the disk icon and giving the file a name with the .js extension.<br /><br />
    <img src="{{site.baseurl}}/static/images/c9-disk-icon.png" /><br /><br />
-   <img src="{{site.baseurl}}/static/images/c9-save-name.png" /><br /><br />
-   <img src="{{site.baseurl}}/static/images/c9-save-name-complete.png" /><br /><br />
+   <img src="{{site.baseurl}}/static/images/c9-save-name.png" width="100%"/><br /><br />
+   <img src="{{site.baseurl}}/static/images/c9-save-name-complete.png" width="100%"/><br /><br />
    <img src="{{site.baseurl}}/static/images/c9-named-tab.png" /><br /><br />
   </li>
   <li><b>Step E:</b>&nbsp;Run the code by selecting the arrow to the right of &quot;run&quot; (or &quot;debug&quot;) in the toolbar to pull down the list of files to run and select your new file.<br /><br />
@@ -226,8 +233,8 @@ function toggle() {
  <p>To learn more about Cloud9 IDE and to synchronize the software on your board with cloud-hosted services, see
   <a target="_blank" href="http://c9.io">www.c9.io</a>.
  <p>For more information on Node.JS, the JavaScript interpreter, see <a target="_blank" href="http://nodejs.org">www.nodejs.org</a>.
-  Note that version 0.8.22 is what is currently installed on the default image and you can find the api documentation
-  at <a target="_blank" href="http://nodejs.org/docs/v0.8.22/api">www.nodejs.org/docs/v0.8.22/api</a>.
+  Note that version 0.12.13 is what is currently installed on the default image and you can find the api documentation
+  at <a target="_blank" href="http://nodejs.org/docs/v0.12.13/api">www.nodejs.org/docs/v0.12.13/api</a>.
  </p>
  <p>For more information about the Bonescript library, see <a target="_blank" href="http://beagleboard.org/bonescript">
   www.beagleboard.org/bonescript</a>.
@@ -276,9 +283,10 @@ function toggle() {
  <h3>Other programming environments</h3>
  <p>The board also ships with gcc, python and more that can be invoked directly from the command-line.</p>
 
- <h1 id="hardware">Hardware documentation</h1>
- <p><a target="_blank" href="http://circuitco.com/support/index.php?title=BeagleBoneBlack">
-  CircuitCo.com's BeagleBoneBlack page</a> documents all of the known hardware issues, 
+  <h1 id="hardware">Hardware documentation</h1>
+<div class="perboard beagleboneblack">
+ <p><a target="_blank" href="http://elinux.org/Beagleboard:BeagleBoneBlack">
+  The BeagleBoneBlack wiki page</a> documents all of the known hardware issues, 
   as well as the latest available software, 
   hardware documentation and design materials.
  </p>
@@ -295,10 +303,32 @@ function toggle() {
  <p>Revision A5 also provides a POWER button that can be used to enter and exit hibernate modes once
   that feature is implemented in the software.
  </p>
-
+</div>
+<div class="perboard beaglebonegreen" style="display:none;">
+<p><a target="_blank" href="http://www.seeedstudio.com/wiki/Beaglebone_green">
+Seeed.cc's BeagleBoneGreen page</a> documents all of the known hardware issues, as well as the latest available software, hardware
+  documentation and design materials.</p>
+ <h3>BeagleBone Green hardware details</h3>
+ <img src="{{site.baseurl}}/static/images/green_hardware_details.png" width="100%" />
+</div>
+  <div class="perboard beaglebonegreenwireless" style="display:none;">
+   <p><a target="_blank" href="http://www.seeedstudio.com/wiki/Beaglebone_green_wireless">
+    Seeed.cc's BeagleBoneGreen Wireless page</a> documents all of the known hardware issues, as well as the latest available software, hardware
+    documentation and design materials.</p>
+   <h3>BeagleBone Green Wireless hardware details</h3>
+   <img src="{{site.baseurl}}/static/images/green_wireless_hardware_details.png" width="100%" />
+  </div>
  <h3 id="headers">Headers</h3>
  <p>The expansion headers provide extensive I/O capabilities.</p>
+<div class="perboard beagleboneblack default">
  <img src="{{site.baseurl}}/static/images/cape-headers.png" width="100%" />
+</div>
+<div class="perboard beaglebonegreen" style="display:none;">
+ <img src="{{site.baseurl}}/static/images/BeagleBoneGreenPins.jpg" width="100%" />
+</div>
+  <div class="perboard beaglebonegreenwireless" style="display:none;">
+   <img src="{{site.baseurl}}/static/images/BeagleBoneGreenWirelessPins.jpg" width="100%" />
+  </div>
  <p>Each digital I/O pin has 8 different modes that can be selected, including GPIO.</p>
  <img src="{{site.baseurl}}/static/images/cape-headers-digital.png" width="100%" />
  <p>In GPIO mode, each digital I/O can produce interrupts.</p>

@@ -2,53 +2,16 @@
 layout: index
 title: {{ page.title }}
 styles: ['/static/third_party/slick/src/slick.css', '/static/third_party/slick/src/slick-theme.css']
-scripts: ['/static/third_party/slick/src/slick.min.js', '/static/third_party/ace/src/ace.js', '/static/connect.js', '/static/bonescript.js', '/static/beagle-ui.js']
+scripts: ['/static/third_party/slick/src/slick.min.js', '/static/third_party/ace/src/ace.js', '/static/connect.js', '/static/bonescript.js', '/Support/script/beagle-ui.js']
 
-style: |
-   div#wrapper {
-     width:1224px;
-   }
-   div#cssmenu {
-     width:1224px;
-   }
-   div.footer {
-     width:1224px;
-   }
-   div#contentbuffer {
-     margin:0;
-   }
-   div#canvasdiv {
-     height:600px;
-   }
-   div.browser-connect {
-     margin:auto;
-   }
-   canvas {
-     position:absolute;
-     width:850px;
-     height:513px;
-     margin:auto;
-   }
-   #content_child {
-     width: 900px;
-   }
-   div#connect-status {
-     display: table;
-     margin: 0 auto;
-     padding-right: 10px;
-     margin-bottom: 30px;
-   }
-   div#browser-content button, input#connect-ip {
-     color: black !important;
-   }
 ---
 
 
 {% include side_menu.html title="BoneScript" %}
 
-<div class="t3_content_1">
+<div class="t3_content_1 container">
   <div id="content_child">
-    <div id='connect-status'></div>
+      <div id='connect-status'></div>
 
     {{ content }}
 

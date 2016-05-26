@@ -1,7 +1,4 @@
----
-layout: bare
----
-bonescriptStaticPath = typeof bonescriptStaticPath == 'undefined' ? '{{site.baseurl}}/static/' : bonescriptStaticPath;
+bonescriptStaticPath = typeof bonescriptStaticPath == 'undefined' ? '/bone101/static/' : bonescriptStaticPath;
 
 var cssUrls = [
     'jquery.terminal.css',         // http://terminal.jcubic.pl/js/jquery.terminal.css
@@ -20,7 +17,7 @@ var scriptUrls = [
     'jquery.mousewheel.js',        // http://terminal.jcubic.pl/js/jquery.mousewheel-min.js
     'jquery-ui.min.js',            // http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js
     'bonescript.js',
-    'beagle-ui.js',
+    '../Support/script/beagle-ui.js',
     'third_party/ace/src/ace.js'
 ];
 
@@ -151,3 +148,4 @@ function myeval(script) {
         console.log('Exception: ' + ex);
     }
 }
+

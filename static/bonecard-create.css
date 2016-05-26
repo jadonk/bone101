@@ -2,7 +2,7 @@ input.tutorial-title {
     border: 0px;
     width: 100%;
     height: 80px;
-    font-size: 40px;
+    font-size: 30px;
     text-align: -webkit-center;
     color: #b4a279;
 }
@@ -55,7 +55,8 @@ button.update {
     background-color: white;
     width: 195px;
     height: 35px;
-    float: right;
+    float: left;
+    margin-top: 10px;
 }
 
 .float-right {
@@ -95,7 +96,7 @@ button.update:hover {
     border-color: #765740;
 }
 #bonecard-block0 {
-    width: 50%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
