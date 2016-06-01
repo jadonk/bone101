@@ -7,6 +7,8 @@ for(var i in leds) {
     b.pinMode(leds[i], b.OUTPUT);
 }
 
+// b.pinMode("P9_14", b.INPUT);
+
 var state = b.LOW;
 for(var i in leds) {
     b.digitalWrite(leds[i], state);
