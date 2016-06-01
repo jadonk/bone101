@@ -4,8 +4,18 @@ rvm:
 sudo: required
 services:
   - docker
-before_script: gem install jekyll html-proofer
+before_script: 
+  - gem install github-pages html-proofer
 script:
-  - make && make test
-  - wget -O- http://travis.debian.net/script.sh | sh -
+  - jekyll build
+  - htmlproofer "./_site" --disable-external --alt-ignore "/.*/"  --only-4xx --url-ignore "/#.*/"  --url-swap "/bone101:" --file-ignore "/Support/bone101/UI/","/Support/bonecard/create/"
+  #- make && make test
+  #- wget -O- http://travis.debian.net/script.sh | sh -
 
+branches:
+  only:
+    - master
+    - gh-pages
+env:
+  global:
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
