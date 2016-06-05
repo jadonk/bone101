@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var b = require('bonescript');
 
 // setup starting conditions

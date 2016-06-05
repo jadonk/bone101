@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var b = require('bonescript');
 
 var inputPin = "P9_36";
