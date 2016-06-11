@@ -108,8 +108,8 @@ var UI = (function() {
         // positions
         var BBposX = 283;
         var BBposY = 120;
-        var axisStartY = BBposY + 40;
-        var axisStartX = BBposX + 375;
+        var axisStartY = BBposY - 50;
+        var axisStartX = BBposX + 240;
         var rect = {
             x: 0,
             y: BBposY - 70,
@@ -143,7 +143,7 @@ var UI = (function() {
                     endY: btnY + 15,
                     color: 'rgb(51,153,255)',
                     text: "analog",
-                    s: 13,
+                    s: 19,
                     offColor: 'rgb(0,51,102)',
                     article: "an analog pin",
                     graphColors: ['rgb(0,0,255)', 'rgb(0,01,53)', 'rgb(0,102,204)', 'rgb(0,51,102)'],
@@ -156,7 +156,7 @@ var UI = (function() {
                     endY: btnY + 15,
                     color: 'rgb(102,204,51)',
                     text: "digital",
-                    s: 10,
+                    s: 19,
                     category: "main"
                 },
                 ground: {
@@ -166,7 +166,7 @@ var UI = (function() {
                     endY: btnY + 15,
                     color: 'rgb(64,64,64)',
                     text: "ground",
-                    s: 12,
+                    s: 19,
                     category: "main"
                 },
                 power: {
@@ -176,7 +176,7 @@ var UI = (function() {
                     endY: btnY + 15,
                     color: 'rgb(255,51,51)',
                     text: "power",
-                    s: 17,
+                    s: 19,
                     category: "main"
                 },
                 led: {
@@ -186,7 +186,7 @@ var UI = (function() {
                     endY: btnY + 15,
                     color: 'rgb(255,153,51)',
                     text: "usr leds",
-                    s: 7,
+                    s: 15,
                     offColor: 'rgb(102,0,0)',
                     barColor: 'rgb(255,204,153)',
                     article: "a user led",
@@ -200,7 +200,7 @@ var UI = (function() {
                     endY: btnY + 35,
                     color: 'rgb(0,153,0)',
                     text: "input",
-                    s: 17,
+                    s: 22,
                     offColor: 'rgb(0,81,36)',
                     article: "a digital pin",
                     graphColors: ['rgb(0,51,0)', 'rgb(0,204,0)', 'rgb(51,102,0)', 'rgb(0,255,0)', 'rgb(128,255,0)'],
@@ -213,7 +213,7 @@ var UI = (function() {
                     endY: btnY + 55,
                     color: 'rgb(0,153,153)',
                     text: "output",
-                    s: 13,
+                    s: 19,
                     offColor: 'rgb(0,85,85)',
                     barColor: 'rgb(153,255,255)',
                     article: "a digital pin",
@@ -227,7 +227,7 @@ var UI = (function() {
                     endY: btnY + 75,
                     color: 'rgb(153,0,153)',
                     text: "pwm",
-                    s: 25,
+                    s: 23,
                     offColor: 'rgb(51,0,102)',
                     barColor: 'rgb(229,204,255)',
                     article: "a pwm pin",
@@ -239,6 +239,7 @@ var UI = (function() {
                     y: axisStartY + 451,
                     endX: axisStartX + 25,
                     endY: axisStartY + 451,
+                    text: "+",
                     category: "graph"
                 },
                 minus: {
@@ -246,20 +247,21 @@ var UI = (function() {
                     y: axisStartY + 453,
                     endX: axisStartX + 5,
                     endY: axisStartY + 451,
+                    text: "-",
                     category: "graph"
                 },
                 stop: {
                     x: axisStartX - 29,
-                    y: axisStartY + 437,
+                    y: axisStartY + 250,
                     endX: axisStartX - 17,
-                    endY: axisStartY + 451,
+                    endY: axisStartY + 262,
                     category: "graph"
                 },
                 play: {
-                    x: axisStartX - 48,
-                    y: axisStartY + 436,
-                    endX: axisStartX - 34,
-                    endY: axisStartY + 451,
+                    x: axisStartX - 15,
+                    y: axisStartY + 250,
+                    endX: axisStartX - 3,
+                    endY: axisStartY + 262,
                     category: "graph"
                 },
                 exit: {
@@ -283,6 +285,7 @@ var UI = (function() {
                 var coords = Position(event);
                 var x = coords[0];
                 var y = coords[1];
+                // console.log("x: " + x , ", y: " + y );
 
                 for (var b in buttons) {
                     var minX = buttons[b].x;
@@ -422,6 +425,9 @@ var UI = (function() {
                 if (buttons[b].category == "main") {
                     button.draw(b, canvas.Base.ctx, false);
                 }
+                // else if (buttons[b].category == "graph") {
+                //     button.draw(b, canvas.Graph.ctx, false);
+                // }
             }
 
             return button;
@@ -909,6 +915,144 @@ var UI = (function() {
             return graph;
         })();
 
+        //graph global variables
+        var xWidth = 360;
+        var yWidth = 160;
+        var zeroX = axisStartX;
+        var zeroY = axisStartY + yWidth / 2;
+        var zoomVal = [.125, .25, .5, 1];
+        var zoomIndex = 3;
+        var zoom = zoomVal[zoomIndex];
+        var xScale = 100;
+        var yScale = 40;
+        var prevPoint = [];
+        var plus = { x: axisStartX + 10, y: axisStartY + 451, endX: axisStartX + 25, endY: axisStartY + 451 };
+        var minus = { x: plus.x - 20, y: plus.y + 2, endX: plus.endX - 20, endY: plus.endY };
+        var stopBtn = { x: minus.x - 19, y: minus.y - 16, endX: minus.endX - 22, endY: minus.endY };
+        var playBtn = { x: minus.x - 38, y: minus.y - 17, endX: minus.endX - 39, endY: minus.endY };
+        var timer;
+        var timeCount = 0;
+        var voltage = [];
+        var voltCount = 0;
+        var pinNum = 0;
+        var interval = 0;
+        var status;
+        var timeValues = [];
+        var btnCheck = false;
+        var voltagePin = [];
+
+        ui.xyAxis = (function() {
+            var xyAxis = {};
+
+            canvas.Graph.ctx.beginPath();
+            canvas.Graph.ctx.moveTo(axisStartX, axisStartY + 160);
+            canvas.Graph.ctx.lineTo(axisStartX + 340, axisStartY + 160);
+            canvas.Graph.ctx.strokeStyle = "#354b60";
+            canvas.Graph.ctx.lineWidth = 2;
+            canvas.Graph.ctx.stroke();
+            canvas.Graph.ctx.strokeStyle = "black";
+            canvas.Graph.ctx.font = '10pt Lucinda Grande';
+            canvas.Graph.ctx.fillText('Time [s]', axisStartX + 130, axisStartY + 200);
+            canvas.Graph.ctx.save();
+
+            canvas.Graph.ctx.beginPath();
+            canvas.Graph.ctx.moveTo(axisStartX, axisStartY - 5);
+            canvas.Graph.ctx.lineTo(axisStartX, axisStartY + 160);
+            canvas.Graph.ctx.strokeStyle = "black";
+            canvas.Graph.ctx.lineWidth = 2;
+            canvas.Graph.ctx.stroke();
+            canvas.Graph.ctx.save();
+
+            canvas.Graph.ctx.strokeStyle = "black";
+            canvas.Graph.ctx.font = '10pt Lucinda Grande';
+            canvas.Graph.ctx.fillText('Voltage [v]', axisStartX -30, axisStartY - 20);
+
+            // canvas.Graph.ctx.font = '10pt Lucinda Grande';
+            // canvas.Graph.ctx.translate(canvas.Graph.e.width / 2, canvas.Graph.e.height / 2);
+            // canvas.Graph.ctx.rotate(-0.5 * Math.PI);
+            // canvas.Graph.ctx.translate(-canvas.Graph.e.width / 2, -canvas.Graph.e.height / 2);
+            // canvas.Graph.ctx.strokeStyle = "black";
+            // canvas.Graph.ctx.fillText('Voltage', axisStartX + 40, axisStartY + 240);
+            // canvas.Graph.ctx.restore();
+
+            //x ticks
+            var x = 0;
+            var countX = 0;
+            var xnum = 95;
+            var time = 1;
+            var prec = Math.ceil(Math.log(Math.abs(interval) / 100 + 1.1) / Math.LN10) + 1;
+            canvas.Graph.ctx.strokeStyle = "black";
+            while (x <= xWidth + interval) {
+                if (axisStartX + x - interval >= zeroX) {
+                    if (countX % 10 === 0) {
+                        canvas.Graph.ctx.beginPath();
+                        canvas.Graph.ctx.moveTo(axisStartX + x - interval, axisStartY + 155);
+                        canvas.Graph.ctx.lineTo(axisStartX + x - interval, axisStartY + 170);
+                        canvas.Graph.ctx.lineWidth = 2;
+                        canvas.Graph.ctx.stroke();
+                    } else {
+                        canvas.Graph.ctx.beginPath();
+                        canvas.Graph.ctx.moveTo(axisStartX + x - interval, axisStartY + 155);
+                        canvas.Graph.ctx.lineTo(axisStartX + x - interval, axisStartY + 165);
+                        canvas.Graph.ctx.lineWidth = 2;
+                        canvas.Graph.ctx.stroke();
+                    }
+                }
+                x += 10;
+                countX += 1;
+            }
+            canvas.Graph.ctx.fillStyle = "black";
+            canvas.Graph.ctx.font = '8pt Lucinda Grande';
+            while (xnum <= xWidth + interval) {
+                if (axisStartX + xnum - interval >= zeroX) {
+                    canvas.Graph.ctx.fillText(time.toPrecision(prec).toString(),
+                        axisStartX + xnum - interval, axisStartY + 180);
+                }
+                xnum += 100;
+                time = (xnum + 3) / 100;
+
+            }
+
+            //y ticks
+            var y = 0;
+            var countY = 0;
+            var ynum = 3;
+            var volt = 4;
+            var text;
+            while (y <= yWidth) {
+                if (countY % 2 === 0) {
+                    canvas.Graph.ctx.beginPath();
+                    canvas.Graph.ctx.moveTo(axisStartX - 10, axisStartY + y);
+                    canvas.Graph.ctx.lineTo(axisStartX + 5, axisStartY + y);
+                    canvas.Graph.ctx.lineWidth = 2;
+                    canvas.Graph.ctx.stroke();
+                } else {
+                    canvas.Graph.ctx.beginPath();
+                    canvas.Graph.ctx.moveTo(axisStartX - 5, axisStartY + y);
+                    canvas.Graph.ctx.lineTo(axisStartX + 5, axisStartY + y);
+                    canvas.Graph.ctx.lineWidth = 2;
+                    canvas.Graph.ctx.stroke();
+                }
+                y += 10;
+                countY += 1;
+            };
+            canvas.Graph.ctx.fillStyle = "black";
+            canvas.Graph.ctx.font = '8pt Lucinda Grande';
+            while (ynum <= yWidth + 4) {
+                text = (volt * zoom).toPrecision(2).toString();
+                if (volt < 0) {
+                    //canvas.Graph.ctx.fillText(text, axisStartX - 36, axisStartY + ynum);
+                } else {
+                    canvas.Graph.ctx.fillText(text.toString(), axisStartX - 32, axisStartY + ynum);
+                }
+                ynum += 20;
+                volt -= 0.5;
+
+                console.log("text: " + text)
+            };
+            return xyAxis;
+        })();
+
         function Position(event) {
             var rect = canvas.Base.e.getBoundingClientRect();
             var coords = [];
@@ -921,8 +1065,8 @@ var UI = (function() {
                 coords[0] = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
                 coords[1] = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
             }
-            //console.log("Position = " + [x, y]);
-            //console.log("Offset = " + [rect.left, rect.top]);
+            // console.log("Position = " + [x, y]);
+            // console.log("Offset = " + [rect.left, rect.top]);
             coords[0] -= rect.left;
             coords[1] -= rect.top;
 
