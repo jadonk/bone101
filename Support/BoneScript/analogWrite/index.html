@@ -3,12 +3,9 @@ layout: index
 title: analogWrite
 scripts: [ '/Support/script/bonescript-demo.js' ]
 ---
-    <h2>BoneScript</h2>
-<div id='side-menu' class="t3_sidebar">
-    <ul class="left-menu"><strong>Navigation</strong>
-        <li><a href="/static/side-menu.html">Menu contents</a></li>
-    </ul>
-</div>
+{% include breadcrumb.html %}
+{% include side_menu.html title="Demos" %}
+
 <div class="t3_content_1"><div id='connect-status'></div><div id="content_child">
 <p>You might be able to see a newer version of this on <a href="http://beagleboard.org/support/bonescript/analogWrite">beagleboard.org/support/bonescript/analogWrite</a></p>
 <h1>analogWrite(pin, value, [freq], [callback])</h1>
