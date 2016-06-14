@@ -108,7 +108,7 @@ var UI = (function() {
         // positions
         var BBposX = 283;
         var BBposY = 120;
-        var axisStartY = BBposY - 50;
+        var axisStartY = BBposY + 50;
         var axisStartX = BBposX + 240;
         var rect = {
             x: 0,
@@ -265,10 +265,10 @@ var UI = (function() {
                     category: "graph"
                 },
                 exit: {
-                    x: canvas.Base.e.width * 6 / 8 + 52.5,
-                    y: canvas.Base.e.height / 4 + 8,
-                    endX: canvas.Base.e.width * 6 / 8 + 60.5,
-                    endY: canvas.Base.e.height / 4 + 20,
+                    x: canvas.Base.e.width /2 + 200,
+                    y: canvas.Base.e.height / 4 + 13,
+                    endX: canvas.Base.e.width /2 + 208,
+                    endY: canvas.Base.e.height / 4 + 25,
                     category: "welcome"
                 },
                 digitalMenu: {
@@ -853,22 +853,22 @@ var UI = (function() {
                 ctx.fillStyle = 'rgba(255,255,255,0.5)';
                 ctx.fillRect(0, 0, width, height);
                 ctx.fillStyle = 'rgba(0,102,204,0.85)';
-                ctx.fillRect(width / 6, height / 4, width / 1.5, height / 2);
+                ctx.fillRect(width / 3.75, height / 4, width / 2, height / 2.75);
                 ctx.fillStyle = color;
                 ctx.font = '12pt Andale Mono';
-                ctx.fillText('X', width * 6 / 7.2 - 20, height / 4 + 20);
+                ctx.fillText('X', width / 2 + 200, height / 4 + 25);
                 ctx.fillStyle = 'white';
-                ctx.font = '13pt Andale Mono';
-                ctx.fillText('Welcome to the beaglebone user interface!', width / 6 + 20, height / 4 + 25);
+                ctx.font = '14pt Andale Mono';
+                ctx.fillText('Welcome to the beaglebone user interface!', width / 3.75 + 20, height / 4 + 30);
                 ctx.font = '10pt Andale Mono';
-                ctx.fillText('This interface allows you to play with analog to digital converters,', width / 6 + 25, height / 4 + 55);
-                ctx.fillText('digital pins (including inputs, outputs, and pwms), and the user leds', width / 6 + 25, height / 4 + 70);
-                ctx.fillText('located at the top of the board. Hovering over the buttons indicates', width / 6 + 25, height / 4 + 85);
-                ctx.fillText('which pins correspond to what type. Click and drag the button within', width / 6 + 25, height / 4 + 100);
-                ctx.fillText('the white rectangle and select a pin. The input button requires both an', width / 6 + 25, height / 4 + 115);
-                ctx.fillText('input and an output. The graph to the right will display the voltage', width / 6 + 25, height / 4 + 130);
-                ctx.fillText('of the corresponding pin. Use the zoom in or zoom out to alter the graph,', width / 6 + 25, height / 4 + 145);
-                ctx.fillText('stop to stop recording voltages, and play again to reset. Enjoy!', width / 6 + 25, height / 4 + 160);
+                ctx.fillText('This interface allows you to play with analog to digital converters,', width / 3.75 + 25, height / 4 + 55);
+                ctx.fillText('digital pins (including inputs, outputs, and pwms), and the user leds', width / 3.75 + 25, height / 4 + 70);
+                ctx.fillText('located at the top of the board. Hovering over the buttons indicates', width / 3.75 + 25, height / 4 + 85);
+                ctx.fillText('which pins correspond to what type. Click and drag the button within', width / 3.75 + 25, height / 4 + 100);
+                ctx.fillText('the white rectangle and select a pin. The input button requires both an', width / 3.75 + 25, height / 4 + 115);
+                ctx.fillText('input and an output. The graph to the right will display the voltage', width / 3.75 + 25, height / 4 + 130);
+                ctx.fillText('of the corresponding pin. Use the zoom in or zoom out to alter the graph,', width / 3.75 + 25, height / 4 + 145);
+                ctx.fillText('stop to stop recording voltages, and play again to reset. Enjoy!', width / 3.75 + 25, height / 4 + 160);
             };
 
             loop.clear();
@@ -915,34 +915,19 @@ var UI = (function() {
             return graph;
         })();
 
-        //graph global variables
-        var xWidth = 360;
-        var yWidth = 160;
-        var zeroX = axisStartX;
-        var zeroY = axisStartY + yWidth / 2;
-        var zoomVal = [.125, .25, .5, 1];
-        var zoomIndex = 3;
-        var zoom = zoomVal[zoomIndex];
-        var xScale = 100;
-        var yScale = 40;
-        var prevPoint = [];
-        var plus = { x: axisStartX + 10, y: axisStartY + 451, endX: axisStartX + 25, endY: axisStartY + 451 };
-        var minus = { x: plus.x - 20, y: plus.y + 2, endX: plus.endX - 20, endY: plus.endY };
-        var stopBtn = { x: minus.x - 19, y: minus.y - 16, endX: minus.endX - 22, endY: minus.endY };
-        var playBtn = { x: minus.x - 38, y: minus.y - 17, endX: minus.endX - 39, endY: minus.endY };
-        var timer;
-        var timeCount = 0;
-        var voltage = [];
-        var voltCount = 0;
-        var pinNum = 0;
-        var interval = 0;
-        var status;
-        var timeValues = [];
-        var btnCheck = false;
-        var voltagePin = [];
-
         ui.xyAxis = (function() {
             var xyAxis = {};
+
+            var graph = {
+                xWidth : 360,
+                yWidth : 160,
+                zeroX : axisStartX,
+                zeroY : axisStartY + this.yWidth / 2,
+                interval : 0,
+                zoomVal : [.125,.25,.5,1],
+                zoomIndex : 3,
+                zoom : function(){return this.zoomVal[this.zoomIndex];}
+            }
 
             canvas.Graph.ctx.beginPath();
             canvas.Graph.ctx.moveTo(axisStartX, axisStartY + 160);
@@ -965,35 +950,27 @@ var UI = (function() {
 
             canvas.Graph.ctx.strokeStyle = "black";
             canvas.Graph.ctx.font = '10pt Lucinda Grande';
-            canvas.Graph.ctx.fillText('Voltage [v]', axisStartX -30, axisStartY - 20);
-
-            // canvas.Graph.ctx.font = '10pt Lucinda Grande';
-            // canvas.Graph.ctx.translate(canvas.Graph.e.width / 2, canvas.Graph.e.height / 2);
-            // canvas.Graph.ctx.rotate(-0.5 * Math.PI);
-            // canvas.Graph.ctx.translate(-canvas.Graph.e.width / 2, -canvas.Graph.e.height / 2);
-            // canvas.Graph.ctx.strokeStyle = "black";
-            // canvas.Graph.ctx.fillText('Voltage', axisStartX + 40, axisStartY + 240);
-            // canvas.Graph.ctx.restore();
+            canvas.Graph.ctx.fillText('Voltage [v]', axisStartX - 30, axisStartY - 20);
 
             //x ticks
             var x = 0;
             var countX = 0;
             var xnum = 95;
             var time = 1;
-            var prec = Math.ceil(Math.log(Math.abs(interval) / 100 + 1.1) / Math.LN10) + 1;
+            var prec = Math.ceil(Math.log(Math.abs(graph.interval) / 100 + 1.1) / Math.LN10) + 1;
             canvas.Graph.ctx.strokeStyle = "black";
-            while (x <= xWidth + interval) {
-                if (axisStartX + x - interval >= zeroX) {
+            while (x <= graph.xWidth + graph.interval) {
+                if (axisStartX + x - graph.interval >= graph.zeroX) {
                     if (countX % 10 === 0) {
                         canvas.Graph.ctx.beginPath();
-                        canvas.Graph.ctx.moveTo(axisStartX + x - interval, axisStartY + 155);
-                        canvas.Graph.ctx.lineTo(axisStartX + x - interval, axisStartY + 170);
+                        canvas.Graph.ctx.moveTo(axisStartX + x - graph.interval, axisStartY + 155);
+                        canvas.Graph.ctx.lineTo(axisStartX + x - graph.interval, axisStartY + 170);
                         canvas.Graph.ctx.lineWidth = 2;
                         canvas.Graph.ctx.stroke();
                     } else {
                         canvas.Graph.ctx.beginPath();
-                        canvas.Graph.ctx.moveTo(axisStartX + x - interval, axisStartY + 155);
-                        canvas.Graph.ctx.lineTo(axisStartX + x - interval, axisStartY + 165);
+                        canvas.Graph.ctx.moveTo(axisStartX + x - graph.interval, axisStartY + 155);
+                        canvas.Graph.ctx.lineTo(axisStartX + x - graph.interval, axisStartY + 165);
                         canvas.Graph.ctx.lineWidth = 2;
                         canvas.Graph.ctx.stroke();
                     }
@@ -1003,10 +980,10 @@ var UI = (function() {
             }
             canvas.Graph.ctx.fillStyle = "black";
             canvas.Graph.ctx.font = '8pt Lucinda Grande';
-            while (xnum <= xWidth + interval) {
-                if (axisStartX + xnum - interval >= zeroX) {
+            while (xnum <= graph.xWidth + graph.interval) {
+                if (axisStartX + xnum - graph.interval >= graph.zeroX) {
                     canvas.Graph.ctx.fillText(time.toPrecision(prec).toString(),
-                        axisStartX + xnum - interval, axisStartY + 180);
+                        axisStartX + xnum - graph.interval, axisStartY + 180);
                 }
                 xnum += 100;
                 time = (xnum + 3) / 100;
@@ -1019,7 +996,7 @@ var UI = (function() {
             var ynum = 3;
             var volt = 4;
             var text;
-            while (y <= yWidth) {
+            while (y <= graph.yWidth) {
                 if (countY % 2 === 0) {
                     canvas.Graph.ctx.beginPath();
                     canvas.Graph.ctx.moveTo(axisStartX - 10, axisStartY + y);
@@ -1038,17 +1015,16 @@ var UI = (function() {
             };
             canvas.Graph.ctx.fillStyle = "black";
             canvas.Graph.ctx.font = '8pt Lucinda Grande';
-            while (ynum <= yWidth + 4) {
-                text = (volt * zoom).toPrecision(2).toString();
-                if (volt < 0) {
-                    //canvas.Graph.ctx.fillText(text, axisStartX - 36, axisStartY + ynum);
-                } else {
-                    canvas.Graph.ctx.fillText(text.toString(), axisStartX - 32, axisStartY + ynum);
+            while (ynum <= graph.yWidth + 4 && volt>=0) {
+                text = (volt * graph.zoom()).toFixed(1).toString();
+                if (text=="0.0") {
+                    canvas.Graph.ctx.fillText(text.toString(), axisStartX - 22, axisStartY + ynum + 10);
+                }
+                else {
+                    canvas.Graph.ctx.fillText(text.toString(), axisStartX - 32, axisStartY + ynum); 
                 }
                 ynum += 20;
                 volt -= 0.5;
-
-                console.log("text: " + text)
             };
             return xyAxis;
         })();
