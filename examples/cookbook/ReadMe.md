@@ -4,28 +4,30 @@ This are the example files used in the BeagleBone Cookbook[1].
 
 [1] http://shop.oreilly.com/product/0636920033899.do
 
+----
 BeagleBone Cookbook
 Software and Hardware Problems and Solutions
 By Mark A. Yoder, Jason Kridner
 Publisher: O'Reilly Media
 Final Release Date: April 2015
 Pages: 346
+----
 
-# Chapter 1   Basics
-## 1.0. Introduction
-##1.1. Picking Your Beagle
-##1.2. Getting Started, Out of the Box
-##1.3. Verifying You Have the Latest Version of the OS on Your Bone
-##1.4. Running the BoneScript API Tutorials
-##1.5. Wiring a Breadboard
-##1.6. Editing Code Using the Cloud9 IDE
-##1.7. Running JavaScript Applications from the Cloud9 IDE
-##1.8. Running Applications Automatically
-##1.9. Finding the Latest Version of the OS for Your Bone
-##1.10. Running the Latest Version of the OS on Your Bone
-##1.11. Updating the OS on Your Bone
-##1.12. Backing Up the Onboard Flash
-##1.13. Updating the Onboard Flash
+= Chapter 1   Basics
+== 1.0. Introduction
+==1.1. Picking Your Beagle
+==1.2. Getting Started, Out of the Box
+==1.3. Verifying You Have the Latest Version of the OS on Your Bone
+==1.4. Running the BoneScript API Tutorials
+==1.5. Wiring a Breadboard
+==1.6. Editing Code Using the Cloud9 IDE
+==1.7. Running JavaScript Applications from the Cloud9 IDE
+==1.8. Running Applications Automatically
+==1.9. Finding the Latest Version of the OS for Your Bone
+==1.10. Running the Latest Version of the OS on Your Bone
+==1.11. Updating the OS on Your Bone
+==1.12. Backing Up the Onboard Flash
+==1.13. Updating the Onboard Flash
 
 #Chapter 2   Sensors
 ##2.0. Introduction
