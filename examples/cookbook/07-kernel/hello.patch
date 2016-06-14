@@ -1,0 +1,53 @@
+From eaf4f7ea7d540bc8bb57283a8f68321ddb4401f4 Mon Sep 17 00:00:00 2001
+From: Jason Kridner <jdk@ti.com>
+Date: Tue, 12 Feb 2013 02:18:03 +0000
+Subject: [PATCH] hello: example kernel modules
+
+---
+ hello/Makefile   |    7 +++++++
+ hello/hello.c    |   18 ++++++++++++++++++
+ 2 files changed, 25 insertions(+), 0 deletions(-)
+ create mode 100644 hello/Makefile
+ create mode 100644 hello/hello.c
+
+diff --git a/hello/Makefile b/hello/Makefile
+new file mode 100644
+index 0000000..4b23da7
+--- /dev/null
++++ b/hello/Makefile
+@@ -0,0 +1,7 @@
++obj-m := hello.o
++
++PWD   := $(shell pwd)
++KDIR  := ${PWD}/..
++
++default:
++	make -C $(KDIR) SUBDIRS=$(PWD) modules
+diff --git a/hello/hello.c b/hello/hello.c
+new file mode 100644
+index 0000000..157d490
+--- /dev/null
++++ b/hello/hello.c
+@@ -0,0 +1,22 @@
++#include <linux/module.h>       /* Needed by all modules */
++#include <linux/kernel.h>       /* Needed for KERN_INFO */
++#include <linux/init.h>         /* Needed for the macros */
++
++static int __init hello_start(void)
++{
++    printk(KERN_INFO "Loading hello module...\n");
++    printk(KERN_INFO "Hello, World!\n");
++    return 0;
++}
++
++static void __exit hello_end(void)
++{
++    printk(KERN_INFO "Goodbye Boris\n");
++}
++
++module_init(hello_start);
++module_exit(hello_end);
++
++MODULE_AUTHOR("Boris Houndleroy");
++MODULE_DESCRIPTION("Hello World Example");
++MODULE_LICENSE("GPL");
