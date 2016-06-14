@@ -1,17 +1,14 @@
 # BealgeBone Cookbook
 
-This are the example files used in the http://shop.oreilly.com/product/0636920033899.do[BeagleBone Cookbook].
+This are the example files used in the BeagleBone Cookbook[1].
 
+[1] http://shop.oreilly.com/product/0636920033899.do
 
 BeagleBone Cookbook - Software and Hardware Problems and Solutions
 
 By Mark A. Yoder, Jason Kridner
 
-Publisher: O'Reilly Media
-
-Final Release Date: April 2015
-
-Pages: 346
+Publisher: O'Reilly Media, Final Release Date: April 2015, Pages: 346
 
 ## Chapter 1   Basics
 ### 1.0. Introduction
