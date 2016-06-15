@@ -235,17 +235,17 @@ var UI = (function() {
                     category: "digital"
                 },
                 plus: {
-                    x: axisStartX + 44,
+                    x: axisStartX + 54,
                     y: axisStartY + 240,
-                    endX: axisStartX + 58,
+                    endX: axisStartX + 66,
                     endY: axisStartY + 252 + 2,
                     text: "+",
                     category: "graph"
                 },
                 minus: {
-                    x: axisStartX + 30,
+                    x: axisStartX + 36,
                     y: axisStartY + 240,
-                    endX: axisStartX + 42 - 3,
+                    endX: axisStartX + 48,
                     endY: axisStartY + 252 + 3,
                     text: "-",
                     category: "graph"
@@ -325,14 +325,14 @@ var UI = (function() {
 
             button.highlightPlus = function() {
                 canvas.Graph.ctx.fillStyle = "#FF4500";
-                canvas.Graph.ctx.font = '20pt Lucinda Grande';
-                canvas.Graph.ctx.fillText("+", buttons.plus.x, buttons.plus.y);
+                canvas.Graph.ctx.font = 'bold 20pt Lucinda Grande';
+                canvas.Graph.ctx.fillText("+", buttons.plus.x, buttons.plus.endY);
             };
 
             button.highlightMinus = function() {
                 canvas.Graph.ctx.fillStyle = "#FF4500";
                 canvas.Graph.ctx.font = '30pt Lucinda Grande';
-                canvas.Graph.ctx.fillText("-", buttons.minus.x, buttons.minus.y);
+                canvas.Graph.ctx.fillText("-", buttons.minus.x, buttons.minus.endY);
             };
 
             button.highlightStop = function() {
@@ -403,14 +403,14 @@ var UI = (function() {
                 // zoom in
                 if (btn.text == "+") {
                     context.font = 'bold 20pt Lucinda Grande';
-                    context.fillText(btn.text, btn.endX, btn.endY);
+                    context.fillText(btn.text, btn.x, btn.endY);
                     context.save();
                 }
                 
                 // zoom out
                 else if (btn.text == "-") {
                     context.font = '30pt Lucinda Grande';
-                    context.fillText(btn.text, btn.endX, btn.endY);
+                    context.fillText(btn.text, btn.x, btn.endY);
                     context.save();
                 }
                 
@@ -1283,12 +1283,12 @@ var Events = (function() {
                 break;
             case "plus":
                 listen(true, 'zooming');
-                e.ui.graph.zoomChange("in");
+                //e.ui.graph.zoomChange("in");
                 e.ui.button.highlightPlus();
                 break;
             case "minus":
                 listen(true, 'zooming');
-                e.ui.graph.zoomChange("out");
+                //e.ui.graph.zoomChange("out");
                 e.ui.button.highlightMinus();
                 break;
             case "stop":
