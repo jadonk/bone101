@@ -38,9 +38,9 @@ SensorTag.discover(function(sensorTag) {  // <2>
         sensorTag.readIrTemperature(
           function(objectTemperature, ambientTemperature) {
             console.log('\tobject  temperature = %d °C', 
-                objectTemperature.toFixed(1));
+                objectTemperature);
             console.log('\tambient temperature = %d °C', 
-                ambientTemperature.toFixed(1));
+                ambientTemperature);
             callback();
         });
 
