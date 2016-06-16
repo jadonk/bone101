@@ -108,8 +108,8 @@ var UI = (function() {
         // positions
         var BBposX = 283;
         var BBposY = 120;
-        var axisStartY = BBposY + 40;
-        var axisStartX = BBposX + 375;
+        var axisStartY = BBposY + 65;
+        var axisStartX = BBposX + 240;
         var rect = {
             x: 0,
             y: BBposY - 70,
@@ -143,7 +143,7 @@ var UI = (function() {
                     endY: btnY + 15,
                     color: 'rgb(51,153,255)',
                     text: "analog",
-                    s: 13,
+                    s: 19,
                     offColor: 'rgb(0,51,102)',
                     article: "an analog pin",
                     graphColors: ['rgb(0,0,255)', 'rgb(0,01,53)', 'rgb(0,102,204)', 'rgb(0,51,102)'],
@@ -156,7 +156,7 @@ var UI = (function() {
                     endY: btnY + 15,
                     color: 'rgb(102,204,51)',
                     text: "digital",
-                    s: 10,
+                    s: 19,
                     category: "main"
                 },
                 ground: {
@@ -166,7 +166,7 @@ var UI = (function() {
                     endY: btnY + 15,
                     color: 'rgb(64,64,64)',
                     text: "ground",
-                    s: 12,
+                    s: 19,
                     category: "main"
                 },
                 power: {
@@ -176,7 +176,7 @@ var UI = (function() {
                     endY: btnY + 15,
                     color: 'rgb(255,51,51)',
                     text: "power",
-                    s: 17,
+                    s: 19,
                     category: "main"
                 },
                 led: {
@@ -186,7 +186,7 @@ var UI = (function() {
                     endY: btnY + 15,
                     color: 'rgb(255,153,51)',
                     text: "usr leds",
-                    s: 7,
+                    s: 15,
                     offColor: 'rgb(102,0,0)',
                     barColor: 'rgb(255,204,153)',
                     article: "a user led",
@@ -200,7 +200,7 @@ var UI = (function() {
                     endY: btnY + 35,
                     color: 'rgb(0,153,0)',
                     text: "input",
-                    s: 17,
+                    s: 22,
                     offColor: 'rgb(0,81,36)',
                     article: "a digital pin",
                     graphColors: ['rgb(0,51,0)', 'rgb(0,204,0)', 'rgb(51,102,0)', 'rgb(0,255,0)', 'rgb(128,255,0)'],
@@ -213,7 +213,7 @@ var UI = (function() {
                     endY: btnY + 55,
                     color: 'rgb(0,153,153)',
                     text: "output",
-                    s: 13,
+                    s: 19,
                     offColor: 'rgb(0,85,85)',
                     barColor: 'rgb(153,255,255)',
                     article: "a digital pin",
@@ -227,7 +227,7 @@ var UI = (function() {
                     endY: btnY + 75,
                     color: 'rgb(153,0,153)',
                     text: "pwm",
-                    s: 25,
+                    s: 23,
                     offColor: 'rgb(51,0,102)',
                     barColor: 'rgb(229,204,255)',
                     article: "a pwm pin",
@@ -235,38 +235,44 @@ var UI = (function() {
                     category: "digital"
                 },
                 plus: {
-                    x: axisStartX + 10,
-                    y: axisStartY + 451,
-                    endX: axisStartX + 25,
-                    endY: axisStartY + 451,
+                    x: axisStartX + 54,
+                    y: axisStartY + 240,
+                    endX: axisStartX + 66,
+                    endY: axisStartY + 252 + 2,
+                    text: "+",
                     category: "graph"
                 },
                 minus: {
-                    x: axisStartX - 10,
-                    y: axisStartY + 453,
-                    endX: axisStartX + 5,
-                    endY: axisStartY + 451,
+                    x: axisStartX + 36,
+                    y: axisStartY + 240,
+                    endX: axisStartX + 48,
+                    endY: axisStartY + 252 + 3,
+                    text: "-",
                     category: "graph"
                 },
                 stop: {
-                    x: axisStartX - 29,
-                    y: axisStartY + 437,
-                    endX: axisStartX - 17,
-                    endY: axisStartY + 451,
+                    x: axisStartX + 18,
+                    y: axisStartY + 240,
+                    endX: axisStartX + 30,
+                    endY: axisStartY + 252,
+                    status: "none",
+                    text:"stop",
                     category: "graph"
                 },
                 play: {
-                    x: axisStartX - 48,
-                    y: axisStartY + 436,
-                    endX: axisStartX - 34,
-                    endY: axisStartY + 451,
+                    x: axisStartX,
+                    y: axisStartY + 240,
+                    endX: axisStartX + 12,
+                    endY: axisStartY + 252,
+                    status: "none",
+                    text: "play",
                     category: "graph"
                 },
                 exit: {
-                    x: canvas.Base.e.width * 6 / 8 + 52.5,
-                    y: canvas.Base.e.height / 4 + 8,
-                    endX: canvas.Base.e.width * 6 / 8 + 60.5,
-                    endY: canvas.Base.e.height / 4 + 20,
+                    x: canvas.Base.e.width / 2 + 250,
+                    y: canvas.Base.e.height / 4 + 13,
+                    endX: canvas.Base.e.width / 2 + 258,
+                    endY: canvas.Base.e.height / 4 + 25,
                     category: "welcome"
                 },
                 digitalMenu: {
@@ -283,6 +289,7 @@ var UI = (function() {
                 var coords = Position(event);
                 var x = coords[0];
                 var y = coords[1];
+                // console.log("x: " + x , ", y: " + y );
 
                 for (var b in buttons) {
                     var minX = buttons[b].x;
@@ -318,14 +325,14 @@ var UI = (function() {
 
             button.highlightPlus = function() {
                 canvas.Graph.ctx.fillStyle = "#FF4500";
-                canvas.Graph.ctx.font = '20pt Lucinda Grande';
-                canvas.Graph.ctx.fillText("+", buttons.plus.x, buttons.plus.y);
+                canvas.Graph.ctx.font = 'bold 20pt Lucinda Grande';
+                canvas.Graph.ctx.fillText("+", buttons.plus.x, buttons.plus.endY);
             };
 
             button.highlightMinus = function() {
                 canvas.Graph.ctx.fillStyle = "#FF4500";
                 canvas.Graph.ctx.font = '30pt Lucinda Grande';
-                canvas.Graph.ctx.fillText("-", buttons.minus.x, buttons.minus.y);
+                canvas.Graph.ctx.fillText("-", buttons.minus.x, buttons.minus.endY);
             };
 
             button.highlightStop = function() {
@@ -338,7 +345,7 @@ var UI = (function() {
                 canvas.Graph.ctx.fill();
             };
 
-            button.highlightStop = function() {
+            button.highlightPlay = function() {
                 canvas.Graph.ctx.fillStyle = "#FF4500";
                 canvas.Graph.ctx.beginPath();
                 canvas.Graph.ctx.moveTo(buttons.play.x, buttons.play.y);
@@ -391,6 +398,46 @@ var UI = (function() {
                 context.fillText(text, x + s, y + 12);
             };
 
+            button.drawGraphbtn = function(b, context) {
+                var btn = buttons[b];
+                // zoom in
+                if (btn.text == "+") {
+                    context.font = 'bold 20pt Lucinda Grande';
+                    context.fillText(btn.text, btn.x, btn.endY);
+                    context.save();
+                }
+                
+                // zoom out
+                else if (btn.text == "-") {
+                    context.font = '30pt Lucinda Grande';
+                    context.fillText(btn.text, btn.x, btn.endY);
+                    context.save();
+                }
+                
+                // play button
+                else if (btn.text == "play") 
+                {
+                    context.beginPath();
+                    context.moveTo(btn.x, btn.y);
+                    context.lineTo(btn.x + 10, btn.y + 7);
+                    context.lineTo(btn.x, btn.y + 14);
+                    context.fill();
+                    context.restore();
+                    context.save();
+                }
+
+                // stop button
+                else {
+                    context.beginPath();
+                    context.moveTo(btn.x, btn.y);
+                    context.lineTo(btn.x + 12, btn.y);
+                    context.lineTo(btn.x + 12, btn.y + 12);
+                    context.lineTo(btn.x, btn.y + 12);
+                    context.fill();
+                    context.restore();
+                }
+            };
+
             var probeIndex = 0;
             button.push = function(b, x, y) {
                 buttons[probeIndex] = {};
@@ -421,6 +468,8 @@ var UI = (function() {
             for (var b in buttons) {
                 if (buttons[b].category == "main") {
                     button.draw(b, canvas.Base.ctx, false);
+                } else if (buttons[b].category == "graph") {
+                    button.drawGraphbtn(b, canvas.Graph.ctx);
                 }
             }
 
@@ -847,22 +896,22 @@ var UI = (function() {
                 ctx.fillStyle = 'rgba(255,255,255,0.5)';
                 ctx.fillRect(0, 0, width, height);
                 ctx.fillStyle = 'rgba(0,102,204,0.85)';
-                ctx.fillRect(width / 6, height / 4, width / 1.5, height / 2);
+                ctx.fillRect(width / 3.75, height / 4, width / 1.8, height / 2.85);
                 ctx.fillStyle = color;
-                ctx.font = '12pt Andale Mono';
-                ctx.fillText('X', width * 6 / 7.2 - 20, height / 4 + 20);
+                ctx.font = '12pt Arial';
+                ctx.fillText('X', width / 2 + 250, height / 4 + 25);
                 ctx.fillStyle = 'white';
-                ctx.font = '13pt Andale Mono';
-                ctx.fillText('Welcome to the beaglebone user interface!', width / 6 + 20, height / 4 + 25);
-                ctx.font = '10pt Andale Mono';
-                ctx.fillText('This interface allows you to play with analog to digital converters,', width / 6 + 25, height / 4 + 55);
-                ctx.fillText('digital pins (including inputs, outputs, and pwms), and the user leds', width / 6 + 25, height / 4 + 70);
-                ctx.fillText('located at the top of the board. Hovering over the buttons indicates', width / 6 + 25, height / 4 + 85);
-                ctx.fillText('which pins correspond to what type. Click and drag the button within', width / 6 + 25, height / 4 + 100);
-                ctx.fillText('the white rectangle and select a pin. The input button requires both an', width / 6 + 25, height / 4 + 115);
-                ctx.fillText('input and an output. The graph to the right will display the voltage', width / 6 + 25, height / 4 + 130);
-                ctx.fillText('of the corresponding pin. Use the zoom in or zoom out to alter the graph,', width / 6 + 25, height / 4 + 145);
-                ctx.fillText('stop to stop recording voltages, and play again to reset. Enjoy!', width / 6 + 25, height / 4 + 160);
+                ctx.font = '14pt Arial';
+                ctx.fillText('Welcome to the beaglebone user interface!', width / 3.75 + 20, height / 4 + 30);
+                ctx.font = '10pt Arial';
+                ctx.fillText('This interface allows you to play with analog to digital converters,', width / 3.75 + 25, height / 4 + 55);
+                ctx.fillText('digital pins (including inputs, outputs, and pwms), and the user leds', width / 3.75 + 25, height / 4 + 70);
+                ctx.fillText('located at the top of the board. Hovering over the buttons indicates', width / 3.75 + 25, height / 4 + 85);
+                ctx.fillText('which pins correspond to what type. Click and drag the button within', width / 3.75 + 25, height / 4 + 100);
+                ctx.fillText('the white rectangle and select a pin. The input button requires both an', width / 3.75 + 25, height / 4 + 115);
+                ctx.fillText('input and an output. The graph to the right will display the voltage', width / 3.75 + 25, height / 4 + 130);
+                ctx.fillText('of the corresponding pin. Use the zoom in or zoom out to alter the graph,', width / 3.75 + 25, height / 4 + 145);
+                ctx.fillText('stop to stop recording voltages, and play again to reset. Enjoy!', width / 3.75 + 25, height / 4 + 160);
             };
 
             loop.clear();
@@ -909,6 +958,120 @@ var UI = (function() {
             return graph;
         })();
 
+        ui.xyAxis = (function() {
+            var xyAxis = {};
+
+            var graph = {
+                xWidth: 360,
+                yWidth: 250,
+                zeroX: axisStartX,
+                zeroY: axisStartY + 160,
+                interval: 0,
+                zoomVal: [.125, .25, .5, 1],
+                zoomIndex: 3,
+                zoom: function() {
+                    return this.zoomVal[this.zoomIndex];
+                }
+            }
+
+            canvas.Graph.ctx.beginPath();
+            canvas.Graph.ctx.moveTo(graph.zeroX, graph.zeroY);
+            canvas.Graph.ctx.lineTo(graph.zeroX + graph.xWidth, graph.zeroY);
+            canvas.Graph.ctx.strokeStyle = "#354b60";
+            canvas.Graph.ctx.lineWidth = 2;
+            canvas.Graph.ctx.stroke();
+            canvas.Graph.ctx.strokeStyle = "black";
+            canvas.Graph.ctx.font = '10pt Lucinda Grande';
+            canvas.Graph.ctx.fillText('Time [s]', axisStartX + 130, graph.zeroY + 50);
+            canvas.Graph.ctx.save();
+
+            canvas.Graph.ctx.beginPath();
+            canvas.Graph.ctx.moveTo(graph.zeroX, graph.zeroY + 5);
+            canvas.Graph.ctx.lineTo(graph.zeroX, graph.zeroY - graph.yWidth -10);
+            canvas.Graph.ctx.strokeStyle = "black";
+            canvas.Graph.ctx.lineWidth = 2;
+            canvas.Graph.ctx.stroke();
+            canvas.Graph.ctx.save();
+
+            canvas.Graph.ctx.strokeStyle = "black";
+            canvas.Graph.ctx.font = '10pt Lucinda Grande';
+            canvas.Graph.ctx.fillText('Voltage [v]', graph.zeroX - 30, graph.zeroY - graph.yWidth - 20);
+            //x ticks
+            var x = 0;
+            var countX = 0;
+            var xnum = 95;
+            var time = 1;
+            var prec = Math.ceil(Math.log(Math.abs(graph.interval) / 100 + 1.1) / Math.LN10) + 1;
+            canvas.Graph.ctx.strokeStyle = "black";
+            while (x <= graph.xWidth + graph.interval) {
+                if (graph.zeroX + x - graph.interval >= graph.zeroX) {
+                    if (countX % 10 === 0) {
+                        canvas.Graph.ctx.beginPath();
+                        canvas.Graph.ctx.moveTo(graph.zeroX + x - graph.interval, graph.zeroY - 5);
+                        canvas.Graph.ctx.lineTo(graph.zeroX + x - graph.interval, graph.zeroY + 10);
+                        canvas.Graph.ctx.lineWidth = 2;
+                        canvas.Graph.ctx.stroke();
+                    } else {
+                        canvas.Graph.ctx.beginPath();
+                        canvas.Graph.ctx.moveTo(graph.zeroX + x - graph.interval, graph.zeroY - 5);
+                        canvas.Graph.ctx.lineTo(graph.zeroX + x - graph.interval, graph.zeroY + 5);
+                        canvas.Graph.ctx.lineWidth = 2;
+                        canvas.Graph.ctx.stroke();
+                    }
+                }
+                x += 10;
+                countX += 1;
+            }
+            canvas.Graph.ctx.fillStyle = "black";
+            canvas.Graph.ctx.font = '8pt Lucinda Grande';
+            while (xnum <=  graph.xWidth + graph.interval) {
+                if (axisStartX + xnum - graph.interval >= graph.zeroX) {
+                    canvas.Graph.ctx.fillText(time.toPrecision(prec).toString(),
+                        axisStartX + xnum - graph.interval, graph.zeroY + 20);
+                }
+                xnum += 100;
+                time = (xnum + 3) / 100;
+
+            }
+
+            //y ticks
+            var y = 0;
+            var countY = 5;
+            var ynum = 0;
+            var volt = 5;
+            var text;
+            while (y <= graph.yWidth) {
+                if (countY % 5 === 0) {
+                    canvas.Graph.ctx.beginPath();
+                    canvas.Graph.ctx.moveTo(graph.zeroX - 10, graph.zeroY - y);
+                    canvas.Graph.ctx.lineTo(graph.zeroX + 5, graph.zeroY - y);
+                    canvas.Graph.ctx.lineWidth = 2;
+                    canvas.Graph.ctx.stroke();
+                } else {
+                    canvas.Graph.ctx.beginPath();
+                    canvas.Graph.ctx.moveTo(graph.zeroX - 5, graph.zeroY - y);
+                    canvas.Graph.ctx.lineTo(graph.zeroX + 5, graph.zeroY - y);
+                    canvas.Graph.ctx.lineWidth = 2;
+                    canvas.Graph.ctx.stroke();
+                }
+                y += 10;
+                countY += 1;
+            };
+            canvas.Graph.ctx.fillStyle = "black";
+            canvas.Graph.ctx.font = '8pt Lucinda Grande';
+            while (ynum <= graph.yWidth && volt >= 0) {
+                text = (volt * graph.zoom()).toFixed(1).toString();
+                if (text == "0.0") {
+                    canvas.Graph.ctx.fillText(text.toString(), graph.zeroX - 20, graph.zeroY - graph.yWidth + ynum + 15);
+                } else {
+                    canvas.Graph.ctx.fillText(text.toString(), graph.zeroX - 30, graph.zeroY - graph.yWidth + ynum +2);
+                }
+                ynum += 50;
+                volt -= 1;
+            };
+            return xyAxis;
+        })();
+
         function Position(event) {
             var rect = canvas.Base.e.getBoundingClientRect();
             var coords = [];
@@ -921,8 +1084,8 @@ var UI = (function() {
                 coords[0] = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
                 coords[1] = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
             }
-            //console.log("Position = " + [x, y]);
-            //console.log("Offset = " + [rect.left, rect.top]);
+            // console.log("Position = " + [x, y]);
+            // console.log("Offset = " + [rect.left, rect.top]);
             coords[0] -= rect.left;
             coords[1] -= rect.top;
 
@@ -1120,12 +1283,12 @@ var Events = (function() {
                 break;
             case "plus":
                 listen(true, 'zooming');
-                e.ui.graph.zoomChange("in");
+                //e.ui.graph.zoomChange("in");
                 e.ui.button.highlightPlus();
                 break;
             case "minus":
                 listen(true, 'zooming');
-                e.ui.graph.zoomChange("out");
+                //e.ui.graph.zoomChange("out");
                 e.ui.button.highlightMinus();
                 break;
             case "stop":
