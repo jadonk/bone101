@@ -289,7 +289,7 @@ var UI = (function() {
                 var coords = Position(event);
                 var x = coords[0];
                 var y = coords[1];
-                // console.log("x: " + x , ", y: " + y );
+                //console.log("x: " + x , ", y: " + y );
 
                 for (var b in buttons) {
                     var minX = buttons[b].x;
@@ -1084,8 +1084,8 @@ var UI = (function() {
                 coords[0] = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
                 coords[1] = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
             }
-            // console.log("Position = " + [x, y]);
-            // console.log("Offset = " + [rect.left, rect.top]);
+            //console.log("Position = " + [x, y]);
+            //console.log("Offset = " + [rect.left, rect.top]);
             coords[0] -= rect.left;
             coords[1] -= rect.top;
 
