@@ -49,7 +49,7 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     $('.cloud9-url').each(function() {
-        this.href = 'http://' + window.location.host + ':3000';
+        this.href = 'http://192.168.7.2:3000';
     });
 });
 
