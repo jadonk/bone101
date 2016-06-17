@@ -1,0 +1,1 @@
+cmd_/root/bone101/examples/cookbook/07-kernel/hello.ko := ld -EL -r  -T ./scripts/module-common.lds --build-id  -o /root/bone101/examples/cookbook/07-kernel/hello.ko /root/bone101/examples/cookbook/07-kernel/hello.o /root/bone101/examples/cookbook/07-kernel/hello.mod.o

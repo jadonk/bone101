@@ -1,0 +1,1 @@
+cmd_Release/obj.target/binding.node := g++ -shared -pthread -rdynamic  -Wl,-soname=binding.node -o Release/obj.target/binding.node -Wl,--start-group Release/obj.target/binding/src/BluetoothHciSocket.o -Wl,--end-group 
