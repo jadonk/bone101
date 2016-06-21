@@ -13,7 +13,11 @@ clean:
 	rm -rf ./bone101
 
 test:
-	if [ -x $(HTMLPROOFER) ]; then $(HTMLPROOFER) "./bone101" --disable-external --alt-ignore "/.*/"  --only-4xx --url-ignore "/#.*/"  --url-swap "/bone101:" --file-ignore "/Support/bone101/UI/","/Support/bonecard/create/"; fi
+ifdef HTMLPROOFER
+	$(HTMLPROOFER) "./bone101" --disable-external --alt-ignore "/.*/"  --only-4xx --url-ignore "/#.*/"  --url-swap "/bone101:" --file-ignore "/Support/bone101/UI/","/Support/bonecard/create/"
+else
+	@echo htmlproofer not found
+endif
 
 install: ./bone101
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/bone101
