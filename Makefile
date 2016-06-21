@@ -23,8 +23,10 @@ install: ./bone101
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/bone101
 	cp -dr --preserve=mode,timestamp ./bone101/* $(DESTDIR)$(PREFIX)/share/bone101/
 	install -m 0755 -d $(DESTDIR)$(CLOUD9_DIR)
-	cp -dr --preserve=mode,timestamp ./.c9/* $(DESTDIR)$(CLOUD9_DIR)
-	cp -dr --preserve=mode,timestamp ./examples/* $(DESTDIR)$(CLOUD9_DIR)
+	install -m 0755 -d $(DESTDIR)$(CLOUD9_DIR)/.c9
+	cp -dr --preserve=mode,timestamp ./.c9/* $(DESTDIR)$(CLOUD9_DIR)/.c9
+	install -m 0755 -d $(DESTDIR)$(CLOUD9_DIR)/examples
+	cp -dr --preserve=mode,timestamp ./examples/* $(DESTDIR)$(CLOUD9_DIR)/examples
 	cp -dr --preserve=mode,timestamp ./LICENSE $(DESTDIR)$(CLOUD9_DIR)
 	cp -dr --preserve=mode,timestamp ./README.md $(DESTDIR)$(CLOUD9_DIR)
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/applications
