@@ -298,7 +298,7 @@ var UI = (function() {
                     var maxY = buttons[b].endY;
                     if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
                         //console.log("button = " + b);
-                        return (b);
+                        return b;
                     }
                 }
                 //console.log("button = none");
@@ -446,19 +446,26 @@ var UI = (function() {
                         buttons[probeIndex][prop] = buttons[b][prop];
                     }
                 }
+                buttons[probeIndex].name = b;
                 buttons[probeIndex].x = snapProbe.x;
                 buttons[probeIndex].y = snapProbe.y;
                 buttons[probeIndex].endX = snapProbe.x + 75;
                 buttons[probeIndex].endY = snapProbe.y + 15;
-                buttons[probeIndex].category = "probe";
+                buttons[probeIndex].status = "probe";
+
+                //ui.probe.push(buttons[probeIndex]);
+
                 button.draw(probeIndex, canvas.Base.ctx, false);
                 snapProbe.y += 22;
                 probeIndex++;
             };
 
             button.pop = function() {
+                snapProbe.y -= 22;
                 probeIndex--;
+                var button = buttons[probeIndex];
                 delete buttons[probeIndex];
+                return button;
             };
 
             button.get = function() {
@@ -816,18 +823,36 @@ var UI = (function() {
 
             pin.highlight = function(button) {
                 if (button == "none") return;
+
                 var category = button;
                 var pwm = false;
                 if (category == "input") category = "digital";
                 if (category == "output") category = "digital";
+                
                 for (var i = 0; i < 96; i++) {
                     if (category == "pwm") pwm = pins[i].PWM;
                     if (category == pins[i].category || pwm) {
                         var p = pins[i];
                         canvas.Active.ctx.fillStyle = 'RGBA(255,255,255,0.5)';
                         canvas.Active.ctx.fillRect(p.x, p.y, p.w, p.h);
+                        canvas.Active.ctx.save();
                     }
                 }
+            };
+
+            pin.test = function(event) {
+                var coords = Position(event);
+                var x = coords[0];
+                var y = coords[1];
+
+                for (var p in pins) {
+                    if (x >= pins[p].x && x <= pins[p].x + pins[p].w && y >= pins[p].y && 
+                        y <= pins[p].y + pins[p].h) {
+                        //console.log("pin = " + pins[p].name);
+                        return pins[p];
+                    }
+                }
+                return ("none");
             };
 
             return pin;
@@ -840,6 +865,10 @@ var UI = (function() {
 
             var add = {};
             add.type = 'none';
+
+            probe.push = function(button) {
+                probes.push(button);
+            };
 
             probe.addStart = function(type) {
                 add.type = type;
@@ -856,7 +885,6 @@ var UI = (function() {
                 }
                 ui.button.push(add.type);
                 ui.button.draw(add.type, canvas.Active.ctx, true);
-                add.type = 'none';
                 return ('selectPin');
             };
 
@@ -869,6 +897,24 @@ var UI = (function() {
                 ui.pin.highlight(add.type);
             };
 
+            //clears the duplicate button after dragging button to graph.
+            probe.clearDrag = function() {
+                var coords = Position(event);
+                var x = coords[0] - 50;
+                var y = coords[1] - 7.5;
+                canvas.Active.ctx.clearRect(x-1,y-1,ui.button.get()[add.type].endX,ui.button.get()[add.type].endY);
+                canvas.Active.ctx.save();
+            };
+
+            probe.selectText = function(){
+                canvas.Active.ctx.fillStyle= 'red';
+                canvas.Active.ctx.font = '12pt Andale Mono';
+                canvas.Active.ctx.fillText("select " + ui.button.get()[add.type].article, BBposX + 10, BBposY-25);
+                canvas.Active.ctx.save();
+
+                add.type = 'none';
+            };
+
             probe.add = function(pin) {
                 canvas.add(pin.id, 10);
                 ui.graph.add(pin.id, 10);
@@ -876,6 +922,25 @@ var UI = (function() {
 
             probe.onOffTest = function(event) {
 
+            };
+
+            probe.test = function(event) {
+                var coords = Position(event);
+                var x = coords[0];
+                var y = coords[1];
+                var buttons = ui.button.get();
+
+                for (var b in buttons) {
+                    var minX = buttons[b].x;
+                    var minY = buttons[b].y;
+                    var maxX = buttons[b].endX;
+                    var maxY = buttons[b].endY;
+                    if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
+                        return buttons[b].name;
+                    }
+                }
+
+                return ("none");
             };
 
             return probe;
@@ -886,6 +951,16 @@ var UI = (function() {
 
             loop.clear = function() {
                 canvas.Active.ctx.clearRect(0, 0, canvas.Active.e.width, canvas.Active.e.height);
+            };
+
+            // to remove probe if not connected to pin.
+            loop.clearProbe = function() {
+                var btn = ui.button.pop();
+                canvas.Base.ctx.clearRect(btn.x-1, btn.y-1, btn.endX, btn.endY);
+            };
+
+            loop.clearBB = function() {
+                canvas.Active.ctx.clearRect(283, 120, canvas.Active.e.width, canvas.Active.e.height);
             };
 
             loop.welcome = function(button) {
@@ -926,7 +1001,6 @@ var UI = (function() {
             beagleBone.src = base_url + '/static/images/beaglebone.png';
             beagleBone.onload = function() {
                 canvas.Base.ctx.drawImage(beagleBone, BBposX, BBposY, beagleBone.width * 0.65, beagleBone.height * 0.65);
-
             };
 
             return base;
@@ -996,6 +1070,7 @@ var UI = (function() {
             canvas.Graph.ctx.strokeStyle = "black";
             canvas.Graph.ctx.font = '10pt Lucinda Grande';
             canvas.Graph.ctx.fillText('Voltage [v]', graph.zeroX - 30, graph.zeroY - graph.yWidth - 20);
+            
             //x ticks
             var x = 0;
             var countX = 0;
@@ -1090,7 +1165,7 @@ var UI = (function() {
             coords[1] -= rect.top;
 
             return (coords);
-        }
+        };
 
         return ui;
     } // end of ui's init()
@@ -1228,8 +1303,11 @@ var Events = (function() {
         e.ui.loop.welcome(button);
     }
 
+
+    //on button hover, highlight button and coressponding pins.
     function btnInfo(event) {
         e.ui.loop.clear();
+        //e.ui.pin.test(event);
         var button = e.ui.button.test(event);
         e.ui.button.highlight(button);
         e.ui.pin.highlight(button);
@@ -1329,6 +1407,37 @@ var Events = (function() {
         e.ui.probe.dragButton(event);
     }
 
+    function release(event) {
+        e.ui.probe.clearDrag();
+        var probeMode = e.ui.probe.addTest(event);
+        
+        if (probeMode == 'selectPin') {
+            e.ui.probe.selectText();
+            listen(false, 'activateProbe');
+            listen(true, 'selectPin');
+            listen(false, 'pinSelected');
+            listen(true, 'clickDown');
+        } else if (probeMode == 'cancelled') {
+            listen(false, 'activateProbe');
+            listen(true, 'btnInfo');
+            listen(true, 'clickDown');
+        }
+    }
+
+    function selectPin(event) {
+        //clear BB to prevent double pin highlighting
+        e.ui.loop.clearBB();
+        var probe = e.ui.probe.test(event);
+        e.ui.pin.highlight(probe);
+        listen(true,'pinSelected');
+    }
+
+    function pinSelected(event) {
+        listen(false, 'selectPin');
+        e.ui.loop.clearProbe();
+        listen(true, 'btnInfo');
+    }
+
     function slideBar(event) {
 
     }
@@ -1343,27 +1452,6 @@ var Events = (function() {
 
     function record(event) {
 
-    }
-
-    function selectPin(event) {}
-
-    function pinSelected(event) {
-        listen(false, 'selectPin');
-        listen(true, 'btnInfo');
-    }
-
-    function release(event) {
-        var probeMode = e.ui.probe.addTest(event);
-        if (probeMode == 'selectPin') {
-            listen(false, 'activateProbe');
-            listen(true, 'selectPin');
-            listen(true, 'pinSelected');
-            listen(true, 'clickDown');
-        } else if (probeMode == 'cancelled') {
-            listen(false, 'activateProbe');
-            listen(true, 'btnInfo');
-            listen(true, 'clickDown');
-        }
     }
 
     return {
