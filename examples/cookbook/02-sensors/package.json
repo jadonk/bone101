@@ -1,0 +1,10 @@
+{
+  "name": "02-sensors",
+  "version": "0.0.0",
+  "description": "BeagleBone Cookbook - Sensors examples",
+  "dependencies": {
+    "async": "2.0.0-rc.6",
+    "sensortag": "1.2.2"
+  },
+  "author": "Mark Yoder and Jason Kridner"
+}
