@@ -235,6 +235,14 @@ var UI = (function() {
                     graphColors: ['rgb(102,0,102)', 'rgb(204,0,204)', 'rgb(255,102,255)', 'rgb(51,0,51)'],
                     category: "digital"
                 },
+                onOff: {
+                    x: snapProbe.x + 85,
+                    y: snapProbe.y,
+                    endX: snapProbe.x + 135,
+                    endY: snapProbe.y + 15,
+                    s: 6,
+                    e: 28
+                },
                 plus: {
                     x: axisStartX + 54,
                     y: axisStartY + 240,
@@ -400,32 +408,27 @@ var UI = (function() {
             };
 
             // on switch
-            button.on = function(btn) {
-                var radius = 1;
-                var endX, endY;
-                if (!x || !y) {
-                  x = btn.x;
-                  y = btn.y;
-                  endX = btn.endX;
-                  endY = btn.endY;
-                } else {
-                  endX = x + (btn.endX - btn.x);
-                  endY = y + (btn.endY - btn.y);
-                }
+            button.on = function(probe) {
+                var btn = buttons['onOff'];
+                var x = btn.x;
+                var y = btn.y;
                 var color = btn.color;
                 var offColor = btn.offColor;
-                var text = btn.text;
-                var s = btn.s;
+                var s = btn.s; var e = btn.e;
+                var w = 50; var h = 15;
+                var r = btn.endX;
+                var b = btn.endY;
+                var radius = 1;
 
                 canvas.BTN.ctx.beginPath();
                 canvas.BTN.ctx.lineWidth="1";
                 canvas.BTN.ctx.moveTo(x+radius, y);
-                canvas.BTN.ctx.lineTo(endX-radius, y);
-                canvas.BTN.ctx.quadraticCurveTo(endX, y, endX, y+radius);
-                canvas.BTN.ctx.lineTo(endX, y+h-radius);
-                canvas.BTN.ctx.quadraticCurveTo(endX, endY, endX-radius, endY);
-                canvas.BTN.ctx.lineTo(x+radius, endY);
-                canvas.BTN.ctx.quadraticCurveTo(x, endY, x, endY-radius);
+                canvas.BTN.ctx.lineTo(r-radius, y);
+                canvas.BTN.ctx.quadraticCurveTo(r, y, r, y+radius);
+                canvas.BTN.ctx.lineTo(r, y+h-radius);
+                canvas.BTN.ctx.quadraticCurveTo(r, b, r-radius, b);
+                canvas.BTN.ctx.lineTo(x+radius, b);
+                canvas.BTN.ctx.quadraticCurveTo(x, b, x, b-radius);
                 canvas.BTN.ctx.lineTo(x, y+radius);
                 canvas.BTN.ctx.quadraticCurveTo(x, y, x+radius, y);
                 canvas.BTN.ctx.strokeStyle = color; 
@@ -434,48 +437,43 @@ var UI = (function() {
                 canvas.BTN.ctx.fill()
                 canvas.BTN.ctx.fillStyle= 'white';
                 canvas.BTN.ctx.font = '10pt Andale Mono';
-                canvas.BTN.ctx.fillText('on', x + 4, y+12);
+                canvas.BTN.ctx.fillText('on', x + s, y+12);
                 canvas.BTN.ctx.beginPath();
-                canvas.BTN.ctx.moveTo(endX/2, y);
-                canvas.BTN.ctx.lineTo(endX-radius, y);
-                canvas.BTN.ctx.quadraticCurveTo(endX, y, endX, y+radius);
-                canvas.BTN.ctx.lineTo(endX, y+h-radius);
-                canvas.BTN.ctx.quadraticCurveTo(endX, endY, endX-radius, endY);
-                canvas.BTN.ctx.lineTo(endX/2, endY);
+                canvas.BTN.ctx.moveTo(x+w/2, y);
+                canvas.BTN.ctx.lineTo(r-radius, y);
+                canvas.BTN.ctx.quadraticCurveTo(r, y, r, y+radius);
+                canvas.BTN.ctx.lineTo(r, y+h-radius);
+                canvas.BTN.ctx.quadraticCurveTo(r, b, r-radius, b);
+                canvas.BTN.ctx.lineTo(x+w/2, b);
                 canvas.BTN.ctx.fillStyle = offColor; 
                 canvas.BTN.ctx.fill()
                 canvas.BTN.ctx.fillStyle= 'black';
                 canvas.BTN.ctx.font = '10pt Andale Mono';
-                canvas.BTN.ctx.fillText('off', x + 26, y+12);
+                canvas.BTN.ctx.fillText('off', x + e, y+12);
             };
 
             // off switch
-            button.off = function off(btn){
-                var radius = 1;
-                var endX, endY;
-                if (!x || !y) {
-                  x = btn.x;
-                  y = btn.y;
-                  endX = btn.endX;
-                  endY = btn.endY;
-                } else {
-                  endX = x + (btn.endX - btn.x);
-                  endY = y + (btn.endY - btn.y);
-                }
+            button.off = function(probe){
+                var btn = buttons['onOff'];
+                var x = btn.x;
+                var y = btn.y;
                 var color = btn.color;
                 var offColor = btn.offColor;
-                var text = btn.text;
-                var s = btn.s;
+                var s = btn.s; var s = btn.s; var e = btn.e;
+                var w = 50; var h = 15;
+                var r = btn.endX;
+                var b = btn.endY;
+                var radius = 1;
 
                 canvas.BTN.ctx.beginPath();
                 canvas.BTN.ctx.lineWidth="1";
                 canvas.BTN.ctx.moveTo(x+radius, y);
-                canvas.BTN.ctx.lineTo(endX-radius, y);
-                canvas.BTN.ctx.quadraticCurveTo(endX, y, endX, y+radius);
-                canvas.BTN.ctx.lineTo(endX, y+h-radius);
-                canvas.BTN.ctx.quadraticCurveTo(endX, endY, endX-radius, endY);
-                canvas.BTN.ctx.lineTo(x+radius, endY);
-                canvas.BTN.ctx.quadraticCurveTo(x, endY, x, endY-radius);
+                canvas.BTN.ctx.lineTo(r-radius, y);
+                canvas.BTN.ctx.quadraticCurveTo(r, y, r, y+radius);
+                canvas.BTN.ctx.lineTo(r, y+h-radius);
+                canvas.BTN.ctx.quadraticCurveTo(r, b, r-radius, b);
+                canvas.BTN.ctx.lineTo(x+radius, b);
+                canvas.BTN.ctx.quadraticCurveTo(x, b, x, b-radius);
                 canvas.BTN.ctx.lineTo(x, y+radius);
                 canvas.BTN.ctx.quadraticCurveTo(x, y, x+radius, y);
                 canvas.BTN.ctx.strokeStyle = color; 
@@ -483,20 +481,20 @@ var UI = (function() {
                 canvas.BTN.ctx.fillStyle = color; 
                 canvas.BTN.ctx.fill()
                 canvas.BTN.ctx.beginPath();
-                canvas.BTN.ctx.moveTo(endX/2, endY);
-                canvas.BTN.ctx.lineTo(x+radius, endY);
-                canvas.BTN.ctx.quadraticCurveTo(x, endY, x, endY-radius);
+                canvas.BTN.ctx.moveTo(x+w/2, b);
+                canvas.BTN.ctx.lineTo(x+radius, b);
+                canvas.BTN.ctx.quadraticCurveTo(x, b, x, b-radius);
                 canvas.BTN.ctx.lineTo(x, y+radius);
                 canvas.BTN.ctx.quadraticCurveTo(x, y, x+radius, y);
-                canvas.BTN.ctx.lineTo(endX/2, y);
+                canvas.BTN.ctx.lineTo(x+w/2, y);
                 canvas.BTN.ctx.fillStyle = offColor; 
                 canvas.BTN.ctx.fill();
                 canvas.BTN.ctx.fillStyle= 'black';
                 canvas.BTN.ctx.font = '10pt Andale Mono';
-                canvas.BTN.ctx.fillText('on', x + 5, y+12);
+                canvas.BTN.ctx.fillText('on', x + s, y+12);
                 canvas.BTN.ctx.fillStyle= 'white';
                 canvas.BTN.ctx.font = '10pt Andale Mono';
-                canvas.BTN.ctx.fillText('off', x + 26, y+12);
+                canvas.BTN.ctx.fillText('off', x + e, y+12);
             };
 
             button.drawGraphbtn = function(b, context) {
@@ -590,6 +588,8 @@ var UI = (function() {
                     button.drawGraphbtn(b, canvas.Graph.ctx);
                 }
             }
+
+            button.off();
 
             return button;
         })();
