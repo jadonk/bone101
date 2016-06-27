@@ -14,8 +14,11 @@ else
 	$(error jekyll not installed)
 endif
 ifdef NPM
+	mkdir -p node_modules
+	cd node_modules
 	$(NPM) install async@2.0.0-rc.6
 	$(NPM) install sensortag@1.2.2
+	cd ..
 else
 	@echo npm not found
 endif
@@ -43,6 +46,6 @@ install: ./bone101
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/applications
 	cp --preserve=mode,timestamp bone101.desktop $(DESTDIR)$(PREFIX)/share/applications/
 	install -m 0755 -d $(DESTDIR)/usr/local/lib/node_modules
-	cp --preserve=mode,timestamp node_modules/* $(DESTDIR)/usr/local/lib/node_modules/
+	cp -dr --preserve=mode,timestamp node_modules/* $(DESTDIR)/usr/local/lib/node_modules/
 
 .PHONY: clean test install
