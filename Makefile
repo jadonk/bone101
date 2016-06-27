@@ -25,6 +25,7 @@ endif
 
 clean:
 	rm -rf ./bone101
+	rm -rf ./node_modules
 
 test:
 ifdef HTMLPROOFER
