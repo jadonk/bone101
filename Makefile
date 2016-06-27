@@ -3,11 +3,22 @@ PREFIX:=/usr/local
 CLOUD9_DIR:=/var/lib/cloud9
 JEKYLL:=$(shell which jekyll)
 HTMLPROOFER:=$(shell which htmlproofer)
+NPM:=$(shell which npm)
 
 all: ./bone101
 
 ./bone101: Makefile _config.yml
+ifdef JEKYLL
 	$(JEKYLL) build -d ./bone101
+else
+	$(error jekyll not installed)
+endif
+ifdef NPM
+	$(NPM) install async@2.0.0-rc.6
+	$(NPM) install sensortag@1.2.2
+else
+	@echo npm not found
+endif
 
 clean:
 	rm -rf ./bone101
@@ -31,5 +42,7 @@ install: ./bone101
 	cp -dr --preserve=mode,timestamp ./README.md $(DESTDIR)$(CLOUD9_DIR)
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/applications
 	cp --preserve=mode,timestamp bone101.desktop $(DESTDIR)$(PREFIX)/share/applications/
+	install -m 0755 -d $(DESTDIR)/usr/local/lib/node_modules
+	cp --preserve=mode,timestamp node_modules/* $(DESTDIR)/usr/local/lib/node_modules/
 
 .PHONY: clean test install
