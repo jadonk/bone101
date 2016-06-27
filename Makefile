@@ -16,8 +16,8 @@ endif
 ifdef NPM
 	mkdir -p node_modules
 	cd node_modules
-	$(NPM) install async@2.0.0-rc.6
-	$(NPM) install sensortag@1.2.2
+	$(NPM) install --unsafe-perm=true --progress=false --loglevel=error async@2.0.0-rc.6
+	$(NPM) install --unsafe-perm=true --progress=false --loglevel=error sensortag@1.2.2
 	cd ..
 else
 	@echo npm not found
