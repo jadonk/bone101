@@ -884,7 +884,6 @@ var UI = (function() {
                     return ('cancelled');
                 }
                 ui.button.push(add.type);
-                ui.button.draw(add.type, canvas.Active.ctx, true);
                 return ('selectPin');
             };
 
