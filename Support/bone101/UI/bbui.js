@@ -412,8 +412,8 @@ var UI = (function() {
                 var btn = buttons['onOff'];
                 var x = btn.x;
                 var y = btn.y;
-                var color = btn.color;
-                var offColor = btn.offColor;
+                var color = probe.color;
+                var offColor = probe.offColor;
                 var s = btn.s; var e = btn.e;
                 var w = 50; var h = 15;
                 var r = btn.endX;
@@ -457,8 +457,8 @@ var UI = (function() {
                 var btn = buttons['onOff'];
                 var x = btn.x;
                 var y = btn.y;
-                var color = btn.color;
-                var offColor = btn.offColor;
+                var color = probe.color;
+                var offColor = probe.offColor;
                 var s = btn.s; var s = btn.s; var e = btn.e;
                 var w = 50; var h = 15;
                 var r = btn.endX;
@@ -590,6 +590,83 @@ var UI = (function() {
             }
 
             return button;
+        })();
+
+        ui.bar = (function() {
+            var bar = {};
+            var bars = [];
+
+            // slider bar properties, not necessarily connected to led
+            bar.create = function(probe, pin) {
+                var bar = {
+                    color: probe.color,
+                    outline: probe.color,
+                    height: 15,
+                    length: 70,
+                    locX: probe.endX + 70,
+                    locY: probe.y,
+                    btn: probe,
+                    move: "off",
+                    pin: pin,
+                    sliderX: function() {return this.locX + 2;},
+                    sliderY: function() {return this.locY + 2;},
+                    frequency: function() {return this.sliderX() - this.locX - 2;},
+                    text: "0 s",
+                    type: probe.category
+                };
+
+                if (probe.name === "pwm") {
+                    bar.text = bar.frequency().toString();
+                }
+                else {
+                    bar.text = (bar.frequency().toString() + ' s');
+                };
+
+                bars.push(bar);
+                return bars;
+            };
+
+            bar.draw = function(){
+                var len = bars.length;
+                canvas.Bar.ctx.clearRect(0,0,canvas.Bar.e.width,canvas.Bar.e.height);
+                    canvas.Bar.ctx.fillStyle= 'rgb(205,205,205)';
+                    canvas.Bar.ctx.fillRect(bars[len-1].locX,bars[len-1].locY, bars[len-1].length, bars[len-1].height);
+                    canvas.Bar.ctx.fillStyle= bars[len-1].barColor;
+                    canvas.Bar.ctx.fillRect(bars[len-1].locX,bars[len-1].locY, bars[len-1].sliderX() - bars[len-1].locX, 15);
+                    canvas.Bar.ctx.fillStyle= 'rgb(30,30,30)';
+                    canvas.Bar.ctx.fillRect(bars[len-1].sliderX()-2,bars[len-1].locY,14,15);
+                    canvas.Bar.ctx.strokeStyle= bars[len-1].outline;
+                    canvas.Bar.ctx.lineWidth = 2;
+                    canvas.Bar.ctx.strokeRect(bars[len-1].locX,bars[len-1].locY, bars[len-1].length, bars[len-1].height);
+                    canvas.Bar.ctx.fillStyle= 'black';
+                    canvas.Bar.ctx.strokeStyle = 'rgb(225,225,225)';
+                    canvas.Bar.ctx.lineWidth = 6;
+                    canvas.Bar.ctx.font = '12pt Andale Mono';
+                    canvas.Bar.ctx.strokeText(bars[len-1].text, bars[len-1].length + bars[len-1].locX + 5, 
+                        bars[len-1].height + bars[len-1].locY -2);  
+                    canvas.Bar.ctx.fillText(bars[len-1].text, bars[len-1].length + bars[len-1].locX + 5, 
+                        bars[len-1].height + bars[len-1].locY -2);
+            };
+
+            bar.test = function(event) {
+                var coords = Position(event);
+                var x = coords[0];
+                var y = coords[1];
+                for (var i = 0; i<bars.length; i++) {
+                    var minX = bars[i].locX;
+                    var minY = bars[i].locY;
+                    var maxX = minX + bars[i].length;
+                    var maxY = minY + bars[i].height;
+                    if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
+                        console.log("bar = " + bars[i]);
+                        return bars[i];
+                    }
+                }
+                //console.log("button = none");
+                return ("none");
+            };
+
+            return bar;
         })();
 
         ui.pin = (function() {
@@ -1542,7 +1619,7 @@ var Events = (function() {
 
     function pinSelected(event) {
         listen(false, 'selectPin');
-        listen(true, 'btnInfo');
+        listen(false, 'btnInfo');
         e.ui.loop.clearProbe();
         listen(false, 'pinSelected');
         e.ui.loop.clear();
