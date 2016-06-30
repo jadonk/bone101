@@ -1600,6 +1600,9 @@ var Events = (function() {
             e.ui.probe.selectText();
             listen(false, 'activateProbe');
             listen(true, 'selectPin');
+            e.ui.probe.selectText();
+            var probe = e.ui.probe.test(event);
+            e.ui.pin.highlight(probe);
             listen(false, 'pinSelected');
             listen(true, 'clickDown');
         } else if (probeMode == 'cancelled') {
@@ -1610,19 +1613,16 @@ var Events = (function() {
     }
 
     function selectPin(event) {
-        //clear BB to prevent double pin highlighting
-        e.ui.loop.clearBB();
-        var probe = e.ui.probe.test(event);
-        e.ui.pin.highlight(probe);
         listen(true,'pinSelected');
     }
 
     function pinSelected(event) {
         listen(false, 'selectPin');
-        listen(false, 'btnInfo');
-        e.ui.loop.clearProbe();
+        listen(true, 'btnInfo');
+        listen(true, 'clickDown');
         listen(false, 'pinSelected');
         e.ui.loop.clear();
+        e.ui.loop.clearProbe();
     }
 
     function slideBar(event) {
