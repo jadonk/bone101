@@ -1599,10 +1599,10 @@ var Events = (function() {
     }
 
     function release(event) {
-        e.ui.probe.clearDrag();
         var probeMode = e.ui.probe.addTest(event);
         
         if (probeMode == 'selectPin') {
+            e.ui.probe.clearDrag();
             listen(false, 'activateProbe');
             listen(true, 'selectPin');
             listen(true, 'pinHover');
