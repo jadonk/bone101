@@ -1603,14 +1603,12 @@ var Events = (function() {
         var probeMode = e.ui.probe.addTest(event);
         
         if (probeMode == 'selectPin') {
-            e.ui.probe.selectText();
             listen(false, 'activateProbe');
             listen(true, 'selectPin');
             listen(true, 'pinHover');
             e.ui.probe.selectText();
             var probe = e.ui.probe.test(event);
             e.ui.pin.highlight(probe);
-            listen(false, 'pinSelected');
             listen(true, 'clickDown');
         } else if (probeMode == 'cancelled') {
             listen(false, 'activateProbe');
