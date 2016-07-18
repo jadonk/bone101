@@ -1028,6 +1028,11 @@ var UI = (function() {
                 }
             };
 
+            pin.hover = function(pin) {
+                Canvas.get().Active.ctx.fillStyle = 'RGBA(255,255,255,.5)';
+                Canvas.get().Active.ctx.fillRect(pin.x,pin.y,pin.w,pin.h);
+            }
+
             pin.test = function(event) {
                 var coords = Position(event);
                 var x = coords[0];
@@ -1628,19 +1633,16 @@ var Events = (function() {
         }
         if (pin.category == probe.category) {
             e.ui.loop.clear();
-            Canvas.get().Active.ctx.fillStyle = 'RGBA(255,255,255,.5)';
-            Canvas.get().Active.ctx.fillRect(pin.x,pin.y,pin.w,pin.h);
-            //e.ui.pin.highlight(probe.name);
+            e.ui.pin.hover(pin);
             listen(false,'selectPin');
             listen(false,'pinHover');
             listen(true,'pinSelected');
         }
-        //listen(true,'pinSelected');
     }
 
     function pinHover(event) {
-        pin = e.ui.pin.test(event);
         e.ui.loop.clearBB();
+        pin = e.ui.pin.test(event);
         var probes = Object.keys(e.ui.button.get());
         probeName = probes[probes.length-16];
         probe = e.ui.button.get()[probeName];
@@ -1650,10 +1652,8 @@ var Events = (function() {
             probe.category = 'digital';
         }
         if (pin.category == probe.category) {
-            Canvas.get().Active.ctx.fillStyle = 'RGBA(255,255,255,.5)';
-            Canvas.get().Active.ctx.fillRect(pin.x,pin.y,pin.w,pin.h);
+            e.ui.pin.hover(pin);
         }
-        //listen(true,'pinSelected');
     }
 
     function pinSelected(event) {
