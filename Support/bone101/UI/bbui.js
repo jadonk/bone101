@@ -996,6 +996,7 @@ var UI = (function() {
                 pins[i].w = 5;
                 pins[i].h = 5;
                 pins[i].s = 18;
+                pins[i].select = "off";
             }
             for (var i = 92; i < 96; i++) {
                 // var LEDpositions = [230.5, 241.75, 253, 264.25];
@@ -1005,6 +1006,7 @@ var UI = (function() {
                 pins[i].w = 5;
                 pins[i].h = 10;
                 pins[i].s = 18;
+                pins[i].select = "off";
             }
 
             pin.highlight = function(button) {
@@ -1404,8 +1406,12 @@ var Events = (function() {
                 func: btnInfo
             },
             'selectPin': {
-                event: 'mousemove',
+                event: 'click',
                 func: selectPin
+            },
+            'pinHover': {
+                event: 'mousemove',
+                func: pinHover
             },
             'clicked': {
                 event: 'click',
@@ -1600,6 +1606,7 @@ var Events = (function() {
             e.ui.probe.selectText();
             listen(false, 'activateProbe');
             listen(true, 'selectPin');
+            listen(true, 'pinHover');
             e.ui.probe.selectText();
             var probe = e.ui.probe.test(event);
             e.ui.pin.highlight(probe);
@@ -1613,11 +1620,46 @@ var Events = (function() {
     }
 
     function selectPin(event) {
-        listen(true,'pinSelected');
+        pin = e.ui.pin.test(event);
+        var probes = Object.keys(e.ui.button.get());
+        probeName = probes[probes.length-16];
+        probe = e.ui.button.get()[probeName];
+        probe.category = probe.name;
+        if (probe.name == 'input' || probe.name == 'output' || probe.name == 'pwm') {
+            probe.category = 'digital';
+        }
+        if (pin.category == probe.category) {
+            e.ui.loop.clear();
+            Canvas.get().Active.ctx.fillStyle = 'RGBA(255,255,255,.5)';
+            Canvas.get().Active.ctx.fillRect(pin.x,pin.y,pin.w,pin.h);
+            //e.ui.pin.highlight(probe.name);
+            listen(false,'selectPin');
+            listen(false,'pinHover');
+            listen(true,'pinSelected');
+        }
+        //listen(true,'pinSelected');
+    }
+
+    function pinHover(event) {
+        pin = e.ui.pin.test(event);
+        e.ui.loop.clearBB();
+        var probes = Object.keys(e.ui.button.get());
+        probeName = probes[probes.length-16];
+        probe = e.ui.button.get()[probeName];
+        e.ui.pin.highlight(probe.name);
+        probe.category = probe.name;
+        if (probe.name == 'input' || probe.name == 'output' || probe.name == 'pwm') {
+            probe.category = 'digital';
+        }
+        if (pin.category == probe.category) {
+            Canvas.get().Active.ctx.fillStyle = 'RGBA(255,255,255,.5)';
+            Canvas.get().Active.ctx.fillRect(pin.x,pin.y,pin.w,pin.h);
+        }
+        //listen(true,'pinSelected');
     }
 
     function pinSelected(event) {
-        listen(false, 'selectPin');
+        //listen(false, 'selectPin');
         listen(true, 'btnInfo');
         listen(true, 'clickDown');
         listen(false, 'pinSelected');
