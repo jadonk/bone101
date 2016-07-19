@@ -1628,12 +1628,16 @@ var Events = (function() {
         probeName = probes[probes.length-16];
         probe = e.ui.button.get()[probeName];
         probe.category = probe.name;
-        if (probe.name == 'input' || probe.name == 'output' || probe.name == 'pwm') {
+        if (probe.name == 'input' || probe.name == 'output') {
             probe.category = 'digital';
         }
-        if (pin.category == probe.category) {
+        if (probe.name == "pwm") pwm = pin.PWM;
+        if ((pin.category == probe.category || pwm) && pin.select == 'off') {
             e.ui.loop.clear();
+            probe.text = pin.name;
+            e.ui.button.draw(probeName, Canvas.get().Active.ctx, false);
             e.ui.pin.hover(pin);
+            pin.select = 'on';
             listen(false,'selectPin');
             listen(false,'pinHover');
             listen(true,'pinSelected');
@@ -1648,11 +1652,17 @@ var Events = (function() {
         probe = e.ui.button.get()[probeName];
         e.ui.pin.highlight(probe.name);
         probe.category = probe.name;
-        if (probe.name == 'input' || probe.name == 'output' || probe.name == 'pwm') {
+        if (probe.name == 'input' || probe.name == 'output') {
             probe.category = 'digital';
         }
-        if (pin.category == probe.category) {
+        pwm = false;
+        if (probe.name == "pwm") pwm = pin.PWM;
+        if ((pin.category == probe.category || pwm) && pin.select == 'off') {
+            probe.text = pin.name;
+            e.ui.button.draw(probeName, Canvas.get().Active.ctx, false);
             e.ui.pin.hover(pin);
+        } else {
+             Canvas.get().Active.ctx.clearRect(probe.x, probe.y, probe.endX, probe.endY);
         }
     }
 
