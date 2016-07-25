@@ -733,7 +733,7 @@ function snapNode(node) {
 	}
 }
 
-window.onload = function() {
+function fsmload() {
 	canvas = document.getElementById('fsmcanvas');
 	restoreBackup();
 	draw();
