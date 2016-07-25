@@ -567,16 +567,6 @@ var UI = (function() {
                 return button;
             };
 
-            button.drawToGraph = function(btn){
-                canvas.BTN.ctx.beginPath();
-                canvas.BTN.ctx.moveTo(BBposX+309,graphLinePos);
-                canvas.BTN.ctx.lineTo(BBposX+340,graphLinePos);
-                canvas.BTN.ctx.strokeStyle = pin[btn.pinNum].color;
-                canvas.BTN.ctx.lineWidth = 2;
-                canvas.BTN.ctx.stroke();
-                graphLinePos += 4;
-            };
-
             button.get = function() {
                 return buttons;
             }
@@ -667,6 +657,36 @@ var UI = (function() {
             };
 
             return bar;
+        })();
+
+        //wire object is responsible for drawing all wires in graph
+        ui.wire = (function() {
+            var wire = {};
+            var btnHeight = 15;
+
+            wire.LEDs = function(pin, probe) {
+                canvas.BTN.ctx.beginPath();
+                canvas.BTN.ctx.moveTo(probe.x + 75, probe.y + btnHeight*0.5);
+                canvas.BTN.ctx.lineTo(rect.x + rectInner.w + 12, probe.y + btnHeight*0.5);
+                canvas.BTN.ctx.lineTo(rect.x + rectInner.w + 12, rect.y + 10);
+                canvas.BTN.ctx.lineTo(pin.x + (pin.endX - pin.x)/2, rect.y + 10);
+                canvas.BTN.ctx.lineTo(pin.x + (pin.endX - pin.x)/2, pin.y);
+                canvas.BTN.ctx.strokeStyle = pin.color;
+                canvas.BTN.ctx.lineWidth = 2;
+                canvas.BTN.ctx.stroke();
+            };
+
+            wire.drawToGraph = function(btn){
+                canvas.BTN.ctx.beginPath();
+                canvas.BTN.ctx.moveTo(BBposX+309,graphLinePos);
+                canvas.BTN.ctx.lineTo(BBposX+340,graphLinePos);
+                canvas.BTN.ctx.strokeStyle = pin[btn.pinNum].color;
+                canvas.BTN.ctx.lineWidth = 2;
+                canvas.BTN.ctx.stroke();
+                graphLinePos += 4;
+            };
+
+            return wire;
         })();
 
         ui.pin = (function() {
