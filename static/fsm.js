@@ -993,7 +993,9 @@ function fixed(number, digits) {
 }
 
 function restoreBackup() {
-	if(localStorage && JSON && localStorage['fsm'] != '') {
+	if(localStorage && JSON && localStorage['fsm'] != ''
+		&& (localStorage['fsm'].nodes.length > 0
+			|| localStorage['fsm'].links.length > 0) {
 		try {
 			var backup = JSON.parse(localStorage['fsm']);
 			restoreData(backup);
