@@ -478,9 +478,6 @@ function ExportAsLaTeX() {
 	this.translate = this.save = this.restore = this.clearRect = function(){};
 }
 
-function ExportAsJSON() {
-}
-
 // draw using this instead of a canvas and call toSVG() afterward
 function ExportAsSVG() {
 	this.fillStyle = 'black';
@@ -996,13 +993,23 @@ function fixed(number, digits) {
 }
 
 function restoreBackup() {
-	if(!localStorage || !JSON) {
+	if(localStorage && JSON) {
+		try {
+			var backup = JSON.parse(localStorage['fsm']);
+			restoreData(backup);
+		} catch(e) {
+			localStorage['fsm'] = '';
+		}
 		return;
 	}
 
-	try {
-		var backup = JSON.parse(localStorage['fsm']);
+	if(fsmsave) {
+		restoreData(fsmsave);
+	}
+}
 
+function restoreData(backup) {
+	try {
 		for(var i = 0; i < backup.nodes.length; i++) {
 			var backupNode = backup.nodes[i];
 			var node = new Node(backupNode.x, backupNode.y);
@@ -1034,7 +1041,6 @@ function restoreBackup() {
 			}
 		}
 	} catch(e) {
-		localStorage['fsm'] = '';
 	}
 }
 
@@ -1093,7 +1099,11 @@ function saveBackup() {
 
 	var fsmjson = JSON.stringify(backup);
 	localStorage['fsm'] = fsmjson;
-	var dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(fsmjson);
+	var dataUri = 'data:application/javascript;charset=utf-8,fsmsave='+ encodeURIComponent(fsmjson) + ';';
 	var link = document.getElementById('fsmjson').href = dataUri;
 
+}
+
+function deleteBackup() {
+	localStorage['fsm'] = '';
 }

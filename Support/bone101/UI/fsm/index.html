@@ -1,7 +1,7 @@
 ---
 layout: index
 title: Finite State Machine Designer - by Evan Wallace
-scripts: [ '/static/fsm.js' ]
+scripts: [ '/static/fsm.js', '/Support/bone101/UI/fsm/fsmsave.js' ]
 style: |
   div#fsmwrap {
   	text-align: center;
@@ -86,7 +86,7 @@ if (typeof btoa == 'undefined') {
 		<span class="error">Your browser does not support<br>the HTML5 &lt;canvas&gt; element</span>
 	</canvas>
 	<div id="fsmdiv">
-		<p class="center">Export as: <a class="fsm" href="javascript:saveAsPNG()">PNG</a> | <a class="fsm" href="javascript:saveAsSVG()">SVG</a> | <a class="fsm" href="javascript:saveAsLaTeX()">LaTeX</a> | <a class="fsm" id="fsmjson" href="#" download="fsm.json">JSON</a></p>
+		<p class="center">Export as: <a class="fsm" href="javascript:saveAsPNG()">PNG</a> | <a class="fsm" href="javascript:saveAsSVG()">SVG</a> | <a class="fsm" href="javascript:saveAsLaTeX()">LaTeX</a> | <a class="fsm" id="fsmjson" href="#" download="fsmsave.js">JS</a></p>
 		<textarea id="output"></textarea>
 		<p>The big white box above is the FSM designer.&nbsp; Here's how to use it:</p>
 		<ul>
@@ -99,6 +99,7 @@ if (typeof btoa == 'undefined') {
 			<li><b>Type numeric subscript:</b> put an underscore before the number (like "S_0")</li>
 			<li><b>Type greek letter:</b> put a backslash before it (like "\beta")</li>
 		</ul>
+		<p class="center"><a class="fsm" href="javascript:deleteBackup()">deleteBackup</a></p>
 		<p>This was made in HTML5 and JavaScript using the canvas element.</p>
 	</div>
 	<p>Created by <a class="fsm" href="http://madebyevan.com/">Evan Wallace</a> in 2010</p>
