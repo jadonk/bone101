@@ -3,27 +3,24 @@ layout: index
 title: Finite State Machine Designer - by Evan Wallace
 scripts: [ '/static/fsm.js' ]
 style: |
-  body {
+  div#fsmwrap {
   	text-align: center;
   	background: #DFDFDF;
   	margin: 0 30px 100px 30px;
   	font: 14px/18px 'Lucida Grande', 'Segoe UI', sans-serif;
   }
-  h1 {
-  	font: bold italic 50px Georgia, serif;
-  }
-  canvas {
+  canvas#fsm {
   	display: block;
-  	max-width: 800px;
+  	max-width: 750px;
   	background: white;
   	border-radius: 20px;
   	-moz-border-radius: 20px;
   	margin: 10px auto;
   }
-  a {
+  a.fsm {
   	color: black;
   }
-  div {
+  div#fsm {
   	margin: 30px auto;
   	text-align: left;
   	max-width: 800px;
@@ -84,11 +81,12 @@ if (typeof btoa == 'undefined') {
 }
 </script>
 	<h1>Finite State Machine Designer</h1>
-	<canvas id="canvas" width="800" height="600">
+<div id="fsmwrap">
+	<canvas id="canvas" width="750" height="2000">
 		<span class="error">Your browser does not support<br>the HTML5 &lt;canvas&gt; element</span>
 	</canvas>
-	<div>
-		<p class="center">Export as: <a href="javascript:saveAsPNG()">PNG</a> | <a href="javascript:saveAsSVG()">SVG</a> | <a href="javascript:saveAsLaTeX()">LaTeX</a></p>
+	<div id="fsm">
+		<p class="center">Export as: <a class="fsm" href="javascript:saveAsPNG()">PNG</a> | <a class="fsm" href="javascript:saveAsSVG()">SVG</a> | <a class="fsm" href="javascript:saveAsLaTeX()">LaTeX</a></p>
 		<textarea id="output"></textarea>
 		<p>The big white box above is the FSM designer.&nbsp; Here's how to use it:</p>
 		<ul>
@@ -103,5 +101,5 @@ if (typeof btoa == 'undefined') {
 		</ul>
 		<p>This was made in HTML5 and JavaScript using the canvas element.</p>
 	</div>
-	<p>Created by <a href="http://madebyevan.com/">Evan Wallace</a> in 2010</p>
-</body></html>
+	<p>Created by <a class="fsm" href="http://madebyevan.com/">Evan Wallace</a> in 2010</p>
+</div>
