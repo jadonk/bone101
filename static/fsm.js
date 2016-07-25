@@ -478,6 +478,9 @@ function ExportAsLaTeX() {
 	this.translate = this.save = this.restore = this.clearRect = function(){};
 }
 
+function ExportAsJSON() {
+}
+
 // draw using this instead of a canvas and call toSVG() afterward
 function ExportAsSVG() {
 	this.fillStyle = 'black';
@@ -1088,5 +1091,9 @@ function saveBackup() {
 		}
 	}
 
-	localStorage['fsm'] = JSON.stringify(backup);
+	var fsmjson = JSON.stringify(backup);
+	localStorage['fsm'] = fsmjson;
+	var dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(fsmjson);
+	var link = document.getElementById('fsmjson').href = dataUri;
+
 }
