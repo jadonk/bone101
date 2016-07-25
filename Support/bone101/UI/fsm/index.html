@@ -1,66 +1,54 @@
-<!doctype html>
-<html><head>
-	<title>Finite State Machine Designer - by Evan Wallace</title>
-  <meta charset="utf-8">
-	<style>
-
-body {
-	text-align: center;
-	background: #DFDFDF;
-	margin: 0 30px 100px 30px;
-	font: 14px/18px 'Lucida Grande', 'Segoe UI', sans-serif;
-}
-
-h1 {
-	font: bold italic 50px Georgia, serif;
-}
-
-canvas {
-	display: block;
-	max-width: 800px;
-	background: white;
-	border-radius: 20px;
-	-moz-border-radius: 20px;
-	margin: 10px auto;
-}
-
-a {
-	color: black;
-}
-
-div {
-	margin: 30px auto;
-	text-align: left;
-	max-width: 800px;
-}
-
-.error {
-	display: block;
-	color: red;
-	font-size: 28px;
-	line-height: 30px;
-	padding: 30px;
-}
-
-p {
-	margin: 30px 0;
-	line-height: 20px;
-}
-
-.center {
-	text-align: center;
-}
-
-textarea {
-	display: none;
-	width: 75%;
-	height: 400px;
-	margin: 0 auto;
-}
-
-  </style>
-	<script src="fsm.js"></script>
-	<script>
+---
+layout: index
+title: Finite State Machine Designer - by Evan Wallace
+scripts: [ '/static/fsm.js' ]
+style: |
+  body {
+  	text-align: center;
+  	background: #DFDFDF;
+  	margin: 0 30px 100px 30px;
+  	font: 14px/18px 'Lucida Grande', 'Segoe UI', sans-serif;
+  }
+  h1 {
+  	font: bold italic 50px Georgia, serif;
+  }
+  canvas {
+  	display: block;
+  	max-width: 800px;
+  	background: white;
+  	border-radius: 20px;
+  	-moz-border-radius: 20px;
+  	margin: 10px auto;
+  }
+  a {
+  	color: black;
+  }
+  div {
+  	margin: 30px auto;
+  	text-align: left;
+  	max-width: 800px;
+  }
+  .error {
+  	display: block;
+  	color: red;
+  	font-size: 28px;
+  	line-height: 30px;
+  	padding: 30px;
+  }
+  p {
+  	margin: 30px 0;
+  	line-height: 20px;
+  }
+  .center {
+  	text-align: center;
+  }
+  textarea {
+  	display: none;
+  	width: 75%;
+  	height: 400px;
+  	margin: 0 auto;
+  }
+---
 
 /*
  * base64.js - Base64 encoding and decoding functions
