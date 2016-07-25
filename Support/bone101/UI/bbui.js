@@ -3,7 +3,7 @@
  *
  * Use 'var canvas = Canvas.get();' to fetch the canvas.
  * canvas is an object keyed by the layer names.
- * canvas[layerser].e is the layer element.
+ * canvas[layer].e is the layer element.
  * canvas[layer].ctx is the layer context.
  */
 var Canvas = (function() {
