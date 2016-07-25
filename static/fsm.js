@@ -994,13 +994,12 @@ function fixed(number, digits) {
 
 function restoreBackup() {
 	var usedBackup = false;
-	if(localStorage && JSON)
+	if(localStorage && JSON) {
 		try {
 			var backup = JSON.parse(localStorage['fsm']);
 			usedBackup = restoreData(backup);
 		} catch(e) {
 			localStorage['fsm'] = '';
-
 		}
 	}
 
