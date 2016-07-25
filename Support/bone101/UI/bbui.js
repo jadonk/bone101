@@ -1128,8 +1128,8 @@ var UI = (function() {
             };
 
             probe.add = function(pin) {
-                canvas.add(pin.id, 10);
-                ui.graph.add(pin.id, 10);
+                Canvas.add(pin.name, 10);
+                ui.graph.add(pin.name, 10);
             };
 
             probe.onOffTest = function(event) {
@@ -1237,7 +1237,7 @@ var UI = (function() {
             //drawButtons(canvas, uiElements);
 
             graph.add = function(pin) {
-                canvas.add(pin.id + 'Graph', 10);
+                Canvas.add(pin.name + 'Graph', 10);
 
             };
 
@@ -1659,6 +1659,8 @@ var Events = (function() {
             e.ui.button.draw(probeName, Canvas.get().Active.ctx, false);
             e.ui.pin.hover(pin);
             pin.select = 'on';
+            e.ui.probe.add(pin);
+            probe.pinNum = pin;
             listen(false,'selectPin');
             listen(false,'pinHover');
             listen(true,'pinSelected');
@@ -1688,7 +1690,6 @@ var Events = (function() {
     }
 
     function pinSelected(event) {
-        //listen(false, 'selectPin');
         listen(true, 'btnInfo');
         listen(true, 'clickDown');
         listen(false, 'pinSelected');
