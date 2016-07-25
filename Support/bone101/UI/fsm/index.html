@@ -9,7 +9,7 @@ style: |
   	margin: 0 30px 100px 30px;
   	font: 14px/18px 'Lucida Grande', 'Segoe UI', sans-serif;
   }
-  canvas#fsm {
+  canvas#fsmcanvas {
   	display: block;
   	max-width: 750px;
   	background: white;
@@ -20,7 +20,7 @@ style: |
   a.fsm {
   	color: black;
   }
-  div#fsm {
+  div#fsmdiv {
   	margin: 30px auto;
   	text-align: left;
   	max-width: 800px;
@@ -82,10 +82,10 @@ if (typeof btoa == 'undefined') {
 </script>
 	<h1>Finite State Machine Designer</h1>
 <div id="fsmwrap">
-	<canvas id="canvas" width="750" height="2000">
+	<canvas id="fsmcanvas" width="750" height="2000">
 		<span class="error">Your browser does not support<br>the HTML5 &lt;canvas&gt; element</span>
 	</canvas>
-	<div id="fsm">
+	<div id="fsmdiv">
 		<p class="center">Export as: <a class="fsm" href="javascript:saveAsPNG()">PNG</a> | <a class="fsm" href="javascript:saveAsSVG()">SVG</a> | <a class="fsm" href="javascript:saveAsLaTeX()">LaTeX</a></p>
 		<textarea id="output"></textarea>
 		<p>The big white box above is the FSM designer.&nbsp; Here's how to use it:</p>
