@@ -993,26 +993,27 @@ function fixed(number, digits) {
 }
 
 function restoreBackup() {
-	if(localStorage && JSON && localStorage['fsm'] != ''
-		&& (localStorage['fsm'].nodes.length > 0
-			|| localStorage['fsm'].links.length > 0)) {
+	var usedBackup = false;
+	if(localStorage && JSON)
 		try {
 			var backup = JSON.parse(localStorage['fsm']);
-			restoreData(backup);
+			usedBackup = restoreData(backup);
 		} catch(e) {
 			localStorage['fsm'] = '';
+
 		}
-		return;
 	}
 
-	if(fsmsave) {
+	if(!usedBackup && fsmsave) {
 		restoreData(fsmsave);
 	}
 }
 
 function restoreData(backup) {
+	var usedBackup = false;
 	try {
 		for(var i = 0; i < backup.nodes.length; i++) {
+			usedBackup = true;
 			var backupNode = backup.nodes[i];
 			var node = new Node(backupNode.x, backupNode.y);
 			node.isAcceptState = backupNode.isAcceptState;
@@ -1020,6 +1021,7 @@ function restoreData(backup) {
 			nodes.push(node);
 		}
 		for(var i = 0; i < backup.links.length; i++) {
+			usedBackup = true;
 			var backupLink = backup.links[i];
 			var link = null;
 			if(backupLink.type == 'SelfLink') {
@@ -1043,7 +1045,9 @@ function restoreData(backup) {
 			}
 		}
 	} catch(e) {
+		return(false);
 	}
+	return(usedBackup);
 }
 
 function saveBackup() {
