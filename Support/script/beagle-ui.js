@@ -16,7 +16,7 @@ var ace_editor_id = -1;
 var statusConnected = '' +
     '<div id="connect-status">' +
     '    <div class="browser-connected">' +
-    '        <img alt="Connected" src="' + serverBasePath + 'static/images/green_check.png" border="0">' +
+    '        <img alt="Connected" src="' + serverBasePath + 'static/images/green_check.png" border="0" width="41px" height="41px">' +
     '        <div id="browser-content"><strong>Your board is connected!</strong><br>' +
     '            <div id="board-info"></div> <button onclick="run(ace_editor_id);">Run</button>' +
     '            <button onclick="disconnect();">Disconnect</button>' +
