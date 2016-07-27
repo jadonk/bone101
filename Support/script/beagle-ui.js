@@ -1,4 +1,5 @@
 serverBasePath = typeof serverBasePath == 'undefined' ? '/bone101/' : serverBasePath;
+var beagleboneIP = window.location.host;
 var name = "#floatMenu";  
 var menuYloc = null;
 var connectState = 'init';
@@ -49,13 +50,13 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     $('.cloud9-url').each(function() {
-        this.href = 'http://' + window.location.host + ':3000';
+        this.href = 'http://' + beagleboneIP + ':3000';
     });
 });
 
 $(document).ready(function(){
     $('.node-red-url').each(function() {
-        this.href = 'http://' + window.location.host + ':1880';
+        this.href = 'http://' + beagleboneIP + ':1880';
     });
 });
 
