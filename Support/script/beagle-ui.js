@@ -48,17 +48,17 @@ $(document).ready(function(){
     }
 });  
 
-$(document).ready(function(){
+function updateURLs() {
     $('.cloud9-url').each(function() {
         this.href = 'http://' + beagleboneIP + ':3000';
     });
-});
 
-$(document).ready(function(){
     $('.node-red-url').each(function() {
         this.href = 'http://' + beagleboneIP + ':1880';
     });
-});
+}
+
+$(document).ready(updateURLs);
 
 $(function() {
     if($('#accordian').length) {
@@ -257,5 +257,44 @@ function _onSocketIOLoaded_workaround() {
         
     // Call-back initialized function
     _bonescript.on.initialized();
+    }
+}
+
+function connectTarget(address, handlers, onerror) {
+    var url = address;
+    url = url.replace(/^(http:\/\/|https:\/\/)*/, 'http://');
+    url = url.replace(/(\/)*$/, '/bonescript.js');
+    loadScript(url, addHandlers);
+    function loadScript(url, onload) {
+        try {
+            var head = document.getElementsByTagName('head')[0];
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = url;
+            script.charset = 'UTF-8';
+            var scriptObj = head.appendChild(script);
+            scriptObj.addEventListener('error', onerror);
+            scriptObj.onload = onload;
+        } catch(ex) {
+            onerror(ex);
+        }
+    }
+    function addHandlers() {
+        if(typeof handlers == 'function') {
+            handlers();
+            return;
+        }
+        if(typeof _bonescript != 'undefined') {
+            _bonescript.address = address;
+            if(handlers.initialized) _bonescript.on.initialized = handlers.initialized;
+            if(handlers.connect) _bonescript.on.connect = handlers.connect;
+            if(handlers.connecting) _bonescript.on.connecting = handlers.connecting;
+            if(handlers.disconnect) _bonescript.on.disconnect = handlers.disconnect;
+            if(handlers.connect_failed) _bonescript.on.connect_failed = handlers.connect_failed;
+            if(handlers.reconnect_failed) _bonescript.on.reconnect_failed = handlers.reconnect_failed;
+            if(handlers.reconnect) _bonescript.on.reconnect = handlers.reconnect;
+            if(handlers.reconnecting) _bonescript.on.reconnecting = handlers.reconnecting;
+        }
+        if(typeof handlers.callback == 'function') handlers.callback();
     }
 }
