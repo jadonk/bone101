@@ -49,7 +49,7 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     $('.cloud9-url').each(function() {
-        this.href = 'http://' + window.location.host + ':3000';
+        this.href = 'http://192.168.7.2:3000';
     });
 });
 
@@ -79,7 +79,7 @@ $(document).ready(function(){
         $('#connect-status').replaceWith(statusDisconnected);
         $('#connect-ip').keypress(oninput);
 
-	// note, due to a bug in Firefox, the call is moved below
+    // note, due to a bug in Firefox, the call is moved below
 
         function testForConnection() {
             handlers.callback = callback;
@@ -248,7 +248,7 @@ function _onSocketIOLoaded_workaround() {
             socket.emit('shell', command);
         }
         
-	// Call-back initialized function
-	_bonescript.on.initialized();
+    // Call-back initialized function
+    _bonescript.on.initialized();
     }
 }
