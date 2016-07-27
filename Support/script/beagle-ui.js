@@ -27,7 +27,7 @@ var handlers = {};
 function oninput(e) {
     if(e.which == 10 || e.which == 13) {
         var givenAddress = $('#connect-ip').val();
-        setTargetAddress(givenAddress, handlers);
+        connectTarget(givenAddress, handlers);
     }
 }
 
@@ -98,24 +98,24 @@ $(document).ready(function(){
             handlers.connect = connected;
             handlers.reconnect = connected;
             handlers.reconnecting = connected;
-            
+
             setTimeout(tryWindowHost, 5);
             setTimeout(try192, 5);
             setTimeout(tryLocal, 5);
-            
+
             function tryWindowHost() {
-                setTargetAddress(window.location.host, handlers);
+                connectTarget(window.location.host, handlers);
             }
             function try192() {
-                setTargetAddress('192.168.7.2', handlers);
+                connectTarget('192.168.7.2', handlers);
             }
             function tryLocal() {
-                setTargetAddress('beaglebone.local', handlers);
+                connectTarget('beaglebone.local', handlers);
             }
 
             function callback() {
             }
-            
+
             function connected() {
                 if(connectState == 'disconnected') {
                     console.log('Bonescript: connected');
@@ -126,6 +126,8 @@ $(document).ready(function(){
                 console.log('Bonescript: initialized');
                 $('#connect-status').replaceWith(statusConnected);
                 updateBoardInfo();
+                beagleboneIP = _bonescript.address;
+                updateURLs();
                 if(typeof onbonescriptinit == 'function') onbonescriptinit();
                 connectState = 'connected';
             }
@@ -273,10 +275,12 @@ function connectTarget(address, handlers, onerror) {
             script.src = url;
             script.charset = 'UTF-8';
             var scriptObj = head.appendChild(script);
-            scriptObj.addEventListener('error', onerror);
+            if(onerror) {
+                scriptObj.addEventListener('error', onerror);
+            }
             scriptObj.onload = onload;
         } catch(ex) {
-            onerror(ex);
+            if(onerror) onerror(ex);
         }
     }
     function addHandlers() {
