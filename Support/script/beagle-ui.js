@@ -53,6 +53,12 @@ $(document).ready(function(){
     });
 });
 
+$(document).ready(function(){
+    $('.node-red-url').each(function() {
+        this.href = 'http://' + window.location.host + ':1880';
+    });
+});
+
 $(function() {
     if($('#accordian').length) {
         $("#accordion").accordion({
