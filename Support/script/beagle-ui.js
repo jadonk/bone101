@@ -1,4 +1,5 @@
 serverBasePath = typeof serverBasePath == 'undefined' ? '/bone101/' : serverBasePath;
+var beagleboneIP = window.location.host;
 var name = "#floatMenu";  
 var menuYloc = null;
 var connectState = 'init';
@@ -15,7 +16,7 @@ var ace_editor_id = -1;
 var statusConnected = '' +
     '<div id="connect-status">' +
     '    <div class="browser-connected">' +
-    '        <img alt="Connected" src="' + serverBasePath + 'static/images/green_check.png" border="0">' +
+    '        <img alt="Connected" src="' + serverBasePath + 'static/images/green_check.png" border="0" width="41px" height="41px">' +
     '        <div id="browser-content"><strong>Your board is connected!</strong><br>' +
     '            <div id="board-info"></div> <button onclick="run(ace_editor_id);">Run</button>' +
     '            <button onclick="disconnect();">Disconnect</button>' +
@@ -26,7 +27,7 @@ var handlers = {};
 function oninput(e) {
     if(e.which == 10 || e.which == 13) {
         var givenAddress = $('#connect-ip').val();
-        setTargetAddress(givenAddress, handlers);
+        connectTarget(givenAddress, handlers);
     }
 }
 
@@ -47,11 +48,17 @@ $(document).ready(function(){
     }
 });  
 
-$(document).ready(function(){
+function updateURLs() {
     $('.cloud9-url').each(function() {
-        this.href = 'http://192.168.7.2:3000';
+        this.href = 'http://' + beagleboneIP + ':3000';
     });
-});
+
+    $('.node-red-url').each(function() {
+        this.href = 'http://' + beagleboneIP + ':1880';
+    });
+}
+
+$(document).ready(updateURLs);
 
 $(function() {
     if($('#accordian').length) {
@@ -91,24 +98,24 @@ $(document).ready(function(){
             handlers.connect = connected;
             handlers.reconnect = connected;
             handlers.reconnecting = connected;
-            
+
             setTimeout(tryWindowHost, 5);
             setTimeout(try192, 5);
             setTimeout(tryLocal, 5);
-            
+
             function tryWindowHost() {
-                setTargetAddress(window.location.host, handlers);
+                connectTarget(window.location.host, handlers);
             }
             function try192() {
-                setTargetAddress('192.168.7.2', handlers);
+                connectTarget('192.168.7.2', handlers);
             }
             function tryLocal() {
-                setTargetAddress('beaglebone.local', handlers);
+                connectTarget('beaglebone.local', handlers);
             }
 
             function callback() {
             }
-            
+
             function connected() {
                 if(connectState == 'disconnected') {
                     console.log('Bonescript: connected');
@@ -119,6 +126,8 @@ $(document).ready(function(){
                 console.log('Bonescript: initialized');
                 $('#connect-status').replaceWith(statusConnected);
                 updateBoardInfo();
+                beagleboneIP = _bonescript.address;
+                updateURLs();
                 if(typeof onbonescriptinit == 'function') onbonescriptinit();
                 connectState = 'connected';
             }
@@ -250,5 +259,46 @@ function _onSocketIOLoaded_workaround() {
         
     // Call-back initialized function
     _bonescript.on.initialized();
+    }
+}
+
+function connectTarget(address, handlers, onerror) {
+    var url = address;
+    url = url.replace(/^(http:\/\/|https:\/\/)*/, 'http://');
+    url = url.replace(/(\/)*$/, '/bonescript.js');
+    loadScript(url, addHandlers);
+    function loadScript(url, onload) {
+        try {
+            var head = document.getElementsByTagName('head')[0];
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = url;
+            script.charset = 'UTF-8';
+            var scriptObj = head.appendChild(script);
+            if(onerror) {
+                scriptObj.addEventListener('error', onerror);
+            }
+            scriptObj.onload = onload;
+        } catch(ex) {
+            if(onerror) onerror(ex);
+        }
+    }
+    function addHandlers() {
+        if(typeof handlers == 'function') {
+            handlers();
+            return;
+        }
+        if(typeof _bonescript != 'undefined') {
+            _bonescript.address = address;
+            if(handlers.initialized) _bonescript.on.initialized = handlers.initialized;
+            if(handlers.connect) _bonescript.on.connect = handlers.connect;
+            if(handlers.connecting) _bonescript.on.connecting = handlers.connecting;
+            if(handlers.disconnect) _bonescript.on.disconnect = handlers.disconnect;
+            if(handlers.connect_failed) _bonescript.on.connect_failed = handlers.connect_failed;
+            if(handlers.reconnect_failed) _bonescript.on.reconnect_failed = handlers.reconnect_failed;
+            if(handlers.reconnect) _bonescript.on.reconnect = handlers.reconnect;
+            if(handlers.reconnecting) _bonescript.on.reconnecting = handlers.reconnecting;
+        }
+        if(typeof handlers.callback == 'function') handlers.callback();
     }
 }
