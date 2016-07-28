@@ -128,6 +128,9 @@ var UI = (function() {
         };
         var graphLinePos = BBposY + 40;
 
+        // mousedown on a button state
+        ui.down = false;
+
         // major buttons
         ui.button = (function() {
             var button = {};
@@ -1454,18 +1457,6 @@ var Events = (function() {
                 event: 'mousemove',
                 func: slideBar
             },
-            'zooming': {
-                event: 'mouseup',
-                func: zooming
-            },
-            'stop': {
-                event: 'mouseup',
-                func: stop
-            },
-            'record': {
-                event: 'mouseup',
-                func: record
-            },
             'pinSelected': {
                 event: 'click',
                 func: pinSelected
@@ -1530,6 +1521,7 @@ var Events = (function() {
         switch (button) {
             case "digital":
                 listen(true, 'digitalMenu');
+                listen(true, 'clickDownDigital');
                 break;
             default:
                 break;
@@ -1544,8 +1536,6 @@ var Events = (function() {
             case "input":
             case "output":
             case "pwm":
-                listen(true, 'clickDownDigital');
-                break;
             case "digitalMenu":
                 break;
             default:
@@ -1576,21 +1566,21 @@ var Events = (function() {
                 listen(false, 'clickDown');
                 break;
             case "plus":
-                listen(true, 'zooming');
+                e.ui.state.down = "zooming";
                 //e.ui.graph.zoomChange("in");
                 e.ui.button.highlightPlus();
                 break;
             case "minus":
-                listen(true, 'zooming');
+                e.ui.state.down = "zooming";
                 //e.ui.graph.zoomChange("out");
                 e.ui.button.highlightMinus();
                 break;
             case "stop":
-                listen(true, 'stop');
+                e.ui.state.down = "stop";
                 e.ui.button.highlightStop();
                 break;
             case "play":
-                listen(true, 'record');
+                e.ui.state.down = "play";
                 e.ui.button.highlightPlay();
                 break;
             case "slider":
@@ -1625,7 +1615,7 @@ var Events = (function() {
 
     function release(event) {
         var probeMode = e.ui.probe.addTest(event);
-        
+
         if (probeMode == 'selectPin') {
             e.ui.probe.clearDrag();
             listen(false, 'activateProbe');
@@ -1698,18 +1688,6 @@ var Events = (function() {
     }
 
     function slideBar(event) {
-
-    }
-
-    function zooming(event) {
-
-    }
-
-    function stop(event) {
-
-    }
-
-    function record(event) {
 
     }
 
