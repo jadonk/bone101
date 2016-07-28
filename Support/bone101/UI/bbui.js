@@ -1404,8 +1404,8 @@ var Events = (function() {
         e.ui = UI.get();
         e.listeners = {};
         e.start = function() {
-            listen(true, 'exit');
-            listen(true, 'exitHover');
+            listen(true, 'cExit');
+            listen(true, 'hExit');
         };
         e.start();
         return e;
@@ -1413,53 +1413,45 @@ var Events = (function() {
 
     function listen(enable, description) {
         var events = {
-            'exit': {
+            'cExit': {
                 event: 'click',
-                func: exit
+                func: cExit
             },
-            'exitHover': {
+            'hExit': {
                 event: 'mousemove',
-                func: exitHover
+                func: hExit
             },
-            'activateProbe': {
+            'hAddProbe': {
                 event: 'mousemove',
-                func: activateProbe
+                func: hAddProbe
             },
-            'digitalMenu': {
+            'hDigital': {
                 event: 'mousemove',
-                func: digitalMenu
+                func: hDigital
             },
-            'btnInfo': {
+            'hButton': {
                 event: 'mousemove',
-                func: btnInfo
+                func: hButton
             },
-            'selectPin': {
+            'cPin': {
                 event: 'click',
-                func: selectPin
+                func: cPin
             },
-            'pinHover': {
+            'hPin': {
                 event: 'mousemove',
-                func: pinHover
-            },
-            'clicked': {
-                event: 'click',
-                func: clicked
+                func: hPin
             },
             'clickDown': {
                 event: 'mousedown',
                 func: clickDown
             },
-            'clickDownDigital': {
+            'cdDigital': {
                 event: 'mousedown',
-                func: clickDownDigital
+                func: cdDigital
             },
-            'slideBar': {
+            'hSlider': {
                 event: 'mousemove',
-                func: slideBar
-            },
-            'pinSelected': {
-                event: 'click',
-                func: pinSelected
+                func: hSlider
             },
             'release': {
                 event: 'mouseup',
@@ -1490,29 +1482,28 @@ var Events = (function() {
         else document.removeEventListener(ev, func, false);
     }
 
-    function exit(event) {
+    function cExit(event) {
         var button = e.ui.button.test(event);
         if (button == "exit") {
             e.ui.loop.clear();
-            listen(false, 'exit');
-            listen(false, 'exitHover');
+            listen(false, 'cExit');
+            listen(false, 'hExit');
             listen(true, 'clickDown');
             listen(true, 'release');
-            listen(true, 'clicked');
-            listen(true, 'btnInfo');
+            listen(true, 'hButton');
         }
     }
 
-    function exitHover(event) {
+    function hExit(event) {
         var button = e.ui.button.test(event);
-        //console.log("exitHover: button = " + button);
+        //console.log("hExit: button = " + button);
         e.ui.loop.clear();
         e.ui.loop.welcome(button);
     }
 
 
     //on button hover, highlight button and coressponding pins.
-    function btnInfo(event) {
+    function hButton(event) {
         e.ui.loop.clear();
         //e.ui.pin.test(event);
         var button = e.ui.button.test(event);
@@ -1520,15 +1511,15 @@ var Events = (function() {
         e.ui.pin.highlight(button);
         switch (button) {
             case "digital":
-                listen(true, 'digitalMenu');
-                listen(true, 'clickDownDigital');
+                listen(true, 'hDigital');
+                listen(true, 'cdDigital');
                 break;
             default:
                 break;
         }
     }
 
-    function digitalMenu(event) {
+    function hDigital(event) {
         var button = e.ui.button.test(event);
         e.ui.button.highlightDigital(button);
         switch (button) {
@@ -1539,30 +1530,25 @@ var Events = (function() {
             case "digitalMenu":
                 break;
             default:
-                listen(false, 'digitalMenu');
-                listen(false, 'clickDownDigital');
+                listen(false, 'hDigital');
+                listen(false, 'cdDigital');
                 break;
         }
     }
 
-    // if click on/off button or pin while active
-    function clicked(event) {
-        //e.ui.probe.addTest(event); ???
-        e.ui.probe.onOffTest(event);
-    }
-
-    // if clicked on global button, slider, or graph button    
+    // if clicked on global button, slider, graph, or probe-on/off button
     function clickDown(event) {
         var button = e.ui.button.test(event);
+        //if (button == "none") button = e.ui.probe.onOffTest(event);
         if (button == "none") button = e.ui.probe.sliderTest(event);
         if (button == "none") button = e.ui.graph.test(event);
         switch (button) {
             case "analog":
             case "led":
                 e.ui.probe.addStart(button);
-                listen(true, 'activateProbe');
-                listen(false, 'btnInfo');
-                listen(false, 'clickDownDigital');
+                listen(true, 'hAddProbe');
+                listen(false, 'hButton');
+                listen(false, 'cdDigital');
                 listen(false, 'clickDown');
                 break;
             case "plus":
@@ -1584,32 +1570,35 @@ var Events = (function() {
                 e.ui.button.highlightPlay();
                 break;
             case "slider":
-                listen(true, 'slideBar');
+                e.ui.state.down = "slider";
+                listen(true, 'hSlider');
+                break;
+            case "onOff":
                 break;
             default:
                 break;
         }
     }
 
-    function clickDownDigital(event) {
+    function cdDigital(event) {
         var button = e.ui.button.test(event);
         switch (button) {
             case "input":
             case "output":
             case "pwm":
                 e.ui.probe.addStart(button);
-                listen(true, 'activateProbe');
-                listen(false, 'btnInfo');
-                listen(false, 'clickDownDigital');
+                listen(true, 'hAddProbe');
+                listen(false, 'hButton');
+                listen(false, 'cdDigital');
                 listen(false, 'clickDown');
                 break;
             default:
                 break;
         }
-        listen(false, 'digitalMenu');
+        listen(false, 'hDigital');
     }
 
-    function activateProbe(event) {
+    function hAddProbe(event) {
         e.ui.probe.dragButton(event);
     }
 
@@ -1618,21 +1607,21 @@ var Events = (function() {
 
         if (probeMode == 'selectPin') {
             e.ui.probe.clearDrag();
-            listen(false, 'activateProbe');
-            listen(true, 'selectPin');
-            listen(true, 'pinHover');
+            listen(false, 'hAddProbe');
+            listen(true, 'cPin');
+            listen(true, 'hPin');
             e.ui.probe.selectText();
             var probe = e.ui.probe.test(event);
             e.ui.pin.highlight(probe);
             listen(true, 'clickDown');
         } else if (probeMode == 'cancelled') {
-            listen(false, 'activateProbe');
-            listen(true, 'btnInfo');
+            listen(false, 'hAddProbe');
+            listen(true, 'hButton');
             listen(true, 'clickDown');
         }
     }
 
-    function selectPin(event) {
+    function cPin(event) {
         pin = e.ui.pin.test(event);
         var probes = Object.keys(e.ui.button.get());
         probeName = probes[probes.length-16];
@@ -1651,13 +1640,14 @@ var Events = (function() {
             pin.select = 'on';
             e.ui.probe.add(pin);
             probe.pinNum = pin;
-            listen(false,'selectPin');
-            listen(false,'pinHover');
-            listen(true,'pinSelected');
+            listen(false,'cPin');
+            listen(false,'hPin');
+            listen(true, 'hButton');
+            listen(true, 'clickDown');
         }
     }
 
-    function pinHover(event) {
+    function hPin(event) {
         e.ui.loop.clearBB();
         pin = e.ui.pin.test(event);
         var probes = Object.keys(e.ui.button.get());
@@ -1679,15 +1669,7 @@ var Events = (function() {
         }
     }
 
-    function pinSelected(event) {
-        listen(true, 'btnInfo');
-        listen(true, 'clickDown');
-        listen(false, 'pinSelected');
-        e.ui.loop.clear();
-        e.ui.loop.clearProbe();
-    }
-
-    function slideBar(event) {
+    function hSlider(event) {
 
     }
 
