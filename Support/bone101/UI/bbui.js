@@ -1404,8 +1404,8 @@ var Events = (function() {
         e.ui = UI.get();
         e.listeners = {};
         e.start = function() {
-            listen(true, 'cExit');
-            listen(true, 'hExit');
+            listen(true, 'clickExit');
+            listen(true, 'hoverExit');
         };
         e.start();
         return e;
@@ -1413,41 +1413,41 @@ var Events = (function() {
 
     function listen(enable, description) {
         var events = {
-            'cExit': {
+            'clickExit': {
                 event: 'click',
-                func: cExit
+                func: clickExit
             },
-            'hExit': {
+            'hoverExit': {
                 event: 'mousemove',
-                func: hExit
+                func: hoverExit
             },
-            'hAddProbe': {
+            'hoverAddProbe': {
                 event: 'mousemove',
-                func: hAddProbe
+                func: hoverAddProbe
             },
-            'hDigital': {
+            'hoverDigital': {
                 event: 'mousemove',
-                func: hDigital
+                func: hoverDigital
             },
-            'hButton': {
+            'hoverButton': {
                 event: 'mousemove',
-                func: hButton
+                func: hoverButton
             },
-            'cPin': {
+            'clickPin': {
                 event: 'click',
-                func: cPin
+                func: clickPin
             },
-            'hPin': {
+            'hoverPin': {
                 event: 'mousemove',
-                func: hPin
+                func: hoverPin
             },
             'clickDown': {
                 event: 'mousedown',
                 func: clickDown
             },
-            'cdDigital': {
+            'clickDownDigital': {
                 event: 'mousedown',
-                func: cdDigital
+                func: clickDownDigital
             },
             'hSlider': {
                 event: 'mousemove',
@@ -1482,28 +1482,28 @@ var Events = (function() {
         else document.removeEventListener(ev, func, false);
     }
 
-    function cExit(event) {
+    function clickExit(event) {
         var button = e.ui.button.test(event);
         if (button == "exit") {
             e.ui.loop.clear();
-            listen(false, 'cExit');
-            listen(false, 'hExit');
+            listen(false, 'clickExit');
+            listen(false, 'hoverExit');
             listen(true, 'clickDown');
             listen(true, 'release');
-            listen(true, 'hButton');
+            listen(true, 'hoverButton');
         }
     }
 
-    function hExit(event) {
+    function hoverExit(event) {
         var button = e.ui.button.test(event);
-        //console.log("hExit: button = " + button);
+        //console.log("hoverExit: button = " + button);
         e.ui.loop.clear();
         e.ui.loop.welcome(button);
     }
 
 
     //on button hover, highlight button and coressponding pins.
-    function hButton(event) {
+    function hoverButton(event) {
         e.ui.loop.clear();
         //e.ui.pin.test(event);
         var button = e.ui.button.test(event);
@@ -1511,15 +1511,15 @@ var Events = (function() {
         e.ui.pin.highlight(button);
         switch (button) {
             case "digital":
-                listen(true, 'hDigital');
-                listen(true, 'cdDigital');
+                listen(true, 'hoverDigital');
+                listen(true, 'clickDownDigital');
                 break;
             default:
                 break;
         }
     }
 
-    function hDigital(event) {
+    function hoverDigital(event) {
         var button = e.ui.button.test(event);
         e.ui.button.highlightDigital(button);
         switch (button) {
@@ -1530,8 +1530,8 @@ var Events = (function() {
             case "digitalMenu":
                 break;
             default:
-                listen(false, 'hDigital');
-                listen(false, 'cdDigital');
+                listen(false, 'hoverDigital');
+                listen(false, 'clickDownDigital');
                 break;
         }
     }
@@ -1546,9 +1546,9 @@ var Events = (function() {
             case "analog":
             case "led":
                 e.ui.probe.addStart(button);
-                listen(true, 'hAddProbe');
-                listen(false, 'hButton');
-                listen(false, 'cdDigital');
+                listen(true, 'hoverAddProbe');
+                listen(false, 'hoverButton');
+                listen(false, 'clickDownDigital');
                 listen(false, 'clickDown');
                 break;
             case "plus":
@@ -1580,25 +1580,25 @@ var Events = (function() {
         }
     }
 
-    function cdDigital(event) {
+    function clickDownDigital(event) {
         var button = e.ui.button.test(event);
         switch (button) {
             case "input":
             case "output":
             case "pwm":
                 e.ui.probe.addStart(button);
-                listen(true, 'hAddProbe');
-                listen(false, 'hButton');
-                listen(false, 'cdDigital');
+                listen(true, 'hoverAddProbe');
+                listen(false, 'hoverButton');
+                listen(false, 'clickDownDigital');
                 listen(false, 'clickDown');
                 break;
             default:
                 break;
         }
-        listen(false, 'hDigital');
+        listen(false, 'hoverDigital');
     }
 
-    function hAddProbe(event) {
+    function hoverAddProbe(event) {
         e.ui.probe.dragButton(event);
     }
 
@@ -1607,21 +1607,21 @@ var Events = (function() {
 
         if (probeMode == 'selectPin') {
             e.ui.probe.clearDrag();
-            listen(false, 'hAddProbe');
-            listen(true, 'cPin');
-            listen(true, 'hPin');
+            listen(false, 'hoverAddProbe');
+            listen(true, 'clickPin');
+            listen(true, 'hoverPin');
             e.ui.probe.selectText();
             var probe = e.ui.probe.test(event);
             e.ui.pin.highlight(probe);
             listen(true, 'clickDown');
         } else if (probeMode == 'cancelled') {
-            listen(false, 'hAddProbe');
-            listen(true, 'hButton');
+            listen(false, 'hoverAddProbe');
+            listen(true, 'hoverButton');
             listen(true, 'clickDown');
         }
     }
 
-    function cPin(event) {
+    function clickPin(event) {
         pin = e.ui.pin.test(event);
         var probes = Object.keys(e.ui.button.get());
         probeName = probes[probes.length-16];
@@ -1640,14 +1640,14 @@ var Events = (function() {
             pin.select = 'on';
             e.ui.probe.add(pin);
             probe.pinNum = pin;
-            listen(false,'cPin');
-            listen(false,'hPin');
-            listen(true, 'hButton');
+            listen(false,'clickPin');
+            listen(false,'hoverPin');
+            listen(true, 'hoverButton');
             listen(true, 'clickDown');
         }
     }
 
-    function hPin(event) {
+    function hoverPin(event) {
         e.ui.loop.clearBB();
         pin = e.ui.pin.test(event);
         var probes = Object.keys(e.ui.button.get());
