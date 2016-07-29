@@ -1431,12 +1431,8 @@ var Events = (function() {
                 func: btnInfo
             },
             'selectPin': {
-                event: 'click',
-                func: selectPin
-            },
-            'pinHover': {
                 event: 'mousemove',
-                func: pinHover
+                func: selectPin
             },
             'clicked': {
                 event: 'click',
@@ -1630,7 +1626,6 @@ var Events = (function() {
             e.ui.probe.clearDrag();
             listen(false, 'activateProbe');
             listen(true, 'selectPin');
-            listen(true, 'pinHover');
             e.ui.probe.selectText();
             var probe = e.ui.probe.test(event);
             e.ui.pin.highlight(probe);
@@ -1643,32 +1638,8 @@ var Events = (function() {
     }
 
     function selectPin(event) {
-        pin = e.ui.pin.test(event);
-        var probes = Object.keys(e.ui.button.get());
-        probeName = probes[probes.length-16];
-        probe = e.ui.button.get()[probeName];
-        probe.category = probe.name;
-        if (probe.name == 'input' || probe.name == 'output') {
-            probe.category = 'digital';
-        }
-        pwm = false;
-        if (probe.name == "pwm") pwm = pin.PWM;
-        if ((pin.category == probe.category || pwm) && pin.select == 'off') {
-            e.ui.loop.clear();
-            probe.text = pin.name;
-            e.ui.button.draw(probeName, Canvas.get().Active.ctx, false);
-            e.ui.pin.hover(pin);
-            pin.select = 'on';
-            e.ui.probe.add(pin);
-            probe.pinNum = pin;
-            listen(false,'selectPin');
-            listen(false,'pinHover');
-            listen(true,'pinSelected');
-        }
-    }
-
-    function pinHover(event) {
         e.ui.loop.clearBB();
+        listen(true,'pinSelected');
         pin = e.ui.pin.test(event);
         var probes = Object.keys(e.ui.button.get());
         probeName = probes[probes.length-16];
@@ -1685,16 +1656,43 @@ var Events = (function() {
             e.ui.button.draw(probeName, Canvas.get().Active.ctx, false);
             e.ui.pin.hover(pin);
         } else {
-             Canvas.get().Active.ctx.clearRect(probe.x, probe.y, probe.endX, probe.endY);
+            Canvas.get().Active.ctx.clearRect(probe.x, probe.y, probe.endX, probe.endY);
         }
     }
 
     function pinSelected(event) {
-        listen(true, 'btnInfo');
-        listen(true, 'clickDown');
+        listen(false,'selectPin');
+        //listen(true, 'clickDown');
         listen(false, 'pinSelected');
-        e.ui.loop.clear();
-        e.ui.loop.clearProbe();
+        
+        var probes = Object.keys(e.ui.button.get());
+        probeName = probes[probes.length-16];
+        probe = e.ui.button.get()[probeName];
+
+        pin = e.ui.pin.test(event);
+
+        //if pin isn't selected -> clear probe and activate menus
+        if (pin.name === undefined) {
+            e.ui.loop.clearProbe();
+            listen(true, 'btnInfo');
+        }
+        else {
+            if (probe.name == "pwm") pwm = pin.PWM;
+            if ((pin.category == probe.category || pwm) && pin.select == 'off') {
+                e.ui.loop.clear();
+                probe.text = pin.name;
+                e.ui.button.draw(probeName, Canvas.get().BTN.ctx, false);
+                e.ui.pin.hover(pin);
+                pin.select = 'on';
+                e.ui.probe.add(pin);
+                probe.pinNum = pin;
+            }
+            //if user select a pin not related to the probe
+            else {
+                e.ui.loop.clearProbe();
+                listen(true, 'btnInfo'); 
+            }
+        }
     }
 
     function slideBar(event) {
