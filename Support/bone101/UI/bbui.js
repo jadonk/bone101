@@ -1052,9 +1052,11 @@ var UI = (function() {
                     if (category == "pwm") pwm = pins[i].PWM;
                     if (category == pins[i].category || pwm) {
                         var p = pins[i];
-                        canvas.Active.ctx.fillStyle = 'RGBA(255,255,255,0.5)';
-                        canvas.Active.ctx.fillRect(p.x, p.y, p.w, p.h);
-                        canvas.Active.ctx.save();
+                        if (p.select !== "on") {
+                            canvas.Active.ctx.fillStyle = 'RGBA(255,255,255,0.5)';
+                            canvas.Active.ctx.fillRect(p.x, p.y, p.w, p.h);
+                            canvas.Active.ctx.save();
+                        }
                     }
                 }
             };
