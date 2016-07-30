@@ -667,8 +667,8 @@ var UI = (function() {
             wire.LEDs = function(pin, probe){
                 canvas.BTN.ctx.beginPath();
                 canvas.BTN.ctx.moveTo(probe.x + 75, probe.y + btnHeight*0.5);
-                canvas.BTN.ctx.lineTo(rectInner.w - 140, probe.y + btnHeight*0.5);
-                canvas.BTN.ctx.lineTo(rectInner.w - 140, rect.y + 10);
+                canvas.BTN.ctx.lineTo(rectInner.w - 143, probe.y + btnHeight*0.5);
+                canvas.BTN.ctx.lineTo(rectInner.w - 143, rect.y + 10);
                 canvas.BTN.ctx.lineTo(pin.x + pin.w/2 , rect.y + 10);
                 canvas.BTN.ctx.lineTo(pin.x + pin.w/2 , pin.y);
                 canvas.BTN.ctx.strokeStyle = pin.color;
