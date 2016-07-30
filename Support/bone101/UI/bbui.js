@@ -664,7 +664,7 @@ var UI = (function() {
             var wire = {};
             var btnHeight = 15;
 
-            wire.LEDs = function(pin, probe) {
+            wire.LEDs = function(pin, probe){
                 canvas.BTN.ctx.beginPath();
                 canvas.BTN.ctx.moveTo(probe.x + 75, probe.y + btnHeight*0.5);
                 canvas.BTN.ctx.lineTo(rectInner.w - 140, probe.y + btnHeight*0.5);
@@ -673,6 +673,17 @@ var UI = (function() {
                 canvas.BTN.ctx.lineTo(pin.x + pin.w/2 , pin.y);
                 canvas.BTN.ctx.strokeStyle = pin.color;
                 canvas.BTN.ctx.lineWidth = 2;
+                canvas.BTN.ctx.stroke();
+            };
+
+            wire.Analog = function(pin, probe){
+                canvas.BTN.ctx.beginPath();
+                canvas.BTN.ctx.moveTo(probe.x + 75, probe.y + btnHeight*0.5);
+                canvas.BTN.ctx.lineTo(rectInner.w - 140, probe.y + btnHeight*0.5);
+                canvas.BTN.ctx.lineTo(rectInner.w - 140, pin.y + pin.h/2);
+                canvas.BTN.ctx.lineTo(pin.x + pin.w/2, pin.y + pin.h/2);
+                canvas.BTN.ctx.lineWidth = 2;
+                canvas.BTN.ctx.strokeStyle = pin.color;
                 canvas.BTN.ctx.stroke();
             };
 
@@ -1700,6 +1711,14 @@ var Events = (function() {
                 //e.ui.button.off(probe);
                 e.ui.bar.create(probe, pin);
                 e.ui.bar.draw();
+                listen(true, 'btnInfo');
+            }
+            else if (probe.name === "analog" && pin.select == 'on'){
+                pin.color = probe.graphColors[0];
+                probe.graphColors.splice(0,1);
+                e.ui.wire.Analog(pin, probe); 
+                e.ui.button.on(probe);
+                //e.ui.button.off(probe);
                 listen(true, 'btnInfo');
             }
         }
