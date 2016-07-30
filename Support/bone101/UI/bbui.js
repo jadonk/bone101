@@ -123,7 +123,7 @@ var UI = (function() {
             h: 510
         };
         var snapProbe = {
-            x: rect.x + 35,
+            x: rect.x + 28,
             y: rect.y + 25
         };
         var graphLinePos = BBposY + 40;
@@ -410,14 +410,14 @@ var UI = (function() {
             // on switch
             button.on = function(probe) {
                 var btn = buttons['onOff'];
-                var x = btn.x;
-                var y = btn.y;
+                var x = probe.x + 85;
+                var y = probe.y;
                 var color = probe.color;
                 var offColor = probe.offColor;
                 var s = btn.s; var e = btn.e;
                 var w = 50; var h = 15;
-                var r = btn.endX;
-                var b = btn.endY;
+                var r = probe.endX + 60;
+                var b = probe.endY;
                 var radius = 1;
 
                 canvas.BTN.ctx.beginPath();
@@ -455,14 +455,14 @@ var UI = (function() {
             // off switch
             button.off = function(probe){
                 var btn = buttons['onOff'];
-                var x = btn.x;
-                var y = btn.y;
+                var x = probe.x + 85;
+                var y = probe.y;
                 var color = probe.color;
                 var offColor = probe.offColor;
                 var s = btn.s; var s = btn.s; var e = btn.e;
                 var w = 50; var h = 15;
-                var r = btn.endX;
-                var b = btn.endY;
+                var r = probe.endX + 60;
+                var b = probe.endY;
                 var radius = 1;
 
                 canvas.BTN.ctx.beginPath();
@@ -618,24 +618,24 @@ var UI = (function() {
 
             bar.draw = function(){
                 var len = bars.length;
-                canvas.Bar.ctx.clearRect(0,0,canvas.Bar.e.width,canvas.Bar.e.height);
-                    canvas.Bar.ctx.fillStyle= 'rgb(205,205,205)';
-                    canvas.Bar.ctx.fillRect(bars[len-1].locX,bars[len-1].locY, bars[len-1].length, bars[len-1].height);
-                    canvas.Bar.ctx.fillStyle= bars[len-1].barColor;
-                    canvas.Bar.ctx.fillRect(bars[len-1].locX,bars[len-1].locY, bars[len-1].sliderX() - bars[len-1].locX, 15);
-                    canvas.Bar.ctx.fillStyle= 'rgb(30,30,30)';
-                    canvas.Bar.ctx.fillRect(bars[len-1].sliderX()-2,bars[len-1].locY,14,15);
-                    canvas.Bar.ctx.strokeStyle= bars[len-1].outline;
-                    canvas.Bar.ctx.lineWidth = 2;
-                    canvas.Bar.ctx.strokeRect(bars[len-1].locX,bars[len-1].locY, bars[len-1].length, bars[len-1].height);
-                    canvas.Bar.ctx.fillStyle= 'black';
-                    canvas.Bar.ctx.strokeStyle = 'rgb(225,225,225)';
-                    canvas.Bar.ctx.lineWidth = 6;
-                    canvas.Bar.ctx.font = '12pt Andale Mono';
-                    canvas.Bar.ctx.strokeText(bars[len-1].text, bars[len-1].length + bars[len-1].locX + 5, 
-                        bars[len-1].height + bars[len-1].locY -2);  
-                    canvas.Bar.ctx.fillText(bars[len-1].text, bars[len-1].length + bars[len-1].locX + 5, 
-                        bars[len-1].height + bars[len-1].locY -2);
+                //canvas.Bar.ctx.clearRect(0,0,canvas.Bar.e.width,canvas.Bar.e.height);
+                canvas.Bar.ctx.fillStyle= 'rgb(205,205,205)';
+                canvas.Bar.ctx.fillRect(bars[len-1].locX,bars[len-1].locY, bars[len-1].length, bars[len-1].height);
+                canvas.Bar.ctx.fillStyle= bars[len-1].barColor;
+                canvas.Bar.ctx.fillRect(bars[len-1].locX,bars[len-1].locY, bars[len-1].sliderX() - bars[len-1].locX, 15);
+                canvas.Bar.ctx.fillStyle= 'rgb(30,30,30)';
+                canvas.Bar.ctx.fillRect(bars[len-1].sliderX()-2,bars[len-1].locY,14,15);
+                canvas.Bar.ctx.strokeStyle= bars[len-1].outline;
+                canvas.Bar.ctx.lineWidth = 2;
+                canvas.Bar.ctx.strokeRect(bars[len-1].locX,bars[len-1].locY, bars[len-1].length, bars[len-1].height);
+                canvas.Bar.ctx.fillStyle= 'black';
+                canvas.Bar.ctx.strokeStyle = 'rgb(225,225,225)';
+                canvas.Bar.ctx.lineWidth = 6;
+                canvas.Bar.ctx.font = '12pt Andale Mono';
+                canvas.Bar.ctx.strokeText(bars[len-1].text, bars[len-1].length + bars[len-1].locX + 5, 
+                bars[len-1].height + bars[len-1].locY -2);  
+                canvas.Bar.ctx.fillText(bars[len-1].text, bars[len-1].length + bars[len-1].locX + 5, 
+                bars[len-1].height + bars[len-1].locY -2);
             };
 
             bar.test = function(event) {
@@ -667,10 +667,10 @@ var UI = (function() {
             wire.LEDs = function(pin, probe) {
                 canvas.BTN.ctx.beginPath();
                 canvas.BTN.ctx.moveTo(probe.x + 75, probe.y + btnHeight*0.5);
-                canvas.BTN.ctx.lineTo(rect.x + rectInner.w + 12, probe.y + btnHeight*0.5);
-                canvas.BTN.ctx.lineTo(rect.x + rectInner.w + 12, rect.y + 10);
-                canvas.BTN.ctx.lineTo(pin.x + (pin.endX - pin.x)/2, rect.y + 10);
-                canvas.BTN.ctx.lineTo(pin.x + (pin.endX - pin.x)/2, pin.y);
+                canvas.BTN.ctx.lineTo(rectInner.w - 140, probe.y + btnHeight*0.5);
+                canvas.BTN.ctx.lineTo(rectInner.w - 140, rect.y + 10);
+                canvas.BTN.ctx.lineTo(pin.x + pin.w/2 , rect.y + 10);
+                canvas.BTN.ctx.lineTo(pin.x + pin.w/2 , pin.y);
                 canvas.BTN.ctx.strokeStyle = pin.color;
                 canvas.BTN.ctx.lineWidth = 2;
                 canvas.BTN.ctx.stroke();
@@ -1110,7 +1110,7 @@ var UI = (function() {
             };
 
             //clears the duplicate button after dragging button to graph.
-            probe.clearDrag = function() {
+            probe.clearDrag = function(event) {
                 var coords = Position(event);
                 var x = coords[0] - 50;
                 var y = coords[1] - 7.5;
@@ -1623,7 +1623,7 @@ var Events = (function() {
         var probeMode = e.ui.probe.addTest(event);
         
         if (probeMode == 'selectPin') {
-            e.ui.probe.clearDrag();
+            e.ui.probe.clearDrag(event);
             listen(false, 'activateProbe');
             listen(true, 'selectPin');
             e.ui.probe.selectText();
@@ -1662,7 +1662,6 @@ var Events = (function() {
 
     function pinSelected(event) {
         listen(false,'selectPin');
-        //listen(true, 'clickDown');
         listen(false, 'pinSelected');
         
         var probes = Object.keys(e.ui.button.get());
@@ -1691,6 +1690,17 @@ var Events = (function() {
             else {
                 e.ui.loop.clearProbe();
                 listen(true, 'btnInfo'); 
+            }
+            //LEDs
+            if (probe.name === "led" && pin.select == 'on'){
+                pin.color = probe.graphColors[0];
+                probe.graphColors.splice(0,1);
+                e.ui.wire.LEDs(pin, probe); 
+                e.ui.button.on(probe);
+                //e.ui.button.off(probe);
+                e.ui.bar.create(probe, pin);
+                e.ui.bar.draw();
+                listen(true, 'btnInfo');
             }
         }
     }
