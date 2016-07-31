@@ -497,6 +497,19 @@ var UI = (function() {
                 canvas.BTN.ctx.fillText('off', x + e, y+12);
             };
 
+            button.createOutput = function(){
+                button.push('output',true);
+                var probes = Object.keys(buttons);
+                probeName = probes[probes.length-16];
+                probe = buttons[probeName];
+                probe2 = buttons[probes[probes.length-17]]
+                ui.wire.Link(probe2,probe);
+                probe.input = "on";
+                canvas.Active.ctx.fillStyle= 'red';
+                canvas.Active.ctx.font = '12pt Andale Mono';
+                canvas.Active.ctx.fillText("select " + probe.article, BBposX + 10, BBposY-25);
+            };
+
             button.drawGraphbtn = function(b, context) {
                 var btn = buttons[b];
                 // zoom in
@@ -538,7 +551,7 @@ var UI = (function() {
             };
 
             var probeIndex = 0;
-            button.push = function(b, x, y) {
+            button.push = function(b, output) {
                 buttons[probeIndex] = {};
                 for (var prop in buttons[b]) {
                     if (buttons[b].hasOwnProperty(prop)) {
@@ -554,7 +567,15 @@ var UI = (function() {
 
                 //ui.probe.push(buttons[probeIndex]);
 
-                button.draw(probeIndex, canvas.Base.ctx, false);
+                //output is true if the input button selected.
+                if (output === true) {
+                    buttons[probeIndex].x = snapProbe.x+75;
+                    buttons[probeIndex].endX = snapProbe.x + 150;
+                    button.draw(probeIndex, canvas.Base.ctx, false, snapProbe.x+75, snapProbe.y);
+                }
+                else {
+                    button.draw(probeIndex, canvas.Base.ctx, false);
+                }
                 snapProbe.y += 22;
                 probeIndex++;
             };
@@ -684,6 +705,30 @@ var UI = (function() {
                 canvas.BTN.ctx.lineTo(pin.x + pin.w/2, pin.y + pin.h/2);
                 canvas.BTN.ctx.lineWidth = 2;
                 canvas.BTN.ctx.strokeStyle = pin.color;
+                canvas.BTN.ctx.stroke();
+            };
+
+            wire.Digital = function(pin, probe){
+                canvas.BTN.ctx.beginPath();
+                if (pin.subType == "input") { var s = -2; }
+                else if (pin.subType == "output") { var s = -6; }
+                else { var s = -4; }
+                canvas.BTN.ctx.strokeStyle = pin.color;
+                canvas.BTN.ctx.moveTo(probe.x + 75, probe.y + btnHeight*0.5);
+                canvas.BTN.ctx.lineTo(rectInner.w - 141 + s, probe.y + btnHeight*0.5);
+                canvas.BTN.ctx.lineTo(rectInner.w - 141 + s, pin.y + pin.h/2);
+                canvas.BTN.ctx.lineTo(pin.x + pin.w/2, pin.y + pin.h/2);
+                canvas.BTN.ctx.lineWidth = 2;
+                canvas.BTN.ctx.stroke();
+            };
+
+            wire.Link = function(btn1,btn2){
+                canvas.BTN.ctx.beginPath();
+                canvas.BTN.ctx.moveTo(btn1.endX/2 + 15, btn1.y + btnHeight);
+                canvas.BTN.ctx.lineTo(btn1.endX/2 + 15, btn2.y + btnHeight*0.5);
+                canvas.BTN.ctx.lineTo(btn2.x, btn2.y + btnHeight*0.5);
+                canvas.BTN.ctx.strokeStyle = 'rgb(0,153,110)';
+                canvas.BTN.ctx.lineWidth = 2;
                 canvas.BTN.ctx.stroke();
             };
 
@@ -1685,8 +1730,13 @@ var Events = (function() {
 
         //if pin isn't selected -> clear probe and activate menus
         if (pin.name === undefined) {
-            e.ui.loop.clearProbe();
-            listen(true, 'btnInfo');
+            if (probe.input !== "on") {
+                e.ui.loop.clearProbe();
+                listen(true, 'btnInfo');
+            }
+            else {
+                listen(true,'selectPin');
+            }
         }
         else {
             if (probe.name == "pwm") pwm = pin.PWM;
@@ -1698,30 +1748,79 @@ var Events = (function() {
                 pin.select = 'on';
                 e.ui.probe.add(pin);
                 probe.pinNum = pin;
+
+                //LEDs
+                if (probe.name === "led" && pin.select == 'on'){
+                    pin.color = probe.graphColors[0];
+                    probe.graphColors.splice(0,1);
+                    e.ui.wire.LEDs(pin, probe); 
+                    e.ui.button.on(probe);
+                    //e.ui.button.off(probe);
+                    e.ui.bar.create(probe, pin);
+                    e.ui.bar.draw();
+                    listen(true, 'btnInfo');
+                }
+                
+                //Analog
+                else if (probe.name === "analog" && pin.select == 'on'){
+                    pin.color = probe.graphColors[0];
+                    probe.graphColors.splice(0,1);
+                    e.ui.wire.Analog(pin, probe); 
+                    e.ui.button.on(probe);
+                    //e.ui.button.off(probe);
+                    listen(true, 'btnInfo');
+                }
+                
+                //Digital
+                else { 
+                    pin.subType = probe.name;
+                    if (probe.name === "input"){
+                        pin.color = probe.graphColors[0];
+                        probe.graphColors.splice(0,1);
+                        e.ui.wire.Digital(pin, probe);
+                        e.ui.button.on(probe);
+                        //e.ui.button.off(probe);
+                        e.ui.button.createOutput();
+                        listen(true, 'selectPin');
+                    }
+                    else if (probe.name === "output"){
+                        pin.color = probe.graphColors[0];
+                        probe.graphColors.splice(0,1);
+                        e.ui.wire.Digital(pin, probe);
+                        //output button for input probe.
+                        if (probe.input === "on"){
+                            listen(true, 'btnInfo');
+                        }
+                        //output probe.
+                        else {
+                            e.ui.button.on(probe); 
+                            pin.input = "none";
+                            e.ui.bar.create(probe, pin);
+                            e.ui.bar.draw();
+                            listen(true, 'btnInfo');
+                        }
+                    }
+                    else {
+                        pin.color = probe.graphColors[0];
+                        probe.graphColors.splice(0,1);
+                        e.ui.wire.Digital(pin, probe); 
+                        e.ui.button.on(probe);
+                        //e.ui.button.off(probe);
+                        e.ui.bar.create(probe, pin);
+                        e.ui.bar.draw();
+                        listen(true, 'btnInfo');
+                    }
+                }
             }
             //if user select a pin not related to the probe
             else {
-                e.ui.loop.clearProbe();
-                listen(true, 'btnInfo'); 
-            }
-            //LEDs
-            if (probe.name === "led" && pin.select == 'on'){
-                pin.color = probe.graphColors[0];
-                probe.graphColors.splice(0,1);
-                e.ui.wire.LEDs(pin, probe); 
-                e.ui.button.on(probe);
-                //e.ui.button.off(probe);
-                e.ui.bar.create(probe, pin);
-                e.ui.bar.draw();
-                listen(true, 'btnInfo');
-            }
-            else if (probe.name === "analog" && pin.select == 'on'){
-                pin.color = probe.graphColors[0];
-                probe.graphColors.splice(0,1);
-                e.ui.wire.Analog(pin, probe); 
-                e.ui.button.on(probe);
-                //e.ui.button.off(probe);
-                listen(true, 'btnInfo');
+                if (probe.input !== "on") {
+                    e.ui.loop.clearProbe();
+                    listen(true, 'btnInfo');
+                }
+                else {
+                    listen(true,'selectPin');
+                } 
             }
         }
     }
