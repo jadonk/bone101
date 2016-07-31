@@ -126,7 +126,7 @@ var UI = (function() {
             x: rect.x + 28,
             y: rect.y + 25
         };
-        var graphLinePos = BBposY + 40;
+        var graphLinePos = BBposY - 60;
 
         // major buttons
         ui.button = (function() {
@@ -732,11 +732,11 @@ var UI = (function() {
                 canvas.BTN.ctx.stroke();
             };
 
-            wire.drawToGraph = function(btn){
+            wire.drawToGraph = function(pin){
                 canvas.BTN.ctx.beginPath();
-                canvas.BTN.ctx.moveTo(BBposX+309,graphLinePos);
-                canvas.BTN.ctx.lineTo(BBposX+340,graphLinePos);
-                canvas.BTN.ctx.strokeStyle = pin[btn.pinNum].color;
+                canvas.BTN.ctx.moveTo(rectInner.w + 40, graphLinePos);
+                canvas.BTN.ctx.lineTo(rectInner.w + 80, graphLinePos);
+                canvas.BTN.ctx.strokeStyle = pin.color;
                 canvas.BTN.ctx.lineWidth = 2;
                 canvas.BTN.ctx.stroke();
                 graphLinePos += 4;
@@ -1811,6 +1811,9 @@ var Events = (function() {
                         listen(true, 'btnInfo');
                     }
                 }
+
+                //draw wire line of current probe beside axis graph
+                e.ui.wire.drawToGraph(pin);
             }
             //if user select a pin not related to the probe
             else {
