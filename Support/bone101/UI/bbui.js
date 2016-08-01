@@ -735,7 +735,7 @@ var UI = (function() {
             wire.drawToGraph = function(pin){
                 canvas.BTN.ctx.beginPath();
                 canvas.BTN.ctx.moveTo(rectInner.w + 40, graphLinePos);
-                canvas.BTN.ctx.lineTo(rectInner.w + 80, graphLinePos);
+                canvas.BTN.ctx.lineTo(rectInner.w + 70, graphLinePos);
                 canvas.BTN.ctx.strokeStyle = pin.color;
                 canvas.BTN.ctx.lineWidth = 2;
                 canvas.BTN.ctx.stroke();
