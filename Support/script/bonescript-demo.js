@@ -87,6 +87,8 @@ function initClient() {
         editor[this.id].editor.setTheme("ace/theme/textmate");
         if($(this).attr('syntax') == 'sh') 
             editor[this.id].editor.getSession().setMode("ace/mode/sh");
+        else if($(this).attr('syntax') == 'python') 
+            editor[this.id].editor.getSession().setMode("ace/mode/python");
         else editor[this.id].editor.getSession().setMode("ace/mode/javascript");
         var originalDemoRun = demoRun;
         demoRun = function(myid) {
