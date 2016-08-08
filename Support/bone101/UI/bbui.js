@@ -1680,6 +1680,7 @@ var Events = (function() {
 
     function hoverPin(event) {
         e.ui.loop.clearBB();
+        listen(true, 'clickPin');
         pin = e.ui.pin.test(event);
         var probes = Object.keys(e.ui.button.get());
         probeName = probes[probes.length-16];
