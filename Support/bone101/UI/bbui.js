@@ -1507,9 +1507,9 @@ var Events = (function() {
                 event: 'mousedown',
                 func: clickDownDigital
             },
-            'hSlider': {
+            'hoverSlider': {
                 event: 'mousemove',
-                func: hSlider
+                func: hoverSlider
             },
             'release': {
                 event: 'mouseup',
@@ -1629,7 +1629,7 @@ var Events = (function() {
                 break;
             case "slider":
                 e.ui.state.down = "slider";
-                listen(true, 'hSlider');
+                listen(true, 'hoverSlider');
                 break;
             case "onOff":
                 break;
