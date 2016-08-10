@@ -622,18 +622,25 @@ var UI = (function() {
                     btn: probe,
                     move: "off",
                     pin: pin,
-                    sliderX: function() {return this.locX + 2;},
-                    sliderY: function() {return this.locY + 2;},
-                    frequency: function() {return this.sliderX() - this.locX - 2;},
+                    sliderX: 0,
+                    sliderY: 0,
+                    frequency: 0,
+                    setSliderX: function(){this.sliderX = this.locX + 2;},
+                    setSliderY: function(){this.sliderY = this.locY + 2;},
+                    setFrequency: function(){this.frequency = this.sliderX - this.locX - 2;},
                     text: "0 s",
-                    type: probe.category
+                    type: probe.name
                 };
 
+                bar.setSliderX();
+                bar.setSliderY();
+                bar.setFrequency();
+
                 if (probe.name === "pwm") {
-                    bar.text = bar.frequency().toString();
+                    bar.text = bar.frequency.toString();
                 }
                 else {
-                    bar.text = (bar.frequency().toString() + ' s');
+                    bar.text = (bar.frequency.toString() + ' s');
                 };
 
                 bars.push(bar);
@@ -646,9 +653,9 @@ var UI = (function() {
                 canvas.Bar.ctx.fillStyle= 'rgb(205,205,205)';
                 canvas.Bar.ctx.fillRect(bars[len-1].locX,bars[len-1].locY, bars[len-1].length, bars[len-1].height);
                 canvas.Bar.ctx.fillStyle= bars[len-1].barColor;
-                canvas.Bar.ctx.fillRect(bars[len-1].locX,bars[len-1].locY, bars[len-1].sliderX() - bars[len-1].locX, 15);
+                canvas.Bar.ctx.fillRect(bars[len-1].locX,bars[len-1].locY, bars[len-1].sliderX - bars[len-1].locX, 15);
                 canvas.Bar.ctx.fillStyle= 'rgb(30,30,30)';
-                canvas.Bar.ctx.fillRect(bars[len-1].sliderX()-2,bars[len-1].locY,14,15);
+                canvas.Bar.ctx.fillRect(bars[len-1].sliderX-2,bars[len-1].sliderY-2,14,15); //width and height of slider
                 canvas.Bar.ctx.strokeStyle= bars[len-1].outline;
                 canvas.Bar.ctx.lineWidth = 2;
                 canvas.Bar.ctx.strokeRect(bars[len-1].locX,bars[len-1].locY, bars[len-1].length, bars[len-1].height);
@@ -662,6 +669,79 @@ var UI = (function() {
                 bars[len-1].height + bars[len-1].locY -2);
             };
 
+            bar.move = function(event, pin) {
+                var coord = Position(event);
+                var x = coord[0];
+                var y = coord[1];
+                var i;
+                var len = bars.length;
+                for (i = 0; i<len; i++){
+                    if (bars[i].move === 'on'){
+                        bars[i].sliderX = x-5;
+                        if(bars[i].sliderX < bars[i].locX+2){ 
+                            bars[i].sliderX = bars[i].locX+2;
+                            bars[i].frequency = 0;
+                    }
+                    else if (bars[i].sliderX > bars[i].length + bars[i].locX-12){
+                            bars[i].sliderX = bars[i].length + bars[i].locX - 12;
+                        if (bars[i].type === "pwm"){
+                            bars[i].frequency = 1;
+                        }
+                        else {
+                            bars[i].frequency = 10;
+                        }
+                    }
+                    else { 
+                        if (bars[i].type === "pwm"){
+                            bars[i].frequency = ((bars[i].sliderX - bars[i].locX -2)/140).toPrecision(2);}
+                        else {
+                            bars[i].frequency = ((bars[i].sliderX - bars[i].locX -2)/14).toPrecision(2);}
+                        }
+                        if (bars[i].type === "pwm"){
+                            pin.freq = bars[i].frequency;
+                            bars[i].text = bars[i].frequency.toString();
+                        }
+                        else {
+                            pin.freq = bars[i].frequency*1000;
+                            bars[i].text = bars[i].frequency.toString() + ' s';
+                        }
+                        bar.draw();
+                        if (pin.freq != 0 && pin.power === 'on'){
+                            //blink(pin[bars[i].pin]);
+                        } 
+                        else if (pin.power === 'on'){
+                            // drawLED(pin[bars[i].pin]);
+                            // var data = {freq: pin.freq, power: pin.power, 
+                            // id: pin.id, num: pin[bars[i].pin].num, state: pin[bars[i].pin].HIGH,
+                            // output: pin[bars[i].pin].output, type: pin[bars[i].pin].type,
+                            // subType: pin[bars[i].pin].subType};
+                        // call socket; turn on with no blinking
+                        }
+                    }
+                }
+            };
+
+            bar.off = function() {
+                var len = bars.length;
+                for (i = 0; i<len; i++) {
+                    if (bars[i].move === 'on'){ bars[i].move = 'off'; }
+                }
+            };
+
+            bar.sliderTest = function(event) {
+                var coord = Position(event);
+                var x = coord[0];
+                var y = coord[1];
+                var i;
+                var len = bars.length;
+                for (i = 0; i<len; i++){
+                    if (x <= (bars[i].sliderX + 12) && x >= bars[i].sliderX-2 && y >= bars[i].sliderY-2 && y<= (bars[i].sliderY +13)){
+                        bars[i].move = 'on';
+                        return "slider";
+                    }
+                }
+            };
+
             bar.test = function(event) {
                 var coords = Position(event);
                 var x = coords[0];
@@ -673,7 +753,7 @@ var UI = (function() {
                     var maxY = minY + bars[i].height;
                     if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
                         console.log("bar = " + bars[i]);
-                        return bars[i];
+                        return "slider";
                     }
                 }
                 //console.log("button = none");
@@ -1598,7 +1678,7 @@ var Events = (function() {
     function clickDown(event) {
         var button = e.ui.button.test(event);
         //if (button == "none") button = e.ui.probe.onOffTest(event);
-        if (button == "none") button = e.ui.probe.sliderTest(event);
+        if (button == "none") button = e.ui.bar.sliderTest(event);
         if (button == "none") button = e.ui.graph.test(event);
         switch (button) {
             case "analog":
@@ -1628,7 +1708,7 @@ var Events = (function() {
                 e.ui.button.highlightPlay();
                 break;
             case "slider":
-                e.ui.state.down = "slider";
+                //e.ui.state.down = "slider";
                 listen(true, 'hoverSlider');
                 break;
             case "onOff":
@@ -1676,6 +1756,9 @@ var Events = (function() {
             listen(true, 'hoverButton');
             listen(true, 'clickDown');
         }
+
+        //e.ui.bar.off();
+        listen(false, 'hoverSlider');
     }
 
     function hoverPin(event) {
@@ -1814,7 +1897,7 @@ var Events = (function() {
     }
 
     function hoverSlider(event) {
-
+        e.ui.bar.move(event, pin);
     }
 
     function zooming(event) {
