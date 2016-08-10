@@ -128,6 +128,9 @@ var UI = (function() {
         };
         var graphLinePos = BBposY - 60;
 
+        // mousedown on a button state
+        ui.down = false;
+
         // major buttons
         ui.button = (function() {
             var button = {};
@@ -619,25 +622,18 @@ var UI = (function() {
                     btn: probe,
                     move: "off",
                     pin: pin,
-                    sliderX: 0,
-                    sliderY: 0,
-                    frequency: 0,
-                    setSliderX: function(){this.sliderX = this.locX + 2;},
-                    setSliderY: function(){this.sliderY = this.locY + 2;},
-                    setFrequency: function(){this.frequency = this.sliderX - this.locX - 2;},
+                    sliderX: function() {return this.locX + 2;},
+                    sliderY: function() {return this.locY + 2;},
+                    frequency: function() {return this.sliderX() - this.locX - 2;},
                     text: "0 s",
-                    type: probe.name
+                    type: probe.category
                 };
 
-                bar.setSliderX();
-                bar.setSliderY();
-                bar.setFrequency();
-
                 if (probe.name === "pwm") {
-                    bar.text = bar.frequency.toString();
+                    bar.text = bar.frequency().toString();
                 }
                 else {
-                    bar.text = (bar.frequency.toString() + ' s');
+                    bar.text = (bar.frequency().toString() + ' s');
                 };
 
                 bars.push(bar);
@@ -650,9 +646,9 @@ var UI = (function() {
                 canvas.Bar.ctx.fillStyle= 'rgb(205,205,205)';
                 canvas.Bar.ctx.fillRect(bars[len-1].locX,bars[len-1].locY, bars[len-1].length, bars[len-1].height);
                 canvas.Bar.ctx.fillStyle= bars[len-1].barColor;
-                canvas.Bar.ctx.fillRect(bars[len-1].locX,bars[len-1].locY, bars[len-1].sliderX - bars[len-1].locX, 15);
+                canvas.Bar.ctx.fillRect(bars[len-1].locX,bars[len-1].locY, bars[len-1].sliderX() - bars[len-1].locX, 15);
                 canvas.Bar.ctx.fillStyle= 'rgb(30,30,30)';
-                canvas.Bar.ctx.fillRect(bars[len-1].sliderX-2,bars[len-1].sliderY-2,14,15); //width and height of slider
+                canvas.Bar.ctx.fillRect(bars[len-1].sliderX()-2,bars[len-1].locY,14,15);
                 canvas.Bar.ctx.strokeStyle= bars[len-1].outline;
                 canvas.Bar.ctx.lineWidth = 2;
                 canvas.Bar.ctx.strokeRect(bars[len-1].locX,bars[len-1].locY, bars[len-1].length, bars[len-1].height);
@@ -666,79 +662,6 @@ var UI = (function() {
                 bars[len-1].height + bars[len-1].locY -2);
             };
 
-            bar.move = function(event, pin) {
-                var coord = Position(event);
-                var x = coord[0];
-                var y = coord[1];
-                var i;
-                var len = bars.length;
-                for (i = 0; i<len; i++){
-                    if (bars[i].move === 'on'){
-                        bars[i].sliderX = x-5;
-                        if(bars[i].sliderX < bars[i].locX+2){ 
-                            bars[i].sliderX = bars[i].locX+2;
-                            bars[i].frequency = 0;
-                    }
-                    else if (bars[i].sliderX > bars[i].length + bars[i].locX-12){
-                            bars[i].sliderX = bars[i].length + bars[i].locX - 12;
-                        if (bars[i].type === "pwm"){
-                            bars[i].frequency = 1;
-                        }
-                        else {
-                            bars[i].frequency = 10;
-                        }
-                    }
-                    else { 
-                        if (bars[i].type === "pwm"){
-                            bars[i].frequency = ((bars[i].sliderX - bars[i].locX -2)/140).toPrecision(2);}
-                        else {
-                            bars[i].frequency = ((bars[i].sliderX - bars[i].locX -2)/14).toPrecision(2);}
-                        }
-                        if (bars[i].type === "pwm"){
-                            pin.freq = bars[i].frequency;
-                            bars[i].text = bars[i].frequency.toString();
-                        }
-                        else {
-                            pin.freq = bars[i].frequency*1000;
-                            bars[i].text = bars[i].frequency.toString() + ' s';
-                        }
-                        bar.draw();
-                        if (pin.freq != 0 && pin.power === 'on'){
-                            //blink(pin[bars[i].pin]);
-                        } 
-                        else if (pin.power === 'on'){
-                            // drawLED(pin[bars[i].pin]);
-                            // var data = {freq: pin.freq, power: pin.power, 
-                            // id: pin.id, num: pin[bars[i].pin].num, state: pin[bars[i].pin].HIGH,
-                            // output: pin[bars[i].pin].output, type: pin[bars[i].pin].type,
-                            // subType: pin[bars[i].pin].subType};
-                        // call socket; turn on with no blinking
-                        }
-                    }
-                }
-            };
-
-            bar.off = function() {
-                var len = bars.length;
-                for (i = 0; i<len; i++) {
-                    if (bars[i].move === 'on'){ bars[i].move = 'off'; }
-                }
-            };
-
-            // bar.sliderTest = function(event) {
-            //     var coord = Position(event);
-            //     var x = coord[0];
-            //     var y = coord[1];
-            //     var i;
-            //     var len = bars.length;
-            //     for (i = 0; i<len; i++){
-            //         if (x <= (bars[i].sliderX + 12) && x >= bars[i].sliderX-2 && y >= bars[i].sliderY-2 && y<= (bars[i].sliderY +13)){
-            //             bars[i].move = 'on';
-            //             return "slider";
-            //         }
-            //     }
-            // };
-
             bar.test = function(event) {
                 var coords = Position(event);
                 var x = coords[0];
@@ -750,7 +673,7 @@ var UI = (function() {
                     var maxY = minY + bars[i].height;
                     if (x >= minX && x <= maxX && y >= minY && y <= maxY) {
                         console.log("bar = " + bars[i]);
-                        return "slider";
+                        return bars[i];
                     }
                 }
                 //console.log("button = none");
@@ -1235,7 +1158,7 @@ var UI = (function() {
                     return ('cancelled');
                 }
                 ui.button.push(add.type);
-                return ('selectPin');
+                return ('hoverPin');
             };
 
             probe.dragButton = function(event) {
@@ -1539,8 +1462,8 @@ var Events = (function() {
         e.ui = UI.get();
         e.listeners = {};
         e.start = function() {
-            listen(true, 'exit');
-            listen(true, 'exitHover');
+            listen(true, 'clickExit');
+            listen(true, 'hoverExit');
         };
         e.start();
         return e;
@@ -1548,33 +1471,33 @@ var Events = (function() {
 
     function listen(enable, description) {
         var events = {
-            'exit': {
+            'clickExit': {
                 event: 'click',
-                func: exit
+                func: clickExit
             },
-            'exitHover': {
+            'hoverExit': {
                 event: 'mousemove',
-                func: exitHover
+                func: hoverExit
             },
-            'activateProbe': {
+            'hoverAddProbe': {
                 event: 'mousemove',
-                func: activateProbe
+                func: hoverAddProbe
             },
-            'digitalMenu': {
+            'hoverDigital': {
                 event: 'mousemove',
-                func: digitalMenu
+                func: hoverDigital
             },
-            'btnInfo': {
+            'hoverButton': {
                 event: 'mousemove',
-                func: btnInfo
+                func: hoverButton
             },
-            'selectPin': {
+            'hoverPin': {
                 event: 'mousemove',
-                func: selectPin
+                func: hoverPin
             },
-            'clicked': {
+            'clickPin': {
                 event: 'click',
-                func: clicked
+                func: clickPin
             },
             'clickDown': {
                 event: 'mousedown',
@@ -1584,25 +1507,9 @@ var Events = (function() {
                 event: 'mousedown',
                 func: clickDownDigital
             },
-            'slideBar': {
+            'hoverSlider': {
                 event: 'mousemove',
-                func: slideBar
-            },
-            'zooming': {
-                event: 'mouseup',
-                func: zooming
-            },
-            'stop': {
-                event: 'mouseup',
-                func: stop
-            },
-            'record': {
-                event: 'mouseup',
-                func: record
-            },
-            'pinSelected': {
-                event: 'click',
-                func: pinSelected
+                func: hoverSlider
             },
             'release': {
                 event: 'mouseup',
@@ -1633,29 +1540,28 @@ var Events = (function() {
         else document.removeEventListener(ev, func, false);
     }
 
-    function exit(event) {
+    function clickExit(event) {
         var button = e.ui.button.test(event);
         if (button == "exit") {
             e.ui.loop.clear();
-            listen(false, 'exit');
-            listen(false, 'exitHover');
+            listen(false, 'clickExit');
+            listen(false, 'hoverExit');
             listen(true, 'clickDown');
             listen(true, 'release');
-            listen(true, 'clicked');
-            listen(true, 'btnInfo');
+            listen(true, 'hoverButton');
         }
     }
 
-    function exitHover(event) {
+    function hoverExit(event) {
         var button = e.ui.button.test(event);
-        //console.log("exitHover: button = " + button);
+        //console.log("hoverExit: button = " + button);
         e.ui.loop.clear();
         e.ui.loop.welcome(button);
     }
 
 
     //on button hover, highlight button and coressponding pins.
-    function btnInfo(event) {
+    function hoverButton(event) {
         e.ui.loop.clear();
         //e.ui.pin.test(event);
         var button = e.ui.button.test(event);
@@ -1663,14 +1569,15 @@ var Events = (function() {
         e.ui.pin.highlight(button);
         switch (button) {
             case "digital":
-                listen(true, 'digitalMenu');
+                listen(true, 'hoverDigital');
+                listen(true, 'clickDownDigital');
                 break;
             default:
                 break;
         }
     }
 
-    function digitalMenu(event) {
+    function hoverDigital(event) {
         var button = e.ui.button.test(event);
         e.ui.button.highlightDigital(button);
         switch (button) {
@@ -1678,57 +1585,53 @@ var Events = (function() {
             case "input":
             case "output":
             case "pwm":
-                listen(true, 'clickDownDigital');
-                break;
             case "digitalMenu":
                 break;
             default:
-                listen(false, 'digitalMenu');
+                listen(false, 'hoverDigital');
                 listen(false, 'clickDownDigital');
                 break;
         }
     }
 
-    // if click on/off button or pin while active
-    function clicked(event) {
-        //e.ui.probe.addTest(event); ???
-        e.ui.probe.onOffTest(event);
-    }
-
-    // if clicked on global button, slider, or graph button    
+    // if clicked on global button, slider, graph, or probe-on/off button
     function clickDown(event) {
         var button = e.ui.button.test(event);
-        if (button == "none") button = e.ui.bar.sliderTest(event);
+        //if (button == "none") button = e.ui.probe.onOffTest(event);
+        if (button == "none") button = e.ui.probe.sliderTest(event);
         if (button == "none") button = e.ui.graph.test(event);
         switch (button) {
             case "analog":
             case "led":
                 e.ui.probe.addStart(button);
-                listen(true, 'activateProbe');
-                listen(false, 'btnInfo');
+                listen(true, 'hoverAddProbe');
+                listen(false, 'hoverButton');
                 listen(false, 'clickDownDigital');
                 listen(false, 'clickDown');
                 break;
             case "plus":
-                listen(true, 'zooming');
+                e.ui.state.down = "zooming";
                 //e.ui.graph.zoomChange("in");
                 e.ui.button.highlightPlus();
                 break;
             case "minus":
-                listen(true, 'zooming');
+                e.ui.state.down = "zooming";
                 //e.ui.graph.zoomChange("out");
                 e.ui.button.highlightMinus();
                 break;
             case "stop":
-                listen(true, 'stop');
+                e.ui.state.down = "stop";
                 e.ui.button.highlightStop();
                 break;
             case "play":
-                listen(true, 'record');
+                e.ui.state.down = "play";
                 e.ui.button.highlightPlay();
                 break;
             case "slider":
-                listen(true, 'slideBar');
+                e.ui.state.down = "slider";
+                listen(true, 'hoverSlider');
+                break;
+            case "onOff":
                 break;
             default:
                 break;
@@ -1742,45 +1645,42 @@ var Events = (function() {
             case "output":
             case "pwm":
                 e.ui.probe.addStart(button);
-                listen(true, 'activateProbe');
-                listen(false, 'btnInfo');
+                listen(true, 'hoverAddProbe');
+                listen(false, 'hoverButton');
                 listen(false, 'clickDownDigital');
                 listen(false, 'clickDown');
                 break;
             default:
                 break;
         }
-        listen(false, 'digitalMenu');
+        listen(false, 'hoverDigital');
     }
 
-    function activateProbe(event) {
+    function hoverAddProbe(event) {
         e.ui.probe.dragButton(event);
     }
 
     function release(event) {
         var probeMode = e.ui.probe.addTest(event);
-        
-        if (probeMode == 'selectPin') {
+
+        if (probeMode == 'hoverPin') {
             e.ui.probe.clearDrag(event);
-            listen(false, 'activateProbe');
-            listen(true, 'selectPin');
+            listen(false, 'hoverAddProbe');
+            listen(true, 'hoverPin');
             e.ui.probe.selectText();
             var probe = e.ui.probe.test(event);
             e.ui.pin.highlight(probe);
             listen(true, 'clickDown');
         } else if (probeMode == 'cancelled') {
-            listen(false, 'activateProbe');
-            listen(true, 'btnInfo');
+            listen(false, 'hoverAddProbe');
+            listen(true, 'hoverButton');
             listen(true, 'clickDown');
         }
-
-        //e.ui.bar.off();
-        listen(false, 'slideBar');
     }
 
-    function selectPin(event) {
+    function hoverPin(event) {
         e.ui.loop.clearBB();
-        listen(true,'pinSelected');
+        listen(true, 'clickPin');
         pin = e.ui.pin.test(event);
         var probes = Object.keys(e.ui.button.get());
         probeName = probes[probes.length-16];
@@ -1801,10 +1701,10 @@ var Events = (function() {
         }
     }
 
-    function pinSelected(event) {
-        listen(false,'selectPin');
-        listen(false, 'pinSelected');
-        
+    function clickPin(event) {
+        listen(false, 'hoverPin');
+        listen(false, 'clickPin');
+
         var probes = Object.keys(e.ui.button.get());
         probeName = probes[probes.length-16];
         probe = e.ui.button.get()[probeName];
@@ -1815,10 +1715,11 @@ var Events = (function() {
         if (pin.name === undefined) {
             if (probe.input !== "on") {
                 e.ui.loop.clearProbe();
-                listen(true, 'btnInfo');
+                listen(true, 'hoverButton');
             }
             else {
-                listen(true,'selectPin');
+                listen(true, 'hoverPin');
+                listen(true, 'clickPin');
             }
         }
         else {
@@ -1841,9 +1742,9 @@ var Events = (function() {
                     //e.ui.button.off(probe);
                     e.ui.bar.create(probe, pin);
                     e.ui.bar.draw();
-                    listen(true, 'btnInfo');
+                    listen(true, 'hoverButton');
                 }
-                
+
                 //Analog
                 else if (probe.name === "analog" && pin.select == 'on'){
                     pin.color = probe.graphColors[0];
@@ -1851,9 +1752,9 @@ var Events = (function() {
                     e.ui.wire.Analog(pin, probe); 
                     e.ui.button.on(probe);
                     //e.ui.button.off(probe);
-                    listen(true, 'btnInfo');
+                    listen(true, 'hoverButton');
                 }
-                
+
                 //Digital
                 else { 
                     pin.subType = probe.name;
@@ -1864,7 +1765,8 @@ var Events = (function() {
                         e.ui.button.on(probe);
                         //e.ui.button.off(probe);
                         e.ui.button.createOutput();
-                        listen(true, 'selectPin');
+                        listen(true, 'hoverPin');
+                        listen(true, 'clickPin');
                     }
                     else if (probe.name === "output"){
                         pin.color = probe.graphColors[0];
@@ -1872,7 +1774,7 @@ var Events = (function() {
                         e.ui.wire.Digital(pin, probe);
                         //output button for input probe.
                         if (probe.input === "on"){
-                            listen(true, 'btnInfo');
+                            listen(true, 'hoverButton');
                         }
                         //output probe.
                         else {
@@ -1880,7 +1782,7 @@ var Events = (function() {
                             pin.input = "none";
                             e.ui.bar.create(probe, pin);
                             e.ui.bar.draw();
-                            listen(true, 'btnInfo');
+                            listen(true, 'hoverButton');
                         }
                     }
                     else {
@@ -1891,7 +1793,7 @@ var Events = (function() {
                         //e.ui.button.off(probe);
                         e.ui.bar.create(probe, pin);
                         e.ui.bar.draw();
-                        listen(true, 'btnInfo');
+                        listen(true, 'hoverButton');
                     }
                 }
 
@@ -1902,17 +1804,17 @@ var Events = (function() {
             else {
                 if (probe.input !== "on") {
                     e.ui.loop.clearProbe();
-                    listen(true, 'btnInfo');
+                    listen(true, 'hoverButton');
                 }
                 else {
-                    listen(true,'selectPin');
+                    listen(true, 'hoverPin');
                 } 
             }
         }
     }
 
-    function slideBar(event) {
-        e.ui.bar.move(event, pin);
+    function hoverSlider(event) {
+
     }
 
     function zooming(event) {
