@@ -5,7 +5,7 @@ This is a UI that allows a user to interact with a BeagleBone with minimal to no
 
 Served locally
 --------------
-The UI runs on http://yourbeagleboneip/bone101/Support/UI/ as long as this version of the bone101 library is installed to /var/lib/clou9 and the BoneScript server is running. Changes can be made to the file locations and filenames at the top of the js file.
+The UI runs on http://yourbeagleboneip/bone101/Support/UI/ as long as this version of the bone101 library is installed to /var/lib/cloud9 and the BoneScript server is running. Changes can be made to the file locations and filenames at the top of the js file.
 
 Served on Github Pages
 ----------------------
