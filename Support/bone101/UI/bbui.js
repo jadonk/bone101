@@ -122,10 +122,12 @@ var UI = (function() {
             w: 420,
             h: 510
         };
+        //the position of the probe inside the graph
         var snapProbe = {
             x: rect.x + 28,
             y: rect.y + 25
         };
+        //the position of colored lines of each probe beside axis
         var graphLinePos = BBposY - 60;
 
         // mousedown on a button state
@@ -317,6 +319,7 @@ var UI = (function() {
                 return ("none");
             };
 
+            //highlight analog, digital, power, ground, led buttons
             button.highlight = function(highlightButton) {
                 canvas.Active.ctx.fillStyle = 'rgba(255,255,255,0.7)';
                 for (var b in buttons) {
@@ -326,6 +329,7 @@ var UI = (function() {
                 }
             };
 
+            //highlight input, output, pwm buttons
             button.highlightDigital = function(highlightButton) {
                 canvas.Active.ctx.fillStyle = 'rgba(255,255,255,0.7)';
                 for (var b in buttons) {
@@ -366,6 +370,10 @@ var UI = (function() {
                 canvas.Graph.ctx.fill();
             };
 
+            /*
+            the draw function is used to draw the main buttons and probes.
+            use highlight = true when dragging a button into graph otherwise the highlight is false.
+            */
             button.draw = function(b, context, highlight, x, y) {
                 var radius = 1;
                 var btn = buttons[b];
@@ -513,6 +521,7 @@ var UI = (function() {
                 canvas.Active.ctx.fillText("select " + probe.article, BBposX + 10, BBposY-25);
             };
 
+            //draw play, stop, zooming buttons
             button.drawGraphbtn = function(b, context) {
                 var btn = buttons[b];
                 // zoom in
@@ -553,7 +562,7 @@ var UI = (function() {
                 }
             };
 
-            var probeIndex = 0;
+            var probeIndex = 0
             button.push = function(b, output) {
                 buttons[probeIndex] = {};
                 for (var prop in buttons[b]) {
@@ -583,6 +592,7 @@ var UI = (function() {
                 probeIndex++;
             };
 
+            //removing a button and resetting snapProbe position.
             button.pop = function() {
                 snapProbe.y -= 22;
                 probeIndex--;
@@ -595,6 +605,7 @@ var UI = (function() {
                 return buttons;
             }
 
+            //draw initial buttons to the canvas
             for (var b in buttons) {
                 if (buttons[b].category == "main") {
                     button.draw(b, canvas.Base.ctx, false);
@@ -709,6 +720,7 @@ var UI = (function() {
                         if (pin.freq != 0 && pin.power === 'on'){
                             //blink(pin[bars[i].pin]);
                         } 
+                        //calling socket; this should be done with Hardware object.
                         else if (pin.power === 'on'){
                             // drawLED(pin[bars[i].pin]);
                             // var data = {freq: pin.freq, power: pin.power, 
@@ -728,6 +740,7 @@ var UI = (function() {
                 }
             };
 
+            //returns the black square slider in slider bar.
             bar.sliderTest = function(event) {
                 var coord = Position(event);
                 var x = coord[0];
@@ -742,6 +755,7 @@ var UI = (function() {
                 }
             };
 
+            //returns the whole slider bar.
             bar.test = function(event) {
                 var coords = Position(event);
                 var x = coords[0];
@@ -764,6 +778,7 @@ var UI = (function() {
         })();
 
         //wire object is responsible for drawing all wires in graph
+        // wires are drawn in BTN canvas
         ui.wire = (function() {
             var wire = {};
             var btnHeight = 15;
@@ -1189,6 +1204,7 @@ var UI = (function() {
                 }
             };
 
+            //change the pin color to light grey on hivering
             pin.hover = function(pin) {
                 Canvas.get().Active.ctx.fillStyle = 'RGBA(255,255,255,.5)';
                 Canvas.get().Active.ctx.fillRect(pin.x,pin.y,pin.w,pin.h);
@@ -1228,6 +1244,7 @@ var UI = (function() {
                 add.type = type;
             };
 
+            //add new probe not the button object
             probe.addTest = function(event) {
                 if (add.type == 'none') return ('none');
                 var coords = Position(event);
@@ -1241,6 +1258,7 @@ var UI = (function() {
                 return ('hoverPin');
             };
 
+            //draw a button while dragging, and keep it highlighted.
             probe.dragButton = function(event) {
                 ui.loop.clear();
                 var coords = Position(event);
@@ -1306,7 +1324,7 @@ var UI = (function() {
                 canvas.Active.ctx.clearRect(0, 0, canvas.Active.e.width, canvas.Active.e.height);
             };
 
-            // to remove probe if not connected to pin.
+            //to remove probe if not connected to pin.
             loop.clearProbe = function() {
                 var btn = ui.button.pop();
                 canvas.Base.ctx.clearRect(btn.x-1, btn.y-1, btn.endX, btn.endY);
@@ -1385,9 +1403,11 @@ var UI = (function() {
             return graph;
         })();
 
+        // time & volt axis
         ui.xyAxis = (function() {
             var xyAxis = {};
 
+            //all graph properties
             var graph = {
                 xWidth: 360,
                 yWidth: 250,
@@ -1401,6 +1421,7 @@ var UI = (function() {
                 }
             }
 
+            // time-x axis
             canvas.Graph.ctx.beginPath();
             canvas.Graph.ctx.moveTo(graph.zeroX, graph.zeroY);
             canvas.Graph.ctx.lineTo(graph.zeroX + graph.xWidth, graph.zeroY);
@@ -1412,6 +1433,7 @@ var UI = (function() {
             canvas.Graph.ctx.fillText('Time [s]', axisStartX + 130, graph.zeroY + 50);
             canvas.Graph.ctx.save();
 
+            // voltage-y axis
             canvas.Graph.ctx.beginPath();
             canvas.Graph.ctx.moveTo(graph.zeroX, graph.zeroY + 5);
             canvas.Graph.ctx.lineTo(graph.zeroX, graph.zeroY - graph.yWidth -10);
@@ -1534,9 +1556,18 @@ var UI = (function() {
     };
 })();
 
+
+/* Events draw in a bit of logic to enable/disable event listeners, so it is stateful.
+*
+* Use 'e.ui' to fetch UI objects
+* New events should be defined with a type and function in events variable
+* refer to state diagram for event sequence at http://jadonk.github.io/bone101/Support/bone101/UI/fsm/
+*
+*/
 var Events = (function() {
     var e;
 
+    //to use any object method inside events
     function init() {
         e = {};
         e.ui = UI.get();
@@ -1639,7 +1670,6 @@ var Events = (function() {
         e.ui.loop.welcome(button);
     }
 
-
     //on button hover, highlight button and coressponding pins.
     function hoverButton(event) {
         e.ui.loop.clear();
@@ -1736,6 +1766,7 @@ var Events = (function() {
         listen(false, 'hoverDigital');
     }
 
+    //drawing a button instance while dragging it to the graph
     function hoverAddProbe(event) {
         e.ui.probe.dragButton(event);
     }
@@ -1805,6 +1836,7 @@ var Events = (function() {
                 listen(true, 'clickPin');
             }
         }
+        //check probe type and draw corresponding objects and wires.
         else {
             if (probe.name == "pwm") pwm = pin.PWM;
             if ((pin.category == probe.category || pwm) && pin.select == 'off') {
