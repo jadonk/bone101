@@ -1183,16 +1183,20 @@ var UI = (function() {
                 pins[i].select = "off";
             }
 
-            pin.highlight = function(button) {
+            pin.highlight = function(button, digitalHighlight) {
+                //the related pins for digital buttons is true by Default, except for hoverButton event.
+                if (digital == undefined){
+                    digital = true;
+                }
                 if (button == "none") return;
 
                 var category = button;
                 var pwm = false;
-                if (category == "input") category = "digital";
-                if (category == "output") category = "digital";
+                if (category == "input" && digital == true) category = "digital";
+                if (category == "output" && digital == true) category = "digital";
                 
                 for (var i = 0; i < 96; i++) {
-                    if (category == "pwm") pwm = pins[i].PWM;
+                    if (category == "pwm" && digital == true) pwm = pins[i].PWM;
                     if (category == pins[i].category || pwm) {
                         var p = pins[i];
                         if (p.select !== "on") {
@@ -1675,7 +1679,7 @@ var Events = (function() {
         //e.ui.pin.test(event);
         var button = e.ui.button.test(event);
         e.ui.button.highlight(button);
-        e.ui.pin.highlight(button);
+        e.ui.pin.highlight(button, false);
         switch (button) {
             case "digital":
                 listen(true, 'hoverDigital');
@@ -1689,6 +1693,7 @@ var Events = (function() {
     function hoverDigital(event) {
         var button = e.ui.button.test(event);
         e.ui.button.highlightDigital(button);
+        e.ui.pin.highlight(button);
         switch (button) {
             case "digital":
             case "input":
