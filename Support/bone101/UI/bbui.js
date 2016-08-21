@@ -1287,8 +1287,7 @@ var UI = (function() {
             };
 
             probe.add = function(pin) {
-                Canvas.add(pin.name, 10);
-                ui.graph.add(pin.name, 10);
+                ui.graph.add(pin.name);
             };
 
             probe.onOffTest = function(event) {
@@ -1396,7 +1395,7 @@ var UI = (function() {
             //drawButtons(canvas, uiElements);
 
             graph.add = function(pin) {
-                Canvas.add(pin.name + 'Graph', 10);
+                Canvas.add(pin + ' Graph', 10);
 
             };
 
