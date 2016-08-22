@@ -1185,18 +1185,18 @@ var UI = (function() {
 
             pin.highlight = function(button, digitalHighlight) {
                 //the related pins for digital buttons is true by Default, except for hoverButton event.
-                if (digital == undefined){
-                    digital = true;
+                if (digitalHighlight == undefined){
+                    digitalHighlight = true;
                 }
                 if (button == "none") return;
 
                 var category = button;
                 var pwm = false;
-                if (category == "input" && digital == true) category = "digital";
-                if (category == "output" && digital == true) category = "digital";
+                if (category == "input" && digitalHighlight == true) category = "digital";
+                if (category == "output" && digitalHighlight == true) category = "digital";
                 
                 for (var i = 0; i < 96; i++) {
-                    if (category == "pwm" && digital == true) pwm = pins[i].PWM;
+                    if (category == "pwm" && digitalHighlight == true) pwm = pins[i].PWM;
                     if (category == pins[i].category || pwm) {
                         var p = pins[i];
                         if (p.select !== "on") {
