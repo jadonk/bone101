@@ -680,7 +680,7 @@ var UI = (function() {
                 bars[len-1].height + bars[len-1].locY -2);
             };
 
-            bar.move = function(event, pin) {
+            bar.move = function(event) {
                 var coord = Position(event);
                 var x = coord[0];
                 var y = coord[1];
@@ -709,19 +709,19 @@ var UI = (function() {
                             bars[i].frequency = ((bars[i].sliderX - bars[i].locX -2)/14).toPrecision(2);}
                         }
                         if (bars[i].type === "pwm"){
-                            pin.freq = bars[i].frequency;
+                            bars[i].pin.freq = bars[i].frequency;
                             bars[i].text = bars[i].frequency.toString();
                         }
                         else {
-                            pin.freq = bars[i].frequency*1000;
+                            bars[i].pin.freq = bars[i].frequency*1000;
                             bars[i].text = bars[i].frequency.toString() + ' s';
                         }
                         bar.draw();
-                        if (pin.freq != 0 && pin.power === 'on'){
-                            //blink(pin[bars[i].pin]);
+                        if (bars[i].pin.freq != 0 && bars[i].pin.power === 'on'){
+                            //blink(bars[i].pin[bars[i].bars[i].pin]);
                         } 
                         //calling socket; this should be done with Hardware object.
-                        else if (pin.power === 'on'){
+                        else if (bars[i].pin.power === 'on'){
                             // drawLED(pin[bars[i].pin]);
                             // var data = {freq: pin.freq, power: pin.power, 
                             // id: pin.id, num: pin[bars[i].pin].num, state: pin[bars[i].pin].HIGH,
@@ -1933,7 +1933,7 @@ var Events = (function() {
     }
 
     function hoverSlider(event) {
-        e.ui.bar.move(event, pin);
+        e.ui.bar.move(event);
     }
 
     function zooming(event) {
