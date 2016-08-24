@@ -10,7 +10,7 @@ This UI can be run by visiting http://beagleboard.github.io/bone101/Support/bone
 ## BBUI Code Guide
 
   1. [BBUI](#bbui)
-  1. [IIEFE](#iiefe)
+  1. [IIFE](#iife)
   1. [Canvas](#canvas)
   1. [Hardware](#hardware)
   1. [UI](#ui)
@@ -23,7 +23,7 @@ This script renders the UI, reacts to user input and calls the BoneScript functi
  * UI: renders the user interface and provides methods for updating the rendering.
  * Events: reponds to input provided by the user and calls UI methods for updating the display.
 
-## IIEFE
+## IIFE
   - BBUI components is wraped in an Immediately Invoked Function Expression (IIFE).
   
   *Why?* : An IIFE removes variables from the global scope. This helps prevent variables and function declarations from living longer than expected in the global scope, which also helps avoid variable collisions.
@@ -64,3 +64,26 @@ It is used to add additional canvases beyond the initial 9 with new z-index valu
 - z-index: normally uses value 10, or above.
 
 _example_: Canvas.add(pin.id + ' Graph', 10); 'creates a canvas for specific pin'
+
+## UI
+
+The UI provides the user interface drawing and interaction logic, and initializes global positions of BBUI elements. Each element position is related mainly to two variables BBposX and BBposY.
+
+```javascript
+• function init()
+```
+The init function defines all the methods used to draw different elements/objects in the Bonecard. Each method is an IIEFE, we will go for each one explaining its functionality and sub-methods.
+
+- use `var ui = UI.get();` to fetch the user interface object.
+
+```javascript
+ ui.button = (function() {
+    var button = {};
+    /* 
+     * button objects
+     * are defined here
+    */
+  })
+```
+`ui.button`, an IIFE provides major buttons used in BBUI with different attributes; starting and ending position of the button, the color, the text on the button, the offColor, the graph line colors, and the category of each group of buttons. The major buttons objects are: analog, digital, ground, power, led, input, output, pwm, onOff, plus, minus, stop, play, exit, digitalMenu. `ui.button` wraps the functions used to draw and interact with buttons.
+
