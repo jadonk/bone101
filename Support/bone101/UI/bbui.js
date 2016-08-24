@@ -514,7 +514,7 @@ var UI = (function() {
                 probeName = probes[probes.length-16];
                 probe = buttons[probeName];
                 probe2 = buttons[probes[probes.length-17]]
-                ui.wire.Link(probe2,probe);
+                ui.wire.link(probe2,probe);
                 probe.input = "on";
                 canvas.Active.ctx.fillStyle= 'red';
                 canvas.Active.ctx.font = '12pt Andale Mono';
@@ -783,7 +783,7 @@ var UI = (function() {
             var wire = {};
             var btnHeight = 15;
 
-            wire.LEDs = function(pin, probe){
+            wire.led = function(pin, probe){
                 canvas.BTN.ctx.beginPath();
                 canvas.BTN.ctx.moveTo(probe.x + 75, probe.y + btnHeight*0.5);
                 canvas.BTN.ctx.lineTo(rectInner.w - 143, probe.y + btnHeight*0.5);
@@ -795,7 +795,7 @@ var UI = (function() {
                 canvas.BTN.ctx.stroke();
             };
 
-            wire.Analog = function(pin, probe){
+            wire.analog = function(pin, probe){
                 canvas.BTN.ctx.beginPath();
                 canvas.BTN.ctx.moveTo(probe.x + 75, probe.y + btnHeight*0.5);
                 canvas.BTN.ctx.lineTo(rectInner.w - 140, probe.y + btnHeight*0.5);
@@ -806,7 +806,7 @@ var UI = (function() {
                 canvas.BTN.ctx.stroke();
             };
 
-            wire.Digital = function(pin, probe){
+            wire.digital = function(pin, probe){
                 canvas.BTN.ctx.beginPath();
                 if (pin.subType == "input") { var s = -2; }
                 else if (pin.subType == "output") { var s = -6; }
@@ -820,7 +820,7 @@ var UI = (function() {
                 canvas.BTN.ctx.stroke();
             };
 
-            wire.Link = function(btn1,btn2){
+            wire.link = function(btn1,btn2){
                 canvas.BTN.ctx.beginPath();
                 canvas.BTN.ctx.moveTo(btn1.endX/2 + 15, btn1.y + btnHeight);
                 canvas.BTN.ctx.lineTo(btn1.endX/2 + 15, btn2.y + btnHeight*0.5);
@@ -1856,7 +1856,7 @@ var Events = (function() {
                 if (probe.name === "led" && pin.select == 'on'){
                     pin.color = probe.graphColors[0];
                     probe.graphColors.splice(0,1);
-                    e.ui.wire.LEDs(pin, probe); 
+                    e.ui.wire.led(pin, probe); 
                     e.ui.button.on(probe);
                     //e.ui.button.off(probe);
                     e.ui.bar.create(probe, pin);
@@ -1868,7 +1868,7 @@ var Events = (function() {
                 else if (probe.name === "analog" && pin.select == 'on'){
                     pin.color = probe.graphColors[0];
                     probe.graphColors.splice(0,1);
-                    e.ui.wire.Analog(pin, probe); 
+                    e.ui.wire.analog(pin, probe); 
                     e.ui.button.on(probe);
                     //e.ui.button.off(probe);
                     listen(true, 'hoverButton');
@@ -1880,7 +1880,7 @@ var Events = (function() {
                     if (probe.name === "input"){
                         pin.color = probe.graphColors[0];
                         probe.graphColors.splice(0,1);
-                        e.ui.wire.Digital(pin, probe);
+                        e.ui.wire.digital(pin, probe);
                         e.ui.button.on(probe);
                         //e.ui.button.off(probe);
                         e.ui.button.createOutput();
@@ -1890,7 +1890,7 @@ var Events = (function() {
                     else if (probe.name === "output"){
                         pin.color = probe.graphColors[0];
                         probe.graphColors.splice(0,1);
-                        e.ui.wire.Digital(pin, probe);
+                        e.ui.wire.digital(pin, probe);
                         //output button for input probe.
                         if (probe.input === "on"){
                             listen(true, 'hoverButton');
@@ -1907,7 +1907,7 @@ var Events = (function() {
                     else {
                         pin.color = probe.graphColors[0];
                         probe.graphColors.splice(0,1);
-                        e.ui.wire.Digital(pin, probe); 
+                        e.ui.wire.digital(pin, probe); 
                         e.ui.button.on(probe);
                         //e.ui.button.off(probe);
                         e.ui.bar.create(probe, pin);
