@@ -67,7 +67,7 @@ _example_: Canvas.add(pin.id + ' Graph', 10); 'creates a canvas for specific pin
 
 ## UI
 
-The UI provides the user interface drawing and interaction logic, and initializes global positions of BBUI elements. Each element position is related mainly to two variables BBposX and BBposY.
+The UI provides the user interface drawing and interaction logic, and initializes global positions of BBUI elements. Each element position is related mainly to two variables **`BBposX`** and **`BBposY`**.
 
 ```javascript
 • function init()
@@ -86,4 +86,97 @@ The init function defines all the methods used to draw different elements/object
   })
 ```
 `ui.button`, an IIFE provides major buttons used in BBUI with different attributes; starting and ending position of the button, the color, the text on the button, the offColor, the graph line colors, and the category of each group of buttons. The major buttons objects are: analog, digital, ground, power, led, input, output, pwm, onOff, plus, minus, stop, play, exit, digitalMenu. `ui.button` wraps the functions used to draw and interact with buttons.
+
+```javascript
+○ button.test = function(event)
+```
+Use this method to return button object name.
+
+```javascript
+○ button.highlight = function(highlightButton)
+```
+Use to highlight analog, digital, power, ground, led buttons.
+if you want to keep the button highlighted, set `highlightButton = true`.
+
+```javascript
+○ button.highlightDigital = function(highlightButton)
+```
+Use to highlight digital menu buttons (input, output, pwm).
+if you want to keep the button highlighted, set highlightButton = true.
+
+```javascript
+○ button.highlightPlus = function()
+```
+Use to highlight the zoom-in button, color will change to red.
+
+```javascript
+○ button.highlightMinus = function()
+```
+Use to highlight the zoom-out button, color will change to red.
+```javascript
+○ button.highlightStop = function()
+```
+Use to highlight the stop button, color will change to red.
+```javascript
+○ button.highlightPlay = function()
+```
+Use to highlight the play button, color will change to red.
+```javascript
+○ button.draw = function(b, context, highlight, x, y)
+```
+Use the draw function to draw the main buttons and probes. make `highlight = true` when dragging a button into graph otherwise the highlight is false.
+
+**arguments**:
+
+- b: button object name.
+- context: the drawing context, use `BTN` for probes, `Active` for dragging and highlighting, and `Graph` for (plus, minus, stop, play)
+- highlight: true for highlighting (using `offColor`).
+- x,y: only defined for custom buttons positions.
+
+
+_PS. each of the following two functions draws a layer, one for the on switch and another for off switch. The two layers overlap each other to make the on/off switch._
+
+```javascript
+○ button.on = function(probe)
+```
+Use button.on to draw on-switch, takes probe as an argument to match probe position and colors.
+
+```javascript
+○ button.off = function(probe)
+```
+Use button.off to draw off-switch, takes probe as an argument to match probe position and colors.
+
+```javascript
+○ button.createOutput = function()
+```
+createOutput is used to create output button for input probe, when user drags an input button into graph and selects a pin, this output button is created.
+
+```javascript
+○ button.drawGraphbtn = function(b, context)
+```
+Use drawGraphbtn to draw the buttons of graph; play, stop, zooming buttons.
+
+**arguments**:
+- b: the graph button name.
+- context: use `Active` context.
+
+```javascript
+○ button.push = function(b, output)
+```
+The function initially creates a new button object referenced by **`probeIndex`**; a local variable initially set to zero and incremented after each push. The push function sets properties to the new object; object name, x&y position of button, and button status. Status property is set to `probe` to uniquefies the button in buttons object in looping.
+
+**arguments**:
+- b: button object name.
+- output: is set to `true` only for the output button created from input probe. It sets unique position for this output.
+
+```javascript
+○ button.pop = function()
+```
+Use this method to delete the latest button added in buttons object.
+the method returns the deleted button object.
+
+```javascript
+○   button.get = function()
+```
+Use this method to return buttons object.
 
