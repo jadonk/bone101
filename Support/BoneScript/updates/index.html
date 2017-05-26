@@ -9,13 +9,16 @@ scripts: [ '/static/bonescript.js', '/Support/script/beagle-ui.js' ]
 <div id="content_child">
 
      <h1>Software Updates</h1>
-     <p>There are multiple ways to run initial software on your board, but
-      it is likley that the simplest way to get an update is to create an
-      exact replica of a bootable microSD card and boot off of it.  The
-      BeagleBone Black Rev C has 4GB of eMMC storage (2GB on previous revisions)
-      that can be initialized by
-      a program booted off of a microSD card.  If you want to update to the
-      latest software image for your board, this is a way to do that.</p>
+     <p>While there are many possible ways to boot your Beagle, every
+      BeagleBoard and BeagleBone is capable of booting off an SD (or microSD)
+      card. To utilize the latest software from the BeagleBoard.org community
+      it is recommended you program an SD card with the latest image, try it
+      out and then commit the image to your on-board flash if your board has
+      one and you are happy with the functionality of this new software.</p>
+     <p><em>Note that not all of the provided images consume the same amount of
+      space. It is important to note the size of the image and the amount of
+      space consumed within the image to know if it will fit within the
+      space of your SD card and potentially your on-board eMMC flash.</em></p>
 
     <h2 id="update">Update board with latest software</h2>
     <h3>Step #1: Download the latest software image</h3>
