@@ -47,7 +47,7 @@ scripts: [ '/static/bonescript.js', '/Support/script/beagle-ui.js' ]
     <p>Insert SD card into your (powered-down) board, hold down the USER/BOOT/SD button (if your board has one) and apply power.<em>Note: this button will change the ROM boot mode of the processor on you board to prevent it from loading code from the on-board flash. If the software on you board was fairly recent and functional, pressing this button is completely optional.</em></p>
     <p>If using a Beagle without on-board eMMC flash, you are done.</p>
 
-    <h2>Step #7: Program your on-board blash (BeagleBone Black and boards with eMMC flash only)</h2>
+    <h3>Step #7: Program your on-board blash (BeagleBone Black and boards with eMMC flash only)</h3>
     <p>If using BeagleBone Black or another Beagle with on-board eMMC flash and you want to write the image to your on-board eMMC, you'll need to follow the instructions at <a href="http://elinux.org/Beagleboard:BeagleBoneBlack_Debian#Flashing_eMMC">http://elinux.org/Beagleboard:BeagleBoneBlack_Debian#Flashing_eMMC</a>
  and use an eMMC flasher image or turn one of the above downloaded images into one. The process for converting an image into an eMMC flasher image is summarized below.</p>
     <p>When booted, edit the /boot/uEnv.txt file on the Linux partition on the microSD card and remove the '#' on the line with 'cmdline=init=/opt/scripts/tools/eMMC/init-eMMC-flasher-v3.sh'. Enabling this will cause booting the microSD card to flash the eMMC. eMMC flasher images are no longer immediately recommended to avoid people accidentally overwriting their eMMC flash.</p>
