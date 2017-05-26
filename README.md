@@ -10,15 +10,33 @@ The content here is presented by the default web server running with the demonst
 provided on BeagleBone and BeagleBone Black. It is written in HTML and makes use of the BoneScript server running
 on the board and BoneScript JavaScript library running in these HTML pages.
 
-Directory structure
-===================
+Installed directory structure (/var/lib/cloud9)
+===============================================
 
+* README.md - This file
+* LICENSE - Licenses for various components used in 'bone101'
 * autorun - Directory to drop scripts in to run automatically on every reboot 
 * examples - Directory with scripts and demos you can run on your board
-* favicon.ico - The icon for the bone101 web pages (shows up in browser tabs)
-* index.html - The starting bone101 page that redirects to Support/bone101/index.html
-* static - Directory with non-HTML bone101 web content (javascript, css, images, etc.)
-* Support - Directory with HTML bone101 web content (directory structure matches URLs) 
+* .c9 - Directory with configurations for Cloud9 IDE
+
+Other places where bone101 gets installed
+-----------------------------------------
+
+* /usr/share/bone101 - The built files for serving via the default web server
+* /usr/share/applications/bone101.desktop - Icon for opening a browser to 'bone101'
+* /usr/local/lib/node\_modules - Libraries required by the examples other than bonescript
+
+Building from source
+====================
+
+```sh
+git clone https://github.com/beagleboard/bone101
+cd bone101
+sudo apt-get update
+sudo apt-get install jekyll
+make
+sudo make install PREFIX=/usr
+```
 
 Style
 =====
