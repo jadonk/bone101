@@ -1,4 +1,5 @@
-#Python Examples for EudMIP Robot
+Python Examples for EudMIP Robot
+================================
 
 The following are python3 examples that run on the
 [BeagleBone Blue](http://beagleboard.org/blue) based 
@@ -13,7 +14,7 @@ The following use the [Adafruit BeagleBone python library](https://learn.adafrui
 - button.py - Read the PAUSE button and flash an internal LED
 - seqLEDs.py - Flashes the four USR LEDs in sequence
 
-These use the Strawson Design [Robotics Cape](http://strawsondesign.com/#!manual-install) library.
+These use the Strawson Design [Robotics Cape library](http://strawsondesign.com/#!manual-install).
 
 - encoders.py - Reads the motors encoders and displays the position
 - imu.py - Read the Inertial Measurement Unit and displays the Acceraltion,
