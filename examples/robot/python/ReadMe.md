@@ -1,4 +1,4 @@
-Python Examples for EudMIP Robot
+Python Examples for EduMIP Robot
 ================================
 
 The following are python3 examples that run on the
@@ -17,7 +17,6 @@ The following use the [Adafruit BeagleBone python library](https://learn.adafrui
 These use the Strawson Design [Robotics Cape library](http://strawsondesign.com/#!manual-install).
 
 - encoders.py - Reads the motors encoders and displays the position
-- imu.py - Read the Inertial Measurement Unit and displays the Acceraltion,
-- Gyro, Compas and Temerature.
+- imu.py - Read the Inertial Measurement Unit and displays the Acceraltion, Gyro, Compas and Temerature.
 - motors.py - Spins the motors
 - balance.py - Balances the robot.  Use the arrow keys to drive around
