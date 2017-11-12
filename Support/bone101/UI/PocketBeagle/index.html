@@ -1,0 +1,39 @@
+---
+layout: index
+title: PocketBeagle UI
+scripts: [ '/Support/script/bonescript-demo.js', '/Support/bone101/UI/PocketBeagle/pbui.js' ]
+style: |
+  div#wrapper {
+    width:1224px;
+  }
+  div#cssmenu {
+    width:1224px;
+  }
+  div.footer {
+    width:1224px;
+  }
+  div#contentbuffer {
+    margin:0;
+  }
+  div#canvasdiv {
+    height:600px;
+  }
+  div.browser-connect {
+    margin:auto;
+  }
+  canvas {
+    position:absolute;
+    width:850px;
+    height:513px;
+    margin:auto;
+  }
+---
+<div id='connect-status'></div>
+
+<div class="ui">
+  <div id="canvasdiv">
+    <canvas id="layer1" style="z-index: 1;"  height="513" width="850" src="/bone101/static/images/PocketBeagle.svg"></canvas>
+    <canvas id="layer2" style="z-index: 2;"  height="513" width="850"></canvas>
+  </div>
+</div>
+<script>pbui();</script>
