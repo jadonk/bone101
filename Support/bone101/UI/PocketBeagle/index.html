@@ -46,244 +46,6 @@ style: |
   }
 </style>
 <div id='connect-status'></div>
-
-<script>
-var Canvas = (function() {
-    var canvas;
-
-    function init() {
-        canvas = {};
-
-        var layers = {
-            'Active': 'layer3',
-        };
-
-        for (var layer in layers) {
-            canvas[layer] = {};
-            canvas[layer].e = document.getElementById(layers[layer]);
-            canvas[layer].ctx = canvas[layer].e.getContext("2d");
-        }
-
-        return (canvas);
-    }
-
-    return {
-        'get': function() {
-            if (!canvas) {
-                canvas = init();
-            }
-            return canvas;
-        },
-    };
-})();
-
-var UI = (function() {
-    var ui;
-
-    function init() {
-        ui = {};
-        var canvas = Canvas.get();
-
-        // initialize global positions of some elements, all other elements based on these 
-        // positions
-        var rectActive = canvas.Active.e.getBoundingClientRect();
-        var rHeight = rectActive.bottom-rectActive.top;
-        var rWidth = rectActive.right-rectActive.left;
-        var iHeight = 1.37795;
-        var iWidth = 2.19291;
-        var vHeight = 99.2124;
-        var vWidth = 157.89;
-        var riRatio = rWidth / iWidth;
-        var rvRatio = rWidth / vWidth;
-        var PBposX = 7;
-        var PBposY = 25;
-        var P1posX = PBposX + (17.938 * rvRatio);
-        var P2posX = P1posX;
-        var P1posY = PBposY + (10 * rvRatio);
-        var P2posY = PBposY + (78.6926 * rvRatio);
-        var tenth = 0.1 * riRatio;  // 0.1"
-
-        // mousedown on a button state
-        ui.down = false;
-
-        ui.pin = (function() {
-            var pin = {};
-            var pins = [];
-            for(var i=1; i<=36; i++) {
-                pins.push({
-                    "pin": "P1_" + i,
-                    "x": P1posX + (Math.floor((i+1) / 2) - 1) * tenth,
-                    "y": P1posY + (((i+1) % 2) - 1) * tenth,
-                    "h": 0.06 * riRatio,
-                    "w": 0.06 * riRatio,
-                });
-                pins.push({
-                    "pin": "P2_" + i,
-                    "x": P2posX + (Math.floor((i+1) / 2) - 1) * tenth,
-                    "y": P2posY + (((i+1) % 2) - 1) * tenth,
-                    "h": 0.06 * riRatio,
-                    "w": 0.06 * riRatio,
-                });
-            }
-            console.log(JSON.stringify(pins));
-            for(var i=1; i<=4; i++) {
-            }
-
-            // change the pin color to light grey on hovering
-            pin.hover = function(pin) {
-                Canvas.get().Active.ctx.fillStyle = 'RGBA(255,255,255,.5)';
-                Canvas.get().Active.ctx.fillRect(pin.x,pin.y,pin.w,pin.h);
-            }
-
-            pin.test = function(event) {
-                var coords = Position(event);
-                if (typeof coords == "undefined") return ("none");
-
-                var x = coords[0];
-                var y = coords[1];
-
-                for (var p in pins) {
-                    if (x >= pins[p].x && x <= pins[p].x + pins[p].w && y >= pins[p].y && 
-                        y <= pins[p].y + pins[p].h) {
-                        console.log("pin = " + pins[p].pin);
-                        return pins[p];
-                    }
-                }
-                return ("none");
-            };
-
-            return pin;
-        })();
-
-        ui.loop = (function() {
-            var loop = {};
-
-            loop.clear = function() {
-                canvas.Active.ctx.clearRect(0, 0, canvas.Active.e.width, canvas.Active.e.height);
-            };
-
-            loop.clear();
-
-            return loop;
-        })();
-
-        function Position(event) {
-            rectActive = canvas.Active.e.getBoundingClientRect();
-            var coords = [];
-            // find position of mouse
-            if (event.x !== undefined && event.y !== undefined) {
-                coords[0] = event.x;
-                coords[1] = event.y;
-            } else // Firefox method to get the position
-            {
-                coords[0] = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-                coords[1] = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-            }
-            console.log("Position = " + [coords[0], coords[1]]);
-            coords[0] -= rectActive.left;
-            coords[1] = rectActive.top - coords[1];
-            if (coords[0] < 0 || coords[1] < 0 ||
-                coords[0] > rWidth ||
-                coords[1] > rHeight
-            ) {
-                return;
-            }
-            console.log("Position(adjusted) = " + [coords[0], coords[1]]);
-
-            return (coords);
-        };
-
-        return ui;
-    } // end of ui's init()
-
-
-    return {
-        get: function() {
-            if (!ui) {
-                ui = init();
-            }
-            return ui;
-        }
-    };
-})();
-
-
-/* Events draw in a bit of logic to enable/disable event listeners, so it is stateful.
-*
-* Use 'e.ui' to fetch UI objects
-* New events should be defined with a type and function in events variable
-* refer to state diagram for event sequence at http://jadonk.github.io/bone101/Support/bone101/UI/fsm/
-*
-*/
-var Events = (function() {
-    var e;
-
-    //to use any object method inside events
-    function init() {
-        e = {};
-        e.ui = UI.get();
-        e.listeners = {};
-        e.start = function() {
-            listen(true, 'hoverPin');
-        };
-        e.start();
-        return e;
-    }
-
-    function listen(enable, description) {
-        var events = {
-            'hoverPin': {
-                event: 'mousemove',
-                func: hoverPin
-            },
-        };
-
-        if (!(description in events)) {
-            console.log("Listener for " + description + " doesn't exist");
-            return;
-        }
-        if ((description in e.listeners) && enable) {
-            console.log("Listener " + description + " already enabled, but requested to enable again");
-            return;
-        }
-        if (!(description in e.listeners) && !enable) {
-            console.log("Listener " + description + " was not previously enabled, but requested to disable again");
-            return;
-        }
-        console.log((enable ? "Enabling listener " : "Disabling listener ") + description);
-
-        if (enable) e.listeners[description] = true;
-        else delete e.listeners[description];
-
-        var ev = events[description].event;
-        var func = events[description].func;
-        if (enable) document.addEventListener(ev, func, false);
-        else document.removeEventListener(ev, func, false);
-    }
-
-    function hoverPin(event) {
-        pin = e.ui.pin.test(event);
-        if (pin) {
-            e.ui.pin.hover(pin);
-        }
-    }
-
-    return {
-        'get': function() {
-            if (!e) {
-                e = init();
-            }
-            return e;
-        }
-    };
-})();
-
-function pbui() {
-    Events.get();
-}
-
-</script>
-
 <div class="ui">
   <div id="canvasdiv">
    <svg style="z-index: 1;" height="513" width="850" xmlns="http://www.w3.org/2000/svg" version="1.2" width="2.19291in" x="0in" baseProfile="tiny" y="0in" height="1.37795in"  viewBox="0 0 157.89 99.2124">
@@ -1181,5 +943,240 @@ function pbui() {
 </div>
 
 <script>
-//var ui = pbui();
+var Canvas = (function() {
+    var canvas;
+
+    function init() {
+        canvas = {};
+
+        var layers = {
+            'Active': 'layer3',
+        };
+
+        for (var layer in layers) {
+            canvas[layer] = {};
+            canvas[layer].e = document.getElementById(layers[layer]);
+            canvas[layer].ctx = canvas[layer].e.getContext("2d");
+        }
+
+        return (canvas);
+    }
+
+    return {
+        'get': function() {
+            if (!canvas) {
+                canvas = init();
+            }
+            return canvas;
+        },
+    };
+})();
+
+var UI = (function() {
+    var ui;
+
+    function init() {
+        ui = {};
+        var canvas = Canvas.get();
+
+        // initialize global positions of some elements, all other elements based on these 
+        // positions
+        var rectActive = canvas.Active.e.getBoundingClientRect();
+        var rHeight = rectActive.bottom-rectActive.top;
+        var rWidth = rectActive.right-rectActive.left;
+        var iHeight = 1.37795;
+        var iWidth = 2.19291;
+        var vHeight = 99.2124;
+        var vWidth = 157.89;
+        var riRatio = rWidth / iWidth;
+        var rvRatio = rWidth / vWidth;
+        var PBposX = 7;
+        var PBposY = 25;
+        var P1posX = PBposX + (17.938 * rvRatio);
+        var P2posX = P1posX;
+        var P1posY = PBposY + (10 * rvRatio);
+        var P2posY = PBposY + (78.6926 * rvRatio);
+        var tenth = 0.1 * riRatio;  // 0.1"
+
+        // mousedown on a button state
+        ui.down = false;
+
+        ui.pin = (function() {
+            var pin = {};
+            var pins = [];
+            for(var i=1; i<=36; i++) {
+                pins.push({
+                    "pin": "P1_" + i,
+                    "x": P1posX + (Math.floor((i+1) / 2) - 1) * tenth,
+                    "y": P1posY + (((i+1) % 2) - 1) * tenth,
+                    "h": 0.06 * riRatio,
+                    "w": 0.06 * riRatio,
+                });
+                pins.push({
+                    "pin": "P2_" + i,
+                    "x": P2posX + (Math.floor((i+1) / 2) - 1) * tenth,
+                    "y": P2posY + (((i+1) % 2) - 1) * tenth,
+                    "h": 0.06 * riRatio,
+                    "w": 0.06 * riRatio,
+                });
+            }
+            console.log(JSON.stringify(pins));
+            for(var i=1; i<=4; i++) {
+            }
+
+            // change the pin color to light grey on hovering
+            pin.hover = function(pin) {
+                Canvas.get().Active.ctx.fillStyle = 'RGBA(255,255,255,.5)';
+                Canvas.get().Active.ctx.fillRect(pin.x,pin.y,pin.w,pin.h);
+            }
+
+            pin.test = function(event) {
+                var coords = Position(event);
+                if (typeof coords == "undefined") return ("none");
+
+                var x = coords[0];
+                var y = coords[1];
+
+                for (var p in pins) {
+                    if (x >= pins[p].x && x <= pins[p].x + pins[p].w && y >= pins[p].y && 
+                        y <= pins[p].y + pins[p].h) {
+                        console.log("pin = " + pins[p].pin);
+                        return pins[p];
+                    }
+                }
+                return ("none");
+            };
+
+            return pin;
+        })();
+
+        ui.loop = (function() {
+            var loop = {};
+
+            loop.clear = function() {
+                canvas.Active.ctx.clearRect(0, 0, canvas.Active.e.width, canvas.Active.e.height);
+            };
+
+            loop.clear();
+
+            return loop;
+        })();
+
+        function Position(event) {
+            rectActive = canvas.Active.e.getBoundingClientRect();
+            var coords = [];
+            // find position of mouse
+            if (event.x !== undefined && event.y !== undefined) {
+                coords[0] = event.x;
+                coords[1] = event.y;
+            } else // Firefox method to get the position
+            {
+                coords[0] = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+                coords[1] = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+            }
+            console.log("Position = " + [coords[0], coords[1]]);
+            coords[0] -= rectActive.left;
+            coords[1] = rectActive.top - coords[1];
+            if (coords[0] < 0 || coords[1] < 0 ||
+                coords[0] > rWidth ||
+                coords[1] > rHeight
+            ) {
+                return;
+            }
+            console.log("Position(adjusted) = " + [coords[0], coords[1]]);
+
+            return (coords);
+        };
+
+        return ui;
+    } // end of ui's init()
+
+
+    return {
+        get: function() {
+            if (!ui) {
+                ui = init();
+            }
+            return ui;
+        }
+    };
+})();
+
+
+/* Events draw in a bit of logic to enable/disable event listeners, so it is stateful.
+*
+* Use 'e.ui' to fetch UI objects
+* New events should be defined with a type and function in events variable
+* refer to state diagram for event sequence at http://jadonk.github.io/bone101/Support/bone101/UI/fsm/
+*
+*/
+var Events = (function() {
+    var e;
+
+    //to use any object method inside events
+    function init() {
+        e = {};
+        e.ui = UI.get();
+        e.listeners = {};
+        e.start = function() {
+            listen(true, 'hoverPin');
+        };
+        e.start();
+        return e;
+    }
+
+    function listen(enable, description) {
+        var events = {
+            'hoverPin': {
+                event: 'mousemove',
+                func: hoverPin
+            },
+        };
+
+        if (!(description in events)) {
+            console.log("Listener for " + description + " doesn't exist");
+            return;
+        }
+        if ((description in e.listeners) && enable) {
+            console.log("Listener " + description + " already enabled, but requested to enable again");
+            return;
+        }
+        if (!(description in e.listeners) && !enable) {
+            console.log("Listener " + description + " was not previously enabled, but requested to disable again");
+            return;
+        }
+        console.log((enable ? "Enabling listener " : "Disabling listener ") + description);
+
+        if (enable) e.listeners[description] = true;
+        else delete e.listeners[description];
+
+        var ev = events[description].event;
+        var func = events[description].func;
+        if (enable) document.addEventListener(ev, func, false);
+        else document.removeEventListener(ev, func, false);
+    }
+
+    function hoverPin(event) {
+        pin = e.ui.pin.test(event);
+        if (pin) {
+            e.ui.pin.hover(pin);
+        }
+    }
+
+    return {
+        'get': function() {
+            if (!e) {
+                e = init();
+            }
+            return e;
+        }
+    };
+})();
+
+function pbui() {
+    Events.get();
+}
+
+var ui = pbui();
 </script>
+
