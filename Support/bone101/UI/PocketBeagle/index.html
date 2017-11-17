@@ -12,24 +12,23 @@ style: |
   div.footer {
     width:1224px;
   }
-  div.ui {
-    width:1224px;
-  }
   div#contentbuffer {
     margin:0;
   }
   div.browser-connect {
     margin:auto;
   }
+  div.ui {
+    width:1224px;
+  }
   svg {
-    display:inline-block;
+    float: left;
     position:absolute;
     width:850px;
     height:513px;
     margin:auto;
   }
   div.output {
-    display:inline-block;
   }
   .pin circle:hover {
     opacity:0.5;
@@ -935,6 +934,7 @@ style: |
 <div id="output">
 </div>
 </div>
+<div style="clear:both;"></div>
 
 <script>
 var Canvas = (function() {
