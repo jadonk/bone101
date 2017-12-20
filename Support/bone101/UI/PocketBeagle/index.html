@@ -931,36 +931,40 @@ style: |
 <polygon gorn="0.161" stroke-width="3.000000e-03" id="polygon58" stroke="#000000" points="130.5,30.6 130.8,30.4 130.9,30.4 131.1,30.4 130.9,30.4 131.1,30.4 131,30.5 130.9,30.6 130.8,30.8 130.8,30.9 130.8,34.4 130.8,34.5 130.9,34.7 131.1,34.9 130.9,34.9 130.8,34.9 130.5,34.7 130.3,34.5 130.3,34.4 130.3,30.9 130.3,30.8 " fill="#C4C5C7" />
 </svg>
 <div id="output">
+<div id="ui-output"></div>
+<div id="console-output"></div>
 </div>
 </div>
 <div style="clear:both;"></div>
 
 <script>
-var Canvas = (function() {
-    var canvas;
+var HW = (function() {
+    var hw;
 
     function init() {
-        canvas = {};
+        hw = {};
 
-        var layers = {
-        };
-
-        for (var layer in layers) {
-            canvas[layer] = {};
-            canvas[layer].e = document.getElementById(layers[layer]);
-            canvas[layer].ctx = canvas[layer].e.getContext("2d");
+        hw.call = function(name, args, callback) {
+            if (!hw.b) {
+                hw.b = require('bonescript');
+            }
+            if (!hw.b) return;
+            if (typeof hw.b[name] != 'function') return;
+            args.push(callback);
+            hw.b[name].apply(null, args);
+            return;
         }
 
-        return (canvas);
+        return hw;
     }
 
-    return {
-        'get': function() {
-            if (!canvas) {
-                canvas = init();
+    return ({
+        get: function() {
+            if (!hw) {
+                hw = init();
             }
-            return canvas;
-        },
+            return hw;
+        }
     };
 })();
 
@@ -983,7 +987,13 @@ var UI = (function() {
         }
 
         function setPinHover(name) {
-            document.getElementById("output").innerHTML = name;
+            document.getElementById("ui-output").innerHTML = name;
+            HW.get().call("getPinMode", [name], onGetPinMode);
+        }
+
+        funciton onGetPinMode(x) {
+            document.getElementById("ui-output").innerHTML =
+                JSON.stringify(x);
         }
 
         return ui;
