@@ -102,6 +102,7 @@ $(document).ready(function(){
             setTimeout(tryWindowHost, 5);
             setTimeout(try192, 5);
             setTimeout(try1926, 5);
+            setTimeout(trywifi, 5);
             setTimeout(tryLocal, 5);
 
             function tryWindowHost() {
@@ -112,6 +113,9 @@ $(document).ready(function(){
             }
             function try1926() {
                 connectTarget('192.168.6.2', handlers);
+            }
+            function trywifi() {
+                connectTarget('192.168.8.1', handlers);
             }
             function tryLocal() {
                 connectTarget('beaglebone.local', handlers);
