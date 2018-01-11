@@ -13,19 +13,12 @@ var motor = 'P1_36', // Pin to control servo
     step = 0.01; // Step size to next position
 
 console.log('Hit ^C to stop');
-b.pinMode(motor, b.ANALOG_OUTPUT, 6, 0, 0, doInterval);
+b.pinMode(motor, b.ANALOG_OUTPUT, 2, 0, 0);
 setTimeout(startMoving, 200);  // work-around to wait for PWM permissions
-
-function doInterval(x) {
-    if(x.err) {
-        console.log('x.err = ' + x.err);
-        return;
-    }
-    timer = setInterval(sweep, ms);
-}
 
 function startMoving() {
     move(pos);      // Start in the middle
+    timer = setInterval(sweep, ms);
 }
 
 // Sweep from min to max position and back again
