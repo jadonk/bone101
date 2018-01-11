@@ -6,11 +6,11 @@ var b = require('bonescript');
 
 var motor = 'P2_1', // Pin to control servo
     freq = 50,  // Servo frequency (20 ms)
-    min  = 1.0, // Smallest angle (in ms)
-    max  = 2.0, // Largest angle (in ms)
-    ms  = 250,  // How often to change position, in ms
+    min  = 0.5, // Smallest angle (in ms)
+    max  = 2.5, // Largest angle (in ms)
+    ms  = 50,  // How often to change position, in ms
     pos = 1.5,  // Current position, about middle
-    step = 0.1; // Step size to next position
+    step = 0.01; // Step size to next position
 
 console.log('Hit ^C to stop');
 b.pinMode(motor, b.ANALOG_OUTPUT, 6, 0, 0, doInterval);
@@ -37,11 +37,13 @@ function sweep() {
 function move(pos) {
     var dutyCycle = pos/1000*freq;
     b.analogWrite(motor, dutyCycle, freq);
-    console.log('pos = ' + pos + ' duty cycle = ' + dutyCycle);
+    process.stdout.write('pulse = ' + pos.toFixed(2) + 'ms, duty cycle = ' + (dutyCycle*100).toFixed(1) + "%    \r");
 }
 
 process.on('SIGINT', function() {
     console.log('Got SIGINT, turning motor off');
     clearInterval(timer);             // Stop the timer
     b.analogWrite(motor, 0, freq);    // Turn motor off
+    b.pinMode(motor, b.OUTPUT);
+    b.digitalWrite(motor, 1);
 });
