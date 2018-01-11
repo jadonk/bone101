@@ -4,7 +4,7 @@
 
 var b = require('bonescript');
 
-var motor = 'P2_1', // Pin to control servo
+var motor = 'P1_36', // Pin to control servo
     freq = 50,  // Servo frequency (20 ms)
     min  = 0.5, // Smallest angle (in ms)
     max  = 2.5, // Largest angle (in ms)
@@ -14,6 +14,7 @@ var motor = 'P2_1', // Pin to control servo
 
 console.log('Hit ^C to stop');
 b.pinMode(motor, b.ANALOG_OUTPUT, 6, 0, 0, doInterval);
+setTimeout(startMoving, 200);  // work-around to wait for PWM permissions
 
 function doInterval(x) {
     if(x.err) {
@@ -23,7 +24,9 @@ function doInterval(x) {
     timer = setInterval(sweep, ms);
 }
 
-move(pos);      // Start in the middle
+function startMoving() {
+    move(pos);      // Start in the middle
+}
 
 // Sweep from min to max position and back again
 function sweep() {
