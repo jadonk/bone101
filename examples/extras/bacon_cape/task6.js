@@ -8,14 +8,13 @@ var b = require("bonescript"); // Read BoneScript library
 // Map used pins
 
 // Define global variables
-var port = '/dev/i2c-2';
-var address = 0x1c;
+var port = ['/dev/i2c-2', 0x1c];
 
 // Configure pins and initial state
-b.i2cOpen(port, address, {}, onI2C); // Open I2C port
-b.i2cWriteBytes(port, 0x2a, [0x00]); // Set accelerometer in STANDBY mode
-b.i2cWriteBytes(port, 0x0e, [0x00]); // Set accelerometer scale to 2G
-b.i2cWriteBytes(port, 0x2a, [0x01]); // Set accelerometer in ACTIVE mode
+b.i2cOpen(port, {}, onI2C); // Open I2C port
+b.i2cWriteBytes(port, 0x2a, [0x00], onI2C); // Set accelerometer in STANDBY mode
+b.i2cWriteBytes(port, 0x0e, [0x00], onI2C); // Set accelerometer scale to 2G
+b.i2cWriteBytes(port, 0x2a, [0x01], onI2C); // Set accelerometer in ACTIVE mode
 
 /*
  * Add handlers
