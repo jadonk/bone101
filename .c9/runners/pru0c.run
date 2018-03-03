@@ -1,0 +1,15 @@
+// Create a custom Cloud9 runner - similar to the Sublime build system
+// For more information see http://docs.c9.io:8080/#!/api/run-method-run
+{
+    "cmd" : [
+        "make",
+        "-f",
+        "/var/lib/cloud9/examples/extras/pru/Makefile",
+        "TARGET=$file_base_name",
+        "PRUN=pru0",
+        "$args"
+    ],
+    "info" : "Started $project_path: $file_name",
+    "env" : {},
+    "selector" : "source.pru0c"
+}
