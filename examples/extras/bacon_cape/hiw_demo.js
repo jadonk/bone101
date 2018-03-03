@@ -15,8 +15,7 @@ var POT = 'P9_36';
 // Define global variables
 var state = false;
 var segments = [ 0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90 ];
-var port = '/dev/i2c-2';
-var address = 0x1c;
+var port = [ '/dev/i2c-2', 0x1c ];
 
 // Configure pins
 b.pinMode(LED_RED, b.OUTPUT);

@@ -50,9 +50,8 @@
                     var S_CLOCK = 'P9_22';
                     var S_LATCH = 'P9_17';
                     var S_CLEAR = 'P9_15';
-                    var segDigits = [ 0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90 ];                
-                    var port = '/dev/i2c-2'
-                    var address = 0x1c;
+                    var segDigits = [ 0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90 ];
+                    var port = [ '/dev/i2c-2', 0x1c ];
                     var container = $("#myplot");
                     var maximum = container.outerWidth() / 2 || 300;
                     var data = [];
@@ -142,7 +141,7 @@
                     b.digitalWrite(S_CLOCK, b.LOW);
                     b.digitalWrite(S_LATCH, b.LOW);
                     b.digitalWrite(S_CLEAR, b.HIGH);
-                    b.i2cOpen(port, address, {}, onI2C);
+                    b.i2cOpen(port, {}, onI2C);
 
                     setInterval(drawGraph, 20);
 

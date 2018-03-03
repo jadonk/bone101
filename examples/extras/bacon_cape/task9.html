@@ -28,8 +28,7 @@
                 var buttonStatus = 0;
                 var sliderStatus = 0;
                 var lastSliderValue = 0;
-                var port = '/dev/i2c-2'
-                var address = 0x1c;
+                var port = [ '/dev/i2c-2', 0x1c ];
                 var LED_RED = 'P9_42';
                 var LED_BLUE = 'P9_16';
                 var LED_GREEN = 'P9_14';
@@ -53,7 +52,7 @@
                 b.digitalWrite(S_LATCH, b.LOW);
                 b.digitalWrite(S_CLEAR, b.HIGH);
 
-                b.i2cOpen(port, address, {}, onI2C); // Initialize accelerometer
+                b.i2cOpen(port, {}, onI2C); // Initialize accelerometer
                 readBUTTON(); // Start button updates
                 readPOT(); // Start potentiometer updates
 
