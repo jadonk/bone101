@@ -15,6 +15,7 @@ b.i2cOpen(port, {}, onI2C); // Open I2C port
 b.i2cWriteBytes(port, 0x2a, [0x00], onI2C); // Set accelerometer in STANDBY mode
 b.i2cWriteBytes(port, 0x0e, [0x00], onI2C); // Set accelerometer scale to 2G
 b.i2cWriteBytes(port, 0x2a, [0x01], onI2C); // Set accelerometer in ACTIVE mode
+console.log("Reading accelerometer");
 
 /*
  * Add handlers
@@ -32,12 +33,16 @@ function readAccel() {
     b.i2cReadBytes(port, 1, 6, onReadBytes);
 }
 
+var n = 0;
+var p = ['-', '\\', '|', '/'];
 function onReadBytes(x) {
     if(x.event == 'callback') {
         var X = convertToG(x.res[0]); // First byte is X
         var Y = convertToG(x.res[2]); // Third byte is Y
         var Z = convertToG(x.res[4]); // Fifth byte is Z
-        console.log('X: ' + X + '  Y: ' + Y + '  Z: ' + Z);
+        process.stdout.write('\r' + p[n] + ' X: ' + X + '  Y: ' + Y + '  Z: ' + Z + '      ');
+	n++;
+	if(n >= p.length) n=0;
     }
 }
 
