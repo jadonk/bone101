@@ -42,8 +42,7 @@
                 setTargetAddress('192.168.7.2', {initialized: run});
                 function run() {
                     var b = require('bonescript');
-                    var port = '/dev/i2c-2'
-                    var address = 0x1c;
+                    var port = [ '/dev/i2c-2', 0x1c ];
                     b.pinMode(LED_RED, b.OUTPUT);
                     b.pinMode(LED_BLUE, b.OUTPUT);
                     b.pinMode(BUTTON, b.INPUT);
@@ -55,7 +54,7 @@
                     b.digitalWrite(S_CLOCK, b.LOW);
                     b.digitalWrite(S_LATCH, b.LOW);
                     b.digitalWrite(S_CLEAR, b.HIGH);
-                    b.i2cOpen(port, address, {}, onI2C);
+                    b.i2cOpen(port, {}, onI2C);
                     
                     function onI2C() {
                         b.i2cWriteBytes(port, 0x2a, [0x00], nextA);
