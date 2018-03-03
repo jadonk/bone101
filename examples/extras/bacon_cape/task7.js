@@ -24,8 +24,7 @@ var POT = 'P9_36';
 // Define global variables
 var state = false;
 var segments = [ 0xC0, 0xF9, 0xA4, 0xB0, 0x99, 0x92, 0x82, 0xF8, 0x80, 0x90 ];
-var port = '/dev/i2c-2';
-var address = 0x1c;
+var port = [ '/dev/i2c-2', 0x1c ];
 
 // Configure pins
 b.pinMode(LED_RED, b.OUTPUT);
@@ -43,10 +42,10 @@ b.digitalWrite(S_LATCH, b.LOW);
 b.digitalWrite(S_CLEAR, b.HIGH);
 
 // Configure accelerometer
-b.i2cOpen(port, address, {}, onI2C); // Open I2C port
-b.i2cWriteBytes(port, 0x2a, [0x00]); // Set accelerometer in STANDBY mode
-b.i2cWriteBytes(port, 0x0e, [0x00]); // Set accelerometer scale to 2G
-b.i2cWriteBytes(port, 0x2a, [0x01]); // Set accelerometer in ACTIVE mode
+b.i2cOpen(port, {}, onI2C); // Open I2C port
+b.i2cWriteBytes(port, 0x2a, [0x00], onI2C); // Set accelerometer in STANDBY mode
+b.i2cWriteBytes(port, 0x0e, [0x00], onI2C); // Set accelerometer scale to 2G
+b.i2cWriteBytes(port, 0x2a, [0x01], onI2C); // Set accelerometer in ACTIVE mode
 
 /*
  * Add handlers
