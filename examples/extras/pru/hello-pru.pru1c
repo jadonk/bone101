@@ -85,6 +85,12 @@ struct my_resource_table pru_remoteproc_ResourceTable = {
 	0,	/* offset[0] */
 };
 
+#pragma DATA_SECTION(init_pins, ".init_pins")
+#pragma RETAIN(init_pins)
+const char init_pins[] =  
+	"/sys/class/leds/beaglebone:green:usr1/trigger\0none\0" \
+	"\0\0";
+
 void main(void) {
 	int i, j;
 

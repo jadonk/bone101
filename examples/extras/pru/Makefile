@@ -29,6 +29,7 @@ all: run
 run: install
 	@echo '-	rebooting $(PRUN) via $(PRU_DIR)'
 	@echo stop | sudo tee $(PRU_DIR)/state || echo Cannot stop $(PRUN)
+	@sudo $(dir $(realpath $(firstword $(MAKEFILE_LIST))))/write_init_pins.sh /lib/firmware/am335x-$(PRUN)-fw
 	@echo start | sudo tee $(PRU_DIR)/state
 	@echo "-	$(PRUN) is now loaded with $(GEN_DIR)/$(TARGET).out"
 
