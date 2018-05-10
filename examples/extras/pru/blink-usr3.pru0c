@@ -42,9 +42,7 @@
 #include <stddef.h>
 #include <rsc_types.h>
 
-#define	INS_PER_US 200           // 5ns per instruction
-#define INS_PER_DELAY_LOOP 2	 // two instructions per delay loop
-#define DELAY_CYCLES_US (INS_PER_US / INS_PER_DELAY_LOOP)
+#define DELAY_CYCLES 100000000
 
 #define GPIO1 0x4804C000
 #define GPIO_CLEARDATAOUT 0x190
@@ -55,20 +53,6 @@
 #define USR3 (1<<24)
 unsigned int volatile * const GPIO1_CLEAR = (unsigned int *) (GPIO1 + GPIO_CLEARDATAOUT);
 unsigned int volatile * const GPIO1_SET = (unsigned int *) (GPIO1 + GPIO_SETDATAOUT);
-
-volatile register unsigned int __R30;
-volatile register unsigned int __R31;
-#define PRU0_GPIO (1<<2)
-#define GPIO_DISABLE
-
-#ifndef DECAY_RATE
-#define DECAY_RATE 100
-#endif
-#ifndef DELAY_CYCLES
-#define DELAY_CYCLES DELAY_CYCLES_US
-#endif
-
-const int decay = DECAY_RATE;
 
 struct my_resource_table {
 	struct resource_table base;
@@ -92,27 +76,13 @@ const char init_pins[] =
 	"\0\0";
 
 void main(void) {
-	int i, j;
-
 	/* Clear SYSCFG[STANDBY_INIT] to enable OCP master port */
 	CT_CFG.SYSCFG_bit.STANDBY_INIT = 0;
 
-	for(i = 1000000; i > 0; i = (i * decay) / 100) {
-#ifndef LED_DISABLE
+	while(1) {
 		*GPIO1_SET = USR3;
-#endif
-#ifndef GPIO_DISABLE
-		__R30 |= PRU0_GPIO;
-#endif
-		for(j=0;j<i;j++){ __delay_cycles(DELAY_CYCLES); }
-#ifndef LED_DISABLE
+		__delay_cycles(DELAY_CYCLES);
 		*GPIO1_CLEAR = USR3;
-#endif
-#ifndef GPIO_DISABLE
-		__R30 ^= PRU0_GPIO;
-#endif
-		for(j=0;j<i;j++){ __delay_cycles(DELAY_CYCLES); }
+		__delay_cycles(DELAY_CYCLES);
 	}
-
-	__halt();
 }
