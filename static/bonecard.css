@@ -33,6 +33,7 @@
     border-top-right-radius: 50px;
     border-bottom-right-radius: 50px;
     position: relative;
+    left: 175px;
     float: left;
     -webkit-transition: color 0.5s ease;
     box-sizing: content-box;
