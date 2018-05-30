@@ -4,10 +4,17 @@ CLOUD9_DIR:=/var/lib/cloud9
 JEKYLL:=$(shell which jekyll)
 HTMLPROOFER:=$(shell which htmlproofer)
 NPM:=$(shell which npm)
+MRAA:=$(shell which mraa-gpio)
+EXDIR:= ./examples/extras/C-modulesFromJS/MRAA_Examples/
 
 all: ./bone101
 
 ./bone101: Makefile _config.yml
+ifdef MRAA
+	cd $(EXDIR) && make
+else
+	@echo MRAA not found
+endif
 ifdef JEKYLL
 	$(JEKYLL) build -d ./bone101
 else
