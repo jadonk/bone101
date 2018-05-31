@@ -1413,9 +1413,9 @@ var UI = (function() {
             //all graph properties
             var graph = {
                 xWidth: 360,
-                yWidth: 250,
+                yWidth: 297,
                 zeroX: axisStartX,
-                zeroY: axisStartY + 160,
+                zeroY: axisStartY + 200,
                 interval: 0,
                 zoomVal: [.125, .25, .5, 1],
                 zoomIndex: 3,
@@ -1489,12 +1489,12 @@ var UI = (function() {
 
             //y ticks
             var y = 0;
-            var countY = 5;
+            var countY = 0;
             var ynum = 0;
-            var volt = 5;
+            var volt = 3.3;
             var text;
             while (y <= graph.yWidth) {
-                if (countY % 5 === 0) {
+                if (countY % 3 === 0) {
                     canvas.Graph.ctx.beginPath();
                     canvas.Graph.ctx.moveTo(graph.zeroX - 10, graph.zeroY - y);
                     canvas.Graph.ctx.lineTo(graph.zeroX + 5, graph.zeroY - y);
@@ -1507,7 +1507,10 @@ var UI = (function() {
                     canvas.Graph.ctx.lineWidth = 2;
                     canvas.Graph.ctx.stroke();
                 }
-                y += 10;
+                if(countY > 53)
+                    y += 9;
+                else
+                    y+=3;                     
                 countY += 1;
             };
             canvas.Graph.ctx.fillStyle = "black";
@@ -1515,12 +1518,20 @@ var UI = (function() {
             while (ynum <= graph.yWidth && volt >= 0) {
                 text = (volt * graph.zoom()).toFixed(1).toString();
                 if (text == "0.0") {
-                    canvas.Graph.ctx.fillText(text.toString(), graph.zeroX - 20, graph.zeroY - graph.yWidth + ynum + 15);
+                    canvas.Graph.ctx.fillText(text, graph.zeroX - 20, graph.zeroY - graph.yWidth + ynum + 15);
                 } else {
-                    canvas.Graph.ctx.fillText(text.toString(), graph.zeroX - 30, graph.zeroY - graph.yWidth + ynum +2);
+                     if (text == "1.8" || text == "3.3"){
+                         canvas.Graph.ctx.fillStyle = "blue";
+                         canvas.Graph.ctx.font = '10pt Lucinda Grande';
+                     }
+                     else{
+                         canvas.Graph.ctx.fillStyle = "black";
+                         canvas.Graph.ctx.font = '8pt Lucinda Grande';
+                     }
+                    canvas.Graph.ctx.fillText(text, graph.zeroX - 30, graph.zeroY - graph.yWidth + ynum +2);
                 }
-                ynum += 50;
-                volt -= 1;
+                ynum += 27;
+                volt -= 0.3;
             };
             return xyAxis;
         })();
