@@ -1,4 +1,4 @@
-/* 
+/*
  * Canvas provides the drawing surfaces.
  *
  * Use 'var canvas = Canvas.get();' to fetch the canvas.
@@ -89,7 +89,7 @@ var Hardware = (function() {
     };
 })();
 
-/* 
+/*
  * UI provides the user interface drawing and interaction logic.
  * The events are registered, removed and transitioned by Events to help
  * make it clear what events are currently registered and active.
@@ -104,7 +104,7 @@ var UI = (function() {
         var hw = Hardware.get();
         var canvas = Canvas.get();
 
-        // initialize global positions of some elements, all other elements based on these 
+        // initialize global positions of some elements, all other elements based on these
         // positions
         var BBposX = 283;
         var BBposY = 120;
@@ -442,9 +442,9 @@ var UI = (function() {
                 canvas.BTN.ctx.quadraticCurveTo(x, b, x, b-radius);
                 canvas.BTN.ctx.lineTo(x, y+radius);
                 canvas.BTN.ctx.quadraticCurveTo(x, y, x+radius, y);
-                canvas.BTN.ctx.strokeStyle = color; 
+                canvas.BTN.ctx.strokeStyle = color;
                 canvas.BTN.ctx.stroke();
-                canvas.BTN.ctx.fillStyle = color; 
+                canvas.BTN.ctx.fillStyle = color;
                 canvas.BTN.ctx.fill()
                 canvas.BTN.ctx.fillStyle= 'white';
                 canvas.BTN.ctx.font = '10pt Andale Mono';
@@ -456,7 +456,7 @@ var UI = (function() {
                 canvas.BTN.ctx.lineTo(r, y+h-radius);
                 canvas.BTN.ctx.quadraticCurveTo(r, b, r-radius, b);
                 canvas.BTN.ctx.lineTo(x+w/2, b);
-                canvas.BTN.ctx.fillStyle = offColor; 
+                canvas.BTN.ctx.fillStyle = offColor;
                 canvas.BTN.ctx.fill()
                 canvas.BTN.ctx.fillStyle= 'black';
                 canvas.BTN.ctx.font = '10pt Andale Mono';
@@ -487,9 +487,9 @@ var UI = (function() {
                 canvas.BTN.ctx.quadraticCurveTo(x, b, x, b-radius);
                 canvas.BTN.ctx.lineTo(x, y+radius);
                 canvas.BTN.ctx.quadraticCurveTo(x, y, x+radius, y);
-                canvas.BTN.ctx.strokeStyle = color; 
+                canvas.BTN.ctx.strokeStyle = color;
                 canvas.BTN.ctx.stroke();
-                canvas.BTN.ctx.fillStyle = color; 
+                canvas.BTN.ctx.fillStyle = color;
                 canvas.BTN.ctx.fill()
                 canvas.BTN.ctx.beginPath();
                 canvas.BTN.ctx.moveTo(x+w/2, b);
@@ -498,7 +498,7 @@ var UI = (function() {
                 canvas.BTN.ctx.lineTo(x, y+radius);
                 canvas.BTN.ctx.quadraticCurveTo(x, y, x+radius, y);
                 canvas.BTN.ctx.lineTo(x+w/2, y);
-                canvas.BTN.ctx.fillStyle = offColor; 
+                canvas.BTN.ctx.fillStyle = offColor;
                 canvas.BTN.ctx.fill();
                 canvas.BTN.ctx.fillStyle= 'black';
                 canvas.BTN.ctx.font = '10pt Andale Mono';
@@ -530,16 +530,16 @@ var UI = (function() {
                     context.fillText(btn.text, btn.x, btn.endY);
                     context.save();
                 }
-                
+
                 // zoom out
                 else if (btn.text == "-") {
                     context.font = '30pt Lucinda Grande';
                     context.fillText(btn.text, btn.x, btn.endY);
                     context.save();
                 }
-                
+
                 // play button
-                else if (btn.text == "play") 
+                else if (btn.text == "play")
                 {
                     context.beginPath();
                     context.moveTo(btn.x, btn.y);
@@ -674,9 +674,9 @@ var UI = (function() {
                 canvas.Bar.ctx.strokeStyle = 'rgb(225,225,225)';
                 canvas.Bar.ctx.lineWidth = 6;
                 canvas.Bar.ctx.font = '12pt Andale Mono';
-                canvas.Bar.ctx.strokeText(bars[len-1].text, bars[len-1].length + bars[len-1].locX + 5, 
-                bars[len-1].height + bars[len-1].locY -2);  
-                canvas.Bar.ctx.fillText(bars[len-1].text, bars[len-1].length + bars[len-1].locX + 5, 
+                canvas.Bar.ctx.strokeText(bars[len-1].text, bars[len-1].length + bars[len-1].locX + 5,
+                bars[len-1].height + bars[len-1].locY -2);
+                canvas.Bar.ctx.fillText(bars[len-1].text, bars[len-1].length + bars[len-1].locX + 5,
                 bars[len-1].height + bars[len-1].locY -2);
             };
 
@@ -689,7 +689,7 @@ var UI = (function() {
                 for (i = 0; i<len; i++){
                     if (bars[i].move === 'on'){
                         bars[i].sliderX = x-5;
-                        if(bars[i].sliderX < bars[i].locX+2){ 
+                        if(bars[i].sliderX < bars[i].locX+2){
                             bars[i].sliderX = bars[i].locX+2;
                             bars[i].frequency = 0;
                     }
@@ -702,7 +702,7 @@ var UI = (function() {
                             bars[i].frequency = 10;
                         }
                     }
-                    else { 
+                    else {
                         if (bars[i].type === "pwm"){
                             bars[i].frequency = ((bars[i].sliderX - bars[i].locX -2)/140).toPrecision(2);}
                         else {
@@ -719,11 +719,11 @@ var UI = (function() {
                         bar.draw();
                         if (bars[i].pin.freq != 0 && bars[i].pin.power === 'on'){
                             //blink(bars[i].pin[bars[i].bars[i].pin]);
-                        } 
+                        }
                         //calling socket; this should be done with Hardware object.
                         else if (bars[i].pin.power === 'on'){
                             // drawLED(pin[bars[i].pin]);
-                            // var data = {freq: pin.freq, power: pin.power, 
+                            // var data = {freq: pin.freq, power: pin.power,
                             // id: pin.id, num: pin[bars[i].pin].num, state: pin[bars[i].pin].HIGH,
                             // output: pin[bars[i].pin].output, type: pin[bars[i].pin].type,
                             // subType: pin[bars[i].pin].subType};
@@ -888,13 +888,13 @@ var UI = (function() {
                     category: ''
                 }, {
                     name: 'P1_14',
-                    category: 'power'                
+                    category: 'power'
                 }, {
                     name: 'P1_15',
                     category: ''
                 }, {
                     name: 'P1_16',
-                    category: 'ground'                    
+                    category: 'ground'
                 }, {
                     name: 'P1_17',
                     category: 'aref'
@@ -1098,7 +1098,7 @@ var UI = (function() {
                         x += 147;
                     }
                 }
-                // offset x on odd iterations 
+                // offset x on odd iterations
                 else {
                     x += 15;
                 }
@@ -1131,7 +1131,7 @@ var UI = (function() {
                 var pwm = false;
                 if (category == "input" && digitalHighlight == true) category = "digital";
                 if (category == "output" && digitalHighlight == true) category = "digital";
-                
+
                 for (var i = 0; i < 76; i++) {
                     if (category == "pwm" && digitalHighlight == true) pwm = pins[i].PWM;
                     if (category == pins[i].category || pwm) {
@@ -1157,7 +1157,7 @@ var UI = (function() {
                 var y = coords[1];
 
                 for (var p in pins) {
-                    if (x >= pins[p].x && x <= pins[p].x + pins[p].w && y >= pins[p].y && 
+                    if (x >= pins[p].x && x <= pins[p].x + pins[p].w && y >= pins[p].y &&
                         y <= pins[p].y + pins[p].h) {
                         //console.log("pin = " + pins[p].name);
                         return pins[p];
@@ -1350,9 +1350,9 @@ var UI = (function() {
             //all graph properties
             var graph = {
                 xWidth: 360,
-                yWidth: 250,
+                yWidth: 297,
                 zeroX: axisStartX,
-                zeroY: axisStartY + 160,
+                zeroY: axisStartY + 200,
                 interval: 0,
                 zoomVal: [.125, .25, .5, 1],
                 zoomIndex: 3,
@@ -1385,7 +1385,7 @@ var UI = (function() {
             canvas.Graph.ctx.strokeStyle = "black";
             canvas.Graph.ctx.font = '10pt Lucinda Grande';
             canvas.Graph.ctx.fillText('Voltage [v]', graph.zeroX - 30, graph.zeroY - graph.yWidth - 20);
-            
+
             //x ticks
             var x = 0;
             var countX = 0;
@@ -1426,12 +1426,12 @@ var UI = (function() {
 
             //y ticks
             var y = 0;
-            var countY = 5;
+            var countY = 0;
             var ynum = 0;
-            var volt = 5;
+            var volt = 3.3;
             var text;
             while (y <= graph.yWidth) {
-                if (countY % 5 === 0) {
+                if (countY % 3 === 0) {
                     canvas.Graph.ctx.beginPath();
                     canvas.Graph.ctx.moveTo(graph.zeroX - 10, graph.zeroY - y);
                     canvas.Graph.ctx.lineTo(graph.zeroX + 5, graph.zeroY - y);
@@ -1444,7 +1444,10 @@ var UI = (function() {
                     canvas.Graph.ctx.lineWidth = 2;
                     canvas.Graph.ctx.stroke();
                 }
-                y += 10;
+                if(countY > 53)
+                y += 9;
+                else
+                y += 3;
                 countY += 1;
             };
             canvas.Graph.ctx.fillStyle = "black";
@@ -1452,12 +1455,20 @@ var UI = (function() {
             while (ynum <= graph.yWidth && volt >= 0) {
                 text = (volt * graph.zoom()).toFixed(1).toString();
                 if (text == "0.0") {
-                    canvas.Graph.ctx.fillText(text.toString(), graph.zeroX - 20, graph.zeroY - graph.yWidth + ynum + 15);
+                    canvas.Graph.ctx.fillText(text.toString(), graph.zeroX - 22, graph.zeroY - graph.yWidth + ynum + 15);
                 } else {
+                    if (text == "1.8" || text == "3.3"){
+                      canvas.Graph.ctx.fillStyle = "blue";
+                      canvas.Graph.ctx.font = '10pt Lucinda Grande';
+                    }
+                    else {
+                      canvas.Graph.ctx.fillStyle = "black";
+                      canvas.Graph.ctx.font = '8pt Lucinda Grande';
+                    }
                     canvas.Graph.ctx.fillText(text.toString(), graph.zeroX - 30, graph.zeroY - graph.yWidth + ynum +2);
                 }
-                ynum += 50;
-                volt -= 1;
+                ynum += 27;
+                volt -= 0.3;
             };
             return xyAxis;
         })();
@@ -1793,7 +1804,7 @@ var Events = (function() {
                 if (probe.name === "led" && pin.select == 'on'){
                     pin.color = probe.graphColors[0];
                     probe.graphColors.splice(0,1);
-                    e.ui.wire.led(pin, probe); 
+                    e.ui.wire.led(pin, probe);
                     e.ui.button.on(probe);
                     //e.ui.button.off(probe);
                     e.ui.bar.create(probe, pin);
@@ -1805,14 +1816,14 @@ var Events = (function() {
                 else if (probe.name === "analog" && pin.select == 'on'){
                     pin.color = probe.graphColors[0];
                     probe.graphColors.splice(0,1);
-                    e.ui.wire.analog(pin, probe); 
+                    e.ui.wire.analog(pin, probe);
                     e.ui.button.on(probe);
                     //e.ui.button.off(probe);
                     listen(true, 'hoverButton');
                 }
 
                 //Digital
-                else { 
+                else {
                     pin.subType = probe.name;
                     if (probe.name === "input"){
                         pin.color = probe.graphColors[0];
@@ -1834,7 +1845,7 @@ var Events = (function() {
                         }
                         //output probe.
                         else {
-                            e.ui.button.on(probe); 
+                            e.ui.button.on(probe);
                             pin.input = "none";
                             e.ui.bar.create(probe, pin);
                             e.ui.bar.draw();
@@ -1844,7 +1855,7 @@ var Events = (function() {
                     else {
                         pin.color = probe.graphColors[0];
                         probe.graphColors.splice(0,1);
-                        e.ui.wire.digital(pin, probe); 
+                        e.ui.wire.digital(pin, probe);
                         e.ui.button.on(probe);
                         //e.ui.button.off(probe);
                         e.ui.bar.create(probe, pin);
@@ -1864,7 +1875,7 @@ var Events = (function() {
                 }
                 else {
                     listen(true, 'hoverPin');
-                } 
+                }
             }
         }
     }
