@@ -151,6 +151,7 @@ var UI = (function() {
                     text: "analog",
                     s: 19,
                     offColor: 'rgb(0,51,102)',
+		    warn: "Do not supply more that 1.8 V to Analog Input pins",
                     article: "an analog pin",
                     graphColors: ['rgb(0,0,255)', 'rgb(0,01,53)', 'rgb(0,102,204)', 'rgb(0,51,102)'],
                     category: "main"
@@ -208,6 +209,7 @@ var UI = (function() {
                     text: "input",
                     s: 22,
                     offColor: 'rgb(0,81,36)',
+		    warn: "Do not supply more that 3.3 V to Digital Input pins",
                     article: "a digital pin",
                     graphColors: ['rgb(0,51,0)', 'rgb(0,204,0)', 'rgb(51,102,0)', 'rgb(0,255,0)', 'rgb(128,255,0)'],
                     category: "digital"
@@ -222,6 +224,7 @@ var UI = (function() {
                     s: 19,
                     offColor: 'rgb(0,85,85)',
                     barColor: 'rgb(153,255,255)',
+		    warn: "Do not draw more that 4 mA from Digital Output Pins",
                     article: "a digital pin",
                     graphColors: ['rgb(60,179,113)', 'rgb(0,153,153)', 'rgb(0,255,255)', 'rgb(0,102,102)'],
                     category: "digital"
@@ -236,6 +239,7 @@ var UI = (function() {
                     s: 23,
                     offColor: 'rgb(51,0,102)',
                     barColor: 'rgb(229,204,255)',
+		    warn: "Do not draw more that 4 mA from Digital Output Pins",
                     article: "a pwm pin",
                     graphColors: ['rgb(102,0,102)', 'rgb(204,0,204)', 'rgb(255,102,255)', 'rgb(51,0,51)'],
                     category: "digital"
@@ -1222,6 +1226,10 @@ var UI = (function() {
                 canvas.Active.ctx.fillStyle= 'red';
                 canvas.Active.ctx.font = '12pt Andale Mono';
                 canvas.Active.ctx.fillText("select " + ui.button.get()[add.type].article, BBposX + 10, BBposY-25);
+		canvas.Active.ctx.fillStyle= 'blue';
+                canvas.Active.ctx.font = '8pt Andale Mono';
+                if(ui.button.get()[add.type].warn != undefined)
+                canvas.Active.ctx.fillText(ui.button.get()[add.type].warn, BBposX + 240, BBposY-75);
                 canvas.Active.ctx.save();
 
                 add.type = 'none';
