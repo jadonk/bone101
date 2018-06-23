@@ -50,9 +50,10 @@ style: |
  <li><em>version</em>: revision of the board</li>
  <li><em>bonescript</em>: verison of bonescript</li>
 </ul>
-<h2>callback(x)</h2>
+<h2>callback(err,resp)</h2>
 <ul>
- <li><em>x</em>: same as the return value.</li>
+ <li><em>resp</em>: same as the return value.</li>
+ <li><em>err</em>: error status message.</li>
 </ul>
 <h2>Example
  <button class="dynlink" onclick="demoRun('code')">run</button>
@@ -61,11 +62,11 @@ style: |
 <pre id="code" class="use-editor" style="height: 150px;">
 var b = require('bonescript');
 b.getPlatform(printData);
-function printData(x) {
- console.log('name = ' + x.name);
- console.log('version = ' + x.version);
- console.log('serialNumber = ' + x.serialNumber);
- console.log('bonescript = ' + x.bonescript);
+function printData(err,resp) {
+ console.log('name = ' + resp.name);
+ console.log('version = ' + resp.version);
+ console.log('serialNumber = ' + resp.serialNumber);
+ console.log('bonescript = ' + resp.bonescript);
 }</pre>
 <div readonly id='console-output' style='height: 200px;'></div>
 <h2>Build and execute instructions</h2>

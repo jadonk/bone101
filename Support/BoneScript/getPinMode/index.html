@@ -48,9 +48,19 @@ style: |
  <li><em>name</em>: pin name</li>
  <li><em>err</em>: error status message</li>
 </ul>
-<h2>callback(x)</h2>
+<h2>callback(err,resp)</h2>
 <ul>
- <li><em>x</em>: return value</li>
+ <li><em>resp</em>: response object containing:</li>
+<ul>
+ <li><em>mux</em>: index of mux mode</li>
+ <li><em>options</em>: array of mode names</li>
+ <li><em>slew</em>: 'fast' or 'slow'</li>
+ <li><em>rx</em>: 'enabled' or 'disabled'</li>
+ <li><em>pullup</em>: 'diabled', 'pullup' or 'pulldown'</li>
+ <li><em>pin</em>: key string for pin</li>
+ <li><em>name</em>: pin name</li>
+</ul>
+ <li><em>err</em>: error status message</li>
 </ul>
 <h2>Example
  <button class="dynlink" onclick="demoRun('code')">run</button>
@@ -59,16 +69,16 @@ style: |
 <pre id="code" class="use-editor" style="height: 230px;">
 var b = require('bonescript');
 b.getPinMode("P8_13", printPinMux);
-function printPinMux(x) {
-    console.log('mux = ' + x.mux);
-    console.log('pullup = ' + x.pullup);
-    console.log('slew = ' + x.slew);
-    if(x.options) 
+function printPinMux(err,resp) {
+    console.log('mux = ' + resp.mux);
+    console.log('pullup = ' + resp.pullup);
+    console.log('slew = ' + resp.slew);
+    if(resp.options) 
         console.log('options = ' + 
-            x.options.join(','));
-    console.log('pin = ' + x.pin);
-    console.log('name = ' + x.name);
-    console.log('err = ' + x.err);
+            resp.options.join(','));
+    console.log('pin = ' + resp.pin);
+    console.log('name = ' + resp.name);
+    console.log('err = ' + err);
 }</pre>
 <div readonly id='console-output' style='width: 496px;'></div>
 <h2>Build and execute instructions</h2>
