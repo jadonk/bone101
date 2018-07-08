@@ -6,7 +6,7 @@
  * canvas[layer].e is the layer element.
  * canvas[layer].ctx is the layer context.
  */
-var Canvas = (function() {
+var Canvas = (function () {
     var canvas;
 
     function init() {
@@ -51,7 +51,7 @@ var Canvas = (function() {
     }
 
     return {
-        'get': function() {
+        'get': function () {
             if (!canvas) {
                 canvas = init();
             }
@@ -61,7 +61,7 @@ var Canvas = (function() {
     };
 })();
 //Hardware Functions
-var Hardware = (function() {
+var Hardware = (function () {
     var hw;
 
     function init() {
@@ -69,72 +69,66 @@ var Hardware = (function() {
         return hw;
     }
 
-    function add(name,category,subCategory) {
-        try
-        {
+    function add(name, category, subCategory) {
+        try {
             if (!hw.b) {
                 hw.b = require('bonescript');
             }
-        }
-        catch(ex) {
+        } catch (ex) {
             console.log(ex);
         }
         if (!hw.b) return;
-        if(category == 'digital') {
-            if(subCategory == 'output')
-            hw.b.pinMode(name,hw.b.OUTPUT);
-            else if(subCategory == 'pwm')
-            hw.b.pinMode(name,hw.b.ANALOG_OUTPUT); 
-            else if(subCategory == 'input')
-            hw.b.pinMode(name,hw.b.INPUT);
-        }
-    }
-    function write(pin,callback) {
-        try
-        {
-            if (!hw.b) {
-                hw.b = require('bonescript');
-            }
-        }
-        catch(ex) {
-            console.log(ex);
-        }
-        if (!hw.b) return;
-        if(pin.category == 'led')
-        hw.b.digitalWrite(pin.name,pin.state,callback);
-        else if(pin.category == 'digital') {
-            if(pin.subType == 'output')
-            hw.b.digitalWrite(pin.name,pin.state,callback);
-            else if(pin.subType == 'pwm')
-            hw.b.analogWrite(pin.name,pin.freq*pin.state,2000,callback); 
+        if (category == 'digital') {
+            if (subCategory == 'output')
+                hw.b.pinMode(name, hw.b.OUTPUT);
+            else if (subCategory == 'pwm')
+                hw.b.pinMode(name, hw.b.ANALOG_OUTPUT);
+            else if (subCategory == 'input')
+                hw.b.pinMode(name, hw.b.INPUT);
         }
     }
 
-    function read(pin,callback) {
-        try
-        {
+    function write(pin, callback) {
+        try {
             if (!hw.b) {
                 hw.b = require('bonescript');
             }
-        }
-        catch(ex) {
+        } catch (ex) {
             console.log(ex);
         }
         if (!hw.b) return;
-        if(pin.category == 'analog')
-        hw.b.analogRead(pin.name,callback);
-        else if(pin.category == 'digital') {
-            if(pin.subType == 'input')
-            hw.b.digitalRead(pin.name,callback);
-            if(pin.subType == 'pwm')
-            callback(null,3.3*pin.freq);            
+        if (pin.category == 'led')
+            hw.b.digitalWrite(pin.name, pin.state, callback);
+        else if (pin.category == 'digital') {
+            if (pin.subType == 'output')
+                hw.b.digitalWrite(pin.name, pin.state, callback);
+            else if (pin.subType == 'pwm')
+                hw.b.analogWrite(pin.name, pin.freq * pin.state, 2000, callback);
         }
-        else
-        callback(null,3.3*pin.state);
+    }
+
+    function read(pin, callback) {
+        try {
+            if (!hw.b) {
+                hw.b = require('bonescript');
+            }
+        } catch (ex) {
+            console.log(ex);
+        }
+        if (!hw.b) return;
+        if (pin.category == 'analog')
+            hw.b.analogRead(pin.name, callback);
+        else if (pin.category == 'digital') {
+            if (pin.subType == 'input')
+                hw.b.digitalRead(pin.name, callback);
+            if (pin.subType == 'pwm')
+                callback(null, 3.3 * pin.freq);
+        } else
+            callback(null, 3.3 * pin.state);
     }
 
     return {
-        'get': function() {
+        'get': function () {
             if (!hw) {
                 hw = init();
             }
@@ -153,7 +147,7 @@ var Hardware = (function() {
  *
  * Use 'var ui = UI.get();' to fetch the user interface object.
  */
-var UI = (function() {
+var UI = (function () {
     var ui;
 
     function init() {
@@ -191,7 +185,7 @@ var UI = (function() {
         ui.down = false;
 
         // major buttons
-        ui.button = (function() {
+        ui.button = (function () {
             var button = {};
 
             // global buttons
@@ -331,7 +325,7 @@ var UI = (function() {
                     endX: axisStartX + 30,
                     endY: axisStartY + 252,
                     status: "none",
-                    text:"stop",
+                    text: "stop",
                     category: "graph"
                 },
                 play: {
@@ -360,7 +354,7 @@ var UI = (function() {
                 }
             };
 
-            button.test = function(event) {
+            button.test = function (event) {
                 var coords = Position(event);
                 var x = coords[0];
                 var y = coords[1];
@@ -381,7 +375,7 @@ var UI = (function() {
             };
 
             //highlight analog, digital, power, ground, led buttons
-            button.highlight = function(highlightButton) {
+            button.highlight = function (highlightButton) {
                 canvas.Active.ctx.fillStyle = 'rgba(255,255,255,0.7)';
                 for (var b in buttons) {
                     if (buttons[b].category == "main") {
@@ -391,7 +385,7 @@ var UI = (function() {
             };
 
             //highlight input, output, pwm buttons
-            button.highlightDigital = function(highlightButton) {
+            button.highlightDigital = function (highlightButton) {
                 canvas.Active.ctx.fillStyle = 'rgba(255,255,255,0.7)';
                 for (var b in buttons) {
                     if (buttons[b].category == "digital") {
@@ -400,29 +394,29 @@ var UI = (function() {
                 }
             };
 
-            button.highlightPlus = function(flag) {
-                if(flag)
-                canvas.Graph.ctx.fillStyle = "#FF4500";
+            button.highlightPlus = function (flag) {
+                if (flag)
+                    canvas.Graph.ctx.fillStyle = "#FF4500";
                 else
-                canvas.Graph.ctx.fillStyle = "#000000";
+                    canvas.Graph.ctx.fillStyle = "#000000";
                 canvas.Graph.ctx.font = 'bold 20pt Lucinda Grande';
                 canvas.Graph.ctx.fillText("+", buttons.plus.x, buttons.plus.endY);
             };
 
-            button.highlightMinus = function(flag) {
-                if(flag)
-                canvas.Graph.ctx.fillStyle = "#FF4500";
+            button.highlightMinus = function (flag) {
+                if (flag)
+                    canvas.Graph.ctx.fillStyle = "#FF4500";
                 else
-                canvas.Graph.ctx.fillStyle = "#000000";
+                    canvas.Graph.ctx.fillStyle = "#000000";
                 canvas.Graph.ctx.font = '30pt Lucinda Grande';
                 canvas.Graph.ctx.fillText("-", buttons.minus.x, buttons.minus.endY);
             };
 
-            button.highlightStop = function(flag) {
-                if(flag)
-                canvas.Graph.ctx.fillStyle = "#FF4500";
+            button.highlightStop = function (flag) {
+                if (flag)
+                    canvas.Graph.ctx.fillStyle = "#FF4500";
                 else
-                canvas.Graph.ctx.fillStyle = "#000000";
+                    canvas.Graph.ctx.fillStyle = "#000000";
                 canvas.Graph.ctx.beginPath();
                 canvas.Graph.ctx.moveTo(buttons.stop.x, buttons.stop.y);
                 canvas.Graph.ctx.lineTo(buttons.stop.x + 12, buttons.stop.y);
@@ -431,11 +425,11 @@ var UI = (function() {
                 canvas.Graph.ctx.fill();
             };
 
-            button.highlightPlay = function(flag) {
-                if(flag)
-                canvas.Graph.ctx.fillStyle = "#FF4500";
+            button.highlightPlay = function (flag) {
+                if (flag)
+                    canvas.Graph.ctx.fillStyle = "#FF4500";
                 else
-                canvas.Graph.ctx.fillStyle = "#000000";
+                    canvas.Graph.ctx.fillStyle = "#000000";
                 canvas.Graph.ctx.beginPath();
                 canvas.Graph.ctx.moveTo(buttons.play.x, buttons.play.y);
                 canvas.Graph.ctx.lineTo(buttons.play.x + 10, buttons.play.y + 7);
@@ -447,7 +441,7 @@ var UI = (function() {
             the draw function is used to draw the main buttons and probes.
             use highlight = true when dragging a button into graph otherwise the highlight is false.
             */
-            button.draw = function(b, context, highlight, x, y) {
+            button.draw = function (b, context, highlight, x, y) {
                 var radius = 1;
                 var btn = buttons[b];
                 var endX, endY;
@@ -489,23 +483,23 @@ var UI = (function() {
                 }
                 context.font = '10pt Andale Mono';
                 context.fillText(text, x + s, y + 12);
-            };           
+            };
 
-            button.createOutput = function(){
-                button.push('output',true);
+            button.createOutput = function () {
+                button.push('output', true);
                 var probes = Object.keys(buttons);
-                probeName = probes[probes.length-16];
+                probeName = probes[probes.length - 16];
                 probe = buttons[probeName];
-                probe2 = buttons[probes[probes.length-17]]
-                ui.wire.link(probe2,probe);
+                probe2 = buttons[probes[probes.length - 17]]
+                ui.wire.link(probe2, probe);
                 probe.input = "on";
-                canvas.Active.ctx.fillStyle= 'red';
+                canvas.Active.ctx.fillStyle = 'red';
                 canvas.Active.ctx.font = '12pt Andale Mono';
-                canvas.Active.ctx.fillText("select " + probe.article, BBposX + 10, BBposY-25);
+                canvas.Active.ctx.fillText("select " + probe.article, BBposX + 10, BBposY - 25);
             };
 
             //draw play, stop, zooming buttons
-            button.drawGraphbtn = function(b, context) {
+            button.drawGraphbtn = function (b, context) {
                 var btn = buttons[b];
                 // zoom in
                 if (btn.text == "+") {
@@ -513,17 +507,16 @@ var UI = (function() {
                     context.fillText(btn.text, btn.x, btn.endY);
                     context.save();
                 }
-                
+
                 // zoom out
                 else if (btn.text == "-") {
                     context.font = '30pt Lucinda Grande';
                     context.fillText(btn.text, btn.x, btn.endY);
                     context.save();
                 }
-                
+
                 // play button
-                else if (btn.text == "play") 
-                {
+                else if (btn.text == "play") {
                     context.beginPath();
                     context.moveTo(btn.x, btn.y);
                     context.lineTo(btn.x + 10, btn.y + 7);
@@ -546,7 +539,7 @@ var UI = (function() {
             };
 
             var probeIndex = 0
-            button.push = function(b, output) {
+            button.push = function (b, output) {
                 buttons[probeIndex] = {};
                 for (var prop in buttons[b]) {
                     if (buttons[b].hasOwnProperty(prop)) {
@@ -564,11 +557,10 @@ var UI = (function() {
 
                 //output is true if the input button selected.
                 if (output === true) {
-                    buttons[probeIndex].x = snapProbe.x+75;
+                    buttons[probeIndex].x = snapProbe.x + 75;
                     buttons[probeIndex].endX = snapProbe.x + 150;
-                    button.draw(probeIndex, canvas.Base.ctx, false, snapProbe.x+75, snapProbe.y);
-                }
-                else {
+                    button.draw(probeIndex, canvas.Base.ctx, false, snapProbe.x + 75, snapProbe.y);
+                } else {
                     button.draw(probeIndex, canvas.Base.ctx, false);
                 }
                 snapProbe.y += 22;
@@ -576,7 +568,7 @@ var UI = (function() {
             };
 
             //removing a button and resetting snapProbe position.
-            button.pop = function() {
+            button.pop = function () {
                 snapProbe.y -= 22;
                 probeIndex--;
                 var button = buttons[probeIndex];
@@ -584,7 +576,7 @@ var UI = (function() {
                 return button;
             };
 
-            button.get = function() {
+            button.get = function () {
                 return buttons;
             }
 
@@ -600,12 +592,12 @@ var UI = (function() {
             return button;
         })();
 
-        ui.bar = (function() {
+        ui.bar = (function () {
             var bar = {};
             var bars = [];
 
             // slider bar properties, not necessarily connected to led
-            bar.create = function(probe, pin) {
+            bar.create = function (probe, pin) {
                 var bar = {
                     color: probe.color,
                     outline: probe.color,
@@ -619,9 +611,15 @@ var UI = (function() {
                     sliderX: 0,
                     sliderY: 0,
                     frequency: 0,
-                    setSliderX: function(){this.sliderX = this.locX + 2;},
-                    setSliderY: function(){this.sliderY = this.locY + 2;},
-                    setFrequency: function(){this.frequency = this.sliderX - this.locX - 2;},
+                    setSliderX: function () {
+                        this.sliderX = this.locX + 2;
+                    },
+                    setSliderY: function () {
+                        this.sliderY = this.locY + 2;
+                    },
+                    setFrequency: function () {
+                        this.frequency = this.sliderX - this.locX - 2;
+                    },
                     text: "0 s",
                     type: probe.name
                 };
@@ -632,8 +630,7 @@ var UI = (function() {
 
                 if (probe.name === "pwm") {
                     bar.text = bar.frequency.toString();
-                }
-                else {
+                } else {
                     bar.text = (bar.frequency.toString() + ' s');
                 };
 
@@ -641,72 +638,69 @@ var UI = (function() {
                 return bars;
             };
 
-            bar.draw = function(index){
+            bar.draw = function (index) {
                 var len = bars.length;
-                if(typeof index == 'undefined') index = len-1;
+                if (typeof index == 'undefined') index = len - 1;
                 //canvas.Bar.ctx.clearRect(0,0,canvas.Bar.e.width,canvas.Bar.e.height);
-                canvas.Bar.ctx.fillStyle= 'rgb(205,205,205)';
-                canvas.Bar.ctx.fillRect(bars[index].locX,bars[index].locY, bars[index].length, bars[index].height);
-                canvas.Bar.ctx.fillStyle= bars[index].barColor;
-                canvas.Bar.ctx.fillRect(bars[index].locX,bars[index].locY, bars[index].sliderX - bars[index].locX, 15);
-                canvas.Bar.ctx.fillStyle= 'rgb(30,30,30)';
-                canvas.Bar.ctx.fillRect(bars[index].sliderX-2,bars[index].sliderY-2,14,15); //width and height of slider
-                canvas.Bar.ctx.strokeStyle= bars[index].outline;
+                canvas.Bar.ctx.fillStyle = 'rgb(205,205,205)';
+                canvas.Bar.ctx.fillRect(bars[index].locX, bars[index].locY, bars[index].length, bars[index].height);
+                canvas.Bar.ctx.fillStyle = bars[index].barColor;
+                canvas.Bar.ctx.fillRect(bars[index].locX, bars[index].locY, bars[index].sliderX - bars[index].locX, 15);
+                canvas.Bar.ctx.fillStyle = 'rgb(30,30,30)';
+                canvas.Bar.ctx.fillRect(bars[index].sliderX - 2, bars[index].sliderY - 2, 14, 15); //width and height of slider
+                canvas.Bar.ctx.strokeStyle = bars[index].outline;
                 canvas.Bar.ctx.lineWidth = 2;
-                canvas.Bar.ctx.strokeRect(bars[index].locX,bars[index].locY, bars[index].length, bars[index].height);
-                canvas.Bar.ctx.fillStyle= 'black';
+                canvas.Bar.ctx.strokeRect(bars[index].locX, bars[index].locY, bars[index].length, bars[index].height);
+                canvas.Bar.ctx.fillStyle = 'black';
                 canvas.Bar.ctx.strokeStyle = 'rgb(225,225,225)';
                 canvas.Bar.ctx.lineWidth = 6;
                 canvas.Bar.ctx.font = '8pt Andale Mono';
-                canvas.Bar.ctx.clearRect(bars[index].locX + bars[index].length + 3,bars[index].locY,50,15);
-                canvas.Bar.ctx.strokeText(bars[index].text, bars[index].length + bars[index].locX + 5, 
-                    bars[index].height + bars[index].locY -2);
-                canvas.Bar.ctx.fillText(bars[index].text, bars[index].length + bars[index].locX + 5, 
-                bars[index].height + bars[index].locY -2);
+                canvas.Bar.ctx.clearRect(bars[index].locX + bars[index].length + 3, bars[index].locY, 50, 15);
+                canvas.Bar.ctx.strokeText(bars[index].text, bars[index].length + bars[index].locX + 5,
+                    bars[index].height + bars[index].locY - 2);
+                canvas.Bar.ctx.fillText(bars[index].text, bars[index].length + bars[index].locX + 5,
+                    bars[index].height + bars[index].locY - 2);
             };
 
-            bar.move = function(event) {
+            bar.move = function (event) {
                 var coord = Position(event);
                 var x = coord[0];
                 var y = coord[1];
                 var i;
                 var len = bars.length;
-                for (i = 0; i<len; i++){
-                    if (bars[i].move === 'on'){
-                        bars[i].sliderX = x-5;
-                        if(bars[i].sliderX < bars[i].locX+2){ 
-                            bars[i].sliderX = bars[i].locX+2;
+                for (i = 0; i < len; i++) {
+                    if (bars[i].move === 'on') {
+                        bars[i].sliderX = x - 5;
+                        if (bars[i].sliderX < bars[i].locX + 2) {
+                            bars[i].sliderX = bars[i].locX + 2;
                             bars[i].frequency = 0;
-                    }
-                    else if (bars[i].sliderX > bars[i].length + bars[i].locX-12){
+                        } else if (bars[i].sliderX > bars[i].length + bars[i].locX - 12) {
                             bars[i].sliderX = bars[i].length + bars[i].locX - 12;
-                        if (bars[i].type === "pwm"){
-                            bars[i].frequency = 1;
+                            if (bars[i].type === "pwm") {
+                                bars[i].frequency = 1;
+                            } else {
+                                bars[i].frequency = 10;
+                            }
+                        } else {
+                            if (bars[i].type === "pwm") {
+                                bars[i].frequency = ((bars[i].sliderX - bars[i].locX - 2) / 60).toPrecision(2);
+                            } else {
+                                bars[i].frequency = ((bars[i].sliderX - bars[i].locX - 2) / 6).toPrecision(2);
+                            }
                         }
-                        else {
-                            bars[i].frequency = 10;
-                        }
-                    }
-                    else { 
-                        if (bars[i].type === "pwm"){
-                            bars[i].frequency = ((bars[i].sliderX - bars[i].locX -2)/60).toPrecision(2);}
-                        else {
-                            bars[i].frequency = ((bars[i].sliderX - bars[i].locX -2)/6).toPrecision(2);}
-                        }
-                        if (bars[i].type === "pwm"){
+                        if (bars[i].type === "pwm") {
                             bars[i].pin.freq = bars[i].frequency;
                             bars[i].text = bars[i].frequency.toString();
-                        }
-                        else {
-                            bars[i].pin.freq = bars[i].frequency*1000;
+                        } else {
+                            bars[i].pin.freq = bars[i].frequency * 1000;
                             bars[i].text = bars[i].frequency.toString() + ' s';
                         }
-                        bar.draw(i); 
-                        if (bars[i].pin.freq != 0 && bars[i].pin.power === 'on' &&  pin.subType != 'pwm' ){
+                        bar.draw(i);
+                        if (bars[i].pin.freq != 0 && bars[i].pin.power === 'on' && pin.subType != 'pwm') {
                             ui.pin.blink(bars[i].pin);
-                        } 
+                        }
                         //calling socket; this should be done with Hardware object.
-                        else if (bars[i].pin.power === 'on'){
+                        else if (bars[i].pin.power === 'on') {
                             clearInterval(bars[i].pin.blinking);
                             ui.pin.blink(bars[i].pin);
                         }
@@ -714,23 +708,25 @@ var UI = (function() {
                 }
             };
 
-            bar.off = function() {
+            bar.off = function () {
                 var len = bars.length;
-                for (i = 0; i<len; i++) {
-                    if (bars[i].move === 'on'){ bars[i].move = 'off'; }
+                for (i = 0; i < len; i++) {
+                    if (bars[i].move === 'on') {
+                        bars[i].move = 'off';
+                    }
                 }
             };
 
             //returns the black square slider in slider bar.
-            bar.sliderTest = function(event) {
+            bar.sliderTest = function (event) {
                 var coord = Position(event);
                 var x = coord[0];
                 var y = coord[1];
                 var i;
                 var len = bars.length;
                 bar.off();
-                for (i = 0; i<len; i++){
-                    if (x <= (bars[i].sliderX + 12) && x >= bars[i].sliderX-2 && y >= bars[i].sliderY-2 && y<= (bars[i].sliderY +13)){
+                for (i = 0; i < len; i++) {
+                    if (x <= (bars[i].sliderX + 12) && x >= bars[i].sliderX - 2 && y >= bars[i].sliderY - 2 && y <= (bars[i].sliderY + 13)) {
                         bars[i].move = 'on';
                         return "slider";
                     }
@@ -738,11 +734,11 @@ var UI = (function() {
             };
 
             //returns the whole slider bar.
-            bar.test = function(event) {
+            bar.test = function (event) {
                 var coords = Position(event);
                 var x = coords[0];
                 var y = coords[1];
-                for (var i = 0; i<bars.length; i++) {
+                for (var i = 0; i < bars.length; i++) {
                     var minX = bars[i].locX;
                     var minY = bars[i].locY;
                     var maxX = minX + bars[i].length;
@@ -759,16 +755,16 @@ var UI = (function() {
             return bar;
         })();
 
-        ui.onOff = (function() {
+        ui.onOff = (function () {
             var onOff = {};
             var onOffs = [];
             var buttons = ui.button.get();
             // onOff button properties
-            onOff.create = function(probe, pin) {
+            onOff.create = function (probe, pin) {
                 var Onoff = {
                     locX: probe.x + 85,
                     locY: probe.y,
-                    height: 15 ,
+                    height: 15,
                     width: 50,
                     probe: probe,
                     pin: pin,
@@ -779,11 +775,11 @@ var UI = (function() {
                 return onOffs;
             };
 
-            onOff.on = function(index) {
+            onOff.on = function (index) {
                 var len = onOffs.length;
-                if(typeof index == 'undefined')
-                index = len-1;
-                var  probe = onOffs[index].probe;
+                if (typeof index == 'undefined')
+                    index = len - 1;
+                var probe = onOffs[index].probe;
                 probe.pinNum.power = "on";
                 probe.pinNum.state = 1;
                 ui.pin.blink(onOffs[index].pin);
@@ -792,113 +788,117 @@ var UI = (function() {
                 var y = probe.y;
                 var color = probe.color;
                 var offColor = probe.offColor;
-                var s = btn.s; var e = btn.e;
-                var w = 50; var h = 15;
+                var s = btn.s;
+                var e = btn.e;
+                var w = 50;
+                var h = 15;
                 var r = probe.endX + 60;
                 var b = probe.endY;
                 var radius = 1;
-                
+
                 canvas.BTN.ctx.beginPath();
-                canvas.BTN.ctx.lineWidth="1";
-                canvas.BTN.ctx.moveTo(x+radius, y);
-                canvas.BTN.ctx.lineTo(r-radius, y);
-                canvas.BTN.ctx.quadraticCurveTo(r, y, r, y+radius);
-                canvas.BTN.ctx.lineTo(r, y+h-radius);
-                canvas.BTN.ctx.quadraticCurveTo(r, b, r-radius, b);
-                canvas.BTN.ctx.lineTo(x+radius, b);
-                canvas.BTN.ctx.quadraticCurveTo(x, b, x, b-radius);
-                canvas.BTN.ctx.lineTo(x, y+radius);
-                canvas.BTN.ctx.quadraticCurveTo(x, y, x+radius, y);
-                canvas.BTN.ctx.strokeStyle = color; 
+                canvas.BTN.ctx.lineWidth = "1";
+                canvas.BTN.ctx.moveTo(x + radius, y);
+                canvas.BTN.ctx.lineTo(r - radius, y);
+                canvas.BTN.ctx.quadraticCurveTo(r, y, r, y + radius);
+                canvas.BTN.ctx.lineTo(r, y + h - radius);
+                canvas.BTN.ctx.quadraticCurveTo(r, b, r - radius, b);
+                canvas.BTN.ctx.lineTo(x + radius, b);
+                canvas.BTN.ctx.quadraticCurveTo(x, b, x, b - radius);
+                canvas.BTN.ctx.lineTo(x, y + radius);
+                canvas.BTN.ctx.quadraticCurveTo(x, y, x + radius, y);
+                canvas.BTN.ctx.strokeStyle = color;
                 canvas.BTN.ctx.stroke();
-                canvas.BTN.ctx.fillStyle = color; 
+                canvas.BTN.ctx.fillStyle = color;
                 canvas.BTN.ctx.fill()
-                canvas.BTN.ctx.fillStyle= 'white';
+                canvas.BTN.ctx.fillStyle = 'white';
                 canvas.BTN.ctx.font = '10pt Andale Mono';
-                canvas.BTN.ctx.fillText('on', x + s, y+12);
+                canvas.BTN.ctx.fillText('on', x + s, y + 12);
                 canvas.BTN.ctx.beginPath();
-                canvas.BTN.ctx.moveTo(x+w/2, y);
-                canvas.BTN.ctx.lineTo(r-radius, y);
-                canvas.BTN.ctx.quadraticCurveTo(r, y, r, y+radius);
-                canvas.BTN.ctx.lineTo(r, y+h-radius);
-                canvas.BTN.ctx.quadraticCurveTo(r, b, r-radius, b);
-                canvas.BTN.ctx.lineTo(x+w/2, b);
-                canvas.BTN.ctx.fillStyle = offColor; 
+                canvas.BTN.ctx.moveTo(x + w / 2, y);
+                canvas.BTN.ctx.lineTo(r - radius, y);
+                canvas.BTN.ctx.quadraticCurveTo(r, y, r, y + radius);
+                canvas.BTN.ctx.lineTo(r, y + h - radius);
+                canvas.BTN.ctx.quadraticCurveTo(r, b, r - radius, b);
+                canvas.BTN.ctx.lineTo(x + w / 2, b);
+                canvas.BTN.ctx.fillStyle = offColor;
                 canvas.BTN.ctx.fill()
-                canvas.BTN.ctx.fillStyle= 'black';
+                canvas.BTN.ctx.fillStyle = 'black';
                 canvas.BTN.ctx.font = '10pt Andale Mono';
-                canvas.BTN.ctx.fillText('off', x + e, y+12);
+                canvas.BTN.ctx.fillText('off', x + e, y + 12);
             };
 
-            onOff.off = function(index) {
+            onOff.off = function (index) {
                 var len = onOffs.length;
-                if(typeof index == 'undefined')
-                index = len-1;
-                var  probe = onOffs[index].probe;
+                if (typeof index == 'undefined')
+                    index = len - 1;
+                var probe = onOffs[index].probe;
                 onOffs[index].pin.power = "off";
                 onOffs[index].pin.state = 0;
-                Hardware.write(probe.pinNum,function(){});
+                Hardware.write(probe.pinNum, function () {});
                 var btn = buttons['onOff'];
                 var x = probe.x + 85;
                 var y = probe.y;
                 var color = probe.color;
                 var offColor = probe.offColor;
-                var s = btn.s; var s = btn.s; var e = btn.e;
-                var w = 50; var h = 15;
+                var s = btn.s;
+                var s = btn.s;
+                var e = btn.e;
+                var w = 50;
+                var h = 15;
                 var r = probe.endX + 60;
                 var b = probe.endY;
                 var radius = 1;
 
                 canvas.BTN.ctx.beginPath();
-                canvas.BTN.ctx.lineWidth="1";
-                canvas.BTN.ctx.moveTo(x+radius, y);
-                canvas.BTN.ctx.lineTo(r-radius, y);
-                canvas.BTN.ctx.quadraticCurveTo(r, y, r, y+radius);
-                canvas.BTN.ctx.lineTo(r, y+h-radius);
-                canvas.BTN.ctx.quadraticCurveTo(r, b, r-radius, b);
-                canvas.BTN.ctx.lineTo(x+radius, b);
-                canvas.BTN.ctx.quadraticCurveTo(x, b, x, b-radius);
-                canvas.BTN.ctx.lineTo(x, y+radius);
-                canvas.BTN.ctx.quadraticCurveTo(x, y, x+radius, y);
-                canvas.BTN.ctx.strokeStyle = color; 
+                canvas.BTN.ctx.lineWidth = "1";
+                canvas.BTN.ctx.moveTo(x + radius, y);
+                canvas.BTN.ctx.lineTo(r - radius, y);
+                canvas.BTN.ctx.quadraticCurveTo(r, y, r, y + radius);
+                canvas.BTN.ctx.lineTo(r, y + h - radius);
+                canvas.BTN.ctx.quadraticCurveTo(r, b, r - radius, b);
+                canvas.BTN.ctx.lineTo(x + radius, b);
+                canvas.BTN.ctx.quadraticCurveTo(x, b, x, b - radius);
+                canvas.BTN.ctx.lineTo(x, y + radius);
+                canvas.BTN.ctx.quadraticCurveTo(x, y, x + radius, y);
+                canvas.BTN.ctx.strokeStyle = color;
                 canvas.BTN.ctx.stroke();
-                canvas.BTN.ctx.fillStyle = color; 
+                canvas.BTN.ctx.fillStyle = color;
                 canvas.BTN.ctx.fill()
                 canvas.BTN.ctx.beginPath();
-                canvas.BTN.ctx.moveTo(x+w/2, b);
-                canvas.BTN.ctx.lineTo(x+radius, b);
-                canvas.BTN.ctx.quadraticCurveTo(x, b, x, b-radius);
-                canvas.BTN.ctx.lineTo(x, y+radius);
-                canvas.BTN.ctx.quadraticCurveTo(x, y, x+radius, y);
-                canvas.BTN.ctx.lineTo(x+w/2, y);
-                canvas.BTN.ctx.fillStyle = offColor; 
+                canvas.BTN.ctx.moveTo(x + w / 2, b);
+                canvas.BTN.ctx.lineTo(x + radius, b);
+                canvas.BTN.ctx.quadraticCurveTo(x, b, x, b - radius);
+                canvas.BTN.ctx.lineTo(x, y + radius);
+                canvas.BTN.ctx.quadraticCurveTo(x, y, x + radius, y);
+                canvas.BTN.ctx.lineTo(x + w / 2, y);
+                canvas.BTN.ctx.fillStyle = offColor;
                 canvas.BTN.ctx.fill();
-                canvas.BTN.ctx.fillStyle= 'black';
+                canvas.BTN.ctx.fillStyle = 'black';
                 canvas.BTN.ctx.font = '10pt Andale Mono';
-                canvas.BTN.ctx.fillText('on', x + s, y+12);
-                canvas.BTN.ctx.fillStyle= 'white';
+                canvas.BTN.ctx.fillText('on', x + s, y + 12);
+                canvas.BTN.ctx.fillStyle = 'white';
                 canvas.BTN.ctx.font = '10pt Andale Mono';
-                canvas.BTN.ctx.fillText('off', x + e, y+12);
+                canvas.BTN.ctx.fillText('off', x + e, y + 12);
             };
-            
+
             //returns the on or off button.
-            onOff.test = function(event) {
+            onOff.test = function (event) {
                 var coords = Position(event);
                 var x = coords[0];
                 var y = coords[1];
-                for (var i = 0; i<onOffs.length; i++) {
+                for (var i = 0; i < onOffs.length; i++) {
                     var minXOn = onOffs[i].locX;
                     var minY = onOffs[i].locY;
-                    var maxXOn = minXOn + onOffs[i].width/2;
+                    var maxXOn = minXOn + onOffs[i].width / 2;
                     var minXOff = maxXOn;
-                    var maxXOff = minXOff + onOffs[i].width/2;
+                    var maxXOff = minXOff + onOffs[i].width / 2;
                     var maxY = minY + onOffs[i].height;
                     if (x >= minXOn && x <= maxXOn && y >= minY && y <= maxY) {
                         onOff.on(i);
                         ui.pin.getVoltage(onOffs[i].pin)
                         return "probeon";
-                    }
-                    else if (x >= minXOff && x <= maxXOff && y >= minY && y <= maxY) {
+                    } else if (x >= minXOff && x <= maxXOff && y >= minY && y <= maxY) {
                         onOff.off(i);
                         return "probeoff";
                     }
@@ -910,58 +910,62 @@ var UI = (function() {
 
         //wire object is responsible for drawing all wires in graph
         // wires are drawn in BTN canvas
-        ui.wire = (function() {
+        ui.wire = (function () {
             var wire = {};
             var btnHeight = 15;
 
-            wire.led = function(pin, probe){
+            wire.led = function (pin, probe) {
                 canvas.BTN.ctx.beginPath();
-                canvas.BTN.ctx.moveTo(probe.x + 75, probe.y + btnHeight*0.5);
-                canvas.BTN.ctx.lineTo(rectInner.w - 143, probe.y + btnHeight*0.5);
+                canvas.BTN.ctx.moveTo(probe.x + 75, probe.y + btnHeight * 0.5);
+                canvas.BTN.ctx.lineTo(rectInner.w - 143, probe.y + btnHeight * 0.5);
                 canvas.BTN.ctx.lineTo(rectInner.w - 143, rect.y + 10);
-                canvas.BTN.ctx.lineTo(pin.x + pin.w/2 , rect.y + 10);
-                canvas.BTN.ctx.lineTo(pin.x + pin.w/2 , pin.y);
+                canvas.BTN.ctx.lineTo(pin.x + pin.w / 2, rect.y + 10);
+                canvas.BTN.ctx.lineTo(pin.x + pin.w / 2, pin.y);
                 canvas.BTN.ctx.strokeStyle = pin.color;
                 canvas.BTN.ctx.lineWidth = 2;
                 canvas.BTN.ctx.stroke();
             };
 
-            wire.analog = function(pin, probe){
+            wire.analog = function (pin, probe) {
                 canvas.BTN.ctx.beginPath();
-                canvas.BTN.ctx.moveTo(probe.x + 75, probe.y + btnHeight*0.5);
-                canvas.BTN.ctx.lineTo(rectInner.w - 140, probe.y + btnHeight*0.5);
-                canvas.BTN.ctx.lineTo(rectInner.w - 140, pin.y + pin.h/2);
-                canvas.BTN.ctx.lineTo(pin.x + pin.w/2, pin.y + pin.h/2);
+                canvas.BTN.ctx.moveTo(probe.x + 75, probe.y + btnHeight * 0.5);
+                canvas.BTN.ctx.lineTo(rectInner.w - 140, probe.y + btnHeight * 0.5);
+                canvas.BTN.ctx.lineTo(rectInner.w - 140, pin.y + pin.h / 2);
+                canvas.BTN.ctx.lineTo(pin.x + pin.w / 2, pin.y + pin.h / 2);
                 canvas.BTN.ctx.lineWidth = 2;
                 canvas.BTN.ctx.strokeStyle = pin.color;
                 canvas.BTN.ctx.stroke();
             };
 
-            wire.digital = function(pin, probe){
+            wire.digital = function (pin, probe) {
                 canvas.BTN.ctx.beginPath();
-                if (pin.subType == "input") { var s = -2; }
-                else if (pin.subType == "output") { var s = -6; }
-                else { var s = -4; }
+                if (pin.subType == "input") {
+                    var s = -2;
+                } else if (pin.subType == "output") {
+                    var s = -6;
+                } else {
+                    var s = -4;
+                }
                 canvas.BTN.ctx.strokeStyle = pin.color;
-                canvas.BTN.ctx.moveTo(probe.x + 75, probe.y + btnHeight*0.5);
-                canvas.BTN.ctx.lineTo(rectInner.w - 141 + s, probe.y + btnHeight*0.5);
-                canvas.BTN.ctx.lineTo(rectInner.w - 141 + s, pin.y + pin.h/2);
-                canvas.BTN.ctx.lineTo(pin.x + pin.w/2, pin.y + pin.h/2);
+                canvas.BTN.ctx.moveTo(probe.x + 75, probe.y + btnHeight * 0.5);
+                canvas.BTN.ctx.lineTo(rectInner.w - 141 + s, probe.y + btnHeight * 0.5);
+                canvas.BTN.ctx.lineTo(rectInner.w - 141 + s, pin.y + pin.h / 2);
+                canvas.BTN.ctx.lineTo(pin.x + pin.w / 2, pin.y + pin.h / 2);
                 canvas.BTN.ctx.lineWidth = 2;
                 canvas.BTN.ctx.stroke();
             };
 
-            wire.link = function(btn1,btn2){
+            wire.link = function (btn1, btn2) {
                 canvas.BTN.ctx.beginPath();
-                canvas.BTN.ctx.moveTo(btn1.endX/2 + 15, btn1.y + btnHeight);
-                canvas.BTN.ctx.lineTo(btn1.endX/2 + 15, btn2.y + btnHeight*0.5);
-                canvas.BTN.ctx.lineTo(btn2.x, btn2.y + btnHeight*0.5);
+                canvas.BTN.ctx.moveTo(btn1.endX / 2 + 15, btn1.y + btnHeight);
+                canvas.BTN.ctx.lineTo(btn1.endX / 2 + 15, btn2.y + btnHeight * 0.5);
+                canvas.BTN.ctx.lineTo(btn2.x, btn2.y + btnHeight * 0.5);
                 canvas.BTN.ctx.strokeStyle = 'rgb(0,153,110)';
                 canvas.BTN.ctx.lineWidth = 2;
                 canvas.BTN.ctx.stroke();
             };
 
-            wire.drawToGraph = function(pin){
+            wire.drawToGraph = function (pin) {
                 canvas.BTN.ctx.beginPath();
                 canvas.BTN.ctx.moveTo(rectInner.w + 40, graphLinePos);
                 canvas.BTN.ctx.lineTo(rectInner.w + 70, graphLinePos);
@@ -974,7 +978,7 @@ var UI = (function() {
             return wire;
         })();
 
-        ui.pin = (function() {
+        ui.pin = (function () {
             var pin = {};
             var pins = [
                 // P9
@@ -1314,9 +1318,9 @@ var UI = (function() {
                 pins[i].select = "off";
             }
 
-            pin.highlight = function(button, digitalHighlight) {
+            pin.highlight = function (button, digitalHighlight) {
                 //the related pins for digital buttons is true by Default, except for hoverButton event.
-                if (digitalHighlight == undefined){
+                if (digitalHighlight == undefined) {
                     digitalHighlight = true;
                 }
                 if (button == "none") return;
@@ -1325,7 +1329,7 @@ var UI = (function() {
                 var pwm = false;
                 if (category == "input" && digitalHighlight == true) category = "digital";
                 if (category == "output" && digitalHighlight == true) category = "digital";
-                
+
                 for (var i = 0; i < 96; i++) {
                     if (category == "pwm" && digitalHighlight == true) pwm = pins[i].PWM;
                     if (category == pins[i].category || pwm) {
@@ -1340,18 +1344,18 @@ var UI = (function() {
             };
 
             //change the pin color to light grey on hivering
-            pin.hover = function(pin) {
+            pin.hover = function (pin) {
                 Canvas.get().Active.ctx.fillStyle = 'RGBA(255,255,255,.5)';
-                Canvas.get().Active.ctx.fillRect(pin.x,pin.y,pin.w,pin.h);
+                Canvas.get().Active.ctx.fillRect(pin.x, pin.y, pin.w, pin.h);
             }
 
-            pin.test = function(event) {
+            pin.test = function (event) {
                 var coords = Position(event);
                 var x = coords[0];
                 var y = coords[1];
 
                 for (var p in pins) {
-                    if (x >= pins[p].x && x <= pins[p].x + pins[p].w && y >= pins[p].y && 
+                    if (x >= pins[p].x && x <= pins[p].x + pins[p].w && y >= pins[p].y &&
                         y <= pins[p].y + pins[p].h) {
                         //console.log("pin = " + pins[p].name);
                         return pins[p];
@@ -1360,68 +1364,78 @@ var UI = (function() {
                 return ("none");
             };
 
-            pin.getVoltage = function(pin){
-                if(!pin.getVoltage)          
-                pin.getVoltage = setInterval(function(){Hardware.read(pin,ongetVoltage)}, 100/3);
-                function ongetVoltage(x,value) {
-                    if(pin.power != "on" && pin.category == 'analog'){
-                        clearInterval(pin.getVoltage);
-                        pin.getVoltage = null;    
-                    }
-                    else{
-                    if(typeof x == 'object' && typeof value == 'undefined')
-                    value = x.value; 
-                    if(pin.category =='analog')
-                    value *= 1.8;
-                    else if(pin.subType == 'pwm')
-                    value *= pin.state;                
-                    if(ui.xyAxis.properties.currTime<3.3)
-                    ui.xyAxis.properties.currTime+=0.03;
-                    else{
-                    ui.xyAxis.properties.currTime = 0;
-                    ui.xyAxis.properties.interval +=  300;
-                    ui.xyAxis.draw();
-                   }
-                   if(ui.xyAxis.properties.currTime <= 0.3)
-                   pin.prevPoint = [ui.xyAxis.properties.axisStartX,value];
-                   ui.xyAxis.plot(ui.xyAxis.properties.currTime-0.3,value,pin);
-               }
-                }
-       };
+            pin.getVoltage = function (pin) {
+                if (!pin.getVoltage)
+                    pin.getVoltage = setInterval(function () {
+                        Hardware.read(pin, ongetVoltage)
+                    }, 100 / 3);
 
-        pin.blink = function(pin){
-                pin.freq = typeof pin.freq == 'undefined' ? 0 : pin.freq;
-                        if(pin.freq != 0 && pin.subType !='pwm'){
-                        clearInterval(pin.blinking);
-                        pin.blinking = setInterval(function(){HWwrite(pin); pin.state = !(pin.state);}, pin.freq);
+                function ongetVoltage(x, value) {
+                    if (pin.power != "on" && pin.category == 'analog') {
+                        clearInterval(pin.getVoltage);
+                        pin.getVoltage = null;
+                    } else {
+                        if (typeof x == 'object' && typeof value == 'undefined')
+                            value = x.value;
+                        if (pin.category == 'analog')
+                            value *= 1.8;
+                        else if (pin.subType == 'pwm')
+                            value *= pin.state;
+                        if (ui.xyAxis.properties.currTime < 3.3)
+                            ui.xyAxis.properties.currTime += 0.03;
+                        else {
+                            ui.xyAxis.properties.currTime = 0;
+                            ui.xyAxis.properties.interval += 300;
+                            ui.xyAxis.draw();
                         }
-                        else
+                        if (ui.xyAxis.properties.currTime <= 0.3)
+                            pin.prevPoint = [ui.xyAxis.properties.axisStartX, value];
+                        ui.xyAxis.plot(ui.xyAxis.properties.currTime - 0.3, value, pin);
+                    }
+                }
+            };
+
+            pin.blink = function (pin) {
+                pin.freq = typeof pin.freq == 'undefined' ? 0 : pin.freq;
+                if (pin.freq != 0 && pin.subType != 'pwm') {
+                    clearInterval(pin.blinking);
+                    pin.blinking = setInterval(function () {
                         HWwrite(pin);
-                        function HWwrite(pin){
-                         Hardware.write(pin,function(x){if(pin.power == "off"){clearInterval(pin.blinking);pin.state =0;}})
-                      };  
-                     };      
+                        pin.state = !(pin.state);
+                    }, pin.freq);
+                } else
+                    HWwrite(pin);
+
+                function HWwrite(pin) {
+                    Hardware.write(pin, function (x) {
+                        if (pin.power == "off") {
+                            clearInterval(pin.blinking);
+                            pin.state = 0;
+                        }
+                    })
+                };
+            };
             return pin;
         })();
 
         // each inserted element is a 'probe'
-        ui.probe = (function() {
+        ui.probe = (function () {
             var probe = {};
             var probes = [];
 
             var add = {};
             add.type = 'none';
 
-            probe.push = function(button) {
+            probe.push = function (button) {
                 probes.push(button);
             };
 
-            probe.addStart = function(type) {
+            probe.addStart = function (type) {
                 add.type = type;
             };
 
             //add new probe not the button object
-            probe.addTest = function(event) {
+            probe.addTest = function (event) {
                 if (add.type == 'none') return ('none');
                 var coords = Position(event);
                 var x = coords[0];
@@ -1435,7 +1449,7 @@ var UI = (function() {
             };
 
             //draw a button while dragging, and keep it highlighted.
-            probe.dragButton = function(event) {
+            probe.dragButton = function (event) {
                 ui.loop.clear();
                 var coords = Position(event);
                 var x = coords[0] - 50;
@@ -1445,32 +1459,32 @@ var UI = (function() {
             };
 
             //clears the duplicate button after dragging button to graph.
-            probe.clearDrag = function(event) {
+            probe.clearDrag = function (event) {
                 var coords = Position(event);
                 var x = coords[0] - 50;
                 var y = coords[1] - 7.5;
-                canvas.Active.ctx.clearRect(x-1,y-1,ui.button.get()[add.type].endX,ui.button.get()[add.type].endY);
+                canvas.Active.ctx.clearRect(x - 1, y - 1, ui.button.get()[add.type].endX, ui.button.get()[add.type].endY);
                 canvas.Active.ctx.save();
             };
 
-            probe.selectText = function(){
-                canvas.Active.ctx.fillStyle= 'red';
+            probe.selectText = function () {
+                canvas.Active.ctx.fillStyle = 'red';
                 canvas.Active.ctx.font = '12pt Andale Mono';
-                canvas.Active.ctx.fillText("select " + ui.button.get()[add.type].article, BBposX + 10, BBposY-25);
-                canvas.Active.ctx.fillStyle= 'blue';
+                canvas.Active.ctx.fillText("select " + ui.button.get()[add.type].article, BBposX + 10, BBposY - 25);
+                canvas.Active.ctx.fillStyle = 'blue';
                 canvas.Active.ctx.font = '8pt Andale Mono';
-                if(ui.button.get()[add.type].warn != undefined)
-                canvas.Active.ctx.fillText(ui.button.get()[add.type].warn, BBposX + 240, BBposY-75);
+                if (ui.button.get()[add.type].warn != undefined)
+                    canvas.Active.ctx.fillText(ui.button.get()[add.type].warn, BBposX + 240, BBposY - 75);
                 canvas.Active.ctx.save();
 
                 add.type = 'none';
             };
 
-            probe.add = function(pin) {
+            probe.add = function (pin) {
                 ui.graph.add(pin.name);
             };
 
-            probe.test = function(event) {
+            probe.test = function (event) {
                 var coords = Position(event);
                 var x = coords[0];
                 var y = coords[1];
@@ -1492,30 +1506,30 @@ var UI = (function() {
             return probe;
         })();
 
-        ui.loop = (function() {
+        ui.loop = (function () {
             var loop = {};
 
-            loop.clear = function() {
+            loop.clear = function () {
                 canvas.Active.ctx.clearRect(0, 0, canvas.Active.e.width, canvas.Active.e.height);
             };
 
             //to remove probe if not connected to pin.
-            loop.clearProbe = function() {
+            loop.clearProbe = function () {
                 var btn = ui.button.pop();
-                canvas.Base.ctx.clearRect(btn.x-1, btn.y-1, btn.endX, btn.endY);
+                canvas.Base.ctx.clearRect(btn.x - 1, btn.y - 1, btn.endX, btn.endY);
             };
 
-            loop.clearBB = function() {
+            loop.clearBB = function () {
                 canvas.Active.ctx.clearRect(283, 120, canvas.Active.e.width, canvas.Active.e.height);
             };
 
-            loop.welcome = function(button) {
+            loop.welcome = function (button) {
                 var color = (button == 'exit') ? 'black' : 'white';
                 var ctx = canvas.Active.ctx;
                 var width = canvas.Active.e.width;
                 var height = canvas.Active.e.height;
                 ctx.fillStyle = 'rgba(255,255,255,0.25)';
-                ctx.fillRect(0, 0, width-10, height);
+                ctx.fillRect(0, 0, width - 10, height);
                 ctx.fillStyle = 'rgba(0,102,204,0.85)';
                 ctx.fillRect(width / 3.75, height / 4, width / 1.8, height / 2.85);
                 ctx.fillStyle = color;
@@ -1541,18 +1555,18 @@ var UI = (function() {
             return loop;
         })();
 
-        ui.base = (function() {
+        ui.base = (function () {
             var base = {};
             var beagleBone = new Image();
             beagleBone.src = base_url + '/static/images/beaglebone.png';
-            beagleBone.onload = function() {
+            beagleBone.onload = function () {
                 canvas.Base.ctx.drawImage(beagleBone, BBposX, BBposY, beagleBone.width * 0.65, beagleBone.height * 0.65);
             };
 
             return base;
         })();
 
-        ui.graph = (function() {
+        ui.graph = (function () {
             var graph = {};
             var bg = {
                 x: 0,
@@ -1570,7 +1584,7 @@ var UI = (function() {
             canvas.Base.ctx.strokeRect(bg.x + 20, bg.y + 15, 250, 440);
             //drawButtons(canvas, uiElements);
 
-            graph.add = function(pin) {
+            graph.add = function (pin) {
                 Canvas.add(pin + ' Graph', 10);
 
             };
@@ -1579,7 +1593,7 @@ var UI = (function() {
         })();
 
         // time & volt axis
-        ui.xyAxis = (function() {
+        ui.xyAxis = (function () {
             var xyAxis = {};
 
             //all graph properties
@@ -1589,17 +1603,17 @@ var UI = (function() {
                 zeroX: axisStartX,
                 zeroY: axisStartY + 200,
                 interval: 0,
-                zoomVal: [1/3, 2/3, 1],
+                zoomVal: [1 / 3, 2 / 3, 1],
                 currTime: 0,
                 zoomIndex: 2,
-                zoom: function() {
+                zoom: function () {
                     return this.zoomVal[this.zoomIndex];
                 }
             }
             xyAxis.properties = graph;
             // time-x axis
-            xyAxis.draw = function() {
-                canvas.Graph.ctx.clearRect(graph.zeroX-50,graph.zeroY-graph.yWidth-50,graph.zeroX+graph.xWidth,graph.zeroY)
+            xyAxis.draw = function () {
+                canvas.Graph.ctx.clearRect(graph.zeroX - 50, graph.zeroY - graph.yWidth - 50, graph.zeroX + graph.xWidth, graph.zeroY)
                 canvas.Graph.ctx.beginPath();
                 canvas.Graph.ctx.moveTo(graph.zeroX, graph.zeroY);
                 canvas.Graph.ctx.lineTo(graph.zeroX + graph.xWidth, graph.zeroY);
@@ -1614,7 +1628,7 @@ var UI = (function() {
                 // voltage-y axis
                 canvas.Graph.ctx.beginPath();
                 canvas.Graph.ctx.moveTo(graph.zeroX, graph.zeroY + 5);
-                canvas.Graph.ctx.lineTo(graph.zeroX, graph.zeroY - graph.yWidth -10);
+                canvas.Graph.ctx.lineTo(graph.zeroX, graph.zeroY - graph.yWidth - 10);
                 canvas.Graph.ctx.strokeStyle = "black";
                 canvas.Graph.ctx.lineWidth = 2;
                 canvas.Graph.ctx.stroke();
@@ -1623,7 +1637,7 @@ var UI = (function() {
                 canvas.Graph.ctx.strokeStyle = "black";
                 canvas.Graph.ctx.font = '10pt Lucinda Grande';
                 canvas.Graph.ctx.fillText('Voltage [v]', graph.zeroX - 30, graph.zeroY - graph.yWidth - 20);
-                
+
                 //x ticks
                 var x = 0;
                 var countX = 0;
@@ -1652,7 +1666,7 @@ var UI = (function() {
                 }
                 canvas.Graph.ctx.fillStyle = "black";
                 canvas.Graph.ctx.font = '8pt Lucinda Grande';
-                while (xnum <=  graph.xWidth + graph.interval) {
+                while (xnum <= graph.xWidth + graph.interval) {
                     if (axisStartX + xnum - graph.interval >= graph.zeroX) {
                         canvas.Graph.ctx.fillText(time.toPrecision(prec).toString(),
                             axisStartX + xnum - graph.interval, graph.zeroY + 20);
@@ -1682,10 +1696,10 @@ var UI = (function() {
                         canvas.Graph.ctx.lineWidth = 2;
                         canvas.Graph.ctx.stroke();
                     }
-                    if(countY > 53)
+                    if (countY > 53)
                         y += 9;
                     else
-                        y+=3;                     
+                        y += 3;
                     countY += 1;
                 };
                 canvas.Graph.ctx.fillStyle = "black";
@@ -1695,42 +1709,41 @@ var UI = (function() {
                     if (text == "0.0") {
                         canvas.Graph.ctx.fillText(text, graph.zeroX - 30, graph.zeroY - graph.yWidth + ynum + 5);
                     } else {
-                        if (text == "1.8" || text == "3.3"){
+                        if (text == "1.8" || text == "3.3") {
                             canvas.Graph.ctx.fillStyle = "blue";
                             canvas.Graph.ctx.font = '10pt Lucinda Grande';
-                        }
-                        else{
+                        } else {
                             canvas.Graph.ctx.fillStyle = "black";
                             canvas.Graph.ctx.font = '8pt Lucinda Grande';
                         }
-                        canvas.Graph.ctx.fillText(text, graph.zeroX - 30, graph.zeroY - graph.yWidth + ynum +2);
+                        canvas.Graph.ctx.fillText(text, graph.zeroX - 30, graph.zeroY - graph.yWidth + ynum + 2);
                     }
                     ynum += 27;
                     volt -= 0.3;
                 };
-        }
-        // plot the given point
-        xyAxis.plot = function (xPoint,yPoint,pin){          
-            var coord = scale(xPoint,yPoint);
-            var x = graph.zeroX + coord[0];
-            var y = graph.zeroY - coord[1];
-            canvas.Graph.ctx.beginPath();
-            canvas.Graph.ctx.moveTo(pin.prevPoint[0],pin.prevPoint[1]);
-            canvas.Graph.ctx.lineTo(x,y);
-            canvas.Graph.ctx.strokeStyle = pin.color;
-            canvas.Graph.ctx.lineWidth = 2;
-            canvas.Graph.ctx.stroke();
-            pin.prevPoint = [x,y];
-        };
-        // scale the point to reflect zoom
-        function scale(x,y){
-            var xPoint = x * 100;	
-            var yPoint = y * 90 / graph.zoom();
-            var coord = [xPoint,yPoint];
-            return coord;
-        };
-        xyAxis.draw();
-        return xyAxis;
+            }
+            // plot the given point
+            xyAxis.plot = function (xPoint, yPoint, pin) {
+                var coord = scale(xPoint, yPoint);
+                var x = graph.zeroX + coord[0];
+                var y = graph.zeroY - coord[1];
+                canvas.Graph.ctx.beginPath();
+                canvas.Graph.ctx.moveTo(pin.prevPoint[0], pin.prevPoint[1]);
+                canvas.Graph.ctx.lineTo(x, y);
+                canvas.Graph.ctx.strokeStyle = pin.color;
+                canvas.Graph.ctx.lineWidth = 2;
+                canvas.Graph.ctx.stroke();
+                pin.prevPoint = [x, y];
+            };
+            // scale the point to reflect zoom
+            function scale(x, y) {
+                var xPoint = x * 100;
+                var yPoint = y * 90 / graph.zoom();
+                var coord = [xPoint, yPoint];
+                return coord;
+            };
+            xyAxis.draw();
+            return xyAxis;
         })();
 
         function Position(event) {
@@ -1758,7 +1771,7 @@ var UI = (function() {
 
 
     return {
-        get: function() {
+        get: function () {
             if (!ui) {
                 ui = init();
             }
@@ -1769,13 +1782,13 @@ var UI = (function() {
 
 
 /* Events draw in a bit of logic to enable/disable event listeners, so it is stateful.
-*
-* Use 'e.ui' to fetch UI objects
-* New events should be defined with a type and function in events variable
-* refer to state diagram for event sequence at http://jadonk.github.io/bone101/Support/bone101/UI/fsm/
-*
-*/
-var Events = (function() {
+ *
+ * Use 'e.ui' to fetch UI objects
+ * New events should be defined with a type and function in events variable
+ * refer to state diagram for event sequence at http://jadonk.github.io/bone101/Support/bone101/UI/fsm/
+ *
+ */
+var Events = (function () {
     var e;
 
     //to use any object method inside events
@@ -1783,7 +1796,7 @@ var Events = (function() {
         e = {};
         e.ui = UI.get();
         e.listeners = {};
-        e.start = function() {
+        e.start = function () {
             listen(true, 'clickExit');
             listen(true, 'hoverExit');
         };
@@ -1889,12 +1902,12 @@ var Events = (function() {
         e.ui.button.highlight(button);
         e.ui.pin.highlight(button, false);
         switch (button) {
-            case "digital":
-                listen(true, 'hoverDigital');
-                listen(true, 'clickDownDigital');
-                break;
-            default:
-                break;
+        case "digital":
+            listen(true, 'hoverDigital');
+            listen(true, 'clickDownDigital');
+            break;
+        default:
+            break;
         }
     }
 
@@ -1903,16 +1916,16 @@ var Events = (function() {
         e.ui.button.highlightDigital(button);
         e.ui.pin.highlight(button);
         switch (button) {
-            case "digital":
-            case "input":
-            case "output":
-            case "pwm":
-            case "digitalMenu":
-                break;
-            default:
-                listen(false, 'hoverDigital');
-                listen(false, 'clickDownDigital');
-                break;
+        case "digital":
+        case "input":
+        case "output":
+        case "pwm":
+        case "digitalMenu":
+            break;
+        default:
+            listen(false, 'hoverDigital');
+            listen(false, 'clickDownDigital');
+            break;
         }
     }
 
@@ -1923,61 +1936,61 @@ var Events = (function() {
         if (button == "none") button = e.ui.bar.sliderTest(event);
         if (button == "none") button = e.ui.graph.test(event);
         switch (button) {
-            case "analog":
-            case "led":
-                e.ui.probe.addStart(button);
-                listen(true, 'hoverAddProbe');
-                listen(false, 'hoverButton');
-                listen(false, 'clickDownDigital');
-                listen(false, 'clickDown');
-                break;
-            case "plus"://graph zoom in               
-                e.ui.button.highlightPlus(true);
-                e.ui.button.highlightMinus();
-                if(e.ui.xyAxis.properties.zoomIndex < 2)
+        case "analog":
+        case "led":
+            e.ui.probe.addStart(button);
+            listen(true, 'hoverAddProbe');
+            listen(false, 'hoverButton');
+            listen(false, 'clickDownDigital');
+            listen(false, 'clickDown');
+            break;
+        case "plus": //graph zoom in               
+            e.ui.button.highlightPlus(true);
+            e.ui.button.highlightMinus();
+            if (e.ui.xyAxis.properties.zoomIndex < 2)
                 e.ui.xyAxis.properties.zoomIndex++;
-                e.ui.xyAxis.draw();
-                break;
-            case "minus"://graph zoom out
-                e.ui.button.highlightPlus();
-                e.ui.button.highlightMinus(true);
-                if(e.ui.xyAxis.properties.zoomIndex > 0 )
+            e.ui.xyAxis.draw();
+            break;
+        case "minus": //graph zoom out
+            e.ui.button.highlightPlus();
+            e.ui.button.highlightMinus(true);
+            if (e.ui.xyAxis.properties.zoomIndex > 0)
                 e.ui.xyAxis.properties.zoomIndex--;
-                e.ui.xyAxis.draw();
-                break;
-            case "stop":
-                //e.ui.state.down = "stop";
-                e.ui.button.highlightStop(true);
-                break;
-            case "play":
-                //e.ui.state.down = "play";
-                e.ui.button.highlightPlay(true);
-                break;
-            case "slider":
-                //e.ui.state.down = "slider";
-                listen(true, 'hoverSlider');
-                break;
-            case "onOff":
-                break;
-            default:
-                break;
+            e.ui.xyAxis.draw();
+            break;
+        case "stop":
+            //e.ui.state.down = "stop";
+            e.ui.button.highlightStop(true);
+            break;
+        case "play":
+            //e.ui.state.down = "play";
+            e.ui.button.highlightPlay(true);
+            break;
+        case "slider":
+            //e.ui.state.down = "slider";
+            listen(true, 'hoverSlider');
+            break;
+        case "onOff":
+            break;
+        default:
+            break;
         }
     }
 
     function clickDownDigital(event) {
         var button = e.ui.button.test(event);
         switch (button) {
-            case "input":
-            case "output":
-            case "pwm":
-                e.ui.probe.addStart(button);
-                listen(true, 'hoverAddProbe');
-                listen(false, 'hoverButton');
-                listen(false, 'clickDownDigital');
-                listen(false, 'clickDown');
-                break;
-            default:
-                break;
+        case "input":
+        case "output":
+        case "pwm":
+            e.ui.probe.addStart(button);
+            listen(true, 'hoverAddProbe');
+            listen(false, 'hoverButton');
+            listen(false, 'clickDownDigital');
+            listen(false, 'clickDown');
+            break;
+        default:
+            break;
         }
         listen(false, 'hoverDigital');
     }
@@ -2013,7 +2026,7 @@ var Events = (function() {
         listen(true, 'clickPin');
         pin = e.ui.pin.test(event);
         var probes = Object.keys(e.ui.button.get());
-        probeName = probes[probes.length-16];
+        probeName = probes[probes.length - 16];
         probe = e.ui.button.get()[probeName];
         e.ui.pin.highlight(probe.name);
         probe.category = probe.name;
@@ -2036,7 +2049,7 @@ var Events = (function() {
         listen(false, 'clickPin');
 
         var probes = Object.keys(e.ui.button.get());
-        probeName = probes[probes.length-16];
+        probeName = probes[probes.length - 16];
         probe = e.ui.button.get()[probeName];
 
         pin = e.ui.pin.test(event);
@@ -2046,8 +2059,7 @@ var Events = (function() {
             if (probe.input !== "on") {
                 e.ui.loop.clearProbe();
                 listen(true, 'hoverButton');
-            }
-            else {
+            } else {
                 listen(true, 'hoverPin');
                 listen(true, 'clickPin');
             }
@@ -2065,14 +2077,14 @@ var Events = (function() {
                 pin.state = 1;
                 e.ui.probe.add(pin);
                 probe.pinNum = pin;
-                pin.prevPoint = [e.ui.xyAxis.properties.zeroX + 100*(e.ui.xyAxis.properties.currTime - 0.3) ,e.ui.xyAxis.properties.zeroY-297];
-                
+                pin.prevPoint = [e.ui.xyAxis.properties.zeroX + 100 * (e.ui.xyAxis.properties.currTime - 0.3), e.ui.xyAxis.properties.zeroY - 297];
+
                 //LEDs
-                if (probe.name === "led" && pin.select == 'on'){
+                if (probe.name === "led" && pin.select == 'on') {
                     pin.color = probe.graphColors[0];
-                    probe.graphColors.splice(0,1);
-                    e.ui.wire.led(pin, probe); 
-                    e.ui.onOff.create(probe,pin);
+                    probe.graphColors.splice(0, 1);
+                    e.ui.wire.led(pin, probe);
+                    e.ui.onOff.create(probe, pin);
                     //e.ui.button.off(probe);
                     e.ui.bar.create(probe, pin);
                     e.ui.bar.draw();
@@ -2080,51 +2092,49 @@ var Events = (function() {
                 }
 
                 //Analog
-                else if (probe.name === "analog" && pin.select == 'on'){
+                else if (probe.name === "analog" && pin.select == 'on') {
                     pin.color = probe.graphColors[0];
-                    probe.graphColors.splice(0,1);
-                    e.ui.wire.analog(pin, probe); 
-                    e.ui.onOff.create(probe,pin);
-                    pin.prevPoint = [e.ui.xyAxis.properties.zeroX + 100*(e.ui.xyAxis.properties.currTime - 0.3),e.ui.xyAxis.properties.zeroY-160];
+                    probe.graphColors.splice(0, 1);
+                    e.ui.wire.analog(pin, probe);
+                    e.ui.onOff.create(probe, pin);
+                    pin.prevPoint = [e.ui.xyAxis.properties.zeroX + 100 * (e.ui.xyAxis.properties.currTime - 0.3), e.ui.xyAxis.properties.zeroY - 160];
                     //e.ui.button.off(probe);
                     listen(true, 'hoverButton');
                 }
 
                 //Digital
-                else { 
+                else {
                     pin.subType = probe.name;
-                    if (probe.name === "input"){
+                    if (probe.name === "input") {
                         pin.color = probe.graphColors[0];
-                        probe.graphColors.splice(0,1);
+                        probe.graphColors.splice(0, 1);
                         e.ui.wire.digital(pin, probe);
-                        e.ui.onOff.create(probe,pin);
+                        e.ui.onOff.create(probe, pin);
                         //e.ui.button.off(probe);
                         e.ui.button.createOutput();
                         listen(true, 'hoverPin');
                         listen(true, 'clickPin');
-                    }
-                    else if (probe.name === "output"){
+                    } else if (probe.name === "output") {
                         pin.color = probe.graphColors[0];
-                        probe.graphColors.splice(0,1);
+                        probe.graphColors.splice(0, 1);
                         e.ui.wire.digital(pin, probe);
                         //output button for input probe.
-                        if (probe.input === "on"){
+                        if (probe.input === "on") {
                             listen(true, 'hoverButton');
                         }
                         //output probe.
                         else {
-                            e.ui.onOff.create(probe,pin); 
+                            e.ui.onOff.create(probe, pin);
                             pin.input = "none";
                             e.ui.bar.create(probe, pin);
                             e.ui.bar.draw();
                             listen(true, 'hoverButton');
                         }
-                    }
-                    else {
+                    } else {
                         pin.color = probe.graphColors[0];
-                        probe.graphColors.splice(0,1);
-                        e.ui.wire.digital(pin, probe); 
-                        e.ui.onOff.create(probe,pin);
+                        probe.graphColors.splice(0, 1);
+                        e.ui.wire.digital(pin, probe);
+                        e.ui.onOff.create(probe, pin);
                         //e.ui.button.off(probe);
                         e.ui.bar.create(probe, pin);
                         e.ui.bar.draw();
@@ -2135,17 +2145,16 @@ var Events = (function() {
                 //draw wire line of current probe beside axis graph
                 e.ui.wire.drawToGraph(pin);
                 e.ui.pin.getVoltage(pin);
-                Hardware.add(pin.name,pin.category,pin.subType)
+                Hardware.add(pin.name, pin.category, pin.subType)
             }
             //if user select a pin not related to the probe
             else {
                 if (probe.input !== "on") {
                     e.ui.loop.clearProbe();
                     listen(true, 'hoverButton');
-                }
-                else {
+                } else {
                     listen(true, 'hoverPin');
-                } 
+                }
             }
         }
     }
@@ -2167,7 +2176,7 @@ var Events = (function() {
     }
 
     return {
-        'get': function() {
+        'get': function () {
             if (!e) {
                 e = init();
             }
