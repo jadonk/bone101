@@ -46,10 +46,10 @@ style: |
  <li><a href="{{site.baseurl}}/Support/BoneScript/#true">true</a> if successful</li>
  <li><a href="{{site.baseurl}}/Support/BoneScript/#false">false</a> on failure</li>
 </ul>
-<h2>callback(x)</h2>
+<h2>callback(err,value)</h2>
 <ul>
- <li><em>x.value</em>: return value</li>
- <li><em>x.err</em>: error status message</li>
+ <li><em>value</em>: return value</li>
+ <li><em>err</em>: error status message</li>
 </ul>
 <h2>Example
  <button class="dynlink" onclick="demoRun('code')">run</button>
@@ -60,16 +60,16 @@ var b = require('bonescript');
 b.pinMode("P8_13", b.OUTPUT, 7, 'pullup', 
  'fast', printStatus);
 b.getPinMode("P8_13", printPinMux);
-function printStatus(x) {
-    console.log('value = ' + x.value);
-    console.log('err = ' + x.err);
+function printStatus(err,value) {
+    console.log('value = ' + value);
+    console.log('err = ' + err);
 }
-function printPinMux(x) {
-    console.log('mux = ' + x.mux);
-    console.log('pullup = ' + x.pullup);
-    console.log('slew = ' + x.slew);
-    console.log('options = ' + x.options.join(','));
-    console.log('err = ' + x.err);
+function printPinMux(err,resp) {
+    console.log('mux = ' + resp.mux);
+    console.log('pullup = ' + resp.pullup);
+    console.log('slew = ' + resp.slew);
+    console.log('options = ' + resp.options.join(','));
+    console.log('err = ' + err);
 }</pre>
 <div readonly id='console-output' style='height: 200px;'></div>
 <h2>Build and execute instructions</h2>

@@ -1,0 +1,82 @@
+---
+layout: index
+title: loadCModule
+scripts: [ '/Support/script/bonescript-demo.js' ]
+style: |
+ #code {
+  position: relative;
+  width: 500px;
+  padding-left: 0;
+  border-radius: 4px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  margin-bottom: 0px;
+  margin-left: 30px;
+  margin-right: 0px;
+  align: left;
+ }
+ #console-output {
+  margin-top: 0px;
+  margin-left: 30px;
+  width: 496px;
+  border: 1px solid #cccccc;
+  resize: vertical;
+ }
+---
+{% include side_menu.html title="BoneScript" %}
+<div class="t3_content_1">
+<div id='connect-status'></div>
+<div id="content_child">
+
+<p>You might be able to see a newer version of this on <a href="http://beagleboard.org/support/bonescript/loadCModule">beagleboard.org/support/bonescript/writeCModule</a></p>
+<h1>loadCModule(filepath,fnNames&arguments, isMRAA)</h1>
+<p>Loads functions from the C program provided at the path with Function names and arguments in the fnName&arguments input.</p>
+<h2>Arguments</h2>
+<ul>
+ <li><em>filename</em>: complete path of the C file</li>
+ <li><em>fnNames&arguments </em>: (object)contains functions name and input/output arguments in the format: <br> 
+{function_name : [ 'outArgType' , [ 'inArg1Type',inArg2Type',...]]}<br>
+function_name: (string) corresponds to the name of the function to be loaded.<br>
+outArgType: (string) corresponds to the output argument type of the function loaded.<br>
+inArgTypeZ: (string) corresponds to the input arguments type of the function loaded.<br>
+</li>
+ <li><em>isMRAA</em>: (boolean)whether to link link mraa headers during compilation(default : false).</li>
+</ul>
+<h2>return</h2>
+<ul>
+ <li><em>x</em>: (object)the function loaded corresponding to the input provided</li>
+</ul>
+<h2>Example
+ <button class="dynlink" onclick="demoRun('code')">run</button>
+ <button class="dynlink" onclick="demoRestore('code')">restore</button>
+</h2>
+<pre id="code" class="use-editor" style="height: 200px;">
+var b = require('bonescript');
+var args = {
+    'main': ['int', ['int']]
+};
+var x = b.loadCModule('/usr/share/bone101/examples/extras/helloworld', args,false);
+x.main(1, function (err, res) {}); //default sync usage
+//x.main.async(1, function (err, res) {}); //async usage
+</pre>
+<div readonly id='console-output' style='height: 80px;'></div>
+<h2>Build and execute instructions</h2>
+<ul>
+    <li>Run the above to load a helloworld.c program at the path generated using <a href="{{site.baseurl}}/Support/BoneScript/writeCModule">writeCModule</a> </li>
+    <li>Modify the Path and Args to load other modules.</li>
+</ul>
+<h2>See also</h2>
+<!--
+<h3>Topics</h3>
+<ul>
+</ul>
+-->
+<h3>Related functions</h3>
+<ul>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/#require">require</a></li>
+ <li><a href="{{site.baseurl}}/Support/BoneScript/writeCModule">writeCModule</a></li>
+</ul>
+
+
+</div>
+</div>

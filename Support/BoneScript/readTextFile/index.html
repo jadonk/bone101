@@ -40,10 +40,10 @@ style: |
 <ul>
  <li>File contents in a single string</li>
 </ul>
-<h2>callback(x)</h2>
+<h2>callback(err,data)</h2>
 <ul>
- <li><em>x.data</em>: file contents</li>
- <li><em>x.err</em>: error status message</li>
+ <li><em>data</em>: file contents</li>
+ <li><em>err</em>: error status message</li>
 </ul>
 <h2>Example
  <button class="dynlink" onclick="demoRun('code')">run</button>
@@ -52,9 +52,9 @@ style: |
 <pre id="code" class="use-editor" style="height: 120px;">
 var b = require('bonescript');
 b.readTextFile('/etc/dogtag', printStatus);
-function printStatus(x) {
-    console.log('x.data = ' + x.data);
-    console.log('x.err = ' + x.err);
+function printStatus(err,data) {
+    console.log('data = ' + data);
+    console.log('err = ' + err);
 }</pre>
 <div readonly id='console-output' style='height: 80px;'></div>
 <h2>Build and execute instructions</h2>

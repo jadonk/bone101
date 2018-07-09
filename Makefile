@@ -29,7 +29,7 @@ clean:
 
 test:
 ifdef HTMLPROOFER
-	$(HTMLPROOFER) "./bone101" --disable-external --alt-ignore "/.*/"  --only-4xx --url-ignore "/#.*/"  --url-swap "/bone101:" --file-ignore "/Support/bone101/UI/","/Support/bonecard/create/"
+	$(HTMLPROOFER) "./bone101" --disable-external --alt-ignore "/.*/"  --only-4xx --url-ignore "/#.*/"  --url-swap "/bone101:" --file-ignore "/Support/bone101/UI/","/Support/bone101/PBUI/","/Support/bonecard/create/"
 else
 	@echo htmlproofer not found
 endif
