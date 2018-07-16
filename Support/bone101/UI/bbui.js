@@ -2665,13 +2665,11 @@ var Events = (function () {
             break;
         case "plus": //graph zoom in
             e.ui.button.highlightPlus(true);
-            e.ui.button.highlightMinus();
             if (e.ui.xyAxis.properties.zoomIndex < 2)
                 e.ui.xyAxis.properties.zoomIndex++;
             e.ui.xyAxis.draw();
             break;
         case "minus": //graph zoom out
-            e.ui.button.highlightPlus();
             e.ui.button.highlightMinus(true);
             if (e.ui.xyAxis.properties.zoomIndex > 0)
                 e.ui.xyAxis.properties.zoomIndex--;
@@ -2721,7 +2719,7 @@ var Events = (function () {
 
     function release(event) {
         var probeMode = e.ui.probe.addTest(event);
-
+        var button = e.ui.button.test(event);
         if (probeMode == 'hoverPin') {
             e.ui.probe.clearDrag(event);
             listen(false, 'hoverAddProbe');
@@ -2735,7 +2733,20 @@ var Events = (function () {
             listen(true, 'hoverButton');
             listen(true, 'clickDown');
         }
-
+        switch (button) {
+        case 'plus':
+            e.ui.button.highlightPlus();
+            break;
+        case 'minus':
+            e.ui.button.highlightMinus();
+            break;
+        case 'play':
+            e.ui.button.highlightPlay();
+            break;
+        case 'stop':
+            e.ui.button.highlightStop();
+            break;
+        }
         //e.ui.bar.off();
         listen(false, 'hoverSlider');
     }
