@@ -129,6 +129,53 @@ var Hardware = (function () {
             callback(null, 3.3 * pin.state);
     }
 
+    function RCInit(pin) {
+        try {
+            if (!hw.b) {
+                hw.b = require('bonescript');
+            }
+        } catch (ex) {
+            console.log(ex);
+        }
+        if (!hw.b) return;
+        if (!hw.RCInitialized) {
+            hw.b.rcInitialize();
+            hw.RCInitialized = true;
+        }
+        if (pin.category == 'servo') {
+            if (!hw.RCServoInitialized && pin.power == 'on') {
+                hw.b.rcServo('ENABLE');
+                hw.b.rcServo('POWER_RAIL_ENABLE');
+                hw.RCServoInitialized = true;
+            } else if (hw.RCServoInitialized && pin.power == 'off') {
+                hw.b.rcServo('POWER_RAIL_DISABLE');
+                hw.b.rcServo('DISABLE');
+                hw.RCServoInitialized = false;
+            }
+        } else if (pin.category == 'motor') {
+            if (!hw.RCMotorInitialized && pin.power == 'on') {
+                hw.b.rcMotor('ENABLE');
+                hw.RCMotorInitialized = true;
+            }
+        }
+    }
+
+    function RCWrite(pin) {
+        try {
+            if (!hw.b) {
+                hw.b = require('bonescript');
+            }
+        } catch (ex) {
+            console.log(ex);
+        }
+        if (!hw.b) return;
+        if (pin.category == 'servo') {
+            hw.b.rcServo(Number(pin.name.replace('ch', '')), pin.pulse);
+        } else if (pin.category == 'motor') {
+            hw.b.rcMotor(Number(pin.name.replace('ch', '')), pin.freq * pin.state)
+        }
+    }
+
     return {
         'get': function () {
             if (!hw) {
@@ -138,7 +185,9 @@ var Hardware = (function () {
         },
         'add': add,
         'write': write,
-        'read': read
+        'read': read,
+        'RCInit': RCInit,
+        'RCWrite': RCWrite
     };
 })();
 
@@ -642,7 +691,7 @@ var UI = (function () {
                 buttons[probeIndex].endX = snapProbe.x + 75;
                 buttons[probeIndex].endY = snapProbe.y + 15;
                 buttons[probeIndex].status = "probe";
-                if (b == 'miscbtn2')
+                if (b == 'miscbtn2' && ui.pin.board == 'baconbits')
                     buttons[probeIndex].endX += 24;
                 //ui.probe.push(buttons[probeIndex]);
 
@@ -720,8 +769,9 @@ var UI = (function () {
                 bar.setSliderX();
                 bar.setSliderY();
                 bar.setFrequency();
-
-                if (probe.name === "pwm") {
+                if (bar.pin.category == 'servo')
+                    bar.text = '-1.5';
+                else if (probe.name === "pwm" || probe.pinNum.category == 'motor') {
                     bar.text = bar.frequency.toString();
                 } else {
                     bar.text = (bar.frequency.toString() + ' s');
@@ -869,22 +919,29 @@ var UI = (function () {
                         bars[i].sliderX = x - 5;
                         if (bars[i].sliderX < bars[i].locX + 2) {
                             bars[i].sliderX = bars[i].locX + 2;
-                            bars[i].frequency = 0;
+                            if (bars[i].pin.category == 'servo')
+                                bars[i].frequency = -1.5
+                            else
+                                bars[i].frequency = 0;
                         } else if (bars[i].sliderX > bars[i].length + bars[i].locX - 12) {
                             bars[i].sliderX = bars[i].length + bars[i].locX - 12;
-                            if (bars[i].type === "pwm" || bars[i].type.indexOf('rgb') >= 0) {
+                            if (bars[i].type === "pwm" || bars[i].type.indexOf('rgb') >= 0 || bars[i].pin.category == 'motor') {
                                 bars[i].frequency = 1;
+                            } else if (bars[i].pin.category == 'servo') {
+                                bars[i].frequency = 1.5;
                             } else {
                                 bars[i].frequency = 10;
                             }
                         } else {
-                            if (bars[i].type === "pwm" || bars[i].type.indexOf('rgb') >= 0) {
+                            if (bars[i].type === "pwm" || bars[i].type.indexOf('rgb') >= 0 || bars[i].pin.category == 'motor') {
                                 bars[i].frequency = ((bars[i].sliderX - bars[i].locX - 2) / 60).toPrecision(2);
+                            } else if (bars[i].pin.category == 'servo') {
+                                bars[i].frequency = ((bars[i].sliderX - bars[i].locX - 31) / 20).toPrecision(2);
                             } else {
                                 bars[i].frequency = ((bars[i].sliderX - bars[i].locX - 2) / 6).toPrecision(2);
                             }
                         }
-                        if (bars[i].type === "pwm" || bars[i].type.indexOf('rgb') >= 0) {
+                        if (bars[i].type === "pwm" || bars[i].type.indexOf('rgb') >= 0 || bars[i].pin.category == 'servo' || bars[i].pin.category == 'motor') {
                             bars[i].pin.freq = bars[i].frequency;
                             bars[i].text = bars[i].frequency.toString();
                         } else {
@@ -901,6 +958,11 @@ var UI = (function () {
                                 bars[i].pin.blue = bars[i].pin.freq;
                             }
                             ui.pin.rgb(bars[i].pin);
+                        } else if (bars[i].pin.category == 'servo') {
+                            bars[i].pin.pulse = bars[i].pin.freq * bars[i].pin.state;
+                            Hardware.RCWrite(bars[i].pin);
+                        } else if (bars[i].pin.category == 'motor') {
+                            Hardware.RCWrite(bars[i].pin);
                         } else if (bars[i].pin.freq != 0 && bars[i].pin.power === 'on' && pin.subType != 'pwm') {
                             ui.pin.blink(bars[i].pin);
                         }
@@ -989,7 +1051,11 @@ var UI = (function () {
                 var probe = onOffs[index].probe;
                 probe.pinNum.power = "on";
                 probe.pinNum.state = 1;
-                ui.pin.blink(onOffs[index].pin);
+                if (ui.pin.board == 'beagleblue') {
+                    Hardware.RCInit(probe.pinNum);
+                    Hardware.RCWrite(probe.pinNum);
+                } else
+                    ui.pin.blink(onOffs[index].pin);
                 var btn = buttons['onOff'];
                 var x = onOffs[index].locX;
                 var y = onOffs[index].locY;
@@ -1020,7 +1086,10 @@ var UI = (function () {
                 canvas.BTN.ctx.fill()
                 canvas.BTN.ctx.fillStyle = 'white';
                 canvas.BTN.ctx.font = '10pt Andale Mono';
-                canvas.BTN.ctx.fillText('on', x + s, y + 12);
+                if (probe.category == 'miscbtn2' && ui.pin.board == 'beagleblue')
+                    canvas.BTN.ctx.fillText('F', x + s, y + 12);
+                else
+                    canvas.BTN.ctx.fillText('on', x + s, y + 12);
                 canvas.BTN.ctx.beginPath();
                 canvas.BTN.ctx.moveTo(x + w / 2, y);
                 canvas.BTN.ctx.lineTo(r - radius, y);
@@ -1032,7 +1101,10 @@ var UI = (function () {
                 canvas.BTN.ctx.fill()
                 canvas.BTN.ctx.fillStyle = 'black';
                 canvas.BTN.ctx.font = '10pt Andale Mono';
-                canvas.BTN.ctx.fillText('off', x + e, y + 12);
+                if (probe.category == 'miscbtn2' && ui.pin.board == 'beagleblue')
+                    canvas.BTN.ctx.fillText('R', x + e, y + 12);
+                else
+                    canvas.BTN.ctx.fillText('off', x + e, y + 12);
             };
 
             onOff.off = function (index) {
@@ -1041,8 +1113,15 @@ var UI = (function () {
                     index = len - 1;
                 var probe = onOffs[index].probe;
                 onOffs[index].pin.power = "off";
-                onOffs[index].pin.state = 0;
-                Hardware.write(probe.pinNum, function () {});
+                if (probe.category == 'miscbtn2' && ui.pin.board == 'beagleblue')
+                    onOffs[index].pin.state = -1;
+                else
+                    onOffs[index].pin.state = 0;
+                if (ui.pin.board == 'beagleblue') {
+                    Hardware.RCInit(probe.pinNum);
+                    Hardware.RCWrite(probe.pinNum)
+                } else
+                    Hardware.write(probe.pinNum, function () {});
                 var btn = buttons['onOff'];
                 var x = onOffs[index].locX;
                 var y = onOffs[index].locY;
@@ -1083,10 +1162,16 @@ var UI = (function () {
                 canvas.BTN.ctx.fill();
                 canvas.BTN.ctx.fillStyle = 'black';
                 canvas.BTN.ctx.font = '10pt Andale Mono';
-                canvas.BTN.ctx.fillText('on', x + s, y + 12);
+                if (probe.category == 'miscbtn2' && ui.pin.board == 'beagleblue')
+                    canvas.BTN.ctx.fillText('F', x + s, y + 12);
+                else
+                    canvas.BTN.ctx.fillText('on', x + s, y + 12);
                 canvas.BTN.ctx.fillStyle = 'white';
                 canvas.BTN.ctx.font = '10pt Andale Mono';
-                canvas.BTN.ctx.fillText('off', x + e, y + 12);
+                if (probe.category == 'miscbtn2' && ui.pin.board == 'beagleblue')
+                    canvas.BTN.ctx.fillText('R', x + e, y + 12);
+                else
+                    canvas.BTN.ctx.fillText('off', x + e, y + 12);
             };
 
             //returns the on or off button.
@@ -1917,7 +2002,95 @@ var UI = (function () {
                         pins[i].select = "off";
                     }
                 } else if (board == 'beagleblue') {
-                    pins = []
+                    pins = [{
+                            name: 'GREEN',
+                            category: 'led'
+                        }, {
+                            name: 'RED',
+                            category: 'led'
+                        }, {
+                            name: 'USR0',
+                            category: 'led'
+                        }, {
+                            name: 'USR1',
+                            category: 'led'
+                        }, {
+                            name: 'USR2',
+                            category: 'led'
+                        }, {
+                            name: 'USR3',
+                            category: 'led'
+                        },
+                        {
+                            name: 'ch1',
+                            category: 'servo'
+                        }, {
+                            name: 'ch2',
+                            category: 'servo'
+                        }, {
+                            name: 'ch3',
+                            category: 'servo'
+                        }, {
+                            name: 'ch4',
+                            category: 'servo'
+                        }, {
+                            name: 'ch5',
+                            category: 'servo'
+                        }, {
+                            name: 'ch6',
+                            category: 'servo'
+                        }, {
+                            name: 'ch7',
+                            category: 'servo'
+                        }, {
+                            name: 'ch8',
+                            category: 'servo'
+                        }, {
+                            name: 'ch1',
+                            category: 'motor'
+                        }, {
+                            name: 'ch2',
+                            category: 'motor'
+                        }, {
+                            name: 'ch3',
+                            category: 'motor'
+                        }, {
+                            name: 'ch4',
+                            category: 'motor'
+                        }
+                    ];
+                    //LED positions
+                    for (var i = 0; i < 6; i++) {
+                        // var LEDpositions = [230.5, 241.75, 253, 264.25];
+                        var LEDpositions = [83.5, 90.5, 97.5, 104.5, 111.5, 118.5];
+                        pins[i].x = BBposX + 22.5;
+                        pins[i].y = BBposY + LEDpositions[i];
+                        pins[i].w = 10;
+                        pins[i].h = 5;
+                        pins[i].s = 18;
+                        pins[i].select = "off";
+                    }
+                    // Servo Positions
+                    for (var i = 6; i < 14; i++) {
+                        var Servopositions = [116.5, 125, 133.5, 142, 151.5, 160, 169.5, 178];
+                        pins[i].x = BBposX + Servopositions[i - 6] - 14;
+                        pins[i].y = BBposY + 257;
+                        pins[i].w = 6;
+                        pins[i].h = 24;
+                        pins[i].s = 18;
+                        pins[i].select = "off";
+                    }
+                    //Motor positions
+                    for (var i = 14; i < 18; i++) {
+                        var MotorpositionsX = [47.5, 47.5, 65.5, 65.5];
+                        var MotorpositionsY = [303.5, 289.5, 289.5, 303.5];
+                        pins[i].x = BBposX + MotorpositionsX[i - 14];
+                        pins[i].y = BBposY + MotorpositionsY[i - 14];
+                        pins[i].w = 16;
+                        pins[i].h = 12;
+                        pins[i].s = 18;
+                        pins[i].select = "off";
+                    }
                 }
             }
 
@@ -1983,7 +2156,7 @@ var UI = (function () {
             };
 
             pin.getVoltage = function (pin) {
-                if (pin.category == 'rgbled') return;
+                if (pin.category == 'rgbled' || pin.category == 'servo' || pin.category == 'motor') return;
                 if (!pin.getVoltage)
                     pin.getVoltage = setInterval(function () {
                         Hardware.read(pin, ongetVoltage)
@@ -2655,8 +2828,8 @@ var Events = (function () {
             miscbtn1.text = 'Servo';
             miscbtn1.article = 'servo';
             miscbtn1.s = 17;
-            miscbtn2.text = 'DC Motor';
-            miscbtn2.article = 'DC Motor';
+            miscbtn2.text = 'Motor';
+            miscbtn2.article = 'Motor';
             miscbtn2.s = 20;
             miscbtn1.disabled = false;
             miscbtn2.disabled = false;
@@ -2897,7 +3070,14 @@ var Events = (function () {
                     Hardware.add('P1_36', 'digital', 'pwm');
                     listen(true, 'hoverButton');
                 } else if (e.ui.pin.board == 'beagleblue') {
-
+                    pin.color = probe.graphColors[0];
+                    probe.graphColors.splice(0, 1);
+                    e.ui.wire.rgbled(pin, probe);
+                    e.ui.onOff.create(probe, pin);
+                    e.ui.bar.create(probe, pin);
+                    e.ui.bar.draw();
+                    Hardware.RCInit(pin);
+                    listen(true, 'hoverButton');
                 }
             } else if (probe.name == "miscbtn2" && pin.select == "off") {
                 e.ui.loop.clear();
@@ -2920,7 +3100,14 @@ var Events = (function () {
                     Hardware.add('P1_1', 'analog')
                     listen(true, 'hoverButton');
                 } else if (e.ui.pin.board == 'beagleblue') {
-
+                    pin.color = probe.graphColors[0];
+                    probe.graphColors.splice(0, 1);
+                    e.ui.wire.rgbled(pin, probe);
+                    e.ui.onOff.create(probe, pin);
+                    e.ui.bar.create(probe, pin);
+                    e.ui.bar.draw();
+                    Hardware.RCInit(pin);
+                    listen(true, 'hoverButton')
                 }
             }
             //if user select a pin not related to the probe
