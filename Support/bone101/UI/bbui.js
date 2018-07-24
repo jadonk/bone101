@@ -116,9 +116,12 @@ var Hardware = (function () {
             console.log(ex);
         }
         if (!hw.b) return;
-        if (pin.category == 'analog')
-            hw.b.analogRead(pin.name, callback);
-        else if (pin.category == 'thumbwheel')
+        if (pin.category == 'analog') {
+            if (pin.power == 'on')
+                hw.b.analogRead(pin.name, callback);
+            else
+                callback(null, 0);
+        } else if (pin.category == 'thumbwheel')
             hw.b.analogRead('P1_19', callback);
         else if (pin.category == 'digital') {
             if (pin.subType == 'input')
@@ -958,6 +961,7 @@ var UI = (function () {
                                 bars[i].pin.blue = bars[i].pin.freq;
                             }
                             ui.pin.rgb(bars[i].pin);
+                            ui.pin.rgbgradientLight(bars[i].pin);
                         } else if (bars[i].pin.category == 'servo') {
                             bars[i].pin.pulse = bars[i].pin.freq * bars[i].pin.state;
                             Hardware.RCWrite(bars[i].pin);
@@ -1121,7 +1125,7 @@ var UI = (function () {
                     Hardware.RCInit(probe.pinNum);
                     Hardware.RCWrite(probe.pinNum)
                 } else
-                    Hardware.write(probe.pinNum, function () {});
+                    ui.pin.blink(onOffs[index].pin);
                 var btn = buttons['onOff'];
                 var x = onOffs[index].locX;
                 var y = onOffs[index].locY;
@@ -2139,6 +2143,64 @@ var UI = (function () {
                 Canvas.get().Active.ctx.fillStyle = 'RGBA(255,255,255,.5)';
                 Canvas.get().Active.ctx.fillRect(pin.x, pin.y, pin.w, pin.h);
             }
+            //animate the pin when active
+            pin.gradientLight = function (pin) {
+                if (ui.pin.board == 'beagleblue') return;
+                var x1 = pin.x + pin.w / 2; // x of 1. circle center point
+                var y1 = pin.y + pin.h / 2; // y of 1. circle center point
+                var r1 = 0.1; // radius of 1. circle
+                var x2 = x1; // x of 2. circle center point
+                var y2 = y1; // y of 2. circle center point
+                var r2 = 10; // radius of 2. circle
+                context = Canvas.get().LED0.ctx;
+                if (!pin.state)
+                    context.clearRect(pin.x - 0.1 * pin.w, pin.y - 0.6 * pin.h, pin.w * 1.2, pin.h * 1.8);
+                else {
+                    var radialGradient = context.createRadialGradient(x1, y1, r1, x2, y2, r2);
+                    context.save();
+                    context.translate(x1, y1);
+                    context.scale(1, 2);
+                    context.translate(-x1, -y1);
+                    radialGradient.addColorStop(0, 'rgba(0,  225, 255, 1)');
+                    radialGradient.addColorStop(.3, 'rgba(0,  125, 255, .7)');
+                    radialGradient.addColorStop(.5, 'rgba(0,  0, 255, .5)');
+                    radialGradient.addColorStop(1, 'rgba(0, 0, 255, 0)');
+                    context.fillStyle = radialGradient;
+                    context.fillRect(pin.x, pin.y, pin.w, pin.h);
+                    context.restore();
+                }
+            };
+
+            pin.rgbgradientLight = function (pin) {
+                var red = pin.red * 255;
+                var green = pin.green * 255;
+                var blue = pin.blue * 255;
+                var basecolor = 'rgba(' + red + ',' + green + ',' + blue + ',';
+                var shade1 = basecolor + '1)';
+                var shade2 = basecolor + '0.7)';
+                var shade3 = basecolor + '0.5)';
+                var shade4 = basecolor + '0)';
+                var x1 = pin.x + pin.w / 2; // x of 1. circle center point
+                var y1 = pin.y + pin.h / 2; // y of 1. circle center point
+                var r1 = 0.1; // radius of 1. circle
+                var x2 = x1; // x of 2. circle center point
+                var y2 = y1; // y of 2. circle center point
+                var r2 = 25; // radius of 2. circle
+                context = Canvas.get().LED0.ctx;
+                context.clearRect(x1 - pin.w, y1 - pin.h, 2 * pin.w, 2 * pin.h);
+                var radialGradient = context.createRadialGradient(x1, y1, r1, x2, y2, r2);
+                context.save();
+                context.translate(x1, y1);
+                context.scale(1, 2);
+                context.translate(-x1, -y1);
+                radialGradient.addColorStop(0, shade1);
+                radialGradient.addColorStop(.3, shade2);
+                radialGradient.addColorStop(.5, shade3);
+                radialGradient.addColorStop(1, shade4);
+                context.fillStyle = radialGradient;
+                context.fillRect(pin.x, pin.y + pin.h / 4, pin.w, pin.h / 2);
+                context.restore();
+            };
 
             pin.test = function (event) {
                 var coords = Position(event);
@@ -2163,16 +2225,13 @@ var UI = (function () {
                     }, 100 / 3);
 
                 function ongetVoltage(x, value) {
-                    if (pin.power != "on" && (pin.category == 'analog' || pin.category == 'thumbwheel')) {
-                        clearInterval(pin.getVoltage);
-                        pin.getVoltage = null;
-                    } else {
-                        if (typeof x == 'object' && typeof value == 'undefined')
-                            value = x.value;
-                        if (pin.category == 'analog' || pin.category == 'thumbwheel')
-                            value *= 1.8;
-                        else if (pin.subType == 'pwm')
-                            value *= pin.state;
+                    if (typeof x == 'object' && typeof value == 'undefined')
+                        value = x.value;
+                    if (pin.category == 'analog' || pin.category == 'thumbwheel')
+                        value *= 1.8;
+                    else if (pin.subType == 'pwm')
+                        value *= pin.state;
+                    if (ui.xyAxis.playing) {
                         if (ui.xyAxis.properties.currTime < 3.3)
                             ui.xyAxis.properties.currTime += 0.03;
                         else {
@@ -2189,10 +2248,14 @@ var UI = (function () {
 
             pin.blink = function (pin) {
                 pin.freq = typeof pin.freq == 'undefined' ? 0 : pin.freq;
+                if (pin.category == 'led')
+                    ui.pin.gradientLight(pin);
                 if (pin.freq != 0 && pin.subType != 'pwm') {
                     clearInterval(pin.blinking);
                     pin.blinking = setInterval(function () {
                         HWwrite(pin);
+                        if (pin.category == 'led')
+                            ui.pin.gradientLight(pin);
                         pin.state = !(pin.state);
                     }, pin.freq);
                 } else
@@ -2583,6 +2646,7 @@ var UI = (function () {
                 return coord;
             };
             xyAxis.draw();
+            xyAxis.playing = true;
             return xyAxis;
         })();
 
@@ -2849,11 +2913,11 @@ var Events = (function () {
             e.ui.xyAxis.draw();
             break;
         case "stop":
-            //e.ui.state.down = "stop";
+            e.ui.xyAxis.playing = false;
             e.ui.button.highlightStop(true);
             break;
         case "play":
-            //e.ui.state.down = "play";
+            e.ui.xyAxis.playing = true;
             e.ui.button.highlightPlay(true);
             break;
         case "slider":
