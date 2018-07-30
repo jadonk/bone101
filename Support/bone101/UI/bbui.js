@@ -179,6 +179,18 @@ var Hardware = (function () {
         }
     }
 
+    function getPlatform(callback) {
+        try {
+            if (!hw.b) {
+                hw.b = require('bonescript');
+            }
+        } catch (ex) {
+            console.log(ex);
+        }
+        if (!hw.b) return;
+        hw.b.getPlatform(callback)
+    }
+
     return {
         'get': function () {
             if (!hw) {
@@ -186,6 +198,7 @@ var Hardware = (function () {
             }
             return hw;
         },
+        'getPlatform': getPlatform,
         'add': add,
         'write': write,
         'read': read,
@@ -2466,6 +2479,7 @@ var UI = (function () {
                 beagleBone.src = base_url + '/static/images/' + board + '.png';
                 beagleBone.onload();
             }
+            base.baseBoard = 'beaglebone';
             return base;
         })();
 
