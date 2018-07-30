@@ -123,10 +123,10 @@ var Hardware = (function () {
                 callback(null, 0);
         } else if (pin.category == 'thumbwheel')
             hw.b.analogRead('P1_19', callback);
-        else if (pin.category == 'digital') {
+        else if (pin.category == 'digital' || pin.category == 'motor') {
             if (pin.subType == 'input')
                 hw.b.digitalRead(pin.name, callback);
-            if (pin.subType == 'pwm')
+            if (pin.subType == 'pwm' || pin.category == 'motor')
                 callback(null, 3.3 * pin.freq);
         } else
             callback(null, 3.3 * pin.state);
@@ -2231,7 +2231,7 @@ var UI = (function () {
             };
 
             pin.getVoltage = function (pin) {
-                if (pin.category == 'rgbled' || pin.category == 'servo' || pin.category == 'motor') return;
+                if (pin.category == 'rgbled' || pin.category == 'servo') return;
                 if (!pin.getVoltage)
                     pin.getVoltage = setInterval(function () {
                         Hardware.read(pin, ongetVoltage)
@@ -3182,8 +3182,10 @@ var Events = (function () {
                     probe.graphColors.splice(0, 1);
                     e.ui.wire.rgbled(pin, probe);
                     e.ui.onOff.create(probe, pin);
+                    pin.prevPoint = [e.ui.xyAxis.properties.zeroX + 100 * (e.ui.xyAxis.properties.currTime - 0.3), e.ui.xyAxis.properties.zeroY - 160];
                     e.ui.bar.create(probe, pin);
                     e.ui.bar.draw();
+                    e.ui.pin.getVoltage(pin);
                     Hardware.RCInit(pin);
                     listen(true, 'hoverButton')
                 }
