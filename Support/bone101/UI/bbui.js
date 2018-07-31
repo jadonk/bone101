@@ -2443,13 +2443,13 @@ var UI = (function () {
                 ctx.fillStyle = 'rgba(255,255,255,0.25)';
                 ctx.fillRect(0, 0, width - 10, height);
                 ctx.fillStyle = 'rgba(0,102,204,0.85)';
-                ctx.fillRect(width / 3.75, height / 4, width / 1.8, height / 2.85);
+                ctx.fillRect(width / 3.75, height / 4, width / 1.8, height / 2.65);
                 ctx.fillStyle = color;
                 ctx.font = '12pt Arial';
                 ctx.fillText('X', width / 2 + 250, height / 4 + 25);
                 ctx.fillStyle = 'white';
                 ctx.font = '14pt Arial';
-                ctx.fillText('Welcome to the beaglebone user interface!', width / 3.75 + 20, height / 4 + 30);
+                ctx.fillText('Welcome to the BeagleBone User Interface!', width / 3.75 + 20, height / 4 + 30);
                 ctx.font = '10pt Arial';
                 ctx.fillText('This interface allows you to play with analog to digital converters,', width / 3.75 + 25, height / 4 + 55);
                 ctx.fillText('digital pins (including inputs, outputs, and pwms), and the user leds', width / 3.75 + 25, height / 4 + 70);
@@ -2458,7 +2458,9 @@ var UI = (function () {
                 ctx.fillText('the white rectangle and select a pin. The input button requires both an', width / 3.75 + 25, height / 4 + 115);
                 ctx.fillText('input and an output. The graph to the right will display the voltage', width / 3.75 + 25, height / 4 + 130);
                 ctx.fillText('of the corresponding pin. Use the zoom in or zoom out to alter the graph,', width / 3.75 + 25, height / 4 + 145);
-                ctx.fillText('stop to stop recording voltages, and play again to reset. Enjoy!', width / 3.75 + 25, height / 4 + 160);
+                ctx.fillText('stop to stop recording voltages, and play again to reset.', width / 3.75 + 25, height / 4 + 160);
+                ctx.fillText('Use the board select buttons at the bottom to select platform. Enjoy!', width / 3.75 + 25, height / 4 + 175);
+
             };
 
             loop.clear();
