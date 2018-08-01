@@ -65,6 +65,73 @@ It is used to add additional canvases beyond the initial 9 with new z-index valu
 
 _example_: Canvas.add(pin.id + ' Graph', 10); 'creates a canvas for specific pin'
 
+## Hardware
+
+The Hardware provides methods to modify, fetch and expose the hardware status using BoneScript socket calls.
+
+```javascript
+○ var Hardware = (function () {
+    var hw;
+    /*
+     * hardware methods
+     * are defined here
+    */
+  })
+```
+```javascript
+• function init()
+```
+The init function defines all the methods used to make the bonescript calls , we will go for each one explaining its functionality.
+
+```javascript
+○ Hardware.add = function(name , category , subCategory)
+```
+Use the add function to make a bonescript call to intialize a pin to its corresponding category.
+
+**arguments**:
+
+- name: pin object name.
+- category: category of the pin Object('analog','digital','led',...).
+- subCategory: sub-category of the pin ('input','output', ...).
+
+```javascript
+○ Hardware.read = function(pin , callback)
+```
+Use the read function to make a bonescript call to return the state of the pin inside a callback function.
+
+**arguments**:
+
+- pin: corresponding pin object.
+- callback: function called upon execution: callback(error,value).
+
+```javascript
+○ Hardware.write = function(pin , callback)
+```
+Use the write function to make a bonescript call to write the state of the pin to the board.
+
+**arguments**:
+
+- pin: corresponding pin object.
+- callback: function called upon execution.
+
+```javascript
+○ Hardware.rcInit = function(pin)
+```
+Use the rcInit function to make a bonescript call to call the roboticscape intialize method and other RC peripheral enable methods(servo,motor) corresponding to the category of the pins.
+
+**arguments**:
+
+- pin: corresponding pin object.
+
+```javascript
+○ Hardware.rcWrite = function(pin)
+```
+Use the rcWrite function to make a bonescript call to call the roboticscape methods to write the UI state to RC peripherals (servo,motor).
+
+**arguments**:
+
+- pin: corresponding pin object.
+
 ## UI
 
 The UI provides the user interface drawing and interaction logic, and initializes global positions of BBUI elements. Each element position is related mainly to two variables **`BBposX`** and **`BBposY`**.
@@ -351,3 +418,19 @@ This function display the user prompt to select the pin corresponding to the but
 ○ probe.addTest= function(event)
 ```
 This function returns "hoverpin" when the button is dragged into the container(white rectangle) or "cancelled" otherwise.
+
+## Events
+
+The Events provides the logic to enable/disable event listeners in the UI, new events are defined with a type and a function in the events variable.eg : 
+```javascript
+○ var events = {
+            'clickExit': {
+                event: 'click',
+                func: clickExit
+            },
+             /*
+            * rest events
+            * are descrbed here
+            */
+   }
+```
