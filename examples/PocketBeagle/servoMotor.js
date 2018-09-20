@@ -15,7 +15,7 @@ var motor = 'P2_1', // Pin to control servo
 var timer = null;
 
 console.log('Hit ^C to stop');
-b.pinMode(motor, b.ANALOG_OUTPUT, 0, 0, 0);
+b.pinMode(motor, b.ANALOG_OUTPUT);
 setTimeout(startMoving, 200);  // work-around to wait for PWM permissions
 
 function startMoving() {
