@@ -6,7 +6,8 @@ var step = 0.02,    // Step size
     max = 1,        // brightest value
     brightness = min; // Current brightness;
 
-b.pinMode(LED, b.ANALOG_OUTPUT, 0, 0, 0, doInterval);
+b.pinMode(LED, b.ANALOG_OUTPUT);
+setTimeout(doInterval, 200);  // work-around to wait for PWM permissions
 
 function doInterval(err, x) {
     if(err) {
