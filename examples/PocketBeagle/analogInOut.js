@@ -2,7 +2,7 @@
 var b = require('bonescript');
 
 var inputPin = "P1_19";
-var outputPin = "P2_1";
+var outputPin = "P1_36";
 
 console.log('Hit ^C to stop');
 b.pinMode(outputPin, b.ANALOG_OUTPUT);
