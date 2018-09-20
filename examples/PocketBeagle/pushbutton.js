@@ -7,14 +7,18 @@ b.pinMode(button, b.INPUT, 7, 'pulldown', 'fast', doAttach);
 
 function doAttach(err, x) {
     if(err) {
-        console.log('err = ' + err);
+        console.log('pinMode err = ' + err);
         return;
     }
     b.attachInterrupt(button, true, b.CHANGE, printStatus);
 }
 
 function printStatus(err, x) {
-    if(!err) {
+    if(err) {
+        console.log('attachInterrupt err = ' + err);
+        return;
+    }
+    if(x.attached) {
         console.log("Interrupt handler attached");
         return;
     }
