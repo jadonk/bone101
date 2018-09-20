@@ -5,19 +5,18 @@ var button = "P2_3";
 console.log('Hit ^C to stop');
 b.pinMode(button, b.INPUT, 7, 'pulldown', 'fast', doAttach);
 
-function doAttach(x) {
-    if(x.err) {
-        console.log('err = ' + x.err);
+function doAttach(err, x) {
+    if(err) {
+        console.log('err = ' + err);
         return;
     }
     b.attachInterrupt(button, true, b.CHANGE, printStatus);
 }
 
-function printStatus(x) {
-    if(x.attached) {
+function printStatus(err, x) {
+    if(!err) {
         console.log("Interrupt handler attached");
         return;
     }
-    process.stdout.write('value = ' + x.value + ', err   = ' + x.err + '          \r');
+    process.stdout.write('value = ' + x + ', err   = ' + err + '          \r');
 }
-
