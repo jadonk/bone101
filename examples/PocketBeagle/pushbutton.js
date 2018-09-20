@@ -22,5 +22,5 @@ function printStatus(err, x) {
         console.log("Interrupt handler attached");
         return;
     }
-    process.stdout.write('value = ' + x + ', err   = ' + err + '          \r');
+    process.stdout.write('value = ' + x.value + ', err   = ' + err + '          \r');
 }
