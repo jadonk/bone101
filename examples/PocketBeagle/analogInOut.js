@@ -6,7 +6,7 @@ var outputPin = "P2_1";
 
 console.log('Hit ^C to stop');
 b.pinMode(outputPin, b.ANALOG_OUTPUT);
-loop();
+setTimeout(loop, 200);  // work-around to wait for PWM permissions
 
 function loop() {
     var value = b.analogRead(inputPin);
