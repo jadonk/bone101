@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 var b = require('bonescript');
-var LED = "P2_1";
+var LED = "P1_36";
 var state = b.HIGH;     // Initial state
 b.pinMode(LED, b.OUTPUT);
 
