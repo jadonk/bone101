@@ -47,8 +47,8 @@
  * Rerun with:
  * sudo cp buzz.out /lib/firmware/am335x-pru0-fw
  * echo pruout | sudo tee /sys/devices/platform/ocp/ocp\:P2_30_pinmux/state
- * echo stop | sudo tee /sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss/4a33*000.pru0/remoteproc/remoteproc*/state
- * echo start | sudo tee /sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss/4a33*000.pru0/remoteproc/remoteproc*/state
+ * echo stop | sudo tee /sys/class/remoteproc/remoteproc1/state
+ * echo start | sudo tee /sys/class/remoteproc/remoteproc1/state
  */
 
 #include <stdint.h>
@@ -82,22 +82,26 @@ struct my_resource_table pru_remoteproc_ResourceTable = {
 #pragma DATA_SECTION(init_pins, ".init_pins")
 #pragma RETAIN(init_pins)
 const char init_pins[] =  
+	"/sys/devices/platform/ocp/ocp:P1_33_pinmux/state\0pruout\0" \
 	"/sys/devices/platform/ocp/ocp:P2_30_pinmux/state\0pruout\0" \
-	"/sys/devices/platform/ocp/ocp:P1_20_pinmux/state\0pruin\0" \
+	"/sys/devices/platform/ocp/ocp:P1_29_pinmux/state\0pruin\0" \
 	"\0\0";
 
 void main(void) {
-        int i;
-
-        /* Toggle GPIO 3 at 400Hz when GPIO 7 is low */
+        /* Toggle GPIO outputs 1 and 3 at 400Hz when GPIO input 7 is low */
+	/* On TechLab, output 1 is the red in the RGB LED */
+	/* On TechLab, output 3 is the buzzer */
+	/* On TechLab, input 7 is the R button */
         while(1) {
-		if(!(__R31 & (1<<7))) {
-			__R30 |= (1<<3);
+		if(__R31 & (1<<7)) {
+			/* Clear outputs */
+			__R30 &= ~((1<<3)|(1<<1));
+		} else {
+			/* Toggle outputs */
+			__R30 |= ((1<<3)|(1<<1));
 			__delay_cycles(DELAY_CYCLES);
-			__R30 ^= (1<<3);
+			__R30 ^= ((1<<3)|(1<<1));
 			__delay_cycles(DELAY_CYCLES);
 		}
         }
-
-        __halt();
 }
