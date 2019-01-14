@@ -91,8 +91,8 @@ void main(void) {
 	/* On TechLab, output 3 is the buzzer */
 	/* On TechLab, input 7 is the R button */
 	
-        /* Toggle GPIO output 3 at 400Hz for 1 second */
-        for(i=0; i<400; i++) {
+        /* Toggle GPIO output 3 at 400Hz for 0.5 second */
+        for(i=0; i<200; i++) {
 		/* Toggle output */
 		__R30 |= (1<<3);
 		__delay_cycles(DELAY_CYCLES);
@@ -100,8 +100,8 @@ void main(void) {
 		__delay_cycles(DELAY_CYCLES);
         }
 	
-        /* Toggle GPIO output 3 at 800Hz for 1 second */
-        for(i=0; i<800; i++) {
+        /* Toggle GPIO output 3 at 800Hz for 0.5 second */
+        for(i=0; i<400; i++) {
 		/* Toggle output */
 		__R30 |= (1<<3);
 		__delay_cycles(DELAY_CYCLES/2);
