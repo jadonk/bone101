@@ -22,7 +22,14 @@ LFLAGS=--reread_libs --warn_sections --stack_size=$(STACK_SIZE) --heap_size=$(HE
 
 GEN_DIR=/tmp/$(PRUN)-gen
 
-PRU_DIR=$(wildcard /sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss/4a33*000.$(PRUN)/remoteproc/remoteproc*)
+#PRU_DIR=$(wildcard /sys/devices/platform/ocp/4a326000.pruss-soc-bus/4a300000.pruss/4a33*000.$(PRUN)/remoteproc/remoteproc*)
+ifeq ($(PRUN),PRU0)
+	PRU_DIR=/sys/class/remoteproc/remoteproc1
+endif
+ifeq ($(PRUN),PRU1)
+	PRU_DIR=/sys/class/remoteproc/remoteproc2
+endif
+
 
 all: run
 
