@@ -34,13 +34,13 @@ struct my_resource_table pru_remoteproc_ResourceTable = {
 #pragma DATA_SECTION(init_pins, ".init_pins")
 #pragma RETAIN(init_pins)
 const char init_pins[] =  
-	"/sys/devices/platform/ocp/ocp:P1_33_pinmux/state\0pruout\0" \
-	"/sys/devices/platform/ocp/ocp:P1_31_pinmux/state\0pruin\0" \
+	"/sys/devices/platform/ocp/ocp:P2_30_pinmux/state\0pruout\0" \
+	"/sys/devices/platform/ocp/ocp:P2_32_pinmux/state\0pruin\0" \
 	"\0\0";
 
 void main(void) {
-	/* Read GPIO input 4 and invert to GPIO output 1 */
+	/* Read GPIO input 2 and invert to GPIO output 3 */
         while(1) {
-		__R31 = ~(__R30<<3);
+		__R31 = ~(__R30<<1);
         }
 }
