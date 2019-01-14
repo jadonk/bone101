@@ -41,6 +41,9 @@ const char init_pins[] =
 void main(void) {
 	/* Read GPIO input 2 and invert to GPIO output 3 */
         while(1) {
-		__R31 = ~(__R30<<1);
+		if(__R31 & (1<<2))
+			__R30 = 0;
+		else
+			__R30 = (1<<3);
         }
 }
