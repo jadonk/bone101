@@ -3,7 +3,7 @@ var b = require('bonescript');
 var button = "P2_33";
 
 console.log('Hit ^C to stop');
-b.pinMode(button, b.INPUT, 7, 'pulldown', 'fast', doAttach);
+b.pinMode(button, b.INPUT, 7, null, null, doAttach);
 
 function doAttach(err, x) {
   if(err) {
@@ -22,5 +22,5 @@ function printStatus(err, x) {
     console.log("Interrupt handler attached");
     return;
   }
-  process.stdout.write('value = ' + x.value + ', err   = ' + err + '          \r');
+  process.stdout.write('value = ' + x.value + '          \r');
 }
