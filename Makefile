@@ -1,9 +1,11 @@
 DESTDIR:=
 PREFIX:=/usr/local
-CLOUD9_DIR:=/var/lib/cloud9
+CLOUD9_DIR:=/var/lib
+CLOUD9_NAME:=/cloud9
 JEKYLL:=$(shell which jekyll)
 HTMLPROOFER:=$(shell which htmlproofer)
 NPM:=$(shell which npm)
+EXAMPLES_REPO:=https://github.com/beagleboard/cloud9-examples
 
 all: ./bone101
 
@@ -37,16 +39,11 @@ endif
 install: ./bone101
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/bone101
 	cp -dr --preserve=mode,timestamp ./bone101/* $(DESTDIR)$(PREFIX)/share/bone101/
-	install -m 0755 -d $(DESTDIR)$(CLOUD9_DIR)
-	install -m 0755 -d $(DESTDIR)$(CLOUD9_DIR)/.c9
-	cp -dr --preserve=mode,timestamp ./.c9/* $(DESTDIR)$(CLOUD9_DIR)/.c9
-	install -m 0755 -d $(DESTDIR)$(CLOUD9_DIR)/examples
-	cp -dr --preserve=mode,timestamp ./examples/* $(DESTDIR)$(CLOUD9_DIR)/examples
-	cp -dr --preserve=mode,timestamp ./LICENSE $(DESTDIR)$(CLOUD9_DIR)
-	cp -dr --preserve=mode,timestamp ./README.md $(DESTDIR)$(CLOUD9_DIR)
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/applications
 	cp --preserve=mode,timestamp bone101.desktop $(DESTDIR)$(PREFIX)/share/applications/
 	install -m 0755 -d $(DESTDIR)/usr/local/lib/node_modules
 	cp -dr --preserve=mode,timestamp node_modules/* $(DESTDIR)/usr/local/lib/node_modules/
+	install -m 0755 -d $(DESTDIR)$(CLOUD9_DIR)
+	git clone --depth 1 $(EXAMPLES_REPO) $(DESTDIR)$(CLOUD9_DIR)$(CLOUD9_NAME)
 
 .PHONY: clean test install
