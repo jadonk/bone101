@@ -1,0 +1,191 @@
+[
+    {
+        "id": "c632bae3.16f558",
+        "type": "tab",
+        "label": "Light Indicator",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "da54ea94.1c98c8",
+        "type": "file",
+        "z": "c632bae3.16f558",
+        "name": "Green",
+        "filename": "/sys/class/leds/techlab::green/brightness",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "x": 970,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fc95bee6.bc63d",
+        "type": "file in",
+        "z": "c632bae3.16f558",
+        "name": "Light",
+        "filename": "/sys/bus/iio/devices/iio:device0/in_voltage0_raw",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "x": 570,
+        "y": 200,
+        "wires": [
+            [
+                "ee033c1e.7e0e6"
+            ]
+        ]
+    },
+    {
+        "id": "e8f3051.8e5fbf8",
+        "type": "inject",
+        "z": "c632bae3.16f558",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "0.1",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 130,
+        "y": 120,
+        "wires": [
+            [
+                "79833c9f.a573f4"
+            ]
+        ]
+    },
+    {
+        "id": "efba743b.514c88",
+        "type": "debug",
+        "z": "c632bae3.16f558",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 990,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "ee033c1e.7e0e6",
+        "type": "function",
+        "z": "c632bae3.16f558",
+        "name": "",
+        "func": "msg.payload = parseInt((msg.payload/4096.0)*255)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 760,
+        "y": 260,
+        "wires": [
+            [
+                "da54ea94.1c98c8",
+                "efba743b.514c88"
+            ]
+        ]
+    },
+    {
+        "id": "1ed4d4d3.5c1eab",
+        "type": "inject",
+        "z": "c632bae3.16f558",
+        "name": "ON",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 210,
+        "y": 400,
+        "wires": [
+            [
+                "23f87619.222c9a"
+            ]
+        ]
+    },
+    {
+        "id": "16518f11.e0c3c1",
+        "type": "inject",
+        "z": "c632bae3.16f558",
+        "name": "OFF",
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 210,
+        "y": 440,
+        "wires": [
+            [
+                "23f87619.222c9a"
+            ]
+        ]
+    },
+    {
+        "id": "398afc62.e5bcc4",
+        "type": "debug",
+        "z": "c632bae3.16f558",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "false",
+        "x": 630,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "23f87619.222c9a",
+        "type": "change",
+        "z": "c632bae3.16f558",
+        "name": "Enable / Disable this flow",
+        "rules": [
+            {
+                "t": "set",
+                "p": "start-stop",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 410,
+        "y": 420,
+        "wires": [
+            [
+                "398afc62.e5bcc4"
+            ]
+        ]
+    },
+    {
+        "id": "79833c9f.a573f4",
+        "type": "switch",
+        "z": "c632bae3.16f558",
+        "name": "Is this flow enabled?",
+        "property": "start-stop",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "outputs": 1,
+        "x": 360,
+        "y": 160,
+        "wires": [
+            [
+                "fc95bee6.bc63d"
+            ]
+        ]
+    }
+]
