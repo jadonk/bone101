@@ -4,6 +4,7 @@ CLOUD9_DIR:=/var/lib
 CLOUD9_NAME:=/cloud9
 JEKYLL:=$(shell which jekyll)
 HTMLPROOFER:=$(shell which htmlproofer)
+EXAMPLES_REPO:=https://github.com/beagleboard/cloud9-examples
 
 all: ./bone101
 
