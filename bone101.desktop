@@ -1,6 +1,11 @@
 [Desktop Entry]
 Version=1.0
-Name=Chromium Web Browser viewing BONE101
+Name=Getting Started
+Name[en]=Getting Started
+Name[fr]=Démarrage
+Name[de]=Erste Schritte
+Name[it]=Per iniziare
+Name[pt]=Como começar
 Exec=/usr/bin/env GOOGLE_API_KEY="no" GOOGLE_DEFAULT_CLIENT_ID="no" GOOGLE_DEFAULT_CLIENT_SECRET="no" /usr/bin/chromium --start-maximized http://localhost/ 
 Terminal=false
 Type=Application
