@@ -9,3 +9,4 @@ Name[pt]=Como começar
 Exec=/usr/bin/env GOOGLE_API_KEY="no" GOOGLE_DEFAULT_CLIENT_ID="no" GOOGLE_DEFAULT_CLIENT_SECRET="no" /usr/bin/chromium --start-maximized http://localhost/ 
 Terminal=false
 Type=Application
+Icon=/usr/share/bone101/static/images/beagle.png
