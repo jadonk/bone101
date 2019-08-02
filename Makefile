@@ -4,7 +4,6 @@ CLOUD9_DIR:=/var/lib
 CLOUD9_NAME:=/cloud9
 JEKYLL:=$(shell which jekyll)
 HTMLPROOFER:=$(shell which htmlproofer)
-EXAMPLES_REPO:=https://github.com/beagleboard/cloud9-examples
 
 all: ./bone101
 
@@ -31,7 +30,7 @@ install: ./bone101
 	rm -rf $(DESTDIR)$(PREFIX)/share/bone101/debian/
 	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/applications
 	cp --preserve=mode,timestamp bone101.desktop $(DESTDIR)$(PREFIX)/share/applications/
-	install -m 0755 -d $(DESTDIR)$(CLOUD9_DIR)
-	git clone --depth 1 $(EXAMPLES_REPO) $(DESTDIR)$(CLOUD9_DIR)$(CLOUD9_NAME)
+	install -m 755 bone101.desktop $(DESTDIR)/home/debian/bone101.desktop
+	chown debian:debian ${DESTDIR)/home/debian/Desktop/bone101.desktop
 
 .PHONY: clean test install
