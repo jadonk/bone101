@@ -25,12 +25,12 @@ else
 endif
 
 install: ./bone101
-	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/bone101
+	install -m 0775 -d $(DESTDIR)$(PREFIX)/share/bone101
 	cp -dr --preserve=mode,timestamp ./bone101/* $(DESTDIR)$(PREFIX)/share/bone101/
-	rm -rf $(DESTDIR)$(PREFIX)/share/bone101/debian/
-	install -m 0755 -d $(DESTDIR)$(PREFIX)/share/applications
+	install -m 0775 -d $(DESTDIR)$(PREFIX)/share/applications
 	cp --preserve=mode,timestamp bone101.desktop $(DESTDIR)$(PREFIX)/share/applications/
-	install -m 755 bone101.desktop $(DESTDIR)/home/debian/bone101.desktop
-	chown debian:debian ${DESTDIR)/home/debian/Desktop/bone101.desktop
+	install -m 0755 -d $(DESTDIR)/home/debian/Desktop
+	cp --preserve=mode,timestamp bone101.desktop $(DESTDIR)/home/debian/Desktop/
+	chown 1000:1000 $(DESTDIR)/home/debian/Desktop/bone101.desktop
 
 .PHONY: clean test install
