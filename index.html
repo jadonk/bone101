@@ -55,6 +55,29 @@ layout: bare
   </div>
   -->
   <img src="static/images/beagleboard-logo.svg" />
+  <font size="+1">
   <h1>Please upgrade your software</h1>
-  <p>Visit <a style="color:orange;" href="https://bbb.io/upgrade">bbb.io/upgrade</a> to learn how</p>
+  <p>Visit <a style="color:orange;" href="https://beagleboard.org/upgrade">bbb.io/upgrade</a> to learn how</p>
+  <p>Need to connect to a WiFi access point first?</p>
+  </font>
+  <p>Use the command-line terminal block below to run the commands in bold, modifying as appropriate for your network.</p>
+  <p style="font-family:monospace;">
+debian@beaglebone:/var/lib/cloud9$ <b>sudo connmanctl&#x23CE;</b><br />
+[sudo] password for debian: <b>temppwd&#x23CE;</b><br />
+connmanctl&gt; <b>scan wifi&#x23CE;</b><br />
+Scan completed for wifi<br />
+connmanctl&gt; <b>services&#x23CE;</b><br />
+    MyWifi                  wifi_1234567890_1234567890123456_managed_psk
+connmanctl&gt; <b>agent on&#x23CE;</b><br />
+Agent registered
+connmanctl&gt; <b>connect wifi_1234567890_1234567890123456_managed_psk&#x23CE;</b><br />
+Agent RequestInput wifi_1234567890_1234567890123456_managed_psk<br />
+  Passphrase = [ Type=psk, Requirement=mandatory, Alternates=[ WPS ] ]<br />
+  WPS = [ Type=wpspin, Requirement=alternate ]
+Passphrase? <b>MySecretPassphrase&#x23CE;</b><br />
+Connected wifi_1234567890_1234567890123456_managed_psk<br />
+connmanctl&gt; <b>quit&#x23CE;</b><br />
+debian@beaglebone:/var/lib/cloud9$</p>
+  <p>Now you can click <a href="https://beagleboard.org/upgrade">bbb.io/upgrade</a></p>
+
 </body></html>
