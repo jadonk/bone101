@@ -44,3 +44,23 @@ style: |
   </div>
 </div>
 <script>bbui();</script>
+<script>
+    $("body").on('DOMSubtreeModified', "#connect-status", function() {
+        Hardware.getPlatform(function(x) {
+            boardName = x.name.toLowerCase();
+            if(boardName.indexOf('black')>=0)
+                boardName = 'beaglebone';
+            else if(boardName.indexOf('green')>=0)
+                boardName = 'beaglegreen';
+            else if(boardName.indexOf('blue')>=0)
+                boardName = 'beagleblue';
+            else if(boardName.indexOf('pocketbeagle')>=0)
+                boardName = 'pocketbeagle';
+            if(UI.get().base.baseBoard != boardName){
+                UI.get().base.changeBoard(boardName);
+                UI.get().pin.initialize(boardName);
+                UI.get().base.baseBoard = boardName;
+            }
+        });
+    });
+</script>
