@@ -1,0 +1,83 @@
+---
+layout: index
+title: Python Integration
+scripts: [ '/Support/script/bonescript-demo.js' ]
+style: |
+  div#wrapper {
+    width:1224px;
+  }
+  div#cssmenu {
+    width:1224px;
+  }
+  div.footer {
+    width:1224px;
+  }
+  div#contentbuffer {
+    margin:0;
+  }
+  div.browser-connect {
+    margin:auto;
+  }
+  #code {
+    position: relative;
+    width: 500px;
+    padding-left: 0;
+    border-radius: 4px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    margin-bottom: 0px;
+    margin-left: 30px;
+    margin-right: 0px;
+    align: left;
+  }
+---
+
+<div id='connect-status'></div>
+<div class="t3_content_1">
+<div id="content_child">
+<h1>Demo: Blink an on-board LED</h1>
+<div class="row">
+    <h2 style="margin-left: 44px;">Code
+     <button class="dynlink" onclick="demoRun('code')">run</button>
+     <button class="dynlink" onclick="demoRestore('code')">restore</button>
+    </h2>
+    <div class="col-md-11">
+    <pre id="code" class="use-editor" syntax="python" style="height: 180px;">
+    # blink.py - Alexander Hiam - 2/2012
+
+    # Import PyBBIO library:
+    from bbio import *
+
+    # Create a setup function:
+    def setup():
+      # Set the two LEDs as outputs: 
+      pinMode(USR2, OUTPUT)
+      pinMode(USR3, OUTPUT)
+
+      # Start one high and one low:
+      digitalWrite(USR2, HIGH)
+      digitalWrite(USR3, LOW)
+
+    # Create a main function:
+    def loop():
+      # Toggle the two LEDs and sleep a few seconds:
+      toggle(USR2)
+      toggle(USR3)
+      delay(500)
+
+    # Start the loop:
+    run(setup, loop)
+    </pre>
+  </div>
+  <div class="col-md-1">
+  <textarea id="python-input" style="height:180px; width:200px; margin-left: -40px;">stdin..</textarea>
+  </div>
+</div>
+
+<textarea readonly id="python-output" style="height:80px; width: 509px; margin-left: 30px;">
+  Output
+</textarea>
+ <p>Running the above example will cause all of your LEDs to light up at once for a
+  couple of seconds.
+ </p>
+</div>
